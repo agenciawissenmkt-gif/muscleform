@@ -40,7 +40,12 @@ export function getHairSegmenter(): Promise<ImageSegmenter> {
           outputConfidenceMasks: false,
         });
       }
-    })();
+    })().catch((err) => {
+      // Don't poison the cache forever on a transient failure (e.g. a flaky
+      // network mid-download) — let the next caller retry from scratch.
+      segmenterPromise = null;
+      throw err;
+    });
   }
   return segmenterPromise;
 }

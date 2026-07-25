@@ -11,7 +11,7 @@ const featuredCuts = haircuts.filter((h) =>
   ['chanel-longo', 'wolf-cut', 'franja-cortina', 'crespo-natural', 'pixie-cut'].includes(h.id),
 );
 const featuredColors = haircolors.filter((c) =>
-  ['balayage', 'moreno-iluminado', 'loiro-mel', 'ruivo-cobre', 'cinza-prata'].includes(c.id),
+  ['balayage-loiro', 'morena-iluminada-tec', 'nivel-7-dourado', 'nivel-7-cobre', 'cinza-prata'].includes(c.id),
 );
 
 const steps = [
