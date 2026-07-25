@@ -6,6 +6,7 @@ import CaptureReveal from '../components/CaptureReveal';
 import { buildTransformPrompt, transformPhoto } from '../lib/api';
 import { haircuts } from '../data/haircuts';
 import { haircolors } from '../data/haircolors';
+import hairAssetManifest from '../data/hairAssetManifest.json';
 
 type AiStatus = 'idle' | 'loading' | 'error';
 
@@ -32,6 +33,7 @@ export default function TryOn() {
   const color = haircolors.find((c) => c.id === colorId) ?? null;
   const haircut = haircuts.find((h) => h.id === haircutId) ?? null;
   const canGenerate = Boolean(color || haircut);
+  const hasRealisticPreview = Boolean(haircut && haircut.id in hairAssetManifest);
 
   function handleCapture() {
     const result = canvasHandle.current?.capture();
@@ -170,7 +172,7 @@ export default function TryOn() {
             )}
             {haircut && (
               <span className="rounded-full bg-black/40 px-3 py-1 text-[11px] font-medium text-cream-50 backdrop-blur">
-                ◐ Guia de formato: {haircut.name}
+                {hasRealisticPreview ? `✨ Cabelo real: ${haircut.name}` : `◐ Guia de formato: ${haircut.name}`}
               </span>
             )}
           </div>
@@ -358,7 +360,10 @@ function Picker({
                 selectedHaircutId === h.id ? 'border-rose-400 bg-white/10' : 'border-white/10'
               }`}
             >
-              <span className="max-w-full truncate text-[11px] font-medium text-cream-50">{h.name}</span>
+              <span className="max-w-full truncate text-[11px] font-medium text-cream-50">
+                {h.id in hairAssetManifest && '✨ '}
+                {h.name}
+              </span>
               <span className="text-[9px] uppercase tracking-wide text-cream-50/50">{h.length}</span>
             </button>
           ))}

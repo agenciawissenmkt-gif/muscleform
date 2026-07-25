@@ -8,8 +8,28 @@ import {
 import type { HairColor } from '../data/haircolors';
 import type { Haircut } from '../data/haircuts';
 import { getHairSegmenter, SEGMENT_CLASS } from '../lib/vision';
+import { getFaceLandmarker, computeHeadAnchor } from '../lib/faceLandmarks';
 import { hairSilhouettePath } from '../lib/silhouette';
 import { averageSwatchLuma, luma } from '../lib/color';
+import hairAssetManifest from '../data/hairAssetManifest.json';
+
+interface AssetAnchor {
+  faceWidth: number;
+  foreheadX: number;
+  foreheadY: number;
+}
+const HAIR_ASSETS = hairAssetManifest as Record<string, AssetAnchor>;
+
+const overlayImageCache = new Map<string, HTMLImageElement>();
+function getOverlayImage(id: string): HTMLImageElement {
+  let img = overlayImageCache.get(id);
+  if (!img) {
+    img = new Image();
+    img.src = `/hair-assets/${id}.png`;
+    overlayImageCache.set(id, img);
+  }
+  return img;
+}
 
 export type TryOnStatus =
   | 'loading-model'
@@ -56,6 +76,7 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
     const blurFaceCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const editableCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const editMaskCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    const faceProtectCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const lastBboxRef = useRef<{ cx: number; top: number; w: number; h: number } | null>(null);
     const buildEditMaskRef = useRef<() => string | null>(() => null);
     const streamRef = useRef<MediaStream | null>(null);
@@ -99,6 +120,15 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
         }
         if (cancelled) return;
 
+        // Optional: powers the realistic hairstyle overlay for haircuts that
+        // have a pre-made asset. Not fatal if it fails to load — the app
+        // just falls back to the abstract shape guide for every haircut.
+        const landmarker = await getFaceLandmarker().catch((err) => {
+          console.error('[face-landmarker]', err);
+          return null;
+        });
+        if (cancelled) return;
+
         onStatusChange?.('requesting-camera');
         let stream: MediaStream;
         try {
@@ -134,12 +164,21 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
         const blurFaceCanvas = (blurFaceCanvasRef.current ??= document.createElement('canvas'));
         const editableCanvas = (editableCanvasRef.current ??= document.createElement('canvas'));
         const editMaskCanvas = (editMaskCanvasRef.current ??= document.createElement('canvas'));
-        [maskCanvas, blurCanvas, colorCanvas, lumaLayerCanvas, faceMaskCanvas, blurFaceCanvas, editableCanvas, editMaskCanvas].forEach(
-          (c) => {
-            c.width = PROCESS_WIDTH;
-            c.height = processH;
-          },
-        );
+        const faceProtectCanvas = (faceProtectCanvasRef.current ??= document.createElement('canvas'));
+        [
+          maskCanvas,
+          blurCanvas,
+          colorCanvas,
+          lumaLayerCanvas,
+          faceMaskCanvas,
+          blurFaceCanvas,
+          editableCanvas,
+          editMaskCanvas,
+          faceProtectCanvas,
+        ].forEach((c) => {
+          c.width = PROCESS_WIDTH;
+          c.height = processH;
+        });
         const TINY_W = 48;
         const TINY_H = Math.max(1, Math.round((TINY_W * processH) / PROCESS_WIDTH));
         const tinyColorCanvas = (tinyColorCanvasRef.current ??= document.createElement('canvas'));
@@ -160,6 +199,7 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
         const blurFaceCtx = blurFaceCanvas.getContext('2d')!;
         const editableCtx = editableCanvas.getContext('2d')!;
         const editMaskCtx = editMaskCanvas.getContext('2d')!;
+        const faceProtectCtx = faceProtectCanvas.getContext('2d')!;
 
         // Builds a PNG edit-mask for generative AI photo editing: transparent
         // (alpha 0) over the hair area — dilated outward so the model has
@@ -339,7 +379,47 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
               }
 
               const activeHaircut = haircutRef.current;
-              if (activeHaircut && hairPixels > 40) {
+              let usedRealisticOverlay = false;
+
+              if (activeHaircut && landmarker && hairPixels > 40) {
+                const refAnchor = HAIR_ASSETS[activeHaircut.id];
+                if (refAnchor) {
+                  const overlayImg = getOverlayImage(activeHaircut.id);
+                  const faceResult = landmarker.detectForVideo(video, performance.now());
+                  const lm = faceResult.faceLandmarks?.[0];
+                  const liveAnchor = lm ? computeHeadAnchor(lm) : null;
+                  if (liveAnchor && overlayImg.complete && overlayImg.naturalWidth > 0) {
+                    const scaleFactor =
+                      (liveAnchor.faceWidth * PROCESS_WIDTH) / (refAnchor.faceWidth * overlayImg.naturalWidth);
+                    const liveForeheadX = liveAnchor.foreheadX * PROCESS_WIDTH;
+                    const liveForeheadY = liveAnchor.foreheadY * processH;
+                    const overlayForeheadX = refAnchor.foreheadX * overlayImg.naturalWidth;
+                    const overlayForeheadY = refAnchor.foreheadY * overlayImg.naturalHeight;
+
+                    ctx.save();
+                    ctx.translate(liveForeheadX, liveForeheadY);
+                    ctx.rotate(liveAnchor.rollRad);
+                    ctx.scale(scaleFactor, scaleFactor);
+                    ctx.translate(-overlayForeheadX, -overlayForeheadY);
+                    ctx.drawImage(overlayImg, 0, 0);
+                    ctx.restore();
+
+                    // Real face pixels are redrawn on top of the overlay so an
+                    // imprecise fit can never obscure the person's actual face
+                    // — the same protective guarantee as the AI edit mask.
+                    faceProtectCtx.clearRect(0, 0, PROCESS_WIDTH, processH);
+                    faceProtectCtx.drawImage(video, 0, 0, PROCESS_WIDTH, processH);
+                    faceProtectCtx.globalCompositeOperation = 'destination-in';
+                    faceProtectCtx.drawImage(blurFaceCanvas, 0, 0);
+                    faceProtectCtx.globalCompositeOperation = 'source-over';
+                    ctx.drawImage(faceProtectCanvas, 0, 0);
+
+                    usedRealisticOverlay = true;
+                  }
+                }
+              }
+
+              if (!usedRealisticOverlay && activeHaircut && hairPixels > 40) {
                 const bboxW = ((maxX - minX) / mw) * PROCESS_WIDTH;
                 const bboxCx = (((minX + maxX) / 2) / mw) * PROCESS_WIDTH;
                 const bboxTop = (minY / mh) * processH;
