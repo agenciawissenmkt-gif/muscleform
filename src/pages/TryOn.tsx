@@ -2,8 +2,12 @@ import { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import LiveTryOnCanvas, { type LiveTryOnHandle, type TryOnStatus } from '../components/LiveTryOnCanvas';
+import CaptureReveal from '../components/CaptureReveal';
+import { buildTransformPrompt, transformPhoto } from '../lib/api';
 import { haircuts } from '../data/haircuts';
 import { haircolors } from '../data/haircolors';
+
+type AiStatus = 'idle' | 'loading' | 'error';
 
 export default function TryOn() {
   const navigate = useNavigate();
@@ -16,15 +20,24 @@ export default function TryOn() {
   const [statusMessage, setStatusMessage] = useState<string | undefined>();
   const [frozen, setFrozen] = useState(false);
   const [snapshot, setSnapshot] = useState<string | null>(null);
+  const [editMask, setEditMask] = useState<string | null>(null);
   const [flash, setFlash] = useState(false);
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
+
+  const [aiStatus, setAiStatus] = useState<AiStatus>('idle');
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiResult, setAiResult] = useState<string | null>(null);
+  const [showingBefore, setShowingBefore] = useState(false);
 
   const color = haircolors.find((c) => c.id === colorId) ?? null;
   const haircut = haircuts.find((h) => h.id === haircutId) ?? null;
+  const canGenerate = Boolean(color || haircut);
 
   function handleCapture() {
-    const url = canvasHandle.current?.capture();
-    if (!url) return;
-    setSnapshot(url);
+    const result = canvasHandle.current?.capture();
+    if (!result) return;
+    setSnapshot(result.photo);
+    setEditMask(result.mask);
     setFrozen(true);
     setFlash(true);
     setTimeout(() => setFlash(false), 250);
@@ -33,12 +46,37 @@ export default function TryOn() {
   function handleRetry() {
     setFrozen(false);
     setSnapshot(null);
+    setEditMask(null);
+    setAiStatus('idle');
+    setAiError(null);
+    setAiResult(null);
+    setShowingBefore(false);
+  }
+
+  function handleFlipCamera() {
+    setFacingMode((prev) => (prev === 'user' ? 'environment' : 'user'));
+  }
+
+  async function handleGenerateRealistic() {
+    if (!snapshot || aiStatus === 'loading') return;
+    setAiStatus('loading');
+    setAiError(null);
+    try {
+      const prompt = buildTransformPrompt(haircut, color);
+      const result = await transformPhoto(snapshot, editMask, prompt);
+      setAiResult(result.imageBase64);
+      setAiStatus('idle');
+    } catch (err) {
+      setAiError(err instanceof Error ? err.message : 'Não foi possível gerar a transformação agora.');
+      setAiStatus('error');
+    }
   }
 
   function handleDownload() {
-    if (!snapshot) return;
+    const url = aiResult && !showingBefore ? aiResult : snapshot;
+    if (!url) return;
     const a = document.createElement('a');
-    a.href = snapshot;
+    a.href = url;
     a.download = 'your-beauty-visual.jpg';
     a.click();
   }
@@ -58,7 +96,22 @@ export default function TryOn() {
           <p className="text-sm font-semibold">Experimentar</p>
           <p className="text-[11px] text-cream-50/60">Rosto intacto, só o cabelo muda</p>
         </div>
-        <div className="h-9 w-9" />
+        <button
+          onClick={handleFlipCamera}
+          disabled={isLoading}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 disabled:opacity-40"
+          aria-label="Trocar câmera frontal/traseira"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M4 8a6 6 0 0 1 10-4.5M20 16a6 6 0 0 1-10 4.5M4 8V4M4 8h4M20 16v4M20 16h-4"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
 
       <div className="relative mt-4 flex-1 overflow-hidden rounded-[2rem]">
@@ -67,6 +120,7 @@ export default function TryOn() {
           color={color}
           haircut={haircut}
           frozen={frozen}
+          facingMode={facingMode}
           onStatusChange={(s, msg) => {
             setStatus(s);
             setStatusMessage(msg);
@@ -107,7 +161,7 @@ export default function TryOn() {
           </div>
         )}
 
-        {!isLoading && !hasError && (haircut || color) && (
+        {!isLoading && !hasError && !frozen && (haircut || color) && (
           <div className="absolute left-3 top-3 flex flex-col gap-1.5">
             {color && (
               <span className="rounded-full bg-black/40 px-3 py-1 text-[11px] font-medium text-cream-50 backdrop-blur">
@@ -136,23 +190,71 @@ export default function TryOn() {
         )}
 
         {frozen && (
+          <img
+            src={aiResult && !showingBefore ? aiResult : (snapshot ?? undefined)}
+            alt="Resultado"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+
+        <CaptureReveal visible={aiStatus === 'loading'} />
+
+        {frozen && aiStatus !== 'loading' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.4 }}
+            className="absolute inset-x-0 top-3 flex justify-center"
+          >
+            <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-4 py-1.5 text-[12px] font-medium text-cream-50 backdrop-blur">
+              {aiResult && !showingBefore ? '✨ Your Beauty — sua nova versão' : 'Prévia instantânea'}
+            </span>
+          </motion.div>
+        )}
+
+        {frozen && aiStatus !== 'loading' && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute inset-x-0 bottom-4 flex justify-center gap-3 px-4"
+            transition={{ delay: 0.1 }}
+            className="absolute inset-x-0 bottom-4 flex flex-col gap-2 px-4"
           >
-            <button
-              onClick={handleRetry}
-              className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
-            >
-              Tentar outro
-            </button>
-            <button
-              onClick={handleDownload}
-              className="flex-1 rounded-full bg-gradient-to-br from-rose-400 to-gold-400 py-3 text-sm font-semibold text-white shadow-lg"
-            >
-              Salvar foto
-            </button>
+            {aiStatus === 'error' && (
+              <p className="rounded-2xl bg-red-500/20 px-3 py-2 text-center text-xs text-cream-50">{aiError}</p>
+            )}
+
+            {aiResult ? (
+              <button
+                onClick={() => setShowingBefore((v) => !v)}
+                className="w-full rounded-full bg-white/15 py-2.5 text-sm font-semibold text-cream-50 backdrop-blur"
+              >
+                {showingBefore ? 'Ver resultado com IA' : 'Ver prévia instantânea'}
+              </button>
+            ) : (
+              canGenerate && (
+                <button
+                  onClick={handleGenerateRealistic}
+                  className="w-full rounded-full bg-gradient-to-br from-rose-400 to-gold-400 py-3 text-sm font-semibold text-white shadow-lg"
+                >
+                  ✨ Gerar transformação realista com IA
+                </button>
+              )
+            )}
+
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={handleRetry}
+                className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
+              >
+                Tentar outro
+              </button>
+              <button
+                onClick={handleDownload}
+                className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
+              >
+                Salvar foto
+              </button>
+            </div>
           </motion.div>
         )}
       </div>
@@ -179,53 +281,95 @@ function Picker({
   onSelectHaircut: (id: string) => void;
 }) {
   const [tab, setTab] = useState<'cores' | 'cortes'>('cores');
+  const [query, setQuery] = useState('');
+  const q = query.trim().toLowerCase();
+
+  const filteredColors = q
+    ? haircolors.filter((c) => `${c.name} ${c.aka ?? ''} ${c.tags.join(' ')}`.toLowerCase().includes(q))
+    : haircolors;
+  const filteredCuts = q
+    ? haircuts.filter((h) => `${h.name} ${h.aka ?? ''} ${h.tags.join(' ')}`.toLowerCase().includes(q))
+    : haircuts;
 
   return (
     <div className="mt-3">
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0 text-cream-50/60">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+          <path d="M21 21l-4.3-4.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={tab === 'cores' ? 'Buscar cor (ex: loiro, rosa, 7.3)...' : 'Buscar corte (ex: pixie, longo)...'}
+          className="w-full bg-transparent text-[13px] text-cream-50 placeholder:text-cream-50/40 focus:outline-none"
+        />
+        {query && (
+          <button onClick={() => setQuery('')} className="shrink-0 text-cream-50/50" aria-label="Limpar busca">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      <div className="mt-2.5 flex gap-2">
         {(['cores', 'cortes'] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors ${
+            className={`relative rounded-full px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors ${
               tab === t ? 'bg-white text-ink-900' : 'bg-white/10 text-cream-50/70'
             }`}
           >
             {t}
+            <span className="ml-1 text-[10px] font-normal opacity-60">
+              {t === 'cores' ? filteredColors.length : filteredCuts.length}
+            </span>
           </button>
         ))}
       </div>
 
-      <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
-        {tab === 'cores'
-          ? haircolors.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => onSelectColor(c.id)}
-                className="flex shrink-0 flex-col items-center gap-1.5"
-              >
+      {tab === 'cores' ? (
+        filteredColors.length > 0 ? (
+          <div className="no-scrollbar mt-3 grid max-h-[26vh] grid-cols-5 gap-x-2 gap-y-3 overflow-y-auto pb-1">
+            {filteredColors.map((c) => (
+              <button key={c.id} onClick={() => onSelectColor(c.id)} className="flex flex-col items-center gap-1.5">
                 <span
-                  className={`h-12 w-12 rounded-full ring-2 ring-offset-2 ring-offset-ink-900 transition-all ${
+                  className={`h-11 w-11 rounded-full ring-2 ring-offset-2 ring-offset-ink-900 transition-all ${
                     selectedColorId === c.id ? 'ring-rose-400 scale-110' : 'ring-white/20'
                   }`}
                   style={{ background: `linear-gradient(135deg, ${c.swatch.join(', ')})` }}
                 />
-                <span className="max-w-[60px] truncate text-[10px] text-cream-50/75">{c.name}</span>
-              </button>
-            ))
-          : haircuts.map((h) => (
-              <button
-                key={h.id}
-                onClick={() => onSelectHaircut(h.id)}
-                className={`flex shrink-0 flex-col items-center gap-1 rounded-2xl border px-3 py-2 transition-all ${
-                  selectedHaircutId === h.id ? 'border-rose-400 bg-white/10' : 'border-white/10'
-                }`}
-              >
-                <span className="max-w-[84px] truncate text-[11px] font-medium text-cream-50">{h.name}</span>
-                <span className="text-[9px] uppercase tracking-wide text-cream-50/50">{h.length}</span>
+                <span className="max-w-[58px] truncate text-[9.5px] leading-tight text-cream-50/75">{c.name}</span>
               </button>
             ))}
-      </div>
+          </div>
+        ) : (
+          <EmptyPickerState />
+        )
+      ) : filteredCuts.length > 0 ? (
+        <div className="no-scrollbar mt-3 grid max-h-[26vh] grid-cols-2 gap-2 overflow-y-auto pb-1">
+          {filteredCuts.map((h) => (
+            <button
+              key={h.id}
+              onClick={() => onSelectHaircut(h.id)}
+              className={`flex flex-col items-start gap-0.5 rounded-2xl border px-3 py-2 text-left transition-all ${
+                selectedHaircutId === h.id ? 'border-rose-400 bg-white/10' : 'border-white/10'
+              }`}
+            >
+              <span className="max-w-full truncate text-[11px] font-medium text-cream-50">{h.name}</span>
+              <span className="text-[9px] uppercase tracking-wide text-cream-50/50">{h.length}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <EmptyPickerState />
+      )}
     </div>
   );
+}
+
+function EmptyPickerState() {
+  return <p className="mt-4 pb-2 text-center text-xs text-cream-50/50">Nada encontrado para essa busca.</p>;
 }
