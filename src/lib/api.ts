@@ -25,14 +25,22 @@ export async function transformPhoto(
   maskBase64: string | null,
   prompt: string,
 ): Promise<TransformResult> {
-  const res = await fetch('/api/transform', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ imageBase64, maskBase64, prompt }),
-  });
+  let res: Response;
+  try {
+    res = await fetch('/api/transform', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageBase64, maskBase64, prompt }),
+    });
+  } catch {
+    throw new Error('Não consegui falar com o servidor de IA. Ele está rodando? (npm run server)');
+  }
   const data = await res.json().catch(() => null);
   if (!res.ok) {
-    throw new Error(data?.error || 'Não foi possível gerar a transformação agora.');
+    if (!data) {
+      throw new Error(`O servidor de IA respondeu de forma inesperada (HTTP ${res.status}). Confira se ele está rodando corretamente.`);
+    }
+    throw new Error(data.error || 'Não foi possível gerar a transformação agora.');
   }
   return data as TransformResult;
 }
