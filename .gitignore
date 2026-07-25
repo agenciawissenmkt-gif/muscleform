@@ -17,6 +17,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Local-only vendored copy of MediaPipe files for scripts/harness (see its README)
+scripts/harness/vendor
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
