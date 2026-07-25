@@ -78,6 +78,7 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
     const editMaskCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const faceProtectCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const lastBboxRef = useRef<{ cx: number; top: number; w: number; h: number } | null>(null);
+    const debugInfoRef = useRef<string | null>(null);
     const buildEditMaskRef = useRef<() => string | null>(() => null);
     const streamRef = useRef<MediaStream | null>(null);
     const rafRef = useRef<number | null>(null);
@@ -380,6 +381,7 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
 
               const activeHaircut = haircutRef.current;
               let usedRealisticOverlay = false;
+              debugInfoRef.current = null;
 
               if (activeHaircut && landmarker && hairPixels > 40) {
                 const refAnchor = HAIR_ASSETS[activeHaircut.id];
@@ -395,6 +397,14 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
                     const liveForeheadY = liveAnchor.foreheadY * processH;
                     const overlayForeheadX = refAnchor.foreheadX * overlayImg.naturalWidth;
                     const overlayForeheadY = refAnchor.foreheadY * overlayImg.naturalHeight;
+
+                    debugInfoRef.current = [
+                      `video ${video.videoWidth}x${video.videoHeight} canvas ${PROCESS_WIDTH}x${processH}`,
+                      `liveFaceWidth(norm) ${liveAnchor.faceWidth.toFixed(3)} -> ${(liveAnchor.faceWidth * PROCESS_WIDTH).toFixed(0)}px`,
+                      `refFaceWidth(norm) ${refAnchor.faceWidth.toFixed(3)} overlayNatural ${overlayImg.naturalWidth}x${overlayImg.naturalHeight}`,
+                      `scaleFactor ${scaleFactor.toFixed(3)} -> drawnW ${(overlayImg.naturalWidth * scaleFactor).toFixed(0)}px`,
+                      `liveForehead ${liveForeheadX.toFixed(0)},${liveForeheadY.toFixed(0)} rollDeg ${((liveAnchor.rollRad * 180) / Math.PI).toFixed(1)}`,
+                    ].join(' | ');
 
                     ctx.save();
                     ctx.translate(liveForeheadX, liveForeheadY);
@@ -442,6 +452,20 @@ const LiveTryOnCanvas = forwardRef<LiveTryOnHandle, LiveTryOnCanvasProps>(
             }
             ctx.restore();
             result.close();
+
+            if (debugInfoRef.current) {
+              ctx.save();
+              ctx.font = '11px monospace';
+              const lines = debugInfoRef.current.split(' | ');
+              const boxH = lines.length * 14 + 8;
+              ctx.fillStyle = 'rgba(0,0,0,0.65)';
+              ctx.fillRect(0, processH - boxH, PROCESS_WIDTH, boxH);
+              ctx.fillStyle = '#00ff88';
+              lines.forEach((line, i) => {
+                ctx.fillText(line, 4, processH - boxH + 12 + i * 14);
+              });
+              ctx.restore();
+            }
           }
           rafRef.current = requestAnimationFrame(loop);
         };

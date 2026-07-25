@@ -2,13 +2,9 @@ import { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import LiveTryOnCanvas, { type LiveTryOnHandle, type TryOnStatus } from '../components/LiveTryOnCanvas';
-import CaptureReveal from '../components/CaptureReveal';
-import { buildTransformPrompt, transformPhoto } from '../lib/api';
 import { haircuts } from '../data/haircuts';
 import { haircolors } from '../data/haircolors';
 import hairAssetManifest from '../data/hairAssetManifest.json';
-
-type AiStatus = 'idle' | 'loading' | 'error';
 
 export default function TryOn() {
   const navigate = useNavigate();
@@ -21,25 +17,17 @@ export default function TryOn() {
   const [statusMessage, setStatusMessage] = useState<string | undefined>();
   const [frozen, setFrozen] = useState(false);
   const [snapshot, setSnapshot] = useState<string | null>(null);
-  const [editMask, setEditMask] = useState<string | null>(null);
   const [flash, setFlash] = useState(false);
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
 
-  const [aiStatus, setAiStatus] = useState<AiStatus>('idle');
-  const [aiError, setAiError] = useState<string | null>(null);
-  const [aiResult, setAiResult] = useState<string | null>(null);
-  const [showingBefore, setShowingBefore] = useState(false);
-
   const color = haircolors.find((c) => c.id === colorId) ?? null;
   const haircut = haircuts.find((h) => h.id === haircutId) ?? null;
-  const canGenerate = Boolean(color || haircut);
   const hasRealisticPreview = Boolean(haircut && haircut.id in hairAssetManifest);
 
   function handleCapture() {
     const result = canvasHandle.current?.capture();
     if (!result) return;
     setSnapshot(result.photo);
-    setEditMask(result.mask);
     setFrozen(true);
     setFlash(true);
     setTimeout(() => setFlash(false), 250);
@@ -48,37 +36,16 @@ export default function TryOn() {
   function handleRetry() {
     setFrozen(false);
     setSnapshot(null);
-    setEditMask(null);
-    setAiStatus('idle');
-    setAiError(null);
-    setAiResult(null);
-    setShowingBefore(false);
   }
 
   function handleFlipCamera() {
     setFacingMode((prev) => (prev === 'user' ? 'environment' : 'user'));
   }
 
-  async function handleGenerateRealistic() {
-    if (!snapshot || aiStatus === 'loading') return;
-    setAiStatus('loading');
-    setAiError(null);
-    try {
-      const prompt = buildTransformPrompt(haircut, color);
-      const result = await transformPhoto(snapshot, editMask, prompt);
-      setAiResult(result.imageBase64);
-      setAiStatus('idle');
-    } catch (err) {
-      setAiError(err instanceof Error ? err.message : 'Não foi possível gerar a transformação agora.');
-      setAiStatus('error');
-    }
-  }
-
   function handleDownload() {
-    const url = aiResult && !showingBefore ? aiResult : snapshot;
-    if (!url) return;
+    if (!snapshot) return;
     const a = document.createElement('a');
-    a.href = url;
+    a.href = snapshot;
     a.download = 'your-beauty-visual.jpg';
     a.click();
   }
@@ -192,71 +159,27 @@ export default function TryOn() {
         )}
 
         {frozen && (
-          <img
-            src={aiResult && !showingBefore ? aiResult : (snapshot ?? undefined)}
-            alt="Resultado"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          <img src={snapshot ?? undefined} alt="Resultado" className="absolute inset-0 h-full w-full object-cover" />
         )}
 
-        <CaptureReveal visible={aiStatus === 'loading'} />
-
-        {frozen && aiStatus !== 'loading' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.4 }}
-            className="absolute inset-x-0 top-3 flex justify-center"
-          >
-            <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-4 py-1.5 text-[12px] font-medium text-cream-50 backdrop-blur">
-              {aiResult && !showingBefore ? '✨ Your Beauty — sua nova versão' : 'Prévia instantânea'}
-            </span>
-          </motion.div>
-        )}
-
-        {frozen && aiStatus !== 'loading' && (
+        {frozen && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="absolute inset-x-0 bottom-4 flex flex-col gap-2 px-4"
+            className="absolute inset-x-0 bottom-4 flex justify-center gap-3 px-4"
           >
-            {aiStatus === 'error' && (
-              <p className="rounded-2xl bg-red-500/20 px-3 py-2 text-center text-xs text-cream-50">{aiError}</p>
-            )}
-
-            {aiResult ? (
-              <button
-                onClick={() => setShowingBefore((v) => !v)}
-                className="w-full rounded-full bg-white/15 py-2.5 text-sm font-semibold text-cream-50 backdrop-blur"
-              >
-                {showingBefore ? 'Ver resultado com IA' : 'Ver prévia instantânea'}
-              </button>
-            ) : (
-              canGenerate && (
-                <button
-                  onClick={handleGenerateRealistic}
-                  className="w-full rounded-full bg-gradient-to-br from-rose-400 to-gold-400 py-3 text-sm font-semibold text-white shadow-lg"
-                >
-                  ✨ Gerar transformação realista com IA
-                </button>
-              )
-            )}
-
-            <div className="flex justify-center gap-3">
-              <button
-                onClick={handleRetry}
-                className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
-              >
-                Tentar outro
-              </button>
-              <button
-                onClick={handleDownload}
-                className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
-              >
-                Salvar foto
-              </button>
-            </div>
+            <button
+              onClick={handleRetry}
+              className="flex-1 rounded-full bg-white/15 py-3 text-sm font-semibold text-cream-50 backdrop-blur"
+            >
+              Tentar outro
+            </button>
+            <button
+              onClick={handleDownload}
+              className="flex-1 rounded-full bg-gradient-to-br from-rose-400 to-gold-400 py-3 text-sm font-semibold text-white shadow-lg"
+            >
+              Salvar foto
+            </button>
           </motion.div>
         )}
       </div>
