@@ -15,6 +15,7 @@ interface Props {
 export default function CardProduto({ produto, indice = 0 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [sobre, setSobre] = useState(false);
+  const [semFoto, setSemFoto] = useState(false);
 
   const rx = useSpring(useMotionValue(0), { stiffness: 160, damping: 18 });
   const ry = useSpring(useMotionValue(0), { stiffness: 160, damping: 18 });
@@ -57,24 +58,37 @@ export default function CardProduto({ produto, indice = 0 }: Props) {
           <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-b from-rosa-100 to-creme-100">
             <Etiquetas produto={produto} />
 
-            {/* boneca em camadas — ganha profundidade no hover */}
-            <motion.div
-              className="preserve-3d absolute inset-0 p-5"
-              animate={{ scale: sobre ? 1.08 : 1 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 22 }}
-            >
-              {CAMADAS.map(({ camada, z }) => (
-                <motion.div
-                  key={camada}
-                  className="absolute inset-0 p-5"
-                  animate={{ z: sobre ? z * 0.9 : 0 }}
-                  transition={{ type: 'spring', stiffness: 150, damping: 20 }}
-                  style={{ transformStyle: 'preserve-3d' }}
-                >
-                  <DollArt spec={produto.spec} camada={camada} className="h-full w-full" />
-                </motion.div>
-              ))}
-            </motion.div>
+            {/* foto real quando existe; senão, a boneca em camadas com profundidade no hover */}
+            {produto.foto && !semFoto ? (
+              <motion.img
+                src={produto.foto}
+                alt={`${produto.nome} — boneca de pano feita à mão`}
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+                onError={() => setSemFoto(true)}
+                animate={{ scale: sobre ? 1.1 : 1 }}
+                transition={{ type: 'spring', stiffness: 180, damping: 24 }}
+              />
+            ) : (
+              <motion.div
+                className="preserve-3d absolute inset-0 p-5"
+                animate={{ scale: sobre ? 1.08 : 1 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+              >
+                {CAMADAS.map(({ camada, z }) => (
+                  <motion.div
+                    key={camada}
+                    className="absolute inset-0 p-5"
+                    animate={{ z: sobre ? z * 0.9 : 0 }}
+                    transition={{ type: 'spring', stiffness: 150, damping: 20 }}
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    <DollArt spec={produto.spec} camada={camada} className="h-full w-full" />
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
 
             <motion.span
               className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-3"

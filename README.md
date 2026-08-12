@@ -37,15 +37,18 @@ na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
 - **Home** com boneca girando em 3D, vitrine automática, categorias, destaques,
   o passo a passo "como nasce uma boneca", depoimentos e chamada para encomenda.
 - **Catálogo** (`/bonecas`) com busca, filtro por categoria e ordenação animada.
-- **Páginas de categoria** (`/categoria/:slug`) — 6 coleções.
+- **Páginas de categoria** (`/categoria/:slug`) — 7 coleções, incluindo os bonecos.
 - **Página de venda** (`/boneca/:slug`) com:
-  - visualizador que **gira a boneca em 3D** (arrastando no celular, com o mouse no desktop);
-  - modo **zoom** nos detalhes da costura (lupa no desktop, toque no celular);
-  - personalização ao vivo: nome para bordar e cor do vestidinho (a boneca muda na hora);
+  - **foto real** da peça (quando o arquivo está em `public/produtos/`), com **giro em 3D**
+    e **zoom** nos detalhes da costura como abas ao lado;
+  - selo de **segurança** em destaque: tecido antialérgico, não solta pelinho, nenhuma peça
+    que possa soltar, costura dupla que não rasga e uso seguro desde o primeiro dia,
+    inclusive para bebês prematuros;
+  - recadinho **"presente de avó"**;
   - botão de compra **verde fluorescente "Realize seu sonho"** que abre o WhatsApp
     com o pedido já escrito;
   - história da boneca, materiais, medidas, cuidados, prazo e pagamento;
-  - barra de compra fixa no celular.
+  - barra de compra fixa no celular, que sai da frente quando o botão principal aparece.
 - **Sacolinha** lateral + página `/carrinho`, salvas no navegador, com fechamento no WhatsApp.
 - **O Ateliê** (`/sobre`) e **Contato** (`/contato`) com FAQ e formulário que monta a
   mensagem do WhatsApp.
@@ -73,6 +76,12 @@ whatsappNumero: '554195096228',        // usado no link wa.me (só números)
 
 > Se o número tiver o nono dígito (41 **9** 9509-6228), troque `whatsappNumero`
 > por `5541995096228` — o link do WhatsApp precisa do número completo para abrir a conversa.
+
+### Fotos das bonecas
+
+As fotos reais ficam em `public/produtos/` — veja `public/produtos/LEIA-ME.md` para os
+nomes de arquivo esperados. Enquanto a foto não estiver lá, o site mostra a ilustração 3D
+da peça; nunca aparece imagem quebrada.
 
 ### Produtos
 

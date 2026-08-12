@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
 import VisualizadorProduto from '../components/VisualizadorProduto';
 import CardProduto from '../components/CardProduto';
 import BotaoSonho from '../components/BotaoSonho';
@@ -23,18 +23,24 @@ export default function Produto() {
   const { slug } = useParams();
   const produto = slug ? produtoPorSlug(slug) : undefined;
 
-  const [nomeBordado, setNomeBordado] = useState('');
   const [corEscolhida, setCorEscolhida] = useState(coresVestido[0].nome);
-  const [observacao, setObservacao] = useState('');
   const [quantidade, setQuantidade] = useState(1);
   const [adicionado, setAdicionado] = useState(false);
   const { adicionar } = useCarrinho();
 
+  // enquanto o botão de compra estiver na tela, a barra fixa do celular sai da frente
+  const areaCompra = useRef<HTMLDivElement>(null);
+  const compraNaTela = useInView(areaCompra, { margin: '-90px 0px -140px 0px' });
+
+  // a escolha de cor só faz sentido nas peças ilustradas; as fotografadas vão como estão
+  const escolheCor = Boolean(produto?.personalizavel) && !produto?.foto;
+
   const spec = useMemo(() => {
     if (!produto) return undefined;
+    if (!escolheCor) return produto.spec;
     const cor = coresVestido.find((c) => c.nome === corEscolhida)?.cor;
     return cor ? { ...produto.spec, vestido: cor } : produto.spec;
-  }, [produto, corEscolhida]);
+  }, [produto, corEscolhida, escolheCor]);
 
   if (!produto || !spec) return <NaoEncontrada />;
 
@@ -47,9 +53,7 @@ export default function Produto() {
     '',
     `Quero realizar meu sonho com a *${produto.nome}*.`,
     `• Quantidade: ${quantidade}`,
-    produto.personalizavel ? `• Cor do vestidinho: ${corEscolhida}` : '',
-    nomeBordado.trim() ? `• Nome bordado: ${nomeBordado.trim()}` : '',
-    observacao.trim() ? `• Observação: ${observacao.trim()}` : '',
+    escolheCor ? `• Cor do vestidinho: ${corEscolhida}` : '',
     `• Valor: ${formatarPreco(total)}`,
     '',
     'Como faço para fechar o pedido?',
@@ -62,11 +66,7 @@ export default function Produto() {
     adicionar({
       produtoId: produto.id,
       quantidade,
-      personalizacao: {
-        nomeBordado: nomeBordado.trim() || undefined,
-        corVestido: produto.personalizavel ? corEscolhida : undefined,
-        observacao: observacao.trim() || undefined,
-      },
+      corVestido: escolheCor ? corEscolhida : undefined,
     });
     setAdicionado(true);
     setTimeout(() => setAdicionado(false), 2600);
@@ -103,7 +103,12 @@ export default function Produto() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="lg:sticky lg:top-28 lg:self-start"
           >
-            <VisualizadorProduto spec={spec} nome={produto.nome} />
+            <VisualizadorProduto
+              spec={spec}
+              nome={produto.nome}
+              foto={produto.foto}
+              legendaFoto={produto.legendaFoto}
+            />
           </motion.div>
 
           {/* informações e compra */}
@@ -143,43 +148,18 @@ export default function Produto() {
               </div>
             </motion.div>
 
-            {/* personalização */}
-            {produto.personalizavel && (
-              <Reveal className="mt-7" delay={0.1}>
+            {/* segurança — o que mais tranquiliza quem está comprando */}
+            <Reveal className="mt-7" delay={0.1}>
+              <SeloSeguranca />
+            </Reveal>
+
+            {escolheCor && (
+              <Reveal className="mt-5" delay={0.12}>
                 <div className="rounded-[1.5rem] border border-rosa-200 bg-rosa-50/80 p-5">
                   <p className="flex items-center gap-2 font-display text-lg text-sepia-900">
-                    <span aria-hidden="true">🪡</span> Deixe do jeitinho de vocês
+                    <span aria-hidden="true">🎨</span> Escolha a cor do vestidinho
                   </p>
-
-                  <label className="mt-4 block text-sm font-semibold text-sepia-700">
-                    Nome para bordar
-                    <input
-                      type="text"
-                      value={nomeBordado}
-                      maxLength={18}
-                      onChange={(e) => setNomeBordado(e.target.value)}
-                      placeholder="Ex.: Manuela"
-                      className="mt-1.5 w-full rounded-full border border-rosa-200 bg-white px-4 py-2.5 text-sm font-normal text-sepia-900 outline-none transition-all placeholder:text-sepia-300 focus:border-rosa-400"
-                    />
-                  </label>
-                  <AnimatePresence>
-                    {nomeBordado.trim() && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="mt-2 font-script text-2xl text-rosa-700"
-                      >
-                        {nomeBordado}
-                        <span className="ml-2 align-middle text-xs font-sans uppercase tracking-wider text-sepia-500">
-                          ficará bordado assim ♥
-                        </span>
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-
-                  <p className="mt-5 text-sm font-semibold text-sepia-700">Cor do vestidinho</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     {coresVestido.map((c) => (
                       <button
                         key={c.nome}
@@ -207,17 +187,6 @@ export default function Produto() {
                     Escolhida: <strong className="text-sepia-800">{corEscolhida}</strong> — a boneca ao lado já
                     mudou de vestido ✨
                   </p>
-
-                  <label className="mt-5 block text-sm font-semibold text-sepia-700">
-                    Algum pedido especial?
-                    <textarea
-                      value={observacao}
-                      onChange={(e) => setObservacao(e.target.value)}
-                      rows={2}
-                      placeholder="Ex.: quero o cabelo cacheado e uma fitinha azul"
-                      className="mt-1.5 w-full resize-none rounded-2xl border border-rosa-200 bg-white px-4 py-2.5 text-sm font-normal text-sepia-900 outline-none transition-all placeholder:text-sepia-300 focus:border-rosa-400"
-                    />
-                  </label>
                 </div>
               </Reveal>
             )}
@@ -249,7 +218,9 @@ export default function Produto() {
                 </span>
               </div>
 
-              <BotaoSonho href={linkWhatsApp(mensagem)} tamanho="lg" className="w-full" />
+              <div ref={areaCompra}>
+                <BotaoSonho href={linkWhatsApp(mensagem)} tamanho="lg" className="w-full" />
+              </div>
 
               <button
                 type="button"
@@ -313,6 +284,10 @@ export default function Produto() {
               </div>
             </Reveal>
 
+            <Reveal className="mt-5">
+              <PresenteDeAvo nome={produto.nome} />
+            </Reveal>
+
             {/* detalhes */}
             <div className="mt-8 flex flex-col gap-2">
               <Sanfona titulo="Materiais e acabamento" aberto>
@@ -331,6 +306,16 @@ export default function Produto() {
                 <p>
                   Altura aproximada: <strong>{produto.altura}</strong>. Por serem feitas à mão, pode haver
                   variação de 1 a 2 cm — cada boneca tem seu próprio jeitinho.
+                </p>
+              </Sanfona>
+              <Sanfona titulo="Segurança para bebês e crianças pequenas">
+                <p>
+                  Esta peça pode ir para o berço desde o primeiro dia, inclusive de bebês prematuros. Todo o
+                  rostinho é bordado à mão — <strong>não existe olho de plástico, botão, miçanga ou aplique
+                  colado</strong> que possa soltar e ir parar na boquinha. O cabelo é preso fio a fio e o tecido
+                  é fechado com costura dupla: <strong>não solta pelinho, não solta fiapo e não desfia</strong>.
+                  O enchimento é de fibra siliconada antialérgica, atóxica, sem cheiro e sem tratamento químico —
+                  o mesmo usado em travesseiro de bebê.
                 </p>
               </Sanfona>
               <Sanfona titulo="Como cuidar">
@@ -369,9 +354,9 @@ export default function Produto() {
 
       {/* barra fixa de compra no celular */}
       <motion.div
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 0.6, type: 'spring', stiffness: 220, damping: 26 }}
+        initial={{ y: 120 }}
+        animate={{ y: compraNaTela ? 120 : 0 }}
+        transition={{ type: 'spring', stiffness: 220, damping: 26 }}
         className="fixed inset-x-0 bottom-0 z-[70] border-t border-rosa-200 bg-white/95 px-4 py-3 backdrop-blur lg:hidden"
       >
         <div className="flex items-center gap-3">
@@ -382,6 +367,94 @@ export default function Produto() {
           <BotaoSonho href={linkWhatsApp(mensagem)} className="flex-1" />
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+/** Bloco de segurança — é a informação que mais tranquiliza quem compra para bebê. */
+function SeloSeguranca() {
+  const itens = [
+    {
+      i: '🌿',
+      t: 'Tecido antialérgico',
+      d: 'Algodão hipoalergênico pré-lavado e enchimento de fibra siliconada atóxica, sem cheiro e sem tratamento químico.',
+    },
+    {
+      i: '🧵',
+      t: 'Não solta pelinho nem fiapo',
+      d: 'O cabelo é costurado fio a fio e o tecido não desfia — nada solta, nada vai parar na boquinha ou no narizinho.',
+    },
+    {
+      i: '👀',
+      t: 'Nenhuma peça que possa soltar',
+      d: 'O rostinho é todo bordado à mão: sem olho de plástico, botão, miçanga ou aplique colado.',
+    },
+    {
+      i: '💪',
+      t: 'Costura dupla — não rasga',
+      d: 'Reforçada ponto a ponto: aguenta puxão, arrasto pela casa e abraço apertado por muitos anos.',
+    },
+    {
+      i: '👶',
+      t: 'Segura desde o primeiro dia',
+      d: 'Pode ir para o berço de recém-nascidos e de bebês prematuros, e para a mão de crianças pequenas, sem preocupação nenhuma.',
+    },
+  ];
+
+  return (
+    <div className="overflow-hidden rounded-[1.5rem] border-2 border-neon-400/60 bg-white/85">
+      <div className="flex items-center gap-2.5 border-b border-neon-400/40 bg-neon-400/15 px-5 py-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neon-400 text-neon-900">
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="3">
+            <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <p className="font-display text-lg leading-tight text-sepia-900">
+          Feita para bebê brincar sem susto
+        </p>
+      </div>
+
+      <ul className="flex flex-col gap-3 p-5">
+        {itens.map((item, i) => (
+          <motion.li
+            key={item.t}
+            initial={{ opacity: 0, x: -14 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.07 }}
+            className="flex items-start gap-3"
+          >
+            <span className="mt-0.5 text-lg" aria-hidden="true">
+              {item.i}
+            </span>
+            <span>
+              <span className="block text-sm font-bold text-sepia-900">{item.t}</span>
+              <span className="block text-sm leading-relaxed text-sepia-500">{item.d}</span>
+            </span>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Recadinho para avós — quem mais presenteia no ateliê. */
+function PresenteDeAvo({ nome }: { nome: string }) {
+  return (
+    <div className="relative overflow-hidden rounded-[1.5rem] border border-creme-200 bg-creme-100 p-6">
+      <span className="absolute -right-4 -top-4 text-7xl opacity-20" aria-hidden="true">
+        👵
+      </span>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-rosa-600">Presente de avó</p>
+      <p className="mt-3 leading-relaxed text-sepia-700">
+        A {nome} é daquelas lembranças que ficam. Vó e vô que dão uma boneca de pano não estão dando um brinquedo
+        de moda — estão dando o abraço que fica no quarto quando eles não estão. É segura para o neto pequeno,
+        aguenta anos de uso e volta em foto de aniversário, um ano atrás do outro.
+      </p>
+      <p className="mt-3 text-sm text-sepia-500">
+        Se for presente, a gente embala com laço e escreve o seu recadinho à mão no cartão — é só avisar no
+        WhatsApp.
+      </p>
     </div>
   );
 }

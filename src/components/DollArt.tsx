@@ -230,6 +230,7 @@ function Membros({ spec, ehBebe }: { spec: DollSpec; ehBebe: boolean }) {
   const braco = spec.pele;
   const contorno = escurecer(spec.pele, 0.16);
   const pernaY = ehBebe ? 214 : 222;
+  const sapato = spec.sapatos ?? spec.acessorioCor;
 
   return (
     <g>
@@ -246,10 +247,90 @@ function Membros({ spec, ehBebe }: { spec: DollSpec; ehBebe: boolean }) {
       <rect x="76" y={pernaY} width="20" height="44" rx="10" fill={spec.meias} stroke={escurecer(spec.meias, 0.1)} strokeWidth="1.5" />
       <rect x="104" y={pernaY} width="20" height="44" rx="10" fill={spec.meias} stroke={escurecer(spec.meias, 0.1)} strokeWidth="1.5" />
       {/* sapatinhos */}
-      <ellipse cx="86" cy={pernaY + 46} rx="15" ry="9" fill={spec.acessorioCor} />
-      <ellipse cx="114" cy={pernaY + 46} rx="15" ry="9" fill={spec.acessorioCor} />
-      <path d={`M74 ${pernaY + 40} q12 -6 24 0`} stroke={escurecer(spec.acessorioCor, 0.2)} strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d={`M102 ${pernaY + 40} q12 -6 24 0`} stroke={escurecer(spec.acessorioCor, 0.2)} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <ellipse cx="86" cy={pernaY + 46} rx="15" ry="9" fill={sapato} />
+      <ellipse cx="114" cy={pernaY + 46} rx="15" ry="9" fill={sapato} />
+      <path d={`M74 ${pernaY + 40} q12 -6 24 0`} stroke={escurecer(sapato, 0.2)} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d={`M102 ${pernaY + 40} q12 -6 24 0`} stroke={escurecer(sapato, 0.2)} strokeWidth="3" fill="none" strokeLinecap="round" />
+      {/* cadarços dos tênis, quando é conjunto de menino */}
+      {spec.roupa === 'conjunto' && (
+        <g stroke="#fffafb" strokeWidth="2.2" strokeLinecap="round">
+          <path d={`M80 ${pernaY + 44} l12 4 M92 ${pernaY + 44} l-12 4`} />
+          <path d={`M108 ${pernaY + 44} l12 4 M120 ${pernaY + 44} l-12 4`} />
+        </g>
+      )}
+    </g>
+  );
+}
+
+/** Camisa de botão + bermuda — os bonecos. */
+function CorpoConjunto({ spec }: { spec: DollSpec }) {
+  const camisa = spec.vestido;
+  const detalhe = spec.vestidoDetalhe;
+  const calca = spec.calca ?? '#c9cfd6';
+  const costura = escurecer(camisa, 0.16);
+
+  return (
+    <g>
+      {/* pescoço */}
+      <rect x="88" y="118" width="24" height="24" rx="10" fill={escurecer(spec.pele, 0.08)} />
+
+      {/* bermuda */}
+      <path d="M72 188 h56 l4 46 h-24 l-8 -28 l-8 28 h-24 z" fill={calca} stroke={escurecer(calca, 0.14)} strokeWidth="1.5" />
+      <g stroke={escurecer(calca, 0.12)} strokeWidth="1.4" opacity="0.7">
+        <path d="M80 196 v36 M96 190 v44 M112 190 v44 M126 196 v36" />
+        <path d="M72 202 h60 M72 216 h60 M74 228 h56" />
+      </g>
+
+      {/* mangas curtas */}
+      <g fill={camisa} stroke={costura} strokeWidth="1.5">
+        <path d="M72 138 q-16 6 -18 26 q10 6 20 2 z" />
+        <path d="M128 138 q16 6 18 26 q-10 6 -20 2 z" />
+      </g>
+
+      {/* camisa */}
+      <path
+        d="M70 134 q30 -12 60 0 l6 62 q-36 10 -72 0 z"
+        fill={camisa}
+        stroke={costura}
+        strokeWidth="1.5"
+      />
+      {/* golinha */}
+      <path d="M88 133 l12 11 l12 -11 l7 4 l-19 15 l-19 -15 z" fill={detalhe} />
+      {/* botões */}
+      <g fill={detalhe} stroke={escurecer(detalhe, 0.15)} strokeWidth="1">
+        <circle cx="100" cy="164" r="4.2" />
+        <circle cx="100" cy="178" r="4.2" />
+        <circle cx="100" cy="191" r="4.2" />
+      </g>
+      {/* estampa floral / bolso listrado */}
+      {spec.calca === spec.vestido ? (
+        <g>
+          <rect x="82" y="170" width="36" height="20" rx="4" fill={detalhe} opacity="0.9" />
+          <g stroke={escurecer(detalhe, 0.35)} strokeWidth="2">
+            <path d="M89 170 v20 M97 170 v20 M105 170 v20 M113 170 v20" />
+          </g>
+        </g>
+      ) : (
+        <g opacity="0.85">
+          {[
+            [80, 154],
+            [122, 152],
+            [78, 180],
+            [124, 178],
+            [86, 192],
+            [116, 192],
+          ].map(([cx, cy], i) => (
+            <g key={i} transform={`translate(${cx} ${cy})`}>
+              <circle cx="0" cy="-5" r="3.4" fill={detalhe} />
+              <circle cx="4.8" cy="-1.5" r="3.4" fill={detalhe} />
+              <circle cx="3" cy="4" r="3.4" fill={detalhe} />
+              <circle cx="-3" cy="4" r="3.4" fill={detalhe} />
+              <circle cx="-4.8" cy="-1.5" r="3.4" fill={detalhe} />
+              <circle cx="0" cy="0" r="2.4" fill="#f2c94c" />
+            </g>
+          ))}
+        </g>
+      )}
     </g>
   );
 }
@@ -263,6 +344,8 @@ function Corpo({
   ehBailarina: boolean;
   ehBebe: boolean;
 }) {
+  if (spec.roupa === 'conjunto') return <CorpoConjunto spec={spec} />;
+
   const v = spec.vestido;
   const d = spec.vestidoDetalhe;
   const sombra = escurecer(v, 0.14);
@@ -410,7 +493,7 @@ function Cabeca({
         stroke={escurecer(spec.pele, 0.14)}
         strokeWidth="1.5"
       />
-      <ellipse cx="84" cy={cy - 14} rx="18" ry="14" fill={clarear(spec.pele, 0.22)} opacity="0.6" />
+      <ellipse cx="84" cy={cy - 16} rx="14" ry="10" fill={clarear(spec.pele, 0.18)} opacity="0.32" />
     </g>
   );
 }
@@ -443,16 +526,36 @@ function Rosto({
         </g>
       )}
 
-      {/* olhinhos bordados (fechados, felizes) */}
-      <g stroke={linha} strokeWidth="4" strokeLinecap="round" fill="none">
-        <path d={`M68 ${cy + 2} q10 -13 20 0`} />
-        <path d={`M112 ${cy + 2} q10 -13 20 0`} />
-      </g>
-      {/* cílios */}
-      <g stroke={linha} strokeWidth="2.4" strokeLinecap="round">
-        <path d={`M65 ${cy - 2} l-6 -5`} />
-        <path d={`M135 ${cy - 2} l6 -5`} />
-      </g>
+      {spec.olhos === 'abertos' ? (
+        /* olhinhos redondos, com brilho — como nas bonecas do ateliê */
+        <g>
+          {[78, 122].map((ox) => (
+            <g key={ox}>
+              <ellipse cx={ox} cy={cy - 2} rx="9" ry="10.5" fill={linha} />
+              <circle cx={ox - 2.6} cy={cy - 6} r="3.4" fill="#fffafb" />
+              <circle cx={ox + 3} cy={cy + 2} r="1.6" fill="#fffafb" opacity="0.85" />
+            </g>
+          ))}
+          {/* sobrancelhas bordadas */}
+          <g stroke={linha} strokeWidth="2.2" strokeLinecap="round" fill="none" opacity="0.75">
+            <path d={`M70 ${cy - 16} q8 -5 16 -1`} />
+            <path d={`M114 ${cy - 17} q8 -4 16 1`} />
+          </g>
+        </g>
+      ) : (
+        <>
+          {/* olhinhos bordados (fechados, felizes) */}
+          <g stroke={linha} strokeWidth="4" strokeLinecap="round" fill="none">
+            <path d={`M68 ${cy + 2} q10 -13 20 0`} />
+            <path d={`M112 ${cy + 2} q10 -13 20 0`} />
+          </g>
+          {/* cílios */}
+          <g stroke={linha} strokeWidth="2.4" strokeLinecap="round">
+            <path d={`M65 ${cy - 2} l-6 -5`} />
+            <path d={`M135 ${cy - 2} l6 -5`} />
+          </g>
+        </>
+      )}
 
       {/* bochechas */}
       <ellipse cx="64" cy={cy + 16} rx="13" ry="9" fill="#f191ab" opacity="0.45" />
@@ -535,6 +638,18 @@ function AcessorioArt({ spec, ehNaninha }: { spec: DollSpec; ehNaninha: boolean 
           <ellipse cx="100" cy="30" rx="38" ry="24" fill={clarear(cor, 0.1)} />
           <rect x="62" y="30" width="76" height="10" rx="5" fill={spec.vestido} />
           <ellipse cx="100" cy="42" rx="66" ry="16" fill="none" stroke={escuro} strokeWidth="1.6" />
+        </g>
+      );
+    case 'boina':
+      return (
+        <g transform={`translate(0 ${topo - 32})`}>
+          {/* aba, copa e pompom da boina */}
+          <ellipse cx="100" cy="40" rx="54" ry="20" fill={escuro} />
+          <ellipse cx="100" cy="30" rx="48" ry="22" fill={cor} />
+          <ellipse cx="86" cy="22" rx="20" ry="10" fill={clarear(cor, 0.16)} opacity="0.7" />
+          <ellipse cx="100" cy="46" rx="44" ry="8" fill={escuro} opacity="0.4" />
+          <circle cx="112" cy="6" r="12" fill={clarear(cor, 0.1)} />
+          <circle cx="108" cy="2" r="4" fill={clarear(cor, 0.28)} opacity="0.8" />
         </g>
       );
     case 'tiara':

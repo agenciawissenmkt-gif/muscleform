@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useCarrinho } from '../store/carrinho';
 import { formatarPreco, produtoPorId } from '../data/produtos';
-import { DollPlana } from './Doll3D';
+import MidiaProduto from './MidiaProduto';
 import BotaoSonho from './BotaoSonho';
 import { linkWhatsApp } from '../config/site';
 
@@ -83,14 +83,12 @@ export default function GavetaCarrinho() {
                             onClick={fecharGaveta}
                             className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-rosa-100"
                           >
-                            <DollPlana spec={produto.spec} className="h-full w-full" />
+                            <MidiaProduto produto={produto} />
                           </Link>
                           <div className="flex flex-1 flex-col">
                             <p className="font-display text-base leading-tight text-sepia-900">{produto.nome}</p>
-                            {item.personalizacao?.nomeBordado && (
-                              <p className="text-xs text-rosa-700">
-                                nome bordado: {item.personalizacao.nomeBordado}
-                              </p>
+                            {item.corVestido && (
+                              <p className="text-xs text-rosa-700">vestido {item.corVestido}</p>
                             )}
                             <p className="text-sm font-semibold text-rosa-700">
                               {formatarPreco(produto.preco * item.quantidade)}

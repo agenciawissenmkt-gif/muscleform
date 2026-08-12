@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DollPlana } from '../components/Doll3D';
+import MidiaProduto from '../components/MidiaProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
 import { formatarPreco, parcelamento, produtoPorId } from '../data/produtos';
@@ -55,7 +55,7 @@ export default function Carrinho() {
                       to={`/boneca/${produto.slug}`}
                       className="relative h-36 w-28 shrink-0 self-center overflow-hidden rounded-2xl bg-rosa-100 transition-transform hover:scale-105"
                     >
-                      <DollPlana spec={produto.spec} className="h-full w-full" />
+                      <MidiaProduto produto={produto} />
                     </Link>
 
                     <div className="flex-1">
@@ -66,21 +66,10 @@ export default function Carrinho() {
                         {produto.nome}
                       </Link>
                       <p className="mt-1 text-sm text-sepia-500">{produto.resumo}</p>
-                      {item.personalizacao?.corVestido && (
+                      {item.corVestido && (
                         <p className="mt-2 text-xs text-sepia-500">
-                          Vestido: <strong className="text-sepia-800">{item.personalizacao.corVestido}</strong>
+                          Vestido: <strong className="text-sepia-800">{item.corVestido}</strong>
                         </p>
-                      )}
-                      {item.personalizacao?.nomeBordado && (
-                        <p className="text-xs text-sepia-500">
-                          Nome bordado:{' '}
-                          <strong className="font-script text-base text-rosa-700">
-                            {item.personalizacao.nomeBordado}
-                          </strong>
-                        </p>
-                      )}
-                      {item.personalizacao?.observacao && (
-                        <p className="mt-1 text-xs italic text-sepia-500">“{item.personalizacao.observacao}”</p>
                       )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-4">

@@ -20,7 +20,9 @@ export default function Inicio() {
       <Categorias />
       <Destaques />
       <ComoNasce />
+      <Seguranca />
       <MaisAmadas />
+      <ParaOsAvos />
       <Depoimentos />
       <ChamadaPersonalizada />
     </>
@@ -361,6 +363,152 @@ function ComoNasce() {
           </Reveal>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ------------------------------- Segurança ---------------------------------- */
+
+function Seguranca() {
+  const itens = [
+    {
+      e: '🌿',
+      t: 'Tudo antialérgico',
+      d: 'Algodão hipoalergênico pré-lavado e enchimento de fibra siliconada atóxica, sem cheiro e sem química.',
+    },
+    {
+      e: '🧵',
+      t: 'Não solta pelinho',
+      d: 'Cabelo costurado fio a fio e tecido que não desfia: nada solta e nada vai parar na boquinha.',
+    },
+    {
+      e: '👀',
+      t: 'Rostinho bordado',
+      d: 'Sem olho de plástico, botão ou aplique colado — não existe peça pequena para soltar.',
+    },
+    {
+      e: '💪',
+      t: 'Costura dupla',
+      d: 'Reforçada ponto a ponto. Aguenta puxão, arrasto pela casa e abraço apertado por anos.',
+    },
+    {
+      e: '👶',
+      t: 'Desde o primeiro dia',
+      d: 'Pode ir para o berço de recém-nascidos e de bebês prematuros, sem preocupação nenhuma.',
+    },
+    {
+      e: '🫧',
+      t: 'Fácil de lavar',
+      d: 'Lavagem à mão com sabão neutro. O tecido é resistente, não desbota e volta macio.',
+    },
+  ];
+
+  return (
+    <section className="relative overflow-hidden bg-white/60 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal className="text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-rosa-600">Pode entregar na mãozinha</p>
+          <h2 className="mt-3 font-display text-3xl text-sepia-900 sm:text-4xl">
+            Segura para bebê, <span className="font-script text-rosa-600">de verdade</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
+            Boneca de pano bem feita não solta pelo, não rasga e não tem peça que caia. A nossa é costurada
+            pensando em quem ainda leva tudo à boca.
+          </p>
+        </Reveal>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {itens.map((item, i) => (
+            <Reveal key={item.t} delay={i * 0.06} efeito="zoom">
+              <div className="flex h-full items-start gap-4 rounded-[1.5rem] border border-rosa-200 bg-white/80 p-5 transition-transform hover:-translate-y-1 sombra-suave">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neon-400/25 text-xl">
+                  {item.e}
+                </span>
+                <span>
+                  <span className="block font-display text-lg text-sepia-900">{item.t}</span>
+                  <span className="block text-sm leading-relaxed text-sepia-500">{item.d}</span>
+                </span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------- Avós -------------------------------------- */
+
+function ParaOsAvos() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <Reveal efeito="zoom">
+        <div className="grid items-center gap-8 overflow-hidden rounded-[2.5rem] border border-creme-200 bg-creme-100 p-6 sombra-suave sm:p-10 lg:grid-cols-[1fr_0.8fr]">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-rosa-600">Para vó e vô</p>
+            <h2 className="mt-3 font-display text-3xl leading-tight text-sepia-900 sm:text-4xl">
+              O presente que o neto
+              <br />
+              <span className="font-script text-rosa-600">guarda a vida inteira</span>
+            </h2>
+            <p className="mt-4 max-w-xl leading-relaxed text-sepia-700">
+              Brinquedo de moda dura uma estação. Boneca de pano dura a infância toda — e depois vai para a
+              estante do quarto de adulto. Quando a vó dá uma, ela está deixando um abraço que fica no quarto
+              mesmo quando ela não está lá.
+            </p>
+
+            <ul className="mt-6 flex flex-col gap-2.5">
+              {[
+                'Segura para neto pequeno, recém-nascido e prematuro',
+                'Aguenta anos de uso — não rasga e não desbota',
+                'Vai embalada para presente, com laço e cartão escrito à mão',
+                'A gente ajuda a escolher pelo WhatsApp, sem pressa',
+              ].map((t, i) => (
+                <motion.li
+                  key={t}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="flex items-start gap-2.5 text-sepia-700"
+                >
+                  <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-neon-400 text-[0.6rem] text-neon-900">
+                    ✓
+                  </span>
+                  {t}
+                </motion.li>
+              ))}
+            </ul>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <BotaoSonho
+                href={linkWhatsApp(
+                  `Olá, ${site.nome}! 💕 Quero dar uma boneca de presente para meu neto(a). Pode me ajudar a escolher?`,
+                )}
+              >
+                Realize seu sonho
+              </BotaoSonho>
+              <Link
+                to="/bonecas"
+                className="inline-flex items-center justify-center rounded-full border-2 border-rosa-400 px-6 py-3 text-sm font-bold uppercase tracking-wide text-rosa-700 transition-all hover:bg-rosa-200"
+              >
+                ver as bonecas
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mx-auto aspect-square w-full max-w-xs">
+            <motion.div
+              className="absolute inset-0 rounded-full bg-gradient-to-br from-rosa-200 to-creme-50"
+              animate={{ scale: [1, 1.04, 1] }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="absolute inset-0 p-6">
+              <Doll3D spec={produtos[1].spec} profundidade={1.2} className="h-full w-full" />
+            </div>
+          </div>
+        </div>
+      </Reveal>
     </section>
   );
 }

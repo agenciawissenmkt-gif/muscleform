@@ -48,7 +48,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
   const adicionar = useCallback((item: ItemCarrinho) => {
     setItens((atuais) => {
       const existente = atuais.find(
-        (i) => i.produtoId === item.produtoId && i.personalizacao?.nomeBordado === item.personalizacao?.nomeBordado,
+        (i) => i.produtoId === item.produtoId && i.corVestido === item.corVestido,
       );
       if (existente) {
         return atuais.map((i) =>
@@ -92,11 +92,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
     const linhas = itens.map((item) => {
       const produto = produtoPorId(item.produtoId);
       if (!produto) return '';
-      const extras: string[] = [];
-      if (item.personalizacao?.nomeBordado) extras.push(`nome bordado: ${item.personalizacao.nomeBordado}`);
-      if (item.personalizacao?.corVestido) extras.push(`cor: ${item.personalizacao.corVestido}`);
-      if (item.personalizacao?.observacao) extras.push(item.personalizacao.observacao);
-      const detalhe = extras.length ? ` (${extras.join(' • ')})` : '';
+      const detalhe = item.corVestido ? ` (vestido ${item.corVestido})` : '';
       return `• ${item.quantidade}x ${produto.nome}${detalhe} — ${formatarPreco(produto.preco * item.quantidade)}`;
     });
 
