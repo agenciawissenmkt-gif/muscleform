@@ -16,6 +16,18 @@ npm run preview  # testa a versão de produção
 npm run lint
 ```
 
+### Preview em arquivo único
+
+Para mandar o site por WhatsApp/e-mail ou abrir sem servidor nenhum:
+
+```bash
+npm run preview:arquivo
+```
+
+Gera `preview/sonhos-de-brincar.html` — um arquivo só, com CSS, JavaScript e
+fontes embutidos. É só dar dois cliques que abre no navegador (usa endereços
+com `#` para funcionar offline).
+
 Feito com Vite + React + TypeScript + Tailwind CSS 4 + Framer Motion.
 Não precisa de servidor nem banco de dados: é um site estático, pode ser publicado
 na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.

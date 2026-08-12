@@ -30,3 +30,6 @@ scripts/harness/vendor
 *.njsproj
 *.sln
 *.sw?
+
+# preview em arquivo único (gerado por scripts/gerar-preview.mjs)
+preview/

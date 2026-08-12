@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Cabecalho from './components/Cabecalho';
 import Rodape from './components/Rodape';
 import GavetaCarrinho from './components/GavetaCarrinho';
@@ -38,9 +38,16 @@ function RotasAnimadas() {
   );
 }
 
+/**
+ * Em produção o site usa endereços normais (/bonecas).
+ * Para o preview em arquivo único (VITE_ROUTER=hash) usamos endereços com #,
+ * que funcionam abrindo o HTML direto, sem servidor.
+ */
+const Router = import.meta.env.VITE_ROUTER === 'hash' ? HashRouter : BrowserRouter;
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <ProvedorCarrinho>
         <Cabecalho />
         <RotasAnimadas />
@@ -48,6 +55,6 @@ export default function App() {
         <GavetaCarrinho />
         <WhatsAppFlutuante />
       </ProvedorCarrinho>
-    </BrowserRouter>
+    </Router>
   );
 }
