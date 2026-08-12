@@ -1,4 +1,8 @@
+import { useState } from 'react';
 import { site } from '../config/site';
+
+/** Logo original do ateliê. Se o arquivo faltar, entra o selo desenhado em SVG. */
+const ARQUIVO_LOGO = '/logo-sonhos-de-brincar.png';
 
 interface Props {
   className?: string;
@@ -38,6 +42,24 @@ export default function Logo({ className = '', variante = 'completa' }: Props) {
 }
 
 function Emblema({ className = '' }: { className?: string }) {
+  const [semArquivo, setSemArquivo] = useState(false);
+
+  if (!semArquivo) {
+    return (
+      <img
+        src={ARQUIVO_LOGO}
+        alt={`Logo ${site.nome}`}
+        className={`rounded-full object-cover ${className}`}
+        onError={() => setSemArquivo(true)}
+        decoding="async"
+      />
+    );
+  }
+
+  return <EmblemaDesenhado className={className} />;
+}
+
+function EmblemaDesenhado({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 200 200" className={className} role="img" aria-label={`Logo ${site.nome}`}>
       <defs>

@@ -64,14 +64,12 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.35 }}
             >
-              <motion.img
+              {/* a foto aparece exatamente como veio do ateliê, sem corte nem efeito */}
+              <img
                 src={foto}
                 alt={`${nome} — boneca de pano feita à mão`}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 onError={() => setSemFoto(true)}
-                initial={{ scale: 1.06 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 6, ease: 'easeOut' }}
                 decoding="async"
               />
             </motion.div>
@@ -109,7 +107,7 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
                   <img
                     src={foto}
                     alt={`Detalhe da costura de ${nome}`}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                     onError={() => setSemFoto(true)}
                     decoding="async"
                   />
@@ -144,8 +142,20 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
         {temFoto && (
           <Aba ativo={modoAtual === 'foto'} onClick={() => setModo('foto')} rotulo="Foto real" icone="📷" />
         )}
-        <Aba ativo={modoAtual === 'girar'} onClick={() => setModo('girar')} rotulo="Girar em 3D" icone="🔄" />
-        <Aba ativo={modoAtual === 'zoom'} onClick={() => setModo('zoom')} rotulo="Zoom nos detalhes" icone="🔍" />
+        <Aba
+          ativo={modoAtual === 'girar'}
+          onClick={() => setModo('girar')}
+          rotulo="Girar em 3D"
+          rotuloCurto="3D"
+          icone="🔄"
+        />
+        <Aba
+          ativo={modoAtual === 'zoom'}
+          onClick={() => setModo('zoom')}
+          rotulo="Zoom nos detalhes"
+          rotuloCurto="Zoom"
+          icone="🔍"
+        />
       </div>
 
       <p className="mt-3 text-center text-xs leading-relaxed text-sepia-500">
@@ -160,11 +170,13 @@ function Aba({
   ativo,
   onClick,
   rotulo,
+  rotuloCurto,
   icone,
 }: {
   ativo: boolean;
   onClick: () => void;
   rotulo: string;
+  rotuloCurto?: string;
   icone: string;
 }) {
   return (
@@ -184,7 +196,8 @@ function Aba({
       )}
       <span className="relative flex items-center gap-1.5">
         <span aria-hidden="true">{icone}</span>
-        {rotulo}
+        <span className={rotuloCurto ? 'hidden sm:inline' : undefined}>{rotulo}</span>
+        {rotuloCurto && <span className="sm:hidden">{rotuloCurto}</span>}
       </span>
     </button>
   );

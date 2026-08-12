@@ -1,21 +1,21 @@
 # Fotos das bonecas
 
-Coloque aqui as fotos reais, com estes nomes exatos:
+As fotos originais do ateliê já estão aqui, sem nenhuma alteração:
 
-| Arquivo                      | Boneca                        |
-| ---------------------------- | ----------------------------- |
-| `theo-do-mar.jpg`            | Boneco Theo do Mar            |
-| `maite-girassol.jpg`         | Boneca Maitê Girassol         |
-| `marieta-cerejas.jpg`        | Boneca Marieta das Cerejas    |
-| `bento-quartinho.jpg`        | Boneco Bento do Quartinho     |
-| `manon-paris.jpg`            | Boneca Manon de Paris         |
+| Arquivo                  | Boneca                     |
+| ------------------------ | -------------------------- |
+| `theo-do-mar.webp`       | Boneco Theo do Mar         |
+| `maite-girassol.webp`    | Boneca Maitê Girassol      |
+| `marieta-cerejas.webp`   | Boneca Marieta das Cerejas |
+| `bento-quartinho.webp`   | Boneco Bento do Quartinho  |
+| `manon-paris.webp`       | Boneca Manon de Paris      |
 
-Dicas:
+## Para adicionar uma boneca nova
 
-- Foto quadrada (1:1) fica perfeita — as do Instagram já são assim.
-- Entre 1000 e 1600 pixels de largura é o ideal: bonita no zoom e leve para carregar.
-- Se a foto ainda não estiver aqui, o site mostra a ilustração 3D da boneca no lugar.
-  Nunca aparece imagem quebrada.
-- Para adicionar mais fotos, coloque o arquivo nesta pasta e aponte o caminho no
-  campo `foto` do produto em `src/data/produtos.ts`, assim:
-  `foto: '/produtos/nome-do-arquivo.jpg'`
+1. Coloque a foto nesta pasta (`.webp`, `.jpg` ou `.png` — quadrada fica perfeita,
+   entre 1000 e 1600 pixels de largura é o ideal).
+2. Em `src/data/produtos.ts`, aponte o campo `foto` do produto para ela:
+   `foto: '/produtos/nome-do-arquivo.webp'`
+
+Se a foto não estiver aqui, o site mostra a ilustração 3D da boneca no lugar —
+nunca aparece imagem quebrada.

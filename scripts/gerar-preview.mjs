@@ -6,8 +6,8 @@
  *
  * A saída fica em preview/sonhos-de-brincar.html
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs';
+import { resolve, dirname, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -44,6 +44,42 @@ async function fontesEmbutidas() {
   return blocos.join('\n').replace(/https:\/\/fonts\.gstatic\.com\/[^)]+/g, (u) => mapa.get(u) ?? u);
 }
 
+const TIPOS = {
+  '.webp': 'image/webp',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.gif': 'image/gif',
+};
+
+/** Lista as imagens de public/ com o caminho que elas têm no site. */
+function imagensPublicas(pasta = resolve(raiz, 'public'), prefixo = '') {
+  const achadas = [];
+  for (const nome of readdirSync(pasta)) {
+    const caminho = join(pasta, nome);
+    if (statSync(caminho).isDirectory()) {
+      achadas.push(...imagensPublicas(caminho, `${prefixo}/${nome}`));
+      continue;
+    }
+    const tipo = TIPOS[extname(nome).toLowerCase()];
+    if (tipo) achadas.push({ web: `${prefixo}/${nome}`, caminho, tipo });
+  }
+  return achadas;
+}
+
+/** Troca os caminhos das imagens por data: URI, para o arquivo funcionar sozinho. */
+function embutirImagens(js) {
+  let resultado = js;
+  for (const img of imagensPublicas()) {
+    if (!resultado.includes(img.web)) continue;
+    const dados = readFileSync(img.caminho).toString('base64');
+    resultado = resultado.split(img.web).join(`data:${img.tipo};base64,${dados}`);
+    console.log(`  imagem embutida: ${img.web}`);
+  }
+  return resultado;
+}
+
 const indice = readFileSync(resolve(dist, 'index.html'), 'utf8');
 const arquivoCss = indice.match(/href="\/(assets\/[^"]+\.css)"/)?.[1];
 const arquivoJs = indice.match(/src="\/(assets\/[^"]+\.js)"/)?.[1];
@@ -56,8 +92,9 @@ const favicon = readFileSync(resolve(raiz, 'public/favicon.svg'), 'utf8');
 console.log('Baixando fontes…');
 const fontes = await fontesEmbutidas();
 
+console.log('Embutindo imagens…');
 // evita que "</script>" dentro do bundle feche a tag antes da hora
-const jsSeguro = js.replace(/<\/script>/gi, '<\\/script>');
+const jsSeguro = embutirImagens(js).replace(/<\/script>/gi, '<\\/script>');
 
 // o charset precisa vir nos primeiros bytes, senão os acentos quebram ao abrir o arquivo direto
 const html = `<meta charset="utf-8" />

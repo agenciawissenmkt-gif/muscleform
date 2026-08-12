@@ -196,7 +196,7 @@ export const produtos: Produto[] = [
     nome: 'Boneco Theo do Mar',
     categoria: 'meninos',
     preco: 239.9,
-    foto: '/produtos/theo-do-mar.jpg',
+    foto: '/produtos/theo-do-mar.webp',
     legendaFoto: 'Theo na praia, entre a prancha e a kombi',
     resumo: 'Cachinhos ruivos, camisa florida vermelha e bermuda xadrez de verão.',
     historia:
@@ -232,7 +232,7 @@ export const produtos: Produto[] = [
     nome: 'Boneca Maitê Girassol',
     categoria: 'bonecas-de-pano',
     preco: 249.9,
-    foto: '/produtos/maite-girassol.jpg',
+    foto: '/produtos/maite-girassol.webp',
     legendaFoto: 'Maitê no campo de girassóis',
     resumo: 'Cabelo crespo volumoso, blusa amarela de renda e saia de girassóis.',
     historia:
@@ -266,7 +266,7 @@ export const produtos: Produto[] = [
     nome: 'Boneca Marieta das Cerejas',
     categoria: 'bonecas-de-pano',
     preco: 229.9,
-    foto: '/produtos/marieta-cerejas.jpg',
+    foto: '/produtos/marieta-cerejas.webp',
     legendaFoto: 'Marieta colhendo cerejas no pomar',
     resumo: 'Tranças ruivas de lã, vestido listrado e bolso com duas cerejinhas.',
     historia:
@@ -300,7 +300,7 @@ export const produtos: Produto[] = [
     nome: 'Boneco Bento do Quartinho',
     categoria: 'meninos',
     preco: 234.9,
-    foto: '/produtos/bento-quartinho.jpg',
+    foto: '/produtos/bento-quartinho.webp',
     legendaFoto: 'Bento e o aviãozinho de madeira',
     resumo: 'Conjunto de veludo azul, bolso listrado e tênis de cadarço.',
     historia:
@@ -335,7 +335,7 @@ export const produtos: Produto[] = [
     nome: 'Boneca Manon de Paris',
     categoria: 'bonecas-de-pano',
     preco: 279.9,
-    foto: '/produtos/manon-paris.jpg',
+    foto: '/produtos/manon-paris.webp',
     legendaFoto: 'Manon na calçada do café, em Paris',
     resumo: 'Casaquinho rosa de lã, boina com pompom e tranças ruivas compridas.',
     historia:
