@@ -1,34 +1,89 @@
-# Your Beauty
+# Sonhos de Brincar — E-commerce do ateliê
 
-Provador virtual de cortes e cores de cabelo com IA, para salão de beleza. Câmera ao vivo com troca de cor real (100% no dispositivo), catálogo pesquisado de cortes e cores do Brasil e do mundo, e geração de transformação fotorrealista via IA generativa — sem nunca alterar o rosto da pessoa.
+Loja online do ateliê **Sonhos de Brincar** (bonecas de pano feitas à mão).
+Site em rosa claro, com bonecas ilustradas em SVG animadas em 3D, página de venda
+interativa e checkout pelo WhatsApp.
 
-## Como funciona
+Instagram do ateliê: [@sonhosdebrincar.atelie](https://www.instagram.com/sonhosdebrincar.atelie)
 
-- **Frontend** (`src/`): app React/Vite. A câmera ao vivo usa o modelo de segmentação multiclasse do MediaPipe (Google), rodando inteiramente no navegador, para identificar exatamente os pixels de cabelo (separado de rosto/pele/fundo) e trocar a cor em tempo real, e para gerar uma máscara de edição para a etapa de IA generativa.
-- **Backend** (`server/`): um servidorzinho Express com um único endpoint (`/api/transform`) que repassa a foto + máscara + instrução para a API de edição de imagens da OpenAI (`gpt-image-1`) e devolve o resultado. Existe só para manter a chave de API em segurança — ela nunca é exposta ao navegador.
-
-## Rodando localmente
+## Como rodar
 
 ```bash
 npm install
-
-# Terminal 1: frontend
-npm run dev
-
-# Terminal 2: backend (necessário para o botão "Gerar transformação realista com IA")
-cp server/.env.example server/.env   # depois edite e cole sua OPENAI_API_KEY
-npm run server
+npm run dev      # abre em http://localhost:5173
+npm run build    # gera a versão de produção em dist/
+npm run preview  # testa a versão de produção
+npm run lint
 ```
 
-O Vite já está configurado para redirecionar `/api/*` para `http://localhost:8787` em desenvolvimento (veja `vite.config.ts`).
+Feito com Vite + React + TypeScript + Tailwind CSS 4 + Framer Motion.
+Não precisa de servidor nem banco de dados: é um site estático, pode ser publicado
+na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
 
-## Publicando (deploy)
+## O que o site tem
 
-O front-end (`npm run build`) é 100% estático e pode ser publicado em qualquer hospedagem (Vercel, Netlify, Cloudflare Pages etc).
+- **Home** com boneca girando em 3D, vitrine automática, categorias, destaques,
+  o passo a passo "como nasce uma boneca", depoimentos e chamada para encomenda.
+- **Catálogo** (`/bonecas`) com busca, filtro por categoria e ordenação animada.
+- **Páginas de categoria** (`/categoria/:slug`) — 6 coleções.
+- **Página de venda** (`/boneca/:slug`) com:
+  - visualizador que **gira a boneca em 3D** (arrastando no celular, com o mouse no desktop);
+  - modo **zoom** nos detalhes da costura (lupa no desktop, toque no celular);
+  - personalização ao vivo: nome para bordar e cor do vestidinho (a boneca muda na hora);
+  - botão de compra **verde fluorescente "Realize seu sonho"** que abre o WhatsApp
+    com o pedido já escrito;
+  - história da boneca, materiais, medidas, cuidados, prazo e pagamento;
+  - barra de compra fixa no celular.
+- **Sacolinha** lateral + página `/carrinho`, salvas no navegador, com fechamento no WhatsApp.
+- **O Ateliê** (`/sobre`) e **Contato** (`/contato`) com FAQ e formulário que monta a
+  mensagem do WhatsApp.
+- Responsivo de verdade (menu lateral no celular), animações de entrada, transições
+  entre páginas, barra de progresso de rolagem e respeito a `prefers-reduced-motion`.
 
-O back-end (`server/`) precisa rodar em algum lugar com Node (Render, Railway, Fly.io, uma VPS...) com a variável de ambiente `OPENAI_API_KEY` configurada lá. Sem isso, tudo funciona normalmente exceto o botão de transformação fotorrealista, que mostra um aviso.
+## Mudar as informações da loja
 
-## Catálogo de cores e cortes
+Tudo o que é "dado do negócio" está separado do código:
 
-- **Cores** (`src/data/haircolors.ts`): geradas a partir do sistema profissional internacional de coloração (níveis 1–10 × reflexos), o mesmo usado por coloristas no Brasil e no mundo — veja `src/lib/colorLevelSystem.ts` — mais cores fantasia e técnicas (balayage, ombré etc).
-- **Cortes** (`src/data/haircuts.ts`): cortes femininos reais, curtos, médios e longos, pesquisados no Brasil e internacionalmente.
+| O que mudar | Arquivo |
+| --- | --- |
+| WhatsApp, Instagram, e-mail, cidade, slogan, prazo | `src/config/site.ts` |
+| Produtos, preços, textos, categorias | `src/data/produtos.ts` |
+| Cores do site (rosa, creme, verde neon) | `src/index.css` (bloco `@theme`) |
+
+### WhatsApp
+
+O número fica em `src/config/site.ts`:
+
+```ts
+whatsappExibicao: '+55 41 9509-6228',  // como aparece escrito no site
+whatsappNumero: '554195096228',        // usado no link wa.me (só números)
+```
+
+> Se o número tiver o nono dígito (41 **9** 9509-6228), troque `whatsappNumero`
+> por `5541995096228` — o link do WhatsApp precisa do número completo para abrir a conversa.
+
+### Produtos
+
+Cada boneca em `src/data/produtos.ts` tem nome, preço, textos e uma `spec` —
+a "receita" da ilustração (tipo, tom de pele, cor e estilo do cabelo, cor do
+vestido, acessório). Copie um produto existente, troque as cores e já aparece no
+site, no catálogo, na busca e nos relacionados.
+
+As ilustrações são geradas em SVG por `src/components/DollArt.tsx`, separadas em
+camadas (cabelo de trás, corpo, cabeça, rosto, franja, acessório). É isso que dá o
+efeito 3D: cada camada fica em uma profundidade diferente e o conjunto gira junto.
+
+> Quando tiver as fotos reais das bonecas, dá para trocar a ilustração pela foto
+> na página de produto sem mexer no resto do site.
+
+## Estrutura
+
+```
+src/
+  config/site.ts          dados da loja (WhatsApp, redes, textos)
+  data/produtos.ts        catálogo: categorias e produtos
+  data/types.ts           tipos
+  components/             DollArt (SVG), Doll3D, cards, cabeçalho, rodapé, sacolinha
+  pages/                  Início, Catálogo, Produto, Sobre, Contato, Carrinho, 404
+  store/carrinho.tsx      sacolinha (salva no navegador)
+```

@@ -1,58 +1,53 @@
-import { Suspense, lazy } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import BottomNav from './components/BottomNav';
-import PageTransition from './components/PageTransition';
-import Home from './pages/Home';
-import Explore from './pages/Explore';
+import Cabecalho from './components/Cabecalho';
+import Rodape from './components/Rodape';
+import GavetaCarrinho from './components/GavetaCarrinho';
+import WhatsAppFlutuante from './components/WhatsAppFlutuante';
+import TransicaoPagina from './components/TransicaoPagina';
+import { ProvedorCarrinho } from './store/carrinho';
+import Inicio from './pages/Inicio';
+import Catalogo from './pages/Catalogo';
+import Produto from './pages/Produto';
+import Sobre from './pages/Sobre';
+import Contato from './pages/Contato';
+import Carrinho from './pages/Carrinho';
+import NaoEncontrada from './pages/NaoEncontrada';
 
-const TryOn = lazy(() => import('./pages/TryOn'));
+const rotas = [
+  { caminho: '/', elemento: <Inicio /> },
+  { caminho: '/bonecas', elemento: <Catalogo /> },
+  { caminho: '/categoria/:slug', elemento: <Catalogo /> },
+  { caminho: '/boneca/:slug', elemento: <Produto /> },
+  { caminho: '/sobre', elemento: <Sobre /> },
+  { caminho: '/contato', elemento: <Contato /> },
+  { caminho: '/carrinho', elemento: <Carrinho /> },
+  { caminho: '*', elemento: <NaoEncontrada /> },
+];
 
-function AnimatedRoutes() {
-  const location = useLocation();
+function RotasAnimadas() {
+  const local = useLocation();
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <PageTransition>
-              <Home />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/explorar"
-          element={
-            <PageTransition>
-              <Explore />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/experimentar"
-          element={
-            <PageTransition>
-              <Suspense fallback={<div className="flex h-[100svh] items-center justify-center bg-ink-900" />}>
-                <TryOn />
-              </Suspense>
-            </PageTransition>
-          }
-        />
+      <Routes location={local} key={local.pathname}>
+        {rotas.map((r) => (
+          <Route key={r.caminho} path={r.caminho} element={<TransicaoPagina>{r.elemento}</TransicaoPagina>} />
+        ))}
       </Routes>
     </AnimatePresence>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <div className="mx-auto min-h-full max-w-md pb-24">
-        <AnimatedRoutes />
-      </div>
-      <BottomNav />
+      <ProvedorCarrinho>
+        <Cabecalho />
+        <RotasAnimadas />
+        <Rodape />
+        <GavetaCarrinho />
+        <WhatsAppFlutuante />
+      </ProvedorCarrinho>
     </BrowserRouter>
   );
 }
-
-export default App;
