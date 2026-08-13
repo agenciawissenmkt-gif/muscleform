@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import Doll3D from '../components/Doll3D';
 import DollArt, { CAMADAS } from '../components/DollArt';
 import CardProduto from '../components/CardProduto';
@@ -11,6 +11,7 @@ import { linkWhatsApp, site } from '../config/site';
 
 const destaques = produtos.filter((p) => p.destaque);
 const amadas = produtos.filter((p) => p.maisVendida);
+const comFotoEstudio = produtos.filter((p) => p.fotoEstudio);
 
 export default function Inicio() {
   return (
@@ -38,7 +39,8 @@ function Hero() {
   const opacidade = useTransform(scrollY, [0, 420], [1, 0]);
 
   const [indice, setIndice] = useState(0);
-  const vitrine = destaques.length ? destaques : produtos;
+  // no topo entram as bonecas fotografadas em estúdio; sem elas, os destaques
+  const vitrine = comFotoEstudio.length ? comFotoEstudio : destaques.length ? destaques : produtos;
 
   useEffect(() => {
     const t = setInterval(() => setIndice((i) => (i + 1) % vitrine.length), 5200);
@@ -122,15 +124,19 @@ function Hero() {
             />
             <div className="absolute inset-8 rounded-[2.5rem] bg-gradient-to-br from-white/80 via-rosa-100 to-rosa-200 sombra-suave" />
 
-            <motion.div
-              key={atual.id}
-              initial={{ opacity: 0, scale: 0.86, rotateY: -40 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 p-10"
-            >
-              <Doll3D spec={atual.spec} profundidade={1.5} className="h-full w-full" />
-            </motion.div>
+            {atual.fotoEstudio ? (
+              <FotoHero key={atual.id} foto={atual.fotoEstudio} nome={atual.nome} />
+            ) : (
+              <motion.div
+                key={atual.id}
+                initial={{ opacity: 0, scale: 0.86, rotateY: -40 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 p-10"
+              >
+                <Doll3D spec={atual.spec} profundidade={1.5} className="h-full w-full" />
+              </motion.div>
+            )}
 
             <motion.div
               className="absolute -bottom-2 left-1/2 w-max -translate-x-1/2 rounded-full border border-rosa-200 bg-white/90 px-5 py-2 text-center shadow-lg backdrop-blur"
@@ -142,7 +148,9 @@ function Hero() {
               <Link to={`/boneca/${atual.slug}`} className="font-display text-sm text-sepia-900 sm:text-base">
                 {atual.nome}
               </Link>
-              <span className="ml-2 text-xs font-semibold text-rosa-700">✦ toque e gire</span>
+              <span className="ml-2 text-xs font-semibold text-rosa-700">
+                {atual.fotoEstudio ? '✦ ver detalhes' : '✦ toque e gire'}
+              </span>
             </motion.div>
           </div>
 
@@ -162,6 +170,50 @@ function Hero() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+/** Foto da boneca no topo da home: flutua de leve e inclina junto com o mouse. */
+function FotoHero({ foto, nome }: { foto: string; nome: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const giroX = useSpring(useMotionValue(0), { stiffness: 90, damping: 16 });
+  const giroY = useSpring(useMotionValue(0), { stiffness: 90, damping: 16 });
+
+  function mover(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.pointerType !== 'mouse') return;
+    const caixa = ref.current?.getBoundingClientRect();
+    if (!caixa) return;
+    giroY.set(((e.clientX - caixa.left) / caixa.width - 0.5) * 16);
+    giroX.set(-((e.clientY - caixa.top) / caixa.height - 0.5) * 12);
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="cena-3d absolute inset-8"
+      onPointerMove={mover}
+      onPointerLeave={() => {
+        giroX.set(0);
+        giroY.set(0);
+      }}
+    >
+      <motion.div
+        className="h-full w-full overflow-hidden rounded-[2.5rem] border border-white/60 sombra-suave"
+        style={{ rotateX: giroX, rotateY: giroY }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.img
+          src={foto}
+          alt={`${nome} — boneca de pano feita à mão`}
+          className="h-full w-full object-cover"
+          decoding="async"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
+    </div>
   );
 }
 

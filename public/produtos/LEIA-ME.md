@@ -27,3 +27,16 @@ nunca aparece imagem quebrada.
 | `lia-dos-lacos.webp`            | Boneca Lia dos Laços         |
 | `chapeuzinho-vermelho.webp`     | Boneca Chapeuzinho Vermelho  |
 | `ursinha-flor-de-algodao.webp`  | Ursinha Flor de Algodão      |
+
+## Fotos de estúdio (topo da home)
+
+As fotos com fundo claro ficam em `public/produtos/estudio/` e são usadas no
+carrossel do topo da home, pelo campo `fotoEstudio` do produto:
+
+| Arquivo                              | Boneca                    |
+| ------------------------------------ | ------------------------- |
+| `estudio/theo-do-mar.webp`           | Boneco Theo do Mar        |
+| `estudio/manon-paris.webp`           | Boneca Manon de Paris     |
+| `estudio/bento-quartinho.webp`       | Boneco Bento do Quartinho |
+
+Quem não tem `fotoEstudio` continua aparecendo com a ilustração 3D girando.

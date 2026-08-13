@@ -57,6 +57,8 @@ export interface Produto {
   foto?: string;
   /** Frase curta do cenário da foto, usada como legenda. */
   legendaFoto?: string;
+  /** Foto de estúdio, com fundo claro — é a que aparece no topo da home. */
+  fotoEstudio?: string;
   altura: string;
   materiais: string[];
   cuidados: string;

@@ -284,6 +284,7 @@ export const produtos: Produto[] = [
     categoria: 'meninos',
     preco: 239.9,
     foto: '/produtos/theo-do-mar.webp',
+    fotoEstudio: '/produtos/estudio/theo-do-mar.webp',
     legendaFoto: 'Theo na praia, entre a prancha e a kombi',
     resumo: 'Cachinhos ruivos, camisa florida vermelha e bermuda xadrez de verão.',
     historia:
@@ -385,6 +386,7 @@ export const produtos: Produto[] = [
     categoria: 'meninos',
     preco: 234.9,
     foto: '/produtos/bento-quartinho.webp',
+    fotoEstudio: '/produtos/estudio/bento-quartinho.webp',
     legendaFoto: 'Bento e o aviãozinho de madeira',
     resumo: 'Conjunto de veludo azul, bolso listrado e tênis de cadarço.',
     historia:
@@ -419,6 +421,7 @@ export const produtos: Produto[] = [
     categoria: 'bonecas-de-pano',
     preco: 279.9,
     foto: '/produtos/manon-paris.webp',
+    fotoEstudio: '/produtos/estudio/manon-paris.webp',
     legendaFoto: 'Manon na calçada do café, em Paris',
     resumo: 'Casaquinho rosa de lã, boina com pompom e tranças ruivas compridas.',
     historia:
