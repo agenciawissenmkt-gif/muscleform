@@ -46,7 +46,7 @@ export default function Cabecalho() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          rolou ? 'bg-rosa-50/90 shadow-[0_10px_30px_-24px_rgba(194,86,116,0.9)] backdrop-blur-md' : 'bg-transparent'
+          rolou ? 'bg-rosa-50/95 shadow-[0_10px_30px_-24px_rgba(194,86,116,0.9)]' : 'bg-transparent'
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">

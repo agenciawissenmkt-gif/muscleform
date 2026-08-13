@@ -36,8 +36,9 @@ export default function Sobre() {
           <div className="relative mx-auto aspect-square w-full max-w-md">
             <motion.div
               className="absolute inset-0 bg-gradient-to-br from-rosa-200 via-creme-100 to-rosa-100 sombra-suave"
-              animate={{ borderRadius: ['45% 55% 60% 40%', '60% 40% 45% 55%', '45% 55% 60% 40%'] }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ borderRadius: '48% 52% 56% 44%' }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
             />
             <div className="absolute inset-0 p-10">
               <Doll3D spec={produtos[2].spec} profundidade={1.3} className="h-full w-full" />

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimationFrame, useMotionValue, useSpring } from 'framer-motion';
 import DollArt, { CAMADAS } from './DollArt';
 import type { DollSpec } from '../data/types';
@@ -25,10 +25,24 @@ export default function Doll3D({
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [ativo, setAtivo] = useState(false);
+  const [naTela, setNaTela] = useState(false);
   const arrastando = useRef(false);
   const ultimoX = useRef(0);
   const giroAcumulado = useRef(0);
   const tempo = useRef(0);
+
+  // a boneca só se mexe quando está à vista — fora da tela ela fica parada,
+  // e o navegador não gasta nada com ela
+  useEffect(() => {
+    const alvo = ref.current;
+    if (!alvo) return;
+    const observador = new IntersectionObserver(
+      ([entrada]) => setNaTela(entrada.isIntersecting),
+      { rootMargin: '120px' },
+    );
+    observador.observe(alvo);
+    return () => observador.disconnect();
+  }, []);
 
   const giroY = useMotionValue(0);
   const giroX = useMotionValue(0);
@@ -41,7 +55,7 @@ export default function Doll3D({
   // Balanço suave contínuo — a boneca "respira" mesmo parada.
   useAnimationFrame((t) => {
     tempo.current = t;
-    if (!flutuar) return;
+    if (!flutuar || !naTela) return;
     const idle = Math.sin(t / 1600) * 6;
     const sobe = Math.sin(t / 1400) * 6;
     if (!ativo && !arrastando.current) {
@@ -114,12 +128,8 @@ export default function Doll3D({
             className="absolute inset-0 h-full w-full"
             style={{
               transform: `translateZ(${z * profundidade}px)`,
-              filter:
-                camada === 'sombra'
-                  ? 'blur(6px)'
-                  : camada === 'cabeca' || camada === 'corpo'
-                    ? 'drop-shadow(0 6px 10px rgba(194, 86, 116, 0.18))'
-                    : undefined,
+              /* só a sombra leva filtro: drop-shadow em camada que gira custa caro */
+              filter: camada === 'sombra' ? 'blur(6px)' : undefined,
             }}
           />
         ))}
@@ -134,9 +144,7 @@ export default function Doll3D({
 function Faisca() {
   const pontos = [
     { left: '6%', top: '22%', delay: 0, tamanho: 10 },
-    { left: '88%', top: '30%', delay: 1.4, tamanho: 8 },
-    { left: '16%', top: '70%', delay: 2.6, tamanho: 7 },
-    { left: '82%', top: '66%', delay: 3.4, tamanho: 11 },
+    { left: '84%', top: '30%', delay: 2.1, tamanho: 9 },
   ];
   return (
     <>
@@ -156,13 +164,7 @@ function Faisca() {
   );
 }
 
-/** Versão estática e leve, para listas grandes. */
+/** Versão estática e leve, num SVG só — para listas grandes. */
 export function DollPlana({ spec, className = '' }: { spec: DollSpec; className?: string }) {
-  return (
-    <div className={`relative ${className}`}>
-      {CAMADAS.map(({ camada }) => (
-        <DollArt key={camada} spec={spec} camada={camada} className="absolute inset-0 h-full w-full" />
-      ))}
-    </div>
-  );
+  return <DollArt spec={spec} camada="todas" className={className} />;
 }

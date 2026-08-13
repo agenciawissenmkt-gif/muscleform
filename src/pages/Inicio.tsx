@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import Doll3D from '../components/Doll3D';
-import DollArt, { CAMADAS } from '../components/DollArt';
+import DollArt from '../components/DollArt';
 import CardProduto from '../components/CardProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
@@ -52,11 +52,11 @@ function Hero() {
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-6 sm:px-6 lg:px-8">
       <motion.div
-        className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-rosa-300/50 blur-3xl"
+        className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-rosa-300/30 blur-3xl"
         style={{ y: y1 }}
       />
       <motion.div
-        className="pointer-events-none absolute -right-20 top-40 h-80 w-80 rounded-full bg-creme-200/70 blur-3xl"
+        className="pointer-events-none absolute -right-20 top-40 h-80 w-80 rounded-full bg-creme-200/45 blur-3xl"
         style={{ y: y2 }}
       />
       <CoracoesFlutuantes />
@@ -223,7 +223,6 @@ function CoracoesFlutuantes() {
     { left: '92%', top: '12%', d: 1.5, s: 16 },
     { left: '78%', top: '76%', d: 2.4, s: 20 },
     { left: '14%', top: '68%', d: 3.2, s: 14 },
-    { left: '46%', top: '6%', d: 4, s: 12 },
   ];
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -294,15 +293,8 @@ function Categorias() {
               to={`/categoria/${c.slug}`}
               className="group relative flex h-full items-center gap-4 overflow-hidden rounded-[1.75rem] border border-rosa-200 bg-white/75 p-5 transition-all duration-300 sombra-suave hover:-translate-y-1.5 hover:border-rosa-400"
             >
-              <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-rosa-100 transition-transform duration-500 group-hover:scale-110">
-                {CAMADAS.map(({ camada }) => (
-                  <DollArt
-                    key={camada}
-                    spec={c.capa}
-                    camada={camada}
-                    className="absolute inset-0 h-full w-full"
-                  />
-                ))}
+              <div className="h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-rosa-100 transition-transform duration-500 group-hover:scale-110">
+                <DollArt spec={c.capa} camada="todas" className="h-full w-full" />
               </div>
               <div>
                 <span className="text-xl" aria-hidden="true">
@@ -403,10 +395,12 @@ function ComoNasce() {
 
           <Reveal efeito="zoom" delay={0.15}>
             <div className="relative mx-auto aspect-square w-full max-w-md">
+              {/* girar é de graça para o navegador; animar a borda repinta tudo a cada quadro */}
               <motion.div
-                className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-rosa-200 via-creme-100 to-rosa-100 sombra-suave"
-                animate={{ borderRadius: ['40% 60% 55% 45%', '55% 45% 40% 60%', '40% 60% 55% 45%'] }}
-                transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 bg-gradient-to-br from-rosa-200 via-creme-100 to-rosa-100 sombra-suave"
+                style={{ borderRadius: '46% 54% 58% 42%' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
               />
               <div className="absolute inset-0 p-10">
                 <Doll3D spec={produtos[0].spec} profundidade={1.3} className="h-full w-full" />
@@ -550,11 +544,7 @@ function ParaOsAvos() {
           </div>
 
           <div className="relative mx-auto aspect-square w-full max-w-xs">
-            <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-br from-rosa-200 to-creme-50"
-              animate={{ scale: [1, 1.04, 1] }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-rosa-200 to-creme-50" />
             <div className="absolute inset-0 p-6">
               <Doll3D spec={produtos[1].spec} profundidade={1.2} className="h-full w-full" />
             </div>
@@ -644,7 +634,7 @@ function ChamadaFinal() {
       <Reveal efeito="zoom">
         <div className="relative overflow-hidden rounded-[2.5rem] border border-rosa-300 bg-gradient-to-br from-white via-rosa-100 to-rosa-200 px-6 py-14 text-center sombra-suave sm:px-12">
           <motion.div
-            className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-rosa-300/50 blur-3xl"
+            className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-rosa-300/35 blur-3xl"
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 9, repeat: Infinity }}
           />

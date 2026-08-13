@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import DollArt, { CAMADAS } from './DollArt';
+import DollArt from './DollArt';
 import { formatarPreco, parcelamento } from '../data/produtos';
 import type { Produto } from '../data/types';
 import { CTA_COMPRA, linkWhatsApp } from '../config/site';
@@ -71,23 +71,13 @@ export default function CardProduto({ produto, indice = 0 }: Props) {
                 transition={{ type: 'spring', stiffness: 180, damping: 24 }}
               />
             ) : (
-              <motion.div
-                className="preserve-3d absolute inset-0 p-5"
-                animate={{ scale: sobre ? 1.08 : 1 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 22 }}
-              >
-                {CAMADAS.map(({ camada, z }) => (
-                  <motion.div
-                    key={camada}
-                    className="absolute inset-0 p-5"
-                    animate={{ z: sobre ? z * 0.9 : 0 }}
-                    transition={{ type: 'spring', stiffness: 150, damping: 20 }}
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    <DollArt spec={produto.spec} camada={camada} className="h-full w-full" />
-                  </motion.div>
-                ))}
-              </motion.div>
+              /* um SVG só, com zoom por CSS — bem mais leve numa lista de 29 peças */
+              <DollArt
+                spec={produto.spec}
+                camada="todas"
+                className="absolute inset-0 h-full w-full p-5 transition-transform duration-500 ease-out"
+                style={{ transform: sobre ? 'scale(1.08)' : 'scale(1)' }}
+              />
             )}
 
             <motion.span

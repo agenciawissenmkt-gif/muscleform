@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import CardProduto from '../components/CardProduto';
 import Reveal from '../components/Reveal';
-import DollArt, { CAMADAS } from '../components/DollArt';
+import DollArt from '../components/DollArt';
 import { categoriaPorSlug, categorias, produtos } from '../data/produtos';
 import NaoEncontrada from './NaoEncontrada';
 
@@ -79,16 +79,11 @@ export default function Catalogo() {
 
         {categoria ? (
           <div className="flex flex-col items-center gap-4">
-            <div className="relative h-28 w-24">
-              {CAMADAS.map(({ camada }) => (
-                <DollArt
-                  key={camada}
-                  spec={categoria.capa}
-                  camada={camada}
-                  className="absolute inset-0 h-full w-full animate-flutuar-lento"
-                />
-              ))}
-            </div>
+            <DollArt
+              spec={categoria.capa}
+              camada="todas"
+              className="h-28 w-24 animate-flutuar-lento"
+            />
             <h1 className="font-display text-4xl text-sepia-900 sm:text-5xl">{categoria.nome}</h1>
             <p className="max-w-2xl leading-relaxed text-sepia-700">{categoria.descricao}</p>
           </div>
@@ -106,7 +101,7 @@ export default function Catalogo() {
       </Reveal>
 
       {/* filtros */}
-      <div className="sticky top-[4.5rem] z-30 mt-10 rounded-[1.5rem] border border-rosa-200 bg-white/80 p-3 backdrop-blur-md sombra-suave">
+      <div className="sticky top-[4.5rem] z-30 mt-10 rounded-[1.5rem] border border-rosa-200 bg-rosa-50/95 p-3 sombra-suave">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <label className="relative flex-1">
             <span className="sr-only">Buscar boneca</span>
@@ -161,15 +156,11 @@ export default function Catalogo() {
           : `${lista.length} ${lista.length === 1 ? 'boneca encontrada' : 'bonecas encontradas'}`}
       </p>
 
-      <motion.div layout className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <AnimatePresence mode="popLayout">
-          {lista.map((p, i) => (
-            <motion.div key={p.id} layout exit={{ opacity: 0, scale: 0.9 }}>
-              <CardProduto produto={p} indice={i} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {lista.map((p, i) => (
+          <CardProduto key={p.id} produto={p} indice={i} />
+        ))}
+      </div>
 
       {lista.length === 0 && (
         <div className="mt-8 text-center">

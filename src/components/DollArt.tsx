@@ -29,7 +29,8 @@ export const CAMADAS: { camada: CamadaBoneca; z: number }[] = [
 
 interface Props {
   spec: DollSpec;
-  camada: CamadaBoneca;
+  /** Uma camada só (para o efeito 3D) ou 'todas' num SVG só (bem mais leve). */
+  camada: CamadaBoneca | 'todas';
   className?: string;
   style?: CSSProperties;
 }
@@ -56,6 +57,33 @@ export default function DollArt({ spec, camada, className, style }: Props) {
   const ehBailarina = spec.tipo === 'bailarina';
   const ehBebe = spec.tipo === 'bebe';
 
+  function desenhar(c: CamadaBoneca) {
+    switch (c) {
+      case 'sombra':
+        return <ellipse cx="100" cy="273" rx="62" ry="12" fill="rgba(194, 86, 116, 0.22)" />;
+      case 'cabeloTras':
+        return <CabeloTras spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />;
+      case 'membros':
+        return ehNaninha ? null : <Membros spec={spec} ehBebe={ehBebe} />;
+      case 'corpo':
+        return ehNaninha ? (
+          <CorpoNaninha spec={spec} />
+        ) : (
+          <Corpo spec={spec} ehBailarina={ehBailarina} ehBebe={ehBebe} />
+        );
+      case 'cabeca':
+        return <Cabeca spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />;
+      case 'rosto':
+        return <Rosto spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />;
+      case 'cabeloFrente':
+        return ehBicho || ehNaninha ? null : <Franja spec={spec} />;
+      case 'acessorio':
+        return <AcessorioArt spec={spec} ehNaninha={ehNaninha} />;
+      default:
+        return null;
+    }
+  }
+
   return (
     <svg
       viewBox="0 0 200 300"
@@ -65,30 +93,9 @@ export default function DollArt({ spec, camada, className, style }: Props) {
       aria-hidden="true"
       focusable="false"
     >
-      {camada === 'sombra' && (
-        <ellipse cx="100" cy="273" rx="62" ry="12" fill="rgba(194, 86, 116, 0.22)" />
-      )}
-
-      {camada === 'cabeloTras' && (
-        <CabeloTras spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />
-      )}
-
-      {camada === 'membros' && !ehNaninha && <Membros spec={spec} ehBebe={ehBebe} />}
-
-      {camada === 'corpo' &&
-        (ehNaninha ? (
-          <CorpoNaninha spec={spec} />
-        ) : (
-          <Corpo spec={spec} ehBailarina={ehBailarina} ehBebe={ehBebe} />
-        ))}
-
-      {camada === 'cabeca' && <Cabeca spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />}
-
-      {camada === 'rosto' && <Rosto spec={spec} ehBicho={ehBicho} ehNaninha={ehNaninha} />}
-
-      {camada === 'cabeloFrente' && !ehBicho && !ehNaninha && <Franja spec={spec} />}
-
-      {camada === 'acessorio' && <AcessorioArt spec={spec} ehNaninha={ehNaninha} />}
+      {camada === 'todas'
+        ? CAMADAS.map(({ camada: c }) => <g key={c}>{desenhar(c)}</g>)
+        : desenhar(camada)}
     </svg>
   );
 }
