@@ -16,6 +16,16 @@ export const site = {
   whatsappNumero: '554195096228',
   prazoProducao: '7 a 12 dias úteis',
   frase: 'Feito à mão, feito com amor.',
+  /**
+   * Quem representa o ateliê — aparece no rodapé.
+   * O documento fica aqui porque a lei do comércio eletrônico (Decreto 7.962/2013)
+   * pede a identificação de quem vende, visível no site.
+   */
+  agencia: {
+    nome: 'Agência Wissen',
+    socio: 'William Fernando Zyla Santos',
+    cpf: '031.923.869-59',
+  },
 } as const;
 
 /** Monta um link do WhatsApp já com a mensagem pronta. */

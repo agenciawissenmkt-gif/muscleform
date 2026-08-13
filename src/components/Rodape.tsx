@@ -96,11 +96,16 @@ export default function Rodape() {
       </div>
 
       <div className="border-t border-rosa-300/70 px-4 py-5 text-center text-xs text-sepia-500 sm:px-6 lg:px-8">
-        © {new Date().getFullYear()} {site.nome} — todas as bonecas são feitas à mão, uma a uma. Feito com{' '}
-        <span className="inline-block animate-coracao text-rosa-600" aria-hidden="true">
-          ♥
-        </span>{' '}
-        em cada detalhe.
+        <p>
+          © {new Date().getFullYear()} {site.nome} — todas as bonecas são feitas à mão, uma a uma. Feito com{' '}
+          <span className="inline-block animate-coracao text-rosa-600" aria-hidden="true">
+            ♥
+          </span>{' '}
+          em cada detalhe.
+        </p>
+        <p className="mt-2 text-[0.7rem] text-sepia-500/90">
+          Representada pela {site.agencia.nome} — sócio {site.agencia.socio}, CPF {site.agencia.cpf}.
+        </p>
       </div>
     </footer>
   );
