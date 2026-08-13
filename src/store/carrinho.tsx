@@ -47,9 +47,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
 
   const adicionar = useCallback((item: ItemCarrinho) => {
     setItens((atuais) => {
-      const existente = atuais.find(
-        (i) => i.produtoId === item.produtoId && i.corVestido === item.corVestido,
-      );
+      const existente = atuais.find((i) => i.produtoId === item.produtoId);
       if (existente) {
         return atuais.map((i) =>
           i === existente ? { ...i, quantidade: i.quantidade + item.quantidade } : i,
@@ -92,8 +90,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
     const linhas = itens.map((item) => {
       const produto = produtoPorId(item.produtoId);
       if (!produto) return '';
-      const detalhe = item.corVestido ? ` (vestido ${item.corVestido})` : '';
-      return `• ${item.quantidade}x ${produto.nome}${detalhe} — ${formatarPreco(produto.preco * item.quantidade)}`;
+      return `• ${item.quantidade}x ${produto.nome} — ${formatarPreco(produto.preco * item.quantidade)}`;
     });
 
     return [

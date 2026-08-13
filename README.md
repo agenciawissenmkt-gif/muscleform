@@ -35,9 +35,10 @@ na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
 ## O que o site tem
 
 - **Home** com boneca girando em 3D, vitrine automática, categorias, destaques,
-  o passo a passo "como nasce uma boneca", depoimentos e chamada para encomenda.
+  o passo a passo "como nasce uma boneca", segurança, seção para avós e depoimentos.
 - **Catálogo** (`/bonecas`) com busca, filtro por categoria e ordenação animada.
-- **Páginas de categoria** (`/categoria/:slug`) — 7 coleções, incluindo os bonecos.
+- **Páginas de categoria** (`/categoria/:slug`) — 6 coleções, incluindo os bonecos.
+- O ateliê **não trabalha com personalização**: cada peça é única e sai como está na foto.
 - **Página de venda** (`/boneca/:slug`) com:
   - **foto real** da peça (quando o arquivo está em `public/produtos/`), com **giro em 3D**
     e **zoom** nos detalhes da costura como abas ao lado;

@@ -24,7 +24,7 @@ export default function Inicio() {
       <MaisAmadas />
       <ParaOsAvos />
       <Depoimentos />
-      <ChamadaPersonalizada />
+      <ChamadaFinal />
     </>
   );
 }
@@ -197,7 +197,7 @@ function FaixaCorrendo() {
     'Feito à mão, um por vez',
     'Tecidos escolhidos a dedo',
     'Enchimento antialérgico',
-    'Personalize com o nome',
+    'Cada peça é única',
     'Enviamos para todo o Brasil',
     'Embalagem de presente',
   ];
@@ -545,7 +545,7 @@ function Depoimentos() {
     {
       nome: 'Patrícia S.',
       texto:
-        'Encomendei a personalizada com a carinha da minha sobrinha. Minha irmã chorou quando abriu o presente.',
+        'Comprei de presente para minha sobrinha e minha irmã chorou quando abriu a caixa. O acabamento é de outro mundo.',
       cidade: 'São José dos Pinhais — PR',
     },
     {
@@ -584,9 +584,9 @@ function Depoimentos() {
   );
 }
 
-/* -------------------------- Chamada personalizada --------------------------- */
+/* ------------------------------ Chamada final -------------------------------- */
 
-function ChamadaPersonalizada() {
+function ChamadaFinal() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal efeito="zoom">
@@ -596,28 +596,28 @@ function ChamadaPersonalizada() {
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 9, repeat: Infinity }}
           />
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-rosa-700">Boneca personalizada</p>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-rosa-700">Peças únicas</p>
           <h2 className="mt-3 font-display text-3xl text-sepia-900 sm:text-4xl lg:text-5xl">
-            Me manda a foto que eu costuro
+            Cada boneca é feita uma vez só
             <br />
-            <span className="font-script text-rosa-600">a versão de pano</span>
+            <span className="font-script text-rosa-600">e vai embora do jeitinho que você vê</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl leading-relaxed text-sepia-700">
-            Mesmo tom de pele, mesmo cabelo, a roupinha favorita e o nome bordado na barra do vestido. O presente
-            que ninguém esquece.
+            As bonecas nascem aqui no ateliê, uma de cada vez, e são fotografadas exatamente como chegam na sua
+            casa: mesmo tecido, mesmo cabelo, mesma roupinha. Quando uma vai embora, ela não se repete.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <BotaoSonho
               tamanho="lg"
               href={linkWhatsApp(
-                `Olá, ${site.nome}! 💕 Quero encomendar uma boneca personalizada. Posso mandar a foto?`,
+                `Olá, ${site.nome}! 💕 Vi as bonecas no site e quero saber quais estão disponíveis.`,
               )}
             />
             <Link
-              to="/categoria/personalizadas"
+              to="/bonecas"
               className="inline-flex items-center gap-2 rounded-full border-2 border-rosa-400 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-rosa-700 transition-all hover:bg-white"
             >
-              ver exemplos
+              ver quem está no ateliê
             </Link>
           </div>
         </div>

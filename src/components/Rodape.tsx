@@ -45,8 +45,8 @@ export default function Rodape() {
               </Link>
             </li>
             <li>
-              <Link to="/categoria/personalizadas" className="transition-colors hover:text-rosa-700">
-                Encomenda personalizada
+              <Link to="/categoria/meninos" className="transition-colors hover:text-rosa-700">
+                Bonecos de pano
               </Link>
             </li>
             <li>

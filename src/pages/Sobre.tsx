@@ -60,7 +60,7 @@ export default function Sobre() {
               },
               {
                 t: 'Nada de produção em série',
-                d: 'Uma boneca por vez. Se você pedir duas iguais, elas ainda vão ter sorrisos diferentes.',
+                d: 'Uma boneca por vez, criada aqui no ateliê. Cada peça sai única — não existem duas iguais.',
               },
               {
                 t: 'Conversa de gente',
@@ -92,15 +92,15 @@ export default function Sobre() {
         <Reveal className="text-center">
           <h2 className="font-display text-3xl text-sepia-900 sm:text-4xl">Do retalho ao colo</h2>
           <p className="mx-auto mt-3 max-w-xl text-sepia-700">
-            A linha do tempo de uma encomenda, do primeiro “oi” no WhatsApp até a caixinha chegando na sua casa.
+            A linha do tempo do seu pedido, do primeiro “oi” no WhatsApp até a caixinha chegando na sua casa.
           </p>
         </Reveal>
 
         <ol className="mt-12 grid gap-6 md:grid-cols-4">
           {[
-            { e: '💬', t: 'Você conta o sonho', d: 'Manda a ideia, a foto, o nome — o que vier.' },
-            { e: '✏️', t: 'A gente desenha', d: 'Envio o esboço e as opções de tecido para aprovar.' },
-            { e: '🧵', t: 'Costura à mão', d: `Produção de ${site.prazoProducao}, com fotos do processo.` },
+            { e: '💬', t: 'Você escolhe a sua', d: 'Chama no WhatsApp e diz qual boneca te conquistou.' },
+            { e: '📷', t: 'A gente confere', d: 'Mando fotos da peça pronta, de todos os ângulos, antes de fechar.' },
+            { e: '🎀', t: 'Preparo com carinho', d: 'A boneca é revisada ponto a ponto e embalada para presente.' },
             { e: '📦', t: 'Chega em casa', d: 'Embalada para presente, com rastreio no WhatsApp.' },
           ].map((p, i) => (
             <Reveal key={p.t} delay={i * 0.08} efeito="zoom">
@@ -129,7 +129,7 @@ export default function Sobre() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <BotaoSonho
                 tamanho="lg"
-                href={linkWhatsApp(`Olá, ${site.nome}! Li a história do ateliê e quero encomendar uma boneca 💕`)}
+                href={linkWhatsApp(`Olá, ${site.nome}! Li a história do ateliê e quero levar uma boneca para casa 💕`)}
               />
               <Link
                 to="/bonecas"

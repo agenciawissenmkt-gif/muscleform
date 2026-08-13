@@ -177,13 +177,13 @@ export default function Catalogo() {
             🧵
           </span>
           <p className="mt-4 text-sepia-700">
-            Que tal falar com a gente? A gente costura sob encomenda também.
+            Que tal ver as outras coleções? Tem boneca nova saindo do ateliê toda semana.
           </p>
           <Link
             to="/contato"
             className="mt-4 inline-block rounded-full bg-rosa-600 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-105"
           >
-            Fazer uma encomenda
+            Falar com o ateliê
           </Link>
         </div>
       )}

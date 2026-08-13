@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import VisualizadorProduto from '../components/VisualizadorProduto';
@@ -10,20 +10,11 @@ import { useCarrinho } from '../store/carrinho';
 import { linkWhatsApp, site } from '../config/site';
 import NaoEncontrada from './NaoEncontrada';
 
-const coresVestido = [
-  { nome: 'Rosa bebê', cor: '#f9b4c6' },
-  { nome: 'Rosa antigo', cor: '#ffd0dc' },
-  { nome: 'Creme', cor: '#fdf6ec' },
-  { nome: 'Lavanda', cor: '#e2dcf6' },
-  { nome: 'Verde menta', cor: '#cdeee0' },
-  { nome: 'Branco', cor: '#fffafb' },
-];
 
 export default function Produto() {
   const { slug } = useParams();
   const produto = slug ? produtoPorSlug(slug) : undefined;
 
-  const [corEscolhida, setCorEscolhida] = useState(coresVestido[0].nome);
   const [quantidade, setQuantidade] = useState(1);
   const [adicionado, setAdicionado] = useState(false);
   const { adicionar } = useCarrinho();
@@ -32,17 +23,7 @@ export default function Produto() {
   const areaCompra = useRef<HTMLDivElement>(null);
   const compraNaTela = useInView(areaCompra, { margin: '-90px 0px -140px 0px' });
 
-  // a escolha de cor só faz sentido nas peças ilustradas; as fotografadas vão como estão
-  const escolheCor = Boolean(produto?.personalizavel) && !produto?.foto;
-
-  const spec = useMemo(() => {
-    if (!produto) return undefined;
-    if (!escolheCor) return produto.spec;
-    const cor = coresVestido.find((c) => c.nome === corEscolhida)?.cor;
-    return cor ? { ...produto.spec, vestido: cor } : produto.spec;
-  }, [produto, corEscolhida, escolheCor]);
-
-  if (!produto || !spec) return <NaoEncontrada />;
+  if (!produto) return <NaoEncontrada />;
 
   const categoria = categoriaPorSlug(produto.categoria);
   const { vezes, valor } = parcelamento(produto.preco);
@@ -53,7 +34,6 @@ export default function Produto() {
     '',
     `Quero realizar meu sonho com a *${produto.nome}*.`,
     `• Quantidade: ${quantidade}`,
-    escolheCor ? `• Cor do vestidinho: ${corEscolhida}` : '',
     `• Valor: ${formatarPreco(total)}`,
     '',
     'Como faço para fechar o pedido?',
@@ -63,11 +43,7 @@ export default function Produto() {
 
   function paraSacolinha() {
     if (!produto) return;
-    adicionar({
-      produtoId: produto.id,
-      quantidade,
-      corVestido: escolheCor ? corEscolhida : undefined,
-    });
+    adicionar({ produtoId: produto.id, quantidade });
     setAdicionado(true);
     setTimeout(() => setAdicionado(false), 2600);
   }
@@ -104,7 +80,7 @@ export default function Produto() {
             className="lg:sticky lg:top-28 lg:self-start"
           >
             <VisualizadorProduto
-              spec={spec}
+              spec={produto.spec}
               nome={produto.nome}
               foto={produto.foto}
               legendaFoto={produto.legendaFoto}
@@ -152,44 +128,6 @@ export default function Produto() {
             <Reveal className="mt-7" delay={0.1}>
               <SeloSeguranca />
             </Reveal>
-
-            {escolheCor && (
-              <Reveal className="mt-5" delay={0.12}>
-                <div className="rounded-[1.5rem] border border-rosa-200 bg-rosa-50/80 p-5">
-                  <p className="flex items-center gap-2 font-display text-lg text-sepia-900">
-                    <span aria-hidden="true">🎨</span> Escolha a cor do vestidinho
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {coresVestido.map((c) => (
-                      <button
-                        key={c.nome}
-                        type="button"
-                        onClick={() => setCorEscolhida(c.nome)}
-                        title={c.nome}
-                        className={`group relative h-11 w-11 rounded-full border-2 transition-all ${
-                          corEscolhida === c.nome
-                            ? 'scale-110 border-rosa-600 shadow-md'
-                            : 'border-white hover:scale-105'
-                        }`}
-                        style={{ backgroundColor: c.cor }}
-                        aria-label={`Vestido ${c.nome}`}
-                      >
-                        {corEscolhida === c.nome && (
-                          <motion.span
-                            layoutId="cor-escolhida"
-                            className="absolute -inset-1.5 rounded-full border-2 border-rosa-500"
-                          />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                  <p className="mt-2 text-xs text-sepia-500">
-                    Escolhida: <strong className="text-sepia-800">{corEscolhida}</strong> — a boneca ao lado já
-                    mudou de vestido ✨
-                  </p>
-                </div>
-              </Reveal>
-            )}
 
             {/* quantidade + compra */}
             <div className="mt-7 flex flex-col gap-4">

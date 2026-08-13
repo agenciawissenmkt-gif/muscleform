@@ -66,11 +66,6 @@ export default function Carrinho() {
                         {produto.nome}
                       </Link>
                       <p className="mt-1 text-sm text-sepia-500">{produto.resumo}</p>
-                      {item.corVestido && (
-                        <p className="mt-2 text-xs text-sepia-500">
-                          Vestido: <strong className="text-sepia-800">{item.corVestido}</strong>
-                        </p>
-                      )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-4">
                         <div className="flex items-center rounded-full border border-rosa-300 bg-rosa-50">

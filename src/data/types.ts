@@ -62,13 +62,10 @@ export interface Produto {
   destaque?: boolean;
   novidade?: boolean;
   maisVendida?: boolean;
-  personalizavel: boolean;
   spec: DollSpec;
 }
 
 export interface ItemCarrinho {
   produtoId: string;
   quantidade: number;
-  /** Cor do vestidinho escolhida (só para as peças ilustradas). */
-  corVestido?: string;
 }

@@ -87,9 +87,6 @@ export default function GavetaCarrinho() {
                           </Link>
                           <div className="flex flex-1 flex-col">
                             <p className="font-display text-base leading-tight text-sepia-900">{produto.nome}</p>
-                            {item.corVestido && (
-                              <p className="text-xs text-rosa-700">vestido {item.corVestido}</p>
-                            )}
                             <p className="text-sm font-semibold text-rosa-700">
                               {formatarPreco(produto.preco * item.quantidade)}
                             </p>

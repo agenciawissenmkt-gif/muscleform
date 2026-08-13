@@ -8,15 +8,15 @@ import { linkWhatsApp, site } from '../config/site';
 const perguntas = [
   {
     p: 'Quanto tempo demora para ficar pronta?',
-    r: `A produção leva ${site.prazoProducao} depois da confirmação do pedido, porque tudo é costurado à mão. Peças personalizadas podem levar alguns dias a mais — a gente sempre combina o prazo antes.`,
+    r: `As peças que estão no site saem em poucos dias. Quando a boneca escolhida já foi vendida, costuramos uma parecida em ${site.prazoProducao} — mas ela nunca sai idêntica, porque é tudo feito à mão. A gente sempre combina o prazo antes.`,
   },
   {
     p: 'A boneca é segura para bebê?',
     r: 'Sim. O rostinho é bordado, sem olhos de plástico, botões ou peças pequenas que possam soltar. O enchimento é de fibra siliconada antialérgica.',
   },
   {
-    p: 'Posso pedir com a carinha da minha filha?',
-    r: 'Pode! É a nossa boneca personalizada: você manda a foto pelo WhatsApp e a gente reproduz o tom de pele, o cabelo, a roupinha favorita e borda o nome.',
+    p: 'Vocês fazem boneca personalizada?',
+    r: 'Não trabalhamos com personalização. Cada boneca é criada aqui no ateliê e sai exatamente como você vê na foto — mesmo tecido, mesmo cabelo, mesma roupinha. É isso que faz cada peça ser única: quando uma vai embora, ela não se repete.',
   },
   {
     p: 'Vocês enviam para todo o Brasil?',
@@ -34,7 +34,7 @@ const perguntas = [
 
 export default function Contato() {
   const [nome, setNome] = useState('');
-  const [assunto, setAssunto] = useState('Quero encomendar uma boneca');
+  const [assunto, setAssunto] = useState('Quero levar uma boneca');
   const [mensagem, setMensagem] = useState('');
 
   const textoWhats = [
@@ -54,7 +54,7 @@ export default function Contato() {
           A gente adora <span className="font-script text-rosa-600">conversar</span>
         </h1>
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-sepia-700">
-          Quem responde é a mesma pessoa que costura. Conte sua ideia, tire dúvidas ou só venha dizer oi.
+          Quem responde é a mesma pessoa que costura. Pergunte o que quiser, tire dúvidas ou só venha dizer oi.
         </p>
       </Reveal>
 
@@ -86,8 +86,8 @@ export default function Contato() {
             <p className="mt-5 text-sm font-semibold text-sepia-700">Sobre o que quer falar?</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {[
-                'Quero encomendar uma boneca',
-                'Boneca personalizada',
+                'Quero levar uma boneca',
+                'Saber o que está disponível',
                 'Lembrancinhas para festa',
                 'Dúvida sobre prazo e envio',
               ].map((a) => (
@@ -107,12 +107,12 @@ export default function Contato() {
             </div>
 
             <label className="mt-5 block text-sm font-semibold text-sepia-700">
-              Conte sua ideia
+              Sua mensagem
               <textarea
                 value={mensagem}
                 onChange={(e) => setMensagem(e.target.value)}
                 rows={4}
-                placeholder="Ex.: queria uma boneca de 38 cm, cabelo cacheado, vestido lilás, com o nome Cecília bordado."
+                placeholder="Ex.: queria saber se a Boneca Maitê Girassol ainda está disponível e quanto fica o envio para São Paulo."
                 className="mt-1.5 w-full resize-none rounded-2xl border border-rosa-200 bg-rosa-50 px-4 py-3 text-sm font-normal outline-none transition-all placeholder:text-sepia-300 focus:border-rosa-400 focus:bg-white"
               />
             </label>

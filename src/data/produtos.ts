@@ -100,7 +100,7 @@ export const categorias: Categoria[] = [
     nome: 'Naninhas & Enxoval',
     subtitulo: 'Para o soninho do bebê',
     descricao:
-      'Naninhas de plush, kits maternidade e enxoval com bordado personalizado. O primeiro amigo de pano do bebê.',
+      'Naninhas de plush macio, kits maternidade e enxoval do ateliê. O primeiro amigo de pano do bebê.',
     emoji: '🌙',
     capa: {
       tipo: 'naninha',
@@ -114,27 +114,6 @@ export const categorias: Categoria[] = [
       acessorioCor: '#cdeee0',
       meias: '#fffafb',
       coracao: '#f191ab',
-    },
-  },
-  {
-    slug: 'personalizadas',
-    nome: 'Personalizadas',
-    subtitulo: 'A cara de quem você ama',
-    descricao:
-      'Sua boneca com o cabelo, a pele, o vestido e o nome de quem você ama. Envie a foto e a gente costura o resto.',
-    emoji: '💌',
-    capa: {
-      tipo: 'menina',
-      pele: PELE_NEGRA,
-      cabelo: '#2b1a12',
-      cabeloSombra: '#1a0f0a',
-      penteado: 'cacheado',
-      vestido: '#cdeee0',
-      vestidoDetalhe: '#fffafb',
-      acessorio: 'tiara',
-      acessorioCor: '#f191ab',
-      meias: '#fff1f5',
-      coracao: '#e0708f',
     },
   },
   {
@@ -207,7 +186,6 @@ export const produtos: Produto[] = [
     tags: ['menino', 'praia', 'verão', 'ruivo'],
     destaque: true,
     novidade: true,
-    personalizavel: false,
     spec: spec({
       pele: PELE_CLARA,
       cabelo: '#c65a22',
@@ -244,7 +222,6 @@ export const produtos: Produto[] = [
     destaque: true,
     novidade: true,
     maisVendida: true,
-    personalizavel: false,
     spec: spec({
       pele: PELE_NEGRA,
       cabelo: '#1c1210',
@@ -277,7 +254,6 @@ export const produtos: Produto[] = [
     tags: ['tranças', 'ruiva', 'campo', 'cerejas'],
     destaque: true,
     novidade: true,
-    personalizavel: false,
     spec: spec({
       pele: PELE_CLARA,
       cabelo: '#d2521a',
@@ -311,7 +287,6 @@ export const produtos: Produto[] = [
     tags: ['menino', 'quartinho', 'veludo', 'ruivo'],
     destaque: true,
     novidade: true,
-    personalizavel: false,
     spec: spec({
       pele: PELE_CLARA,
       cabelo: '#c65a22',
@@ -347,7 +322,6 @@ export const produtos: Produto[] = [
     destaque: true,
     novidade: true,
     maisVendida: true,
-    personalizavel: false,
     spec: spec({
       pele: PELE_CLARA,
       cabelo: '#d2521a',
@@ -382,7 +356,6 @@ export const produtos: Produto[] = [
     tags: ['clássica', 'presente', 'menina'],
     destaque: true,
     maisVendida: true,
-    personalizavel: true,
     spec: spec({ sardas: true }),
   },
   {
@@ -399,7 +372,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['tranças', 'vintage'],
     destaque: true,
-    personalizavel: true,
     spec: spec({
       cabelo: '#e8c27a',
       cabeloSombra: '#c9a25c',
@@ -424,7 +396,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['cacheada', 'flores'],
     novidade: true,
-    personalizavel: true,
     spec: spec({
       pele: PELE_NEGRA,
       cabelo: '#2b1a12',
@@ -449,7 +420,6 @@ export const produtos: Produto[] = [
     materiais: materiaisPadrao,
     cuidados: cuidadoPadrao,
     tags: ['lavanda', 'romântica'],
-    personalizavel: true,
     spec: spec({
       pele: PELE_MEDIA,
       cabelo: '#5a3a26',
@@ -474,7 +444,6 @@ export const produtos: Produto[] = [
     materiais: materiaisPadrao,
     cuidados: cuidadoPadrao,
     tags: ['campo', 'chapéu'],
-    personalizavel: true,
     spec: spec({
       pele: PELE_MEDIA,
       cabelo: '#8a5a34',
@@ -501,7 +470,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['coque', 'delicada'],
     destaque: true,
-    personalizavel: true,
     spec: spec({
       pele: PELE_CLARA,
       cabelo: '#3f2a20',
@@ -530,7 +498,6 @@ export const produtos: Produto[] = [
     tags: ['tutu', 'balé', 'coroa'],
     destaque: true,
     maisVendida: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'bailarina',
       pele: PELE_MEDIA,
@@ -558,7 +525,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['clássico', 'branco'],
     novidade: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'bailarina',
       pele: PELE_CLARA,
@@ -585,7 +551,6 @@ export const produtos: Produto[] = [
     materiais: [...materiaisPadrao, 'Tule tingido artesanalmente'],
     cuidados: cuidadoPadrao,
     tags: ['lavanda', 'cacheada'],
-    personalizavel: true,
     spec: spec({
       tipo: 'bailarina',
       pele: PELE_MORENA,
@@ -612,7 +577,6 @@ export const produtos: Produto[] = [
     materiais: [...materiaisPadrao, 'Tule pêssego', 'Laço de cetim 4 cm'],
     cuidados: cuidadoPadrao,
     tags: ['tranças', 'pêssego'],
-    personalizavel: true,
     spec: spec({
       tipo: 'bailarina',
       pele: PELE_CLARA,
@@ -648,7 +612,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['urso', 'bebê', 'abraço'],
     destaque: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'urso',
       pele: '#c99a6b',
@@ -675,7 +638,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['ursinha', 'rosa'],
     maisVendida: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'urso',
       pele: '#f2c9d3',
@@ -702,7 +664,6 @@ export const produtos: Produto[] = [
     cuidados: cuidadoPadrao,
     tags: ['coelha', 'menta'],
     novidade: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'coelha',
       pele: '#f6ecdf',
@@ -728,7 +689,6 @@ export const produtos: Produto[] = [
     materiais: ['Plush cor mel', 'Coração de feltro', 'Chapéu de palha costurado'],
     cuidados: cuidadoPadrao,
     tags: ['urso', 'campo'],
-    personalizavel: true,
     spec: spec({
       tipo: 'urso',
       pele: '#d8a86f',
@@ -749,15 +709,14 @@ export const produtos: Produto[] = [
     nome: 'Naninha Estrelinha',
     categoria: 'naninhas',
     preco: 119.9,
-    resumo: 'Naninha de plush lilás com carinha bordada e nome do bebê.',
+    resumo: 'Naninha de plush lilás com carinha bordada e orelhinhas de segurar.',
     historia:
       'A Estrelinha é a primeira companhia do berço: leve, macia e do tamanho certo para a mãozinha segurar enquanto o soninho chega.',
     altura: '32 x 32 cm',
-    materiais: ['Plush antialérgico', 'Bordado do nome incluso', 'Sem peças soltas — seguro desde o nascimento'],
+    materiais: ['Plush antialérgico', 'Carinha bordada à mão', 'Sem peças soltas — seguro desde o nascimento'],
     cuidados: cuidadoPadrao,
-    tags: ['bebê', 'berço', 'nome bordado'],
+    tags: ['bebê', 'berço', 'soninho'],
     destaque: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'naninha',
       pele: PELE_CLARA,
@@ -780,10 +739,9 @@ export const produtos: Produto[] = [
     historia:
       'Branquinha como nuvem, com duas orelhinhas para o bebê apertar. Passou por lavagem antialérgica antes de sair do ateliê.',
     altura: '32 x 32 cm',
-    materiais: ['Plush branco antialérgico', 'Detalhes em algodão rosa', 'Bordado do nome incluso'],
+    materiais: ['Plush branco antialérgico', 'Detalhes em algodão rosa', 'Carinha bordada à mão'],
     cuidados: cuidadoPadrao,
     tags: ['bebê', 'coelho'],
-    personalizavel: true,
     spec: spec({
       tipo: 'naninha',
       pele: '#fdf3ea',
@@ -803,15 +761,14 @@ export const produtos: Produto[] = [
     categoria: 'naninhas',
     preco: 329.9,
     precoDe: 379.9,
-    resumo: 'Naninha + bonequinha + porta-maternidade com o nome bordado.',
+    resumo: 'Naninha + bonequinha de pano + enfeite de porta, na caixa de presente.',
     historia:
-      'O kit completo para a chegada: uma naninha, uma bonequinha de pano e a plaquinha de porta com o nome bordado. Chega embalado em caixa de presente com laço.',
+      'O kit completo para a chegada: uma naninha, uma bonequinha de pano e o enfeite de porta do quartinho. Sai do ateliê embalado em caixa de presente com laço, pronto para entregar na mão da mãe.',
     altura: 'Kit com 3 peças',
     materiais: ['Naninha de plush', 'Bonequinha de pano 28 cm', 'Placa de porta em tecido', 'Caixa de presente'],
     cuidados: cuidadoPadrao,
     tags: ['kit', 'maternidade', 'presente'],
     maisVendida: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'bebe',
       pele: PELE_CLARA,
@@ -822,114 +779,6 @@ export const produtos: Produto[] = [
       vestidoDetalhe: '#fffafb',
       acessorio: 'laco',
       acessorioCor: '#f191ab',
-    }),
-  },
-
-  // ---------------- Personalizadas ----------------
-  {
-    id: 'pp-01',
-    slug: 'boneca-personalizada-retrato',
-    nome: 'Boneca Retrato — Personalizada',
-    categoria: 'personalizadas',
-    preco: 279.9,
-    resumo: 'A boneca com o cabelo, a pele, a roupinha e o nome de quem você ama.',
-    historia:
-      'Você envia uma foto pelo WhatsApp e a gente costura a versão de pano: mesmo tom de pele, mesmo cabelo, mesma roupinha favorita e o nome bordado na barra do vestido.',
-    altura: '38 cm',
-    materiais: [...materiaisPadrao, 'Nome bordado à mão', 'Roupinha desenhada sob medida'],
-    cuidados: cuidadoPadrao,
-    tags: ['personalizada', 'retrato', 'presente'],
-    destaque: true,
-    maisVendida: true,
-    personalizavel: true,
-    spec: spec({
-      pele: PELE_MORENA,
-      cabelo: '#4a2c1a',
-      cabeloSombra: '#301a0f',
-      penteado: 'cacheado',
-      vestido: '#f9b4c6',
-      vestidoDetalhe: '#fdf6ec',
-      acessorio: 'tiara',
-      acessorioCor: '#e0708f',
-    }),
-  },
-  {
-    id: 'pp-02',
-    slug: 'boneca-profissoes',
-    nome: 'Boneca Profissões',
-    categoria: 'personalizadas',
-    preco: 259.9,
-    resumo: 'Enfermeira, professora, médica, chef — a boneca da profissão que você ama.',
-    historia:
-      'Um presente de formatura que emociona: a boneca vem com o uniforme da profissão, crachá bordado e acessório da área.',
-    altura: '38 cm',
-    materiais: [...materiaisPadrao, 'Uniforme sob medida', 'Acessórios em feltro'],
-    cuidados: cuidadoPadrao,
-    tags: ['profissão', 'formatura', 'presente'],
-    novidade: true,
-    personalizavel: true,
-    spec: spec({
-      pele: PELE_MEDIA,
-      cabelo: '#3f2a20',
-      cabeloSombra: '#2a1a13',
-      penteado: 'coque',
-      vestido: '#cdeee0',
-      vestidoDetalhe: '#fffafb',
-      acessorio: 'nenhum',
-      acessorioCor: '#cdeee0',
-    }),
-  },
-  {
-    id: 'pp-03',
-    slug: 'boneca-noivinha',
-    nome: 'Boneca Noivinha',
-    categoria: 'personalizadas',
-    preco: 299.9,
-    resumo: 'Vestido de noiva em renda, véu e buquê — igualzinho ao do grande dia.',
-    historia:
-      'Feita a partir da foto do vestido de noiva. A renda é escolhida junto com a noiva e o buquê é montado com as mesmas flores do casamento.',
-    altura: '40 cm',
-    materiais: [...materiaisPadrao, 'Renda francesa', 'Véu de tule', 'Buquê de flores de tecido'],
-    cuidados: cuidadoPadrao,
-    tags: ['casamento', 'noiva', 'lembrança'],
-    personalizavel: true,
-    spec: spec({
-      pele: PELE_CLARA,
-      cabelo: '#8a5a34',
-      cabeloSombra: '#6b431f',
-      penteado: 'coque',
-      vestido: '#fffafb',
-      vestidoDetalhe: '#f7e9d7',
-      acessorio: 'coroa',
-      acessorioCor: '#f7e9d7',
-      meias: '#fffafb',
-    }),
-  },
-  {
-    id: 'pp-04',
-    slug: 'boneca-irmazinhas',
-    nome: 'Dupla Irmãzinhas',
-    categoria: 'personalizadas',
-    preco: 419.9,
-    precoDe: 479.9,
-    resumo: 'Duas bonecas combinando, com os nomes das irmãs bordados.',
-    historia:
-      'Duas bonecas costuradas na mesma semana, com vestidos do mesmo tecido em cores diferentes. Para irmãs que brigam de manhã e se abraçam à noite.',
-    altura: '2 bonecas de 36 cm',
-    materiais: [...materiaisPadrao, 'Dois nomes bordados', 'Vestidos combinando'],
-    cuidados: cuidadoPadrao,
-    tags: ['dupla', 'irmãs', 'presente'],
-    personalizavel: true,
-    spec: spec({
-      pele: PELE_CLARA,
-      cabelo: '#c8703f',
-      cabeloSombra: '#a4562c',
-      penteado: 'trancas',
-      vestido: '#ffd0dc',
-      vestidoDetalhe: '#e2dcf6',
-      acessorio: 'laco',
-      acessorioCor: '#e0708f',
-      sardas: true,
     }),
   },
 
@@ -948,7 +797,6 @@ export const produtos: Produto[] = [
     cuidados: 'Limpar apenas com pano levemente úmido. Não lavar.',
     tags: ['móbile', 'quartinho', 'berço'],
     destaque: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'bebe',
       pele: PELE_CLARA,
@@ -967,15 +815,14 @@ export const produtos: Produto[] = [
     nome: 'Porta-Maternidade Boneca',
     categoria: 'decoracao',
     preco: 209.9,
-    resumo: 'Enfeite de porta com boneca em relevo e nome bordado.',
+    resumo: 'Enfeite de porta com boneca em relevo e acabamento em renda.',
     historia:
-      'A primeira coisa que a visita vê. Boneca em relevo, base forrada de tecido e o nome do bebê bordado em fio de algodão.',
+      'A primeira coisa que a visita vê. Boneca em relevo, base forrada de tecido e barrado de renda costurado à mão, para pendurar na porta do quartinho.',
     altura: '35 cm',
-    materiais: ['Base forrada', 'Boneca em relevo', 'Nome bordado à mão', 'Fita para pendurar'],
+    materiais: ['Base forrada', 'Boneca em relevo', 'Barrado de renda costurado à mão', 'Fita para pendurar'],
     cuidados: 'Limpar apenas com pano levemente úmido. Não lavar.',
-    tags: ['porta', 'maternidade', 'nome'],
+    tags: ['porta', 'maternidade', 'quartinho'],
     maisVendida: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'bebe',
       pele: PELE_MEDIA,
@@ -996,13 +843,12 @@ export const produtos: Produto[] = [
     preco: 39.9,
     resumo: 'Bonequinhas de 12 cm para lembrancinha de festa (pedido mínimo: 10).',
     historia:
-      'Pequenas, mas feitas com o mesmo capricho das grandes. Saem do ateliê já ensacadinhas, com tag personalizada da festa.',
+      'Pequenas, mas feitas com o mesmo capricho das grandes. Saem do ateliê já ensacadinhas, com a tag do ateliê e laço de cetim.',
     altura: '12 cm',
-    materiais: ['Algodão', 'Enchimento siliconado', 'Tag personalizada', 'Saquinho transparente com laço'],
+    materiais: ['Algodão', 'Enchimento siliconado', 'Tag do ateliê', 'Saquinho transparente com laço'],
     cuidados: cuidadoPadrao,
     tags: ['lembrancinha', 'festa', 'kit'],
     novidade: true,
-    personalizavel: true,
     spec: spec({
       tipo: 'menina',
       pele: PELE_CLARA,
@@ -1028,7 +874,6 @@ export const produtos: Produto[] = [
     materiais: ['Corações de algodão', 'Renda de algodão', 'Bonequinha central 10 cm'],
     cuidados: 'Limpar apenas com pano levemente úmido. Não lavar.',
     tags: ['guirlanda', 'parede', 'retalhos'],
-    personalizavel: false,
     spec: spec({
       tipo: 'menina',
       pele: PELE_MORENA,
