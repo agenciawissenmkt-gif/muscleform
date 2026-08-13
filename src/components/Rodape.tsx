@@ -104,7 +104,8 @@ export default function Rodape() {
           em cada detalhe.
         </p>
         <p className="mt-2 text-[0.7rem] text-sepia-500/90">
-          Representada pela {site.agencia.nome} — sócio {site.agencia.socio}, CPF {site.agencia.cpf}.
+          Representada por {site.agencia.razaoSocial} ({site.agencia.nome}) — sócio {site.agencia.socio},
+          CPF {site.agencia.cpf}.
         </p>
       </div>
     </footer>

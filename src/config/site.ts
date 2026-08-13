@@ -22,7 +22,10 @@ export const site = {
    * pede a identificação de quem vende, visível no site.
    */
   agencia: {
+    /** Nome fantasia, como a agência é conhecida. */
     nome: 'Agência Wissen',
+    /** Razão social, como está registrada. */
+    razaoSocial: 'W F Zyla Santos Promoções de Venda',
     socio: 'William Fernando Zyla Santos',
     cpf: '031.923.869-59',
   },
