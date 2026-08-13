@@ -88,6 +88,26 @@ html, body, #root {
   min-height: 100%;
 }
 
+/*
+ * Papel de parede antigo do ateliê — nas mesmas cores de sempre.
+ * São quatro camadas, da frente para o fundo:
+ *   1. as luzinhas suaves que já existiam (ficam fixas, como se fossem a luz da janela);
+ *   2. o buquê de florzinhas miúdas, em meia-queda, igual papel de parede de casa de vó;
+ *   3. as listras finas verticais, quase invisíveis;
+ *   4. o granulado do papel envelhecido.
+ */
+:root {
+  --papel-flores: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23c25674' stroke-width='1.1' stroke-linecap='round' opacity='0.16'%3E%3Cpath d='M35 46 q0 12 0 20 M35 54 q-8 -4 -12 -10 M35 60 q8 -4 12 -10'/%3E%3Cpath d='M105 116 q0 12 0 20 M105 124 q-8 -4 -12 -10 M105 130 q8 -4 12 -10'/%3E%3C/g%3E%3Cg fill='%23e0708f' opacity='0.15'%3E%3Cg transform='translate(35 34)'%3E%3Ccircle cx='0' cy='-7' r='4.4'/%3E%3Ccircle cx='6.7' cy='-2.2' r='4.4'/%3E%3Ccircle cx='4.1' cy='5.7' r='4.4'/%3E%3Ccircle cx='-4.1' cy='5.7' r='4.4'/%3E%3Ccircle cx='-6.7' cy='-2.2' r='4.4'/%3E%3C/g%3E%3Cg transform='translate(105 104)'%3E%3Ccircle cx='0' cy='-7' r='4.4'/%3E%3Ccircle cx='6.7' cy='-2.2' r='4.4'/%3E%3Ccircle cx='4.1' cy='5.7' r='4.4'/%3E%3Ccircle cx='-4.1' cy='5.7' r='4.4'/%3E%3Ccircle cx='-6.7' cy='-2.2' r='4.4'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23fffafb' opacity='0.5'%3E%3Ccircle cx='35' cy='34' r='2.6'/%3E%3Ccircle cx='105' cy='104' r='2.6'/%3E%3C/g%3E%3Cg fill='%23c25674' opacity='0.11'%3E%3Ccircle cx='105' cy='34' r='2.4'/%3E%3Ccircle cx='35' cy='104' r='2.4'/%3E%3Ccircle cx='112' cy='27' r='1.3'/%3E%3Ccircle cx='98' cy='41' r='1.3'/%3E%3Ccircle cx='42' cy='97' r='1.3'/%3E%3Ccircle cx='28' cy='111' r='1.3'/%3E%3C/g%3E%3C/svg%3E");
+  --papel-listras: repeating-linear-gradient(
+    90deg,
+    rgba(194, 86, 116, 0.05) 0px,
+    rgba(194, 86, 116, 0.05) 1px,
+    transparent 1px,
+    transparent 26px
+  );
+  --papel-grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -96,8 +116,13 @@ body {
   background-image:
     radial-gradient(circle at 12% 8%, rgba(255, 211, 224, 0.75), transparent 42%),
     radial-gradient(circle at 88% 4%, rgba(253, 246, 236, 0.9), transparent 38%),
-    radial-gradient(circle at 50% 100%, rgba(255, 227, 234, 0.9), transparent 55%);
-  background-attachment: fixed;
+    radial-gradient(circle at 50% 100%, rgba(255, 227, 234, 0.9), transparent 55%),
+    var(--papel-flores),
+    var(--papel-listras),
+    var(--papel-grao);
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat, repeat;
+  background-size: auto, auto, auto, 140px 140px, auto, 180px 180px;
+  background-attachment: fixed, fixed, fixed, scroll, scroll, scroll;
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
 }
