@@ -19,3 +19,11 @@ As fotos originais do ateliê já estão aqui, sem nenhuma alteração:
 
 Se a foto não estiver aqui, o site mostra a ilustração 3D da boneca no lugar —
 nunca aparece imagem quebrada.
+
+## Fotos adicionadas depois
+
+| Arquivo                         | Boneca                       |
+| ------------------------------- | ---------------------------- |
+| `lia-dos-lacos.webp`            | Boneca Lia dos Laços         |
+| `chapeuzinho-vermelho.webp`     | Boneca Chapeuzinho Vermelho  |
+| `ursinha-flor-de-algodao.webp`  | Ursinha Flor de Algodão      |

@@ -124,7 +124,7 @@ function CabeloTras({
       );
     }
     return (
-      <g>
+      <g stroke={escurecer(orelha, 0.16)} strokeWidth="1.5">
         <circle cx="58" cy="52" r="24" fill={orelha} />
         <circle cx="58" cy="52" r="13" fill={interna} />
         <circle cx="142" cy="52" r="24" fill={orelha} />
@@ -138,6 +138,17 @@ function CabeloTras({
 
   return (
     <g>
+      {/* capuz da capinha, quando tem */}
+      {spec.capa && (
+        <g>
+          <path
+            d="M100 16 q66 0 66 78 q0 26 -10 42 q-56 -22 -112 0 q-10 -16 -10 -42 q0 -78 66 -78 z"
+            fill={spec.capa}
+          />
+          <path d="M46 128 q54 -20 108 0" stroke={escurecer(spec.capa, 0.22)} strokeWidth="3" fill="none" />
+        </g>
+      )}
+
       {/* volume atrás da cabeça */}
       <ellipse cx="100" cy="86" rx="55" ry="56" fill={c} />
       <ellipse cx="100" cy="92" rx="47" ry="48" fill={s} opacity="0.35" />
@@ -411,6 +422,26 @@ function Corpo({
             <path d="M0 0 q-16 -9 -18 2 q12 8 18 -2 z" fill={d} />
             <path d="M0 0 q16 -9 18 2 q-12 8 -18 -2 z" fill={d} />
             <circle cx="0" cy="1" r="4" fill={escurecer(d, 0.2)} />
+          </g>
+        </g>
+      )}
+
+      {/* capinha por cima dos ombros, com a fitinha no pescoço */}
+      {spec.capa && (
+        <g>
+          <path
+            d={`M74 136 q26 12 52 0 q22 12 26 46 q-52 14 -104 0 q4 -34 26 -46 z`}
+            fill={spec.capa}
+            stroke={escurecer(spec.capa, 0.18)}
+            strokeWidth="1.5"
+          />
+          <path d="M92 140 q-8 22 -6 44" stroke={escurecer(spec.capa, 0.2)} strokeWidth="2.5" fill="none" />
+          <path d="M108 140 q8 22 6 44" stroke={escurecer(spec.capa, 0.2)} strokeWidth="2.5" fill="none" />
+          <g transform="translate(100 140)">
+            <path d="M0 0 q-18 -10 -20 3 q13 9 20 -3 z" fill={clarear(spec.capa, 0.12)} />
+            <path d="M0 0 q18 -10 20 3 q-13 9 -20 -3 z" fill={clarear(spec.capa, 0.12)} />
+            <circle cx="0" cy="1" r="5" fill={escurecer(spec.capa, 0.12)} />
+            <path d="M-5 6 q-4 16 -1 26 M5 6 q4 16 1 26" stroke={spec.capa} strokeWidth="4" fill="none" strokeLinecap="round" />
           </g>
         </g>
       )}

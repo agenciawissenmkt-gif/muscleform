@@ -28,6 +28,8 @@ export interface DollSpec {
   calca?: string;
   /** Cor do sapatinho — se não vier, usa a cor do acessório. */
   sapatos?: string;
+  /** Capinha com capuz (a Chapeuzinho, por exemplo). */
+  capa?: string;
 }
 
 export interface Categoria {
