@@ -7,6 +7,7 @@ import GavetaCarrinho from './components/GavetaCarrinho';
 import WhatsAppFlutuante from './components/WhatsAppFlutuante';
 import TransicaoPagina from './components/TransicaoPagina';
 import { ProvedorCarrinho } from './store/carrinho';
+import { ProvedorCatalogo } from './store/catalogo';
 import Inicio from './pages/Inicio';
 
 /*
@@ -73,13 +74,16 @@ const Router = import.meta.env.VITE_ROUTER === 'hash' ? HashRouter : BrowserRout
 export default function App() {
   return (
     <Router>
-      <ProvedorCarrinho>
-        <Cabecalho />
-        <RotasAnimadas />
-        <Rodape />
-        <GavetaCarrinho />
-        <WhatsAppFlutuante />
-      </ProvedorCarrinho>
+      {/* o catálogo vem do Supabase e envolve o carrinho, que consulta as peças */}
+      <ProvedorCatalogo>
+        <ProvedorCarrinho>
+          <Cabecalho />
+          <RotasAnimadas />
+          <Rodape />
+          <GavetaCarrinho />
+          <WhatsAppFlutuante />
+        </ProvedorCarrinho>
+      </ProvedorCatalogo>
     </Router>
   );
 }

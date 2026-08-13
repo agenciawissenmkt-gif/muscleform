@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import DollArt from './DollArt';
-import { formatarPreco, parcelamento } from '../data/produtos';
+import { formatarPreco, parcelamento } from '../lib/formato';
 import type { Produto } from '../data/types';
 import { CTA_COMPRA, linkWhatsApp } from '../config/site';
 

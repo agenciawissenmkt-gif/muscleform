@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import Logo from './Logo';
-import { categorias } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
 import { useCarrinho } from '../store/carrinho';
 import { site } from '../config/site';
 
@@ -18,6 +18,7 @@ export default function Cabecalho() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [categoriasAbertas, setCategoriasAbertas] = useState(false);
   const { quantidadeTotal, abrirGaveta } = useCarrinho();
+  const { categorias } = useCatalogo();
   const local = useLocation();
 
   const { scrollYProgress } = useScroll();
@@ -186,6 +187,8 @@ export default function Cabecalho() {
 }
 
 function MenuMobile({ aberto, fechar }: { aberto: boolean; fechar: () => void }) {
+  const { categorias } = useCatalogo();
+
   return (
     <AnimatePresence>
       {aberto && (

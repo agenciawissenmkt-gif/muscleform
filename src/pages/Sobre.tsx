@@ -4,10 +4,13 @@ import Doll3D from '../components/Doll3D';
 import Logo from '../components/Logo';
 import Reveal from '../components/Reveal';
 import BotaoSonho from '../components/BotaoSonho';
-import { produtos } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
 import { linkWhatsApp, site } from '../config/site';
 
 export default function Sobre() {
+  const { produtos } = useCatalogo();
+  const bonecaDaVitrine = produtos[2] ?? produtos[0];
+
   return (
     <div className="pb-16">
       <section className="mx-auto max-w-4xl px-4 py-10 text-center sm:px-6">
@@ -40,9 +43,11 @@ export default function Sobre() {
               animate={{ rotate: 360 }}
               transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
             />
-            <div className="absolute inset-0 p-10">
-              <Doll3D spec={produtos[2].spec} profundidade={1.3} className="h-full w-full" />
-            </div>
+            {bonecaDaVitrine && (
+              <div className="absolute inset-0 p-10">
+                <Doll3D spec={bonecaDaVitrine.spec} profundidade={1.3} className="h-full w-full" />
+              </div>
+            )}
           </div>
         </Reveal>
 

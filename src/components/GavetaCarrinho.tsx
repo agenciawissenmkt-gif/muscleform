@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useCarrinho } from '../store/carrinho';
-import { formatarPreco, produtoPorId } from '../data/produtos';
+import { formatarPreco } from '../lib/formato';
+import { useCatalogo } from '../store/catalogo';
 import MidiaProduto from './MidiaProduto';
 import BotaoSonho from './BotaoSonho';
 import { linkWhatsApp } from '../config/site';
@@ -10,6 +11,7 @@ import { linkWhatsApp } from '../config/site';
 export default function GavetaCarrinho() {
   const { itens, total, gavetaAberta, fecharGaveta, alterarQuantidade, remover, mensagemWhatsApp } =
     useCarrinho();
+  const { produtoPorId } = useCatalogo();
 
   return (
     <AnimatePresence>

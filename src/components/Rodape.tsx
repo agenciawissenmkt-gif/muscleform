@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
-import { categorias } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
 import { linkWhatsApp, site } from '../config/site';
 
 export default function Rodape() {
+  const { categorias } = useCatalogo();
+
   return (
     <footer className="relative mt-24 overflow-hidden bg-rosa-200/70 pt-16">
       <OndaTopo />

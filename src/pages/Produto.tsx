@@ -5,7 +5,9 @@ import VisualizadorProduto from '../components/VisualizadorProduto';
 import CardProduto from '../components/CardProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
-import { categoriaPorSlug, formatarPreco, parcelamento, produtoPorSlug, relacionados } from '../data/produtos';
+import { formatarPreco, parcelamento } from '../lib/formato';
+import { useCatalogo } from '../store/catalogo';
+import { AvisoCatalogo, ProdutoFantasma } from '../components/EstadoCatalogo';
 import { useCarrinho } from '../store/carrinho';
 import { linkWhatsApp, site } from '../config/site';
 import NaoEncontrada from './NaoEncontrada';
@@ -13,6 +15,7 @@ import NaoEncontrada from './NaoEncontrada';
 
 export default function Produto() {
   const { slug } = useParams();
+  const { produtoPorSlug, categoriaPorSlug, relacionados, carregando, erro, recarregar } = useCatalogo();
   const produto = slug ? produtoPorSlug(slug) : undefined;
 
   const [quantidade, setQuantidade] = useState(1);
@@ -22,6 +25,22 @@ export default function Produto() {
   // enquanto o botão de compra estiver na tela, a barra fixa do celular sai da frente
   const areaCompra = useRef<HTMLDivElement>(null);
   const compraNaTela = useInView(areaCompra, { margin: '-90px 0px -140px 0px' });
+
+  if (carregando) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <ProdutoFantasma />
+      </div>
+    );
+  }
+
+  if (erro) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <AvisoCatalogo mensagem={erro} aoTentarDeNovo={recarregar} />
+      </div>
+    );
+  }
 
   if (!produto) return <NaoEncontrada />;
 
@@ -223,7 +242,7 @@ export default function Produto() {
             </Reveal>
 
             <Reveal className="mt-5">
-              <PresenteDeAvo nome={produto.nome} />
+              <PresenteDeAvo nome={produto.nome} texto={produto.presenteAvo} />
             </Reveal>
 
             {/* detalhes */}
@@ -376,8 +395,8 @@ function SeloSeguranca() {
   );
 }
 
-/** Recadinho para avós — quem mais presenteia no ateliê. */
-function PresenteDeAvo({ nome }: { nome: string }) {
+/** Recadinho para avós — o painel pode escrever um texto próprio por peça. */
+function PresenteDeAvo({ nome, texto }: { nome: string; texto?: string }) {
   return (
     <div className="relative overflow-hidden rounded-[1.5rem] border border-creme-200 bg-creme-100 p-6">
       <span className="absolute -right-4 -top-4 text-7xl opacity-20" aria-hidden="true">
@@ -385,9 +404,8 @@ function PresenteDeAvo({ nome }: { nome: string }) {
       </span>
       <p className="text-xs font-bold uppercase tracking-[0.2em] text-rosa-600">Presente de avó</p>
       <p className="mt-3 leading-relaxed text-sepia-700">
-        A {nome} é daquelas lembranças que ficam. Vó e vô que dão uma boneca de pano não estão dando um brinquedo
-        de moda — estão dando o abraço que fica no quarto quando eles não estão. É segura para o neto pequeno,
-        aguenta anos de uso e volta em foto de aniversário, um ano atrás do outro.
+        {texto ??
+          `A ${nome} é daquelas lembranças que ficam. Vó e vô que dão uma boneca de pano não estão dando um brinquedo de moda — estão dando o abraço que fica no quarto quando eles não estão. É segura para o neto pequeno, aguenta anos de uso e volta em foto de aniversário, um ano atrás do outro.`}
       </p>
       <p className="mt-3 text-sm text-sepia-500">
         Se for presente, a gente embala com laço e escreve o seu recadinho à mão no cartão — é só avisar no

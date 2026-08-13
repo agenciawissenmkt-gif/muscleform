@@ -5,6 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [react(), tailwindcss()],
+  // aceita as variáveis com prefixo do Vite e também as NEXT_PUBLIC_,
+  // para o mesmo nome funcionar aqui e no painel da Vercel
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
   server: {
     host: true,
   },

@@ -49,17 +49,22 @@ export interface Produto {
   preco: number;
   precoDe?: number;
   resumo: string;
+  /** "A História Dela" */
   historia: string;
+  /** "Presente de Vó" — texto próprio da peça; sem ele, entra o texto padrão. */
+  presenteAvo?: string;
   /**
-   * Foto real da boneca, em public/produtos/.
-   * Se o arquivo não existir, o site mostra a ilustração 3D no lugar.
+   * Foto da boneca (URL pública do Storage do Supabase ou de outro serviço).
+   * Sem foto, o site mostra a ilustração 3D da peça.
    */
   foto?: string;
   /** Frase curta do cenário da foto, usada como legenda. */
   legendaFoto?: string;
   /** Foto de estúdio, com fundo claro — é a que aparece no topo da home. */
   fotoEstudio?: string;
+  /** Tamanho da peça, como "42 cm". */
   altura: string;
+  /** "Materiais e Acabamento" */
   materiais: string[];
   cuidados: string;
   tags: string[];

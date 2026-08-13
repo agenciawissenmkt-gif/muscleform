@@ -1,13 +1,22 @@
 import { Link } from 'react-router-dom';
 import Doll3D from '../components/Doll3D';
-import { produtos } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
 
 export default function NaoEncontrada() {
+  const { produtos } = useCatalogo();
+  const bonecaDaVez = produtos[4] ?? produtos[0];
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center sm:px-6">
-      <div className="h-56 w-56">
-        <Doll3D spec={produtos[4].spec} profundidade={1.2} className="h-full w-full" />
-      </div>
+      {bonecaDaVez ? (
+        <div className="h-56 w-56">
+          <Doll3D spec={bonecaDaVez.spec} profundidade={1.2} className="h-full w-full" />
+        </div>
+      ) : (
+        <span className="text-7xl" aria-hidden="true">
+          🧸
+        </span>
+      )}
       <h1 className="mt-6 font-display text-4xl text-sepia-900">Essa boneca saiu para brincar…</h1>
       <p className="mt-3 max-w-md text-sepia-700">
         Não encontramos a página que você procurava. Que tal dar uma olhada nas bonecas que estão no ateliê agora?

@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import CardProduto from '../components/CardProduto';
 import Reveal from '../components/Reveal';
 import DollArt from '../components/DollArt';
-import { categoriaPorSlug, categorias, produtos } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
+import { AvisoCatalogo, CartoesFantasma } from '../components/EstadoCatalogo';
 import NaoEncontrada from './NaoEncontrada';
 
 type Ordem = 'destaque' | 'menor' | 'maior' | 'novidade';
@@ -18,6 +19,7 @@ const ordens: { valor: Ordem; rotulo: string }[] = [
 
 export default function Catalogo() {
   const { slug } = useParams();
+  const { produtos, categorias, categoriaPorSlug, carregando, erro, recarregar } = useCatalogo();
   const categoria = slug ? categoriaPorSlug(slug) : undefined;
 
   const [busca, setBusca] = useState('');
@@ -52,9 +54,10 @@ export default function Catalogo() {
     });
 
     return resultado;
-  }, [busca, ordem, categoriaAtiva]);
+  }, [busca, ordem, categoriaAtiva, produtos]);
 
-  if (slug && !categoria) return <NaoEncontrada />;
+  // enquanto o catálogo carrega ainda não dá para dizer que a coleção não existe
+  if (slug && !categoria && !carregando && !erro) return <NaoEncontrada />;
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
@@ -77,7 +80,7 @@ export default function Catalogo() {
           )}
         </nav>
 
-        {categoria ? (
+        {slug && categoria ? (
           <div className="flex flex-col items-center gap-4">
             <DollArt
               spec={categoria.capa}
@@ -94,7 +97,9 @@ export default function Catalogo() {
               Todas as nossas <span className="font-script text-rosa-600">bonecas</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
-              {produtos.length} peças costuradas à mão, esperando por um colo. Use os filtros para achar a sua.
+              {carregando
+                ? 'Buscando as bonecas que estão no ateliê agora…'
+                : `${produtos.length} peças costuradas à mão, esperando por um colo. Use os filtros para achar a sua.`}
             </p>
           </>
         )}
@@ -150,19 +155,27 @@ export default function Catalogo() {
         )}
       </div>
 
-      <p className="mt-6 text-center text-sm text-sepia-500">
-        {lista.length === 0
-          ? 'Nenhuma boneca encontrada com esse jeitinho.'
-          : `${lista.length} ${lista.length === 1 ? 'boneca encontrada' : 'bonecas encontradas'}`}
-      </p>
+      {!carregando && !erro && (
+        <p className="mt-6 text-center text-sm text-sepia-500">
+          {lista.length === 0
+            ? 'Nenhuma boneca encontrada com esse jeitinho.'
+            : `${lista.length} ${lista.length === 1 ? 'boneca encontrada' : 'bonecas encontradas'}`}
+        </p>
+      )}
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {lista.map((p, i) => (
-          <CardProduto key={p.id} produto={p} indice={i} />
-        ))}
-      </div>
+      {carregando && <CartoesFantasma quantidade={8} />}
 
-      {lista.length === 0 && (
+      {erro && !carregando && <AvisoCatalogo mensagem={erro} aoTentarDeNovo={recarregar} />}
+
+      {!carregando && !erro && (
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {lista.map((p, i) => (
+            <CardProduto key={p.id} produto={p} indice={i} />
+          ))}
+        </div>
+      )}
+
+      {!carregando && !erro && lista.length === 0 && (
         <div className="mt-8 text-center">
           <span className="text-5xl animate-flutuar" aria-hidden="true">
             🧵
@@ -179,7 +192,7 @@ export default function Catalogo() {
         </div>
       )}
 
-      {slug && (
+      {slug && categorias.length > 0 && (
         <div className="mt-16 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-sepia-500">Outras coleções</p>
           <div className="mt-4 flex flex-wrap justify-center gap-2">

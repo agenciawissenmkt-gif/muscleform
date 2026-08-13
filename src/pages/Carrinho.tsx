@@ -3,12 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import MidiaProduto from '../components/MidiaProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
-import { formatarPreco, parcelamento, produtoPorId } from '../data/produtos';
+import { formatarPreco, parcelamento } from '../lib/formato';
 import { useCarrinho } from '../store/carrinho';
+import { useCatalogo } from '../store/catalogo';
 import { linkWhatsApp, site } from '../config/site';
 
 export default function Carrinho() {
   const { itens, total, alterarQuantidade, remover, limpar, mensagemWhatsApp } = useCarrinho();
+  const { produtoPorId } = useCatalogo();
   const { vezes, valor } = parcelamento(total);
 
   return (

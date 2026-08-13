@@ -4,6 +4,9 @@ Loja online do ateliê **Sonhos de Brincar** (bonecas de pano feitas à mão).
 Site em rosa claro, com bonecas ilustradas em SVG animadas em 3D, página de venda
 interativa e checkout pelo WhatsApp.
 
+O catálogo **vem todo do Supabase** — não existe produto escrito no código. Quem
+manda no que aparece na loja é o painel administrativo.
+
 Instagram do ateliê: [@sonhosdebrincar.atelie](https://www.instagram.com/sonhosdebrincar.atelie)
 
 ## Como rodar
@@ -26,11 +29,14 @@ npm run preview:arquivo
 
 Gera `preview/sonhos-de-brincar.html` — um arquivo só, com CSS, JavaScript e
 fontes embutidos. É só dar dois cliques que abre no navegador (usa endereços
-com `#` para funcionar offline).
+com `#` para funcionar offline). As bonecas continuam vindo do Supabase, então o
+arquivo precisa das variáveis de ambiente no momento em que é gerado, e de
+internet para buscar o catálogo.
 
-Feito com Vite + React + TypeScript + Tailwind CSS 4 + Framer Motion.
-Não precisa de servidor nem banco de dados: é um site estático, pode ser publicado
-na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
+Feito com Vite + React + TypeScript + Tailwind CSS 4 + Framer Motion, com o
+catálogo no Supabase. A loja continua sendo um site estático (Vercel, Netlify ou
+qualquer hospedagem comum) — ela só precisa das duas variáveis de ambiente do
+Supabase para ler os produtos.
 
 ## O que o site tem
 
@@ -40,8 +46,8 @@ na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
 - **Páginas de categoria** (`/categoria/:slug`) — 6 coleções, incluindo os bonecos.
 - O ateliê **não trabalha com personalização**: cada peça é única e sai como está na foto.
 - **Página de venda** (`/boneca/:slug`) com:
-  - **foto real** da peça (quando o arquivo está em `public/produtos/`), com **giro em 3D**
-    e **zoom** nos detalhes da costura como abas ao lado;
+  - **foto real** da peça (URL cadastrada no painel), com **giro em 3D** e **zoom**
+    nos detalhes da costura como abas ao lado;
   - selo de **segurança** em destaque: tecido antialérgico, não solta pelinho, nenhuma peça
     que possa soltar, costura dupla que não rasga e uso seguro desde o primeiro dia,
     inclusive para bebês prematuros;
@@ -56,6 +62,74 @@ na Vercel, Netlify, GitHub Pages ou em qualquer hospedagem comum.
 - Responsivo de verdade (menu lateral no celular), animações de entrada, transições
   entre páginas, barra de progresso de rolagem e respeito a `prefers-reduced-motion`.
 
+## Conectar ao Supabase
+
+O catálogo (produtos, categorias, fotos, textos) mora no Supabase. A loja só lê;
+quem escreve é o painel, com login.
+
+### 1. Criar as tabelas
+
+No Supabase, abra **SQL Editor** e rode, nesta ordem:
+
+1. `supabase/schema.sql` — cria as tabelas `produtos` e `categorias`, os índices,
+   as regras de segurança (RLS) e o balde de fotos.
+2. `supabase/seed.sql` — coloca o catálogo inicial (6 categorias e 29 peças).
+   Rodar de novo não duplica nada: atualiza pelo `slug`.
+
+### 2. Pegar as credenciais
+
+Em **Project Settings → Data API**, copie:
+
+- a **URL** do projeto (`https://xxxx.supabase.co`);
+- a chave **anon / public**.
+
+> A chave `service_role` **nunca** entra na loja. Ela dá acesso total ao banco.
+
+### 3. Rodar na sua máquina
+
+```bash
+cp .env.example .env.local   # e preencha as duas variáveis
+npm install
+npm run dev
+```
+
+### 4. Configurar na Vercel
+
+**Settings → Environment Variables**, marcando os três ambientes
+(Production, Preview e Development):
+
+| Nome | Valor |
+| --- | --- |
+| `VITE_SUPABASE_URL` | a URL do projeto |
+| `VITE_SUPABASE_ANON_KEY` | a chave anon/public |
+
+Depois **Redeploy** — variável de ambiente só entra em build novo.
+
+> **Atenção ao prefixo:** este projeto é **Vite**, não Next.js. O padrão aqui é
+> `VITE_`. Para facilitar, o build também aceita `NEXT_PUBLIC_SUPABASE_URL` e
+> `NEXT_PUBLIC_SUPABASE_ANON_KEY` (veja `envPrefix` no `vite.config.ts`) — se você
+> já cadastrou com esses nomes na Vercel, funciona do mesmo jeito.
+
+### 5. Fotos das bonecas
+
+O campo `foto` (e `foto_estudio`) guarda uma **URL pública**. Duas formas:
+
+- **Storage do Supabase**: o `schema.sql` já cria o balde `produtos` como público.
+  Envie a foto pelo painel e salve a URL pública no produto.
+- **Imagem hospedada fora**: cole a URL direto no campo. Funciona igual.
+
+Se o arquivo não abrir, o site mostra a ilustração 3D da peça no lugar — nunca
+aparece imagem quebrada.
+
+### O que a loja consegue fazer
+
+| Ação | Loja (chave anon) | Painel (usuário logado) |
+| --- | --- | --- |
+| Ler produtos e categorias **ativos** | ✅ | ✅ |
+| Ler o que está inativo | ❌ | ✅ |
+| Criar, editar, apagar | ❌ | ✅ |
+| Enviar fotos | ❌ | ✅ |
+
 ## Mudar as informações da loja
 
 Tudo o que é "dado do negócio" está separado do código:
@@ -63,7 +137,7 @@ Tudo o que é "dado do negócio" está separado do código:
 | O que mudar | Arquivo |
 | --- | --- |
 | WhatsApp, Instagram, e-mail, cidade, slogan, prazo | `src/config/site.ts` |
-| Produtos, preços, textos, categorias | `src/data/produtos.ts` |
+| Produtos, preços, textos, categorias | painel administrativo (Supabase) |
 | Cores do site (rosa, creme, verde neon) | `src/index.css` (bloco `@theme`) |
 
 ### WhatsApp
@@ -78,34 +152,46 @@ whatsappNumero: '554195096228',        // usado no link wa.me (só números)
 > Se o número tiver o nono dígito (41 **9** 9509-6228), troque `whatsappNumero`
 > por `5541995096228` — o link do WhatsApp precisa do número completo para abrir a conversa.
 
-### Fotos das bonecas
-
-As fotos reais ficam em `public/produtos/` — veja `public/produtos/LEIA-ME.md` para os
-nomes de arquivo esperados. Enquanto a foto não estiver lá, o site mostra a ilustração 3D
-da peça; nunca aparece imagem quebrada.
-
 ### Produtos
 
-Cada boneca em `src/data/produtos.ts` tem nome, preço, textos e uma `spec` —
-a "receita" da ilustração (tipo, tom de pele, cor e estilo do cabelo, cor do
-vestido, acessório). Copie um produto existente, troque as cores e já aparece no
-site, no catálogo, na busca e nos relacionados.
+Cada boneca é uma linha da tabela `produtos`, editada pelo painel. Os campos
+batem com as seções da página de venda:
+
+| Campo no banco | Onde aparece na loja |
+| --- | --- |
+| `nome`, `resumo`, `preco`, `preco_de` | cartão e topo da página |
+| `historia` | seção "A História Dela" |
+| `presente_avo` | seção "Presente de Vó" (vazio = texto padrão) |
+| `materiais` | "Materiais e acabamento" |
+| `cuidados` | "Como cuidar" |
+| `altura` | "Medidas" |
+| `foto`, `foto_estudio`, `legenda_foto` | fotos do produto e do topo da home |
+| `categoria_slug` | coleção a que pertence |
+| `destaque`, `mais_vendida`, `novidade` | vitrines e etiquetas |
+| `spec_3d` | receita da ilustração 3D (JSON) |
+| `ordem`, `ativo` | posição na listagem e se aparece na loja |
 
 As ilustrações são geradas em SVG por `src/components/DollArt.tsx`, separadas em
 camadas (cabelo de trás, corpo, cabeça, rosto, franja, acessório). É isso que dá o
 efeito 3D: cada camada fica em uma profundidade diferente e o conjunto gira junto.
-
-> Quando tiver as fotos reais das bonecas, dá para trocar a ilustração pela foto
-> na página de produto sem mexer no resto do site.
+Sem `spec_3d`, a peça usa uma ilustração padrão — e, se tiver `foto`, é a foto que
+manda.
 
 ## Estrutura
 
 ```
 src/
   config/site.ts          dados da loja (WhatsApp, redes, textos)
-  data/produtos.ts        catálogo: categorias e produtos
-  data/types.ts           tipos
-  components/             DollArt (SVG), Doll3D, cards, cabeçalho, rodapé, sacolinha
-  pages/                  Início, Catálogo, Produto, Sobre, Contato, Carrinho, 404
+  lib/supabase.ts         conexão com o Supabase (lê as variáveis de ambiente)
+  lib/formato.ts          preço e parcelas
+  services/catalogo.ts    todas as consultas ao banco — único ponto de contato
+  store/catalogo.tsx      carrega o catálogo uma vez e distribui para as páginas
   store/carrinho.tsx      sacolinha (salva no navegador)
+  data/types.ts           tipos do catálogo
+  components/             DollArt (SVG), Doll3D, cards, cabeçalho, rodapé, sacolinha
+  components/EstadoCatalogo.tsx  carregando e mensagens de erro
+  pages/                  Início, Catálogo, Produto, Sobre, Contato, Carrinho, 404
+supabase/
+  schema.sql              tabelas, índices, RLS e balde de fotos
+  seed.sql                catálogo inicial
 ```

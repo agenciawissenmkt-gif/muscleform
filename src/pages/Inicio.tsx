@@ -6,24 +6,35 @@ import DollArt from '../components/DollArt';
 import CardProduto from '../components/CardProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
-import { categorias, produtos } from '../data/produtos';
+import { useCatalogo } from '../store/catalogo';
+import { AvisoCatalogo, CartoesFantasma } from '../components/EstadoCatalogo';
+import type { Categoria, Produto } from '../data/types';
 import { linkWhatsApp, site } from '../config/site';
 
-const destaques = produtos.filter((p) => p.destaque);
-const amadas = produtos.filter((p) => p.maisVendida);
-const comFotoEstudio = produtos.filter((p) => p.fotoEstudio);
+interface ListaProps {
+  destaques: Produto[];
+  carregando: boolean;
+  erro: string | null;
+  recarregar: () => void;
+}
 
 export default function Inicio() {
+  const { produtos, categorias, destaques, maisAmadas, comFotoEstudio, carregando, erro, recarregar } =
+    useCatalogo();
+
+  // no topo entram as bonecas fotografadas em estúdio; sem elas, os destaques
+  const vitrine = comFotoEstudio.length ? comFotoEstudio : destaques.length ? destaques : produtos;
+
   return (
     <>
-      <Hero />
+      <Hero vitrine={vitrine} />
       <FaixaCorrendo />
-      <Categorias />
-      <Destaques />
-      <ComoNasce />
+      {categorias.length > 0 && <Categorias categorias={categorias} />}
+      <Destaques destaques={destaques} carregando={carregando} erro={erro} recarregar={recarregar} />
+      <ComoNasce boneca={produtos[0]} />
       <Seguranca />
-      <MaisAmadas />
-      <ParaOsAvos />
+      {maisAmadas.length > 0 && <MaisAmadas amadas={maisAmadas} />}
+      <ParaOsAvos boneca={produtos[1]} />
       <Depoimentos />
       <ChamadaFinal />
     </>
@@ -32,22 +43,21 @@ export default function Inicio() {
 
 /* ----------------------------------- Hero ----------------------------------- */
 
-function Hero() {
+function Hero({ vitrine }: { vitrine: Produto[] }) {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 600], [0, 90]);
   const y2 = useTransform(scrollY, [0, 600], [0, -60]);
   const opacidade = useTransform(scrollY, [0, 420], [1, 0]);
 
   const [indice, setIndice] = useState(0);
-  // no topo entram as bonecas fotografadas em estúdio; sem elas, os destaques
-  const vitrine = comFotoEstudio.length ? comFotoEstudio : destaques.length ? destaques : produtos;
 
   useEffect(() => {
+    if (vitrine.length < 2) return;
     const t = setInterval(() => setIndice((i) => (i + 1) % vitrine.length), 5200);
     return () => clearInterval(t);
   }, [vitrine.length]);
 
-  const atual = vitrine[indice];
+  const atual = vitrine[Math.min(indice, Math.max(vitrine.length - 1, 0))];
 
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-6 sm:px-6 lg:px-8">
@@ -124,7 +134,9 @@ function Hero() {
             />
             <div className="absolute inset-8 rounded-[2.5rem] bg-gradient-to-br from-white/80 via-rosa-100 to-rosa-200 sombra-suave" />
 
-            {atual.fotoEstudio ? (
+            {!atual ? (
+              <div className="absolute inset-8 animate-pulse rounded-[2.5rem] bg-rosa-200/60" />
+            ) : atual.fotoEstudio ? (
               <FotoHero key={atual.id} foto={atual.fotoEstudio} nome={atual.nome} />
             ) : (
               <motion.div
@@ -138,6 +150,7 @@ function Hero() {
               </motion.div>
             )}
 
+            {atual && (
             <motion.div
               className="absolute -bottom-2 left-1/2 w-max -translate-x-1/2 rounded-full border border-rosa-200 bg-white/90 px-5 py-2 text-center shadow-lg backdrop-blur"
               key={`${atual.id}-nome`}
@@ -152,6 +165,7 @@ function Hero() {
                 {atual.fotoEstudio ? '✦ ver detalhes' : '✦ toque e gire'}
               </span>
             </motion.div>
+            )}
           </div>
 
           <div className="mt-8 flex justify-center gap-2">
@@ -275,7 +289,7 @@ function FaixaCorrendo() {
 
 /* ------------------------------ Categorias ---------------------------------- */
 
-function Categorias() {
+function Categorias({ categorias }: { categorias: Categoria[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal className="text-center">
@@ -287,7 +301,7 @@ function Categorias() {
       </Reveal>
 
       <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {categorias.map((c, i) => (
+        {categorias.map((c: Categoria, i: number) => (
           <Reveal key={c.slug} delay={i * 0.07} efeito="zoom">
             <Link
               to={`/categoria/${c.slug}`}
@@ -319,7 +333,7 @@ function Categorias() {
 
 /* ------------------------------- Destaques ---------------------------------- */
 
-function Destaques() {
+function Destaques({ destaques, carregando, erro, recarregar }: ListaProps) {
   return (
     <section className="relative py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -337,11 +351,17 @@ function Destaques() {
           </Link>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {destaques.slice(0, 8).map((p, i) => (
-            <CardProduto key={p.id} produto={p} indice={i} />
-          ))}
-        </div>
+        {carregando && <CartoesFantasma quantidade={4} />}
+
+        {erro && !carregando && <AvisoCatalogo mensagem={erro} aoTentarDeNovo={recarregar} />}
+
+        {!carregando && !erro && (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {destaques.slice(0, 8).map((p, i) => (
+              <CardProduto key={p.id} produto={p} indice={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -349,7 +369,7 @@ function Destaques() {
 
 /* ------------------------------ Como nasce ---------------------------------- */
 
-function ComoNasce() {
+function ComoNasce({ boneca }: { boneca?: Produto }) {
   const passos = [
     { emoji: '✂️', titulo: 'Escolha do tecido', texto: 'Algodões e plush selecionados um a um, pensando no toque.' },
     { emoji: '🧵', titulo: 'Corte e costura', texto: 'Molde desenhado à mão, costurado devagar, sem pressa.' },
@@ -402,9 +422,11 @@ function ComoNasce() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
               />
-              <div className="absolute inset-0 p-10">
-                <Doll3D spec={produtos[0].spec} profundidade={1.3} className="h-full w-full" />
-              </div>
+              {boneca && (
+                <div className="absolute inset-0 p-10">
+                  <Doll3D spec={boneca.spec} profundidade={1.3} className="h-full w-full" />
+                </div>
+              )}
             </div>
           </Reveal>
         </div>
@@ -485,7 +507,7 @@ function Seguranca() {
 
 /* -------------------------------- Avós -------------------------------------- */
 
-function ParaOsAvos() {
+function ParaOsAvos({ boneca }: { boneca?: Produto }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <Reveal efeito="zoom">
@@ -545,9 +567,11 @@ function ParaOsAvos() {
 
           <div className="relative mx-auto aspect-square w-full max-w-xs">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-rosa-200 to-creme-50" />
-            <div className="absolute inset-0 p-6">
-              <Doll3D spec={produtos[1].spec} profundidade={1.2} className="h-full w-full" />
-            </div>
+            {boneca && (
+              <div className="absolute inset-0 p-6">
+                <Doll3D spec={boneca.spec} profundidade={1.2} className="h-full w-full" />
+              </div>
+            )}
           </div>
         </div>
       </Reveal>
@@ -557,7 +581,7 @@ function ParaOsAvos() {
 
 /* ------------------------------ Mais amadas --------------------------------- */
 
-function MaisAmadas() {
+function MaisAmadas({ amadas }: { amadas: Produto[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal className="text-center">
@@ -565,11 +589,13 @@ function MaisAmadas() {
         <h2 className="mt-3 font-display text-3xl text-sepia-900 sm:text-4xl">As mais amadas do ateliê</h2>
       </Reveal>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {amadas.map((p, i) => (
-          <CardProduto key={p.id} produto={p} indice={i} />
-        ))}
-      </div>
+      {amadas.length > 0 && (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {amadas.map((p, i) => (
+            <CardProduto key={p.id} produto={p} indice={i} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

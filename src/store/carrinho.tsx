@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { formatarPreco, produtoPorId } from '../data/produtos';
+import { formatarPreco } from '../lib/formato';
+import { useCatalogo } from './catalogo';
 import type { ItemCarrinho } from '../data/types';
 import { site } from '../config/site';
 
@@ -27,7 +28,11 @@ function carregar(): ItemCarrinho[] {
     const bruto = localStorage.getItem(CHAVE);
     if (!bruto) return [];
     const dados = JSON.parse(bruto) as ItemCarrinho[];
-    return Array.isArray(dados) ? dados.filter((i) => produtoPorId(i.produtoId)) : [];
+    // guarda só o que tem forma de item; a existência da peça é conferida
+    // depois, quando o catálogo chega do Supabase
+    return Array.isArray(dados)
+      ? dados.filter((i) => typeof i?.produtoId === 'string' && Number(i?.quantidade) > 0)
+      : [];
   } catch {
     return [];
   }
@@ -36,6 +41,16 @@ function carregar(): ItemCarrinho[] {
 export function ProvedorCarrinho({ children }: { children: ReactNode }) {
   const [itens, setItens] = useState<ItemCarrinho[]>(carregar);
   const [gavetaAberta, setGavetaAberta] = useState(false);
+  const { produtoPorId, produtos, primeiraCarga } = useCatalogo();
+
+  // quando o catálogo chega, tira da sacolinha o que saiu de linha no painel
+  useEffect(() => {
+    if (primeiraCarga || produtos.length === 0) return;
+    setItens((atuais) => {
+      const validos = atuais.filter((i) => produtoPorId(i.produtoId));
+      return validos.length === atuais.length ? atuais : validos;
+    });
+  }, [primeiraCarga, produtos, produtoPorId]);
 
   useEffect(() => {
     try {
@@ -78,7 +93,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
         const produto = produtoPorId(item.produtoId);
         return soma + (produto ? produto.preco * item.quantidade : 0);
       }, 0),
-    [itens],
+    [itens, produtoPorId],
   );
 
   const quantidadeTotal = useMemo(
@@ -103,7 +118,7 @@ export function ProvedorCarrinho({ children }: { children: ReactNode }) {
       '',
       'Pode me passar as formas de pagamento e o prazo de entrega?',
     ].join('\n');
-  }, [itens, total]);
+  }, [itens, total, produtoPorId]);
 
   const valor = useMemo(
     () => ({
