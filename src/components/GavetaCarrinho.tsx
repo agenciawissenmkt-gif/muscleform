@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCarrinho } from '../store/carrinho';
 import { formatarPreco } from '../lib/formato';
 import { useCatalogo } from '../store/catalogo';
-import MidiaProduto from './MidiaProduto';
+import FotoBoneca from './FotoBoneca';
 import BotaoSonho from './BotaoSonho';
 import { linkWhatsApp } from '../config/site';
 
@@ -85,7 +85,7 @@ export default function GavetaCarrinho() {
                             onClick={fecharGaveta}
                             className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-rosa-100"
                           >
-                            <MidiaProduto produto={produto} />
+                            <FotoBoneca produto={produto} />
                           </Link>
                           <div className="flex flex-1 flex-col">
                             <p className="font-display text-base leading-tight text-sepia-900">{produto.nome}</p>

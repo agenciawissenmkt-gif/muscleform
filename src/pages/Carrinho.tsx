@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import MidiaProduto from '../components/MidiaProduto';
+import FotoBoneca from '../components/FotoBoneca';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
 import { formatarPreco, parcelamento } from '../lib/formato';
@@ -57,7 +57,7 @@ export default function Carrinho() {
                       to={`/boneca/${produto.slug}`}
                       className="relative h-36 w-28 shrink-0 self-center overflow-hidden rounded-2xl bg-rosa-100 transition-transform hover:scale-105"
                     >
-                      <MidiaProduto produto={produto} />
+                      <FotoBoneca produto={produto} />
                     </Link>
 
                     <div className="flex-1">

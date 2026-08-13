@@ -1,44 +1,9 @@
-export type TipoBoneca = 'menina' | 'bailarina' | 'urso' | 'coelha' | 'bebe' | 'naninha';
-
-export type Penteado = 'chiquinhas' | 'coque' | 'trancas' | 'cacheado' | 'curto' | 'longo';
-
-export type Acessorio = 'laco' | 'flor' | 'coroa' | 'chapeu' | 'tiara' | 'boina' | 'nenhum';
-
-/** Vestido, ou conjunto de camisa com bermuda/calça (os bonecos). */
-export type Roupa = 'vestido' | 'conjunto';
-
-/** Receita da ilustração 3D de cada boneca — cores e formas geradas em SVG. */
-export interface DollSpec {
-  tipo: TipoBoneca;
-  pele: string;
-  cabelo: string;
-  cabeloSombra: string;
-  penteado: Penteado;
-  vestido: string;
-  vestidoDetalhe: string;
-  acessorio: Acessorio;
-  acessorioCor: string;
-  meias: string;
-  sardas?: boolean;
-  coracao?: string;
-  /** Olhinhos bordados fechados (padrão) ou redondos e abertos. */
-  olhos?: 'fechados' | 'abertos';
-  roupa?: Roupa;
-  /** Cor da bermuda/calça, quando a roupa é conjunto. */
-  calca?: string;
-  /** Cor do sapatinho — se não vier, usa a cor do acessório. */
-  sapatos?: string;
-  /** Capinha com capuz (a Chapeuzinho, por exemplo). */
-  capa?: string;
-}
-
 export interface Categoria {
   slug: string;
   nome: string;
   subtitulo: string;
   descricao: string;
   emoji: string;
-  capa: DollSpec;
 }
 
 export interface Produto {
@@ -55,7 +20,7 @@ export interface Produto {
   presenteAvo?: string;
   /**
    * Foto da boneca (URL pública do Storage do Supabase ou de outro serviço).
-   * Sem foto, o site mostra a ilustração 3D da peça.
+   * Sem foto, o site mostra um espaço reservado ("foto a caminho").
    */
   foto?: string;
   /** Frase curta do cenário da foto, usada como legenda. */
@@ -71,7 +36,6 @@ export interface Produto {
   destaque?: boolean;
   novidade?: boolean;
   maisVendida?: boolean;
-  spec: DollSpec;
 }
 
 export interface ItemCarrinho {

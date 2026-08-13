@@ -1,8 +1,8 @@
 # Sonhos de Brincar — E-commerce do ateliê
 
 Loja online do ateliê **Sonhos de Brincar** (bonecas de pano feitas à mão).
-Site em rosa claro, com bonecas ilustradas em SVG animadas em 3D, página de venda
-interativa e checkout pelo WhatsApp.
+Site em rosa claro, com as fotos das peças, página de venda interativa e
+checkout pelo WhatsApp.
 
 O catálogo **vem todo do Supabase** — não existe produto escrito no código. Quem
 manda no que aparece na loja é o painel administrativo.
@@ -40,14 +40,15 @@ Supabase para ler os produtos.
 
 ## O que o site tem
 
-- **Home** com boneca girando em 3D, vitrine automática, categorias, destaques,
-  o passo a passo "como nasce uma boneca", segurança, seção para avós e depoimentos.
+- **Home** com a foto da boneca em destaque, vitrine automática, categorias,
+  destaques, o passo a passo "como nasce uma boneca", segurança, seção para avós
+  e depoimentos.
 - **Catálogo** (`/bonecas`) com busca, filtro por categoria e ordenação animada.
 - **Páginas de categoria** (`/categoria/:slug`) — 6 coleções, incluindo os bonecos.
 - O ateliê **não trabalha com personalização**: cada peça é única e sai como está na foto.
 - **Página de venda** (`/boneca/:slug`) com:
-  - **foto real** da peça (URL cadastrada no painel), com **giro em 3D** e **zoom**
-    nos detalhes da costura como abas ao lado;
+  - **foto real** da peça (URL cadastrada no painel), com **zoom** nos detalhes da
+    costura;
   - selo de **segurança** em destaque: tecido antialérgico, não solta pelinho, nenhuma peça
     que possa soltar, costura dupla que não rasga e uso seguro desde o primeiro dia,
     inclusive para bebês prematuros;
@@ -118,8 +119,8 @@ O campo `foto` (e `foto_estudio`) guarda uma **URL pública**. Duas formas:
   Envie a foto pelo painel e salve a URL pública no produto.
 - **Imagem hospedada fora**: cole a URL direto no campo. Funciona igual.
 
-Se o arquivo não abrir, o site mostra a ilustração 3D da peça no lugar — nunca
-aparece imagem quebrada.
+Se o arquivo não abrir, entra um espaço reservado no tom do site ("foto a
+caminho") — nunca aparece imagem quebrada.
 
 ### O que a loja consegue fazer
 
@@ -168,14 +169,12 @@ batem com as seções da página de venda:
 | `foto`, `foto_estudio`, `legenda_foto` | fotos do produto e do topo da home |
 | `categoria_slug` | coleção a que pertence |
 | `destaque`, `mais_vendida`, `novidade` | vitrines e etiquetas |
-| `spec_3d` | receita da ilustração 3D (JSON) |
 | `ordem`, `ativo` | posição na listagem e se aparece na loja |
 
-As ilustrações são geradas em SVG por `src/components/DollArt.tsx`, separadas em
-camadas (cabelo de trás, corpo, cabeça, rosto, franja, acessório). É isso que dá o
-efeito 3D: cada camada fica em uma profundidade diferente e o conjunto gira junto.
-Sem `spec_3d`, a peça usa uma ilustração padrão — e, se tiver `foto`, é a foto que
-manda.
+A loja mostra **somente a foto** cadastrada no painel. Peça sem foto aparece com
+um espaço reservado no tom do site ("foto a caminho") — nunca com imagem quebrada.
+As colunas `spec_3d` e `capa_spec` continuam no banco por compatibilidade, mas a
+loja não lê mais nenhuma das duas.
 
 ## Estrutura
 
@@ -188,7 +187,7 @@ src/
   store/catalogo.tsx      carrega o catálogo uma vez e distribui para as páginas
   store/carrinho.tsx      sacolinha (salva no navegador)
   data/types.ts           tipos do catálogo
-  components/             DollArt (SVG), Doll3D, cards, cabeçalho, rodapé, sacolinha
+  components/             FotoBoneca, cards, cabeçalho, rodapé, sacolinha
   components/EstadoCatalogo.tsx  carregando e mensagens de erro
   pages/                  Início, Catálogo, Produto, Sobre, Contato, Carrinho, 404
 supabase/

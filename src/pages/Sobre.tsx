@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Doll3D from '../components/Doll3D';
+import FotoBoneca from '../components/FotoBoneca';
 import Logo from '../components/Logo';
 import Reveal from '../components/Reveal';
 import BotaoSonho from '../components/BotaoSonho';
@@ -9,7 +9,7 @@ import { linkWhatsApp, site } from '../config/site';
 
 export default function Sobre() {
   const { produtos } = useCatalogo();
-  const bonecaDaVitrine = produtos[2] ?? produtos[0];
+  const bonecaDaVitrine = produtos.find((p) => p.foto ?? p.fotoEstudio);
 
   return (
     <div className="pb-16">
@@ -44,8 +44,8 @@ export default function Sobre() {
               transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
             />
             {bonecaDaVitrine && (
-              <div className="absolute inset-0 p-10">
-                <Doll3D spec={bonecaDaVitrine.spec} profundidade={1.3} className="h-full w-full" />
+              <div className="absolute inset-6 overflow-hidden rounded-[2rem] sombra-suave">
+                <FotoBoneca produto={bonecaDaVitrine} />
               </div>
             )}
           </div>

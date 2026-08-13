@@ -16,8 +16,7 @@ create table if not exists public.categorias (
   subtitulo   text,
   descricao   text,
   emoji       text default '🎀',
-  -- receita da ilustração 3D usada na capa da coleção
-  capa_spec   jsonb,
+  capa_spec   jsonb,        -- legado: a capa da coleção usa a foto de uma peça
   ordem       integer default 0,
   ativo       boolean not null default true,
   criado_em   timestamptz not null default now(),
@@ -50,7 +49,7 @@ create table if not exists public.produtos (
   novidade       boolean not null default false,
   mais_vendida   boolean not null default false,
 
-  spec_3d        jsonb,                -- receita da ilustração 3D
+  spec_3d        jsonb,                -- legado: a loja não usa mais (só a foto aparece)
   ordem          integer default 0,
   ativo          boolean not null default true,
 

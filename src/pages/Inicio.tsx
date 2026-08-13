@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
-import Doll3D from '../components/Doll3D';
-import DollArt from '../components/DollArt';
+import FotoBoneca, { SemFoto } from '../components/FotoBoneca';
 import CardProduto from '../components/CardProduto';
 import BotaoSonho from '../components/BotaoSonho';
 import Reveal from '../components/Reveal';
@@ -22,19 +21,26 @@ export default function Inicio() {
   const { produtos, categorias, destaques, maisAmadas, comFotoEstudio, carregando, erro, recarregar } =
     useCatalogo();
 
-  // no topo entram as bonecas fotografadas em estúdio; sem elas, os destaques
-  const vitrine = comFotoEstudio.length ? comFotoEstudio : destaques.length ? destaques : produtos;
+  // no topo entram as bonecas fotografadas em estúdio; sem elas, qualquer peça com foto
+  const comQualquerFoto = produtos.filter((p) => p.foto ?? p.fotoEstudio);
+  const vitrine = comFotoEstudio.length ? comFotoEstudio : comQualquerFoto;
+
+  // uma foto de cada coleção, para a capa das categorias
+  const capas: Record<string, Produto | undefined> = {};
+  for (const c of categorias) {
+    capas[c.slug] = comQualquerFoto.find((p) => p.categoria === c.slug);
+  }
 
   return (
     <>
       <Hero vitrine={vitrine} />
       <FaixaCorrendo />
-      {categorias.length > 0 && <Categorias categorias={categorias} />}
+      {categorias.length > 0 && <Categorias categorias={categorias} capas={capas} />}
       <Destaques destaques={destaques} carregando={carregando} erro={erro} recarregar={recarregar} />
-      <ComoNasce boneca={produtos[0]} />
+      <ComoNasce boneca={comQualquerFoto[0]} />
       <Seguranca />
       {maisAmadas.length > 0 && <MaisAmadas amadas={maisAmadas} />}
-      <ParaOsAvos boneca={produtos[1]} />
+      <ParaOsAvos boneca={comQualquerFoto[1] ?? comQualquerFoto[0]} />
       <Depoimentos />
       <ChamadaFinal />
     </>
@@ -134,20 +140,14 @@ function Hero({ vitrine }: { vitrine: Produto[] }) {
             />
             <div className="absolute inset-8 rounded-[2.5rem] bg-gradient-to-br from-white/80 via-rosa-100 to-rosa-200 sombra-suave" />
 
-            {!atual ? (
-              <div className="absolute inset-8 animate-pulse rounded-[2.5rem] bg-rosa-200/60" />
-            ) : atual.fotoEstudio ? (
-              <FotoHero key={atual.id} foto={atual.fotoEstudio} nome={atual.nome} />
-            ) : (
-              <motion.div
+            {atual ? (
+              <FotoHero
                 key={atual.id}
-                initial={{ opacity: 0, scale: 0.86, rotateY: -40 }}
-                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 p-10"
-              >
-                <Doll3D spec={atual.spec} profundidade={1.5} className="h-full w-full" />
-              </motion.div>
+                foto={(atual.fotoEstudio ?? atual.foto)!}
+                nome={atual.nome}
+              />
+            ) : (
+              <div className="absolute inset-8 animate-pulse rounded-[2.5rem] bg-rosa-200/60" />
             )}
 
             {atual && (
@@ -161,9 +161,7 @@ function Hero({ vitrine }: { vitrine: Produto[] }) {
               <Link to={`/boneca/${atual.slug}`} className="font-display text-sm text-sepia-900 sm:text-base">
                 {atual.nome}
               </Link>
-              <span className="ml-2 text-xs font-semibold text-rosa-700">
-                {atual.fotoEstudio ? '✦ ver detalhes' : '✦ toque e gire'}
-              </span>
+              <span className="ml-2 text-xs font-semibold text-rosa-700">✦ ver detalhes</span>
             </motion.div>
             )}
           </div>
@@ -289,7 +287,13 @@ function FaixaCorrendo() {
 
 /* ------------------------------ Categorias ---------------------------------- */
 
-function Categorias({ categorias }: { categorias: Categoria[] }) {
+function Categorias({
+  categorias,
+  capas,
+}: {
+  categorias: Categoria[];
+  capas: Record<string, Produto | undefined>;
+}) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal className="text-center">
@@ -308,7 +312,7 @@ function Categorias({ categorias }: { categorias: Categoria[] }) {
               className="group relative flex h-full items-center gap-4 overflow-hidden rounded-[1.75rem] border border-rosa-200 bg-white/75 p-5 transition-all duration-300 sombra-suave hover:-translate-y-1.5 hover:border-rosa-400"
             >
               <div className="h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-rosa-100 transition-transform duration-500 group-hover:scale-110">
-                <DollArt spec={c.capa} camada="todas" className="h-full w-full" />
+                {capas[c.slug] ? <FotoBoneca produto={capas[c.slug]!} /> : <SemFoto />}
               </div>
               <div>
                 <span className="text-xl" aria-hidden="true">
@@ -423,8 +427,8 @@ function ComoNasce({ boneca }: { boneca?: Produto }) {
                 transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
               />
               {boneca && (
-                <div className="absolute inset-0 p-10">
-                  <Doll3D spec={boneca.spec} profundidade={1.3} className="h-full w-full" />
+                <div className="absolute inset-8 overflow-hidden rounded-[2rem] sombra-suave">
+                  <FotoBoneca produto={boneca} />
                 </div>
               )}
             </div>
@@ -568,8 +572,8 @@ function ParaOsAvos({ boneca }: { boneca?: Produto }) {
           <div className="relative mx-auto aspect-square w-full max-w-xs">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-rosa-200 to-creme-50" />
             {boneca && (
-              <div className="absolute inset-0 p-6">
-                <Doll3D spec={boneca.spec} profundidade={1.2} className="h-full w-full" />
+              <div className="absolute inset-4 overflow-hidden rounded-full sombra-suave">
+                <FotoBoneca produto={boneca} />
               </div>
             )}
           </div>

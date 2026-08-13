@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CardProduto from '../components/CardProduto';
 import Reveal from '../components/Reveal';
-import DollArt from '../components/DollArt';
+import FotoBoneca from '../components/FotoBoneca';
 import { useCatalogo } from '../store/catalogo';
 import { AvisoCatalogo, CartoesFantasma } from '../components/EstadoCatalogo';
 import NaoEncontrada from './NaoEncontrada';
@@ -20,6 +20,7 @@ const ordens: { valor: Ordem; rotulo: string }[] = [
 export default function Catalogo() {
   const { slug } = useParams();
   const { produtos, categorias, categoriaPorSlug, carregando, erro, recarregar } = useCatalogo();
+  const capaDaColecao = slug ? produtos.find((p) => p.categoria === slug && (p.foto ?? p.fotoEstudio)) : undefined;
   const categoria = slug ? categoriaPorSlug(slug) : undefined;
 
   const [busca, setBusca] = useState('');
@@ -82,11 +83,11 @@ export default function Catalogo() {
 
         {slug && categoria ? (
           <div className="flex flex-col items-center gap-4">
-            <DollArt
-              spec={categoria.capa}
-              camada="todas"
-              className="h-28 w-24 animate-flutuar-lento"
-            />
+            {capaDaColecao && (
+              <div className="h-28 w-24 overflow-hidden rounded-2xl border border-rosa-200 sombra-suave">
+                <FotoBoneca produto={capaDaColecao} />
+              </div>
+            )}
             <h1 className="font-display text-4xl text-sepia-900 sm:text-5xl">{categoria.nome}</h1>
             <p className="max-w-2xl leading-relaxed text-sepia-700">{categoria.descricao}</p>
           </div>

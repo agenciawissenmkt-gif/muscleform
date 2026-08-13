@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom';
-import Doll3D from '../components/Doll3D';
+import FotoBoneca from '../components/FotoBoneca';
 import { useCatalogo } from '../store/catalogo';
 
 export default function NaoEncontrada() {
   const { produtos } = useCatalogo();
-  const bonecaDaVez = produtos[4] ?? produtos[0];
+  const bonecaDaVez = produtos.find((p) => p.foto ?? p.fotoEstudio);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center sm:px-6">
       {bonecaDaVez ? (
-        <div className="h-56 w-56">
-          <Doll3D spec={bonecaDaVez.spec} profundidade={1.2} className="h-full w-full" />
+        <div className="h-56 w-56 overflow-hidden rounded-[2rem] border border-rosa-200 sombra-suave">
+          <FotoBoneca produto={bonecaDaVez} />
         </div>
       ) : (
-        <span className="text-7xl" aria-hidden="true">
+        <span className="animate-flutuar text-7xl" aria-hidden="true">
           🧸
         </span>
       )}

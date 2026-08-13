@@ -1,28 +1,26 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Doll3D, { DollPlana } from './Doll3D';
-import type { DollSpec } from '../data/types';
+import { SemFoto } from './FotoBoneca';
 
-type Modo = 'foto' | 'girar' | 'zoom';
+type Modo = 'foto' | 'zoom';
 
 interface Props {
-  spec: DollSpec;
   nome: string;
   foto?: string;
   legendaFoto?: string;
 }
 
-/** Palco do produto: foto real, giro em 3D e zoom nos detalhes da costura. */
-export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: Props) {
+/** Palco do produto: a foto da peça, com zoom nos detalhes da costura. */
+export default function VisualizadorProduto({ nome, foto, legendaFoto }: Props) {
   const [semFoto, setSemFoto] = useState(false);
   const temFoto = Boolean(foto) && !semFoto;
 
-  const [modo, setModo] = useState<Modo>(foto ? 'foto' : 'girar');
+  const [modo, setModo] = useState<Modo>('foto');
   const [zoomAtivo, setZoomAtivo] = useState(false);
   const [origem, setOrigem] = useState({ x: 50, y: 50 });
   const palco = useRef<HTMLDivElement>(null);
 
-  const modoAtual: Modo = modo === 'foto' && !temFoto ? 'girar' : modo;
+  const modoAtual: Modo = temFoto ? modo : 'foto';
   const comZoom = modoAtual === 'zoom';
 
   function moverZoom(e: React.PointerEvent<HTMLDivElement>) {
@@ -34,12 +32,9 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
     if (e.pointerType === 'mouse') setZoomAtivo(true);
   }
 
-  const legenda =
-    modoAtual === 'girar'
-      ? 'Arraste para girar a boneca'
-      : modoAtual === 'zoom'
-        ? 'Passe o dedo ou o mouse para o zoom'
-        : (legendaFoto ?? 'Foto da peça feita à mão');
+  const legenda = comZoom
+    ? 'Passe o dedo ou o mouse para o zoom'
+    : (legendaFoto ?? 'Foto da peça feita à mão');
 
   return (
     <div className="relative">
@@ -54,56 +49,45 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
       >
         <FundoAtelier />
 
-        <AnimatePresence mode="wait">
-          {modoAtual === 'foto' && (
-            <motion.div
-              key="foto"
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.35 }}
-            >
-              {/* a foto aparece exatamente como veio do ateliê, sem corte nem efeito */}
-              <img
-                src={foto}
-                alt={`${nome} — boneca de pano feita à mão`}
-                className="h-full w-full object-contain"
-                onError={() => setSemFoto(true)}
-                decoding="async"
-              />
-            </motion.div>
-          )}
-
-          {modoAtual === 'girar' && (
-            <motion.div
-              key="girar"
-              className="absolute inset-0 p-6 sm:p-10"
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.04 }}
-              transition={{ duration: 0.35 }}
-            >
-              <Doll3D spec={spec} profundidade={1.35} className="h-full w-full" />
-            </motion.div>
-          )}
-
-          {modoAtual === 'zoom' && (
-            <motion.div
-              key="zoom"
-              className="absolute inset-0 overflow-hidden"
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={{ duration: 0.35 }}
-            >
+        {!temFoto ? (
+          <div className="absolute inset-0">
+            <SemFoto />
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            {modoAtual === 'foto' ? (
               <motion.div
-                className={`h-full w-full ${temFoto ? '' : 'p-6 sm:p-10'}`}
-                animate={{ scale: zoomAtivo ? 2.4 : 1 }}
-                transition={{ type: 'spring', stiffness: 180, damping: 24 }}
-                style={{ transformOrigin: `${origem.x}% ${origem.y}%` }}
+                key="foto"
+                className="absolute inset-0"
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.35 }}
               >
-                {temFoto ? (
+                {/* a foto aparece exatamente como veio do ateliê, sem corte nem efeito */}
+                <img
+                  src={foto}
+                  alt={`${nome} — boneca de pano feita à mão`}
+                  className="h-full w-full object-contain"
+                  onError={() => setSemFoto(true)}
+                  decoding="async"
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="zoom"
+                className="absolute inset-0 overflow-hidden"
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 0.35 }}
+              >
+                <motion.div
+                  className="h-full w-full"
+                  animate={{ scale: zoomAtivo ? 2.4 : 1 }}
+                  transition={{ type: 'spring', stiffness: 180, damping: 24 }}
+                  style={{ transformOrigin: `${origem.x}% ${origem.y}%` }}
+                >
                   <img
                     src={foto}
                     alt={`Detalhe da costura de ${nome}`}
@@ -111,13 +95,11 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
                     onError={() => setSemFoto(true)}
                     decoding="async"
                   />
-                ) : (
-                  <DollPlana spec={spec} className="h-full w-full" />
-                )}
+                </motion.div>
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        )}
 
         {comZoom && zoomAtivo && (
           <motion.span
@@ -129,34 +111,29 @@ export default function VisualizadorProduto({ spec, nome, foto, legendaFoto }: P
           />
         )}
 
-        <span className="pointer-events-none absolute bottom-3 left-1/2 z-10 max-w-[92%] -translate-x-1/2 truncate rounded-full bg-white/85 px-3 py-1.5 text-center text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-sepia-700 backdrop-blur sm:bottom-4 sm:px-4 sm:text-[0.68rem] sm:tracking-[0.16em]">
-          {legenda}
-        </span>
+        {temFoto && (
+          <span className="pointer-events-none absolute bottom-3 left-1/2 z-10 max-w-[92%] -translate-x-1/2 truncate rounded-full bg-white/85 px-3 py-1.5 text-center text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-sepia-700 backdrop-blur sm:bottom-4 sm:px-4 sm:text-[0.68rem] sm:tracking-[0.16em]">
+            {legenda}
+          </span>
+        )}
 
         <span className="pointer-events-none absolute left-3 top-3 z-10 rounded-full bg-rosa-600 px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.12em] text-white shadow sm:left-4 sm:top-4 sm:px-3 sm:text-[0.62rem] sm:tracking-[0.16em]">
           Feito à mão
         </span>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-        {temFoto && (
-          <Aba ativo={modoAtual === 'foto'} onClick={() => setModo('foto')} rotulo="Foto real" icone="📷" />
-        )}
-        <Aba
-          ativo={modoAtual === 'girar'}
-          onClick={() => setModo('girar')}
-          rotulo="Girar em 3D"
-          rotuloCurto="3D"
-          icone="🔄"
-        />
-        <Aba
-          ativo={modoAtual === 'zoom'}
-          onClick={() => setModo('zoom')}
-          rotulo="Zoom nos detalhes"
-          rotuloCurto="Zoom"
-          icone="🔍"
-        />
-      </div>
+      {temFoto && (
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+          <Aba ativo={modoAtual === 'foto'} onClick={() => setModo('foto')} rotulo="Foto" icone="📷" />
+          <Aba
+            ativo={modoAtual === 'zoom'}
+            onClick={() => setModo('zoom')}
+            rotulo="Zoom nos detalhes"
+            rotuloCurto="Zoom"
+            icone="🔍"
+          />
+        </div>
+      )}
 
       <p className="mt-3 text-center text-xs leading-relaxed text-sepia-500">
         <span className="font-semibold text-sepia-700">{nome}</span> — cada peça é costurada à mão, então

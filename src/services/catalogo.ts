@@ -1,17 +1,16 @@
 import { supabase, supabaseConfigurado, RECADO_SEM_CONEXAO, RECADO_SEM_CONFIGURACAO } from '../lib/supabase';
-import type { Categoria, DollSpec, Produto } from '../data/types';
+import type { Categoria, Produto } from '../data/types';
 
 /**
  * Apresentação das coleções — fica no código de propósito.
  *
- * O painel é a fonte de verdade do catálogo; o emoji, o subtítulo e a ilustração
- * de capa são identidade visual da loja, e o painel não tem esses campos.
+ * O painel é a fonte de verdade do catálogo; o emoji e o subtítulo são
+ * identidade visual da loja, e o painel não tem esses campos.
  */
 interface ApresentacaoColecao {
   subtitulo: string;
   descricao: string;
   emoji: string;
-  capa: DollSpec;
 }
 
 const CUIDADOS_PADRAO =
@@ -22,49 +21,41 @@ const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
     subtitulo: "As clássicas do ateliê",
     descricao: "Bonecas costuradas à mão, com rostinho bordado, cabelo de lã e vestidinho de algodão. As companheiras de toda a vida.",
     emoji: "🎀",
-    capa: {"tipo":"menina","pele":"#f7ddc9","cabelo":"#c8703f","cabeloSombra":"#a4562c","penteado":"chiquinhas","vestido":"#f9b4c6","vestidoDetalhe":"#fff1f5","acessorio":"laco","acessorioCor":"#e0708f","meias":"#fff1f5","sardas":true,"coracao":"#e0708f"},
   },
   "meninos": {
     subtitulo: "Para os meninos também",
     descricao: "Bonecos costurados com o mesmo capricho das bonecas: camisa de botão, bermuda, tênis de cadarço e aquele cabelo que ninguém consegue pentear.",
     emoji: "⚓",
-    capa: {"tipo":"menina","pele":"#f7ddc9","cabelo":"#c65a22","cabeloSombra":"#a04516","penteado":"cacheado","vestido":"#d92a3f","vestidoDetalhe":"#fdf6ec","acessorio":"nenhum","acessorioCor":"#3c5a80","meias":"#fdf6ec","olhos":"abertos","roupa":"conjunto","calca":"#c9cfd6","sapatos":"#3c5a80","sardas":true},
   },
   "bailarinas": {
     subtitulo: "Tutus de tule e pontinhas",
     descricao: "Bonecas bailarinas com saia de tule, sapatilhas bordadas e fitinhas de cetim. Um giro de sonho na estante.",
     emoji: "🩰",
-    capa: {"tipo":"bailarina","pele":"#e6bb98","cabelo":"#3f2a20","cabeloSombra":"#2a1a13","penteado":"coque","vestido":"#ffd0dc","vestidoDetalhe":"#fffafb","acessorio":"coroa","acessorioCor":"#f1c27a","meias":"#ffe3ea","coracao":"#f191ab"},
   },
   "ursinhos": {
     subtitulo: "Abraço garantido",
     descricao: "Ursinhos, coelhinhas e amigos de pelúcia macia, com laços de cetim e enchimento antialérgico. Feitos para apertar.",
     emoji: "🧸",
-    capa: {"tipo":"urso","pele":"#c99a6b","cabelo":"#a97a4e","cabeloSombra":"#8a6039","penteado":"curto","vestido":"#ffe3ea","vestidoDetalhe":"#fffafb","acessorio":"laco","acessorioCor":"#f191ab","meias":"#fdf6ec","coracao":"#e0708f"},
   },
   "naninhas": {
     subtitulo: "Para o soninho do bebê",
     descricao: "Naninhas de plush macio, kits maternidade e enxoval do ateliê. O primeiro amigo de pano do bebê.",
     emoji: "🌙",
-    capa: {"tipo":"naninha","pele":"#f7ddc9","cabelo":"#e8c27a","cabeloSombra":"#c9a25c","penteado":"curto","vestido":"#e2dcf6","vestidoDetalhe":"#fffafb","acessorio":"nenhum","acessorioCor":"#cdeee0","meias":"#fffafb","coracao":"#f191ab"},
   },
   "decoracao": {
     subtitulo: "Detalhes que encantam",
     descricao: "Móbiles, bonequinhas de porta-maternidade, mini bonecas de lembrancinha e enfeites para o quartinho.",
     emoji: "🏡",
-    capa: {"tipo":"bebe","pele":"#e6bb98","cabelo":"#b5651d","cabeloSombra":"#8f4d13","penteado":"curto","vestido":"#fdf6ec","vestidoDetalhe":"#f9b4c6","acessorio":"flor","acessorioCor":"#f191ab","meias":"#fff1f5","coracao":"#f191ab"},
   },
   "bonecas": {
     subtitulo: "As clássicas do ateliê",
     descricao: "Bonecas costuradas à mão, com rostinho bordado, cabelo de lã e vestidinho de algodão. As companheiras de toda a vida.",
     emoji: "🎀",
-    capa: {"tipo":"menina","pele":"#f7ddc9","cabelo":"#c8703f","cabeloSombra":"#a4562c","penteado":"chiquinhas","vestido":"#f9b4c6","vestidoDetalhe":"#fff1f5","acessorio":"laco","acessorioCor":"#e0708f","meias":"#fff1f5","sardas":true,"coracao":"#e0708f"},
   },
   "enxoval": {
     subtitulo: "Enxoval do ateliê",
     descricao: "Kits maternidade, porta-maternidade e peças de enxoval costuradas com o mesmo capricho das bonecas.",
     emoji: "🧺",
-    capa: {"tipo":"naninha","pele":"#f7ddc9","cabelo":"#e8c27a","cabeloSombra":"#c9a25c","penteado":"curto","vestido":"#e2dcf6","vestidoDetalhe":"#fffafb","acessorio":"nenhum","acessorioCor":"#cdeee0","meias":"#fffafb","coracao":"#f191ab"},
   },
 };
 
@@ -73,7 +64,6 @@ const COLECAO_PADRAO: ApresentacaoColecao = {
   subtitulo: 'Do ateliê para o seu colo',
   descricao: 'Peças costuradas à mão, uma a uma, com tecidos escolhidos a dedo.',
   emoji: '🎀',
-  capa: {"tipo":"menina","pele":"#f7ddc9","cabelo":"#c8703f","cabeloSombra":"#a4562c","penteado":"chiquinhas","vestido":"#f9b4c6","vestidoDetalhe":"#fff1f5","acessorio":"laco","acessorioCor":"#e0708f","meias":"#fff1f5","sardas":true,"coracao":"#e0708f"},
 };
 
 
@@ -169,51 +159,6 @@ function resumir(descricao: string | null | undefined): string {
   return `${corte.slice(0, corte.lastIndexOf(' '))}…`;
 }
 
-/**
- * Ilustração 3D mostrada quando a peça ainda não tem foto. A paleta sai do
- * slug — sempre a mesma para o mesmo slug, nunca uma imagem quebrada.
- */
-const PELES = ['#f7ddc9', '#e6bb98', '#c58f68', '#8d5a3c'];
-const CABELOS: [string, string][] = [
-  ['#c8703f', '#a4562c'],
-  ['#3f2a20', '#2a1a13'],
-  ['#e2c391', '#c2a071'],
-  ['#8a5a34', '#6b431f'],
-];
-const VESTIDOS: [string, string][] = [
-  ['#f9b4c6', '#fff1f5'],
-  ['#e2dcf6', '#fffafb'],
-  ['#cdeee0', '#fffafb'],
-  ['#ffd0dc', '#fffafb'],
-];
-const PENTEADOS = ['chiquinhas', 'coque', 'trancas', 'cacheado', 'longo'] as const;
-const ACESSORIOS = ['laco', 'flor', 'coroa', 'tiara'] as const;
-
-function semente(slug: string): number {
-  let n = 0;
-  for (let i = 0; i < slug.length; i += 1) n = (n * 31 + slug.charCodeAt(i)) % 100000;
-  return n;
-}
-
-function ilustracao(slug: string): DollSpec {
-  const s = semente(slug);
-  const [cabelo, cabeloSombra] = CABELOS[s % CABELOS.length];
-  const [vestido, vestidoDetalhe] = VESTIDOS[(s >> 2) % VESTIDOS.length];
-  return {
-    tipo: 'menina',
-    pele: PELES[(s >> 3) % PELES.length],
-    cabelo,
-    cabeloSombra,
-    penteado: PENTEADOS[(s >> 4) % PENTEADOS.length],
-    vestido,
-    vestidoDetalhe,
-    acessorio: ACESSORIOS[(s >> 5) % ACESSORIOS.length],
-    acessorioCor: '#e0708f',
-    meias: '#fffafb',
-    coracao: '#e0708f',
-  };
-}
-
 function ehNova(criadaEm: string | null | undefined): boolean {
   if (!criadaEm) return false;
   const dias = (Date.now() - new Date(criadaEm).getTime()) / 86_400_000;
@@ -267,7 +212,6 @@ function paraProduto(linha: LinhaProduto, colecaoPorId: Map<string, string>): Pr
     destaque: linha.is_featured ?? false,
     novidade: ehNova(linha.created_at),
     maisVendida: linha.is_most_loved ?? false,
-    spec: ilustracao(linha.slug),
   };
 }
 
@@ -279,7 +223,6 @@ function paraCategoria(linha: LinhaCategoria): Categoria {
     subtitulo: visual.subtitulo,
     descricao: visual.descricao,
     emoji: visual.emoji,
-    capa: visual.capa,
   };
 }
 

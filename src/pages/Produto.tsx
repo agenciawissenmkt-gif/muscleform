@@ -91,7 +91,7 @@ export default function Produto() {
         </nav>
 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* palco 3D */}
+          {/* foto da peça */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -99,9 +99,8 @@ export default function Produto() {
             className="lg:sticky lg:top-28 lg:self-start"
           >
             <VisualizadorProduto
-              spec={produto.spec}
               nome={produto.nome}
-              foto={produto.foto}
+              foto={produto.foto ?? produto.fotoEstudio}
               legendaFoto={produto.legendaFoto}
             />
           </motion.div>
