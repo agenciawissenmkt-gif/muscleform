@@ -1,55 +1,76 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Playfair Display", "Georgia", serif;
-  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
 
-  --color-blush-50: #fdf6f4;
-  --color-blush-100: #f9e8e6;
-  --color-blush-200: #f2d1cd;
-  --color-rose-400: #e0a5a8;
-  --color-rose-500: #cf838a;
-  --color-rose-600: #b4636d;
-  --color-gold-400: #cba86a;
-  --color-gold-500: #b8935a;
-  --color-ink-900: #201a19;
-  --color-ink-800: #322926;
-  --color-ink-600: #5a4d49;
-  --color-cream-50: #fffaf5;
+  /* Roxo Wissen */
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #9333ea;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-brand-800: #6b21a8;
+  --color-brand-900: #4c1d95;
 
-  --animate-float: float 6s ease-in-out infinite;
+  /* Ardósia */
+  --color-ink-50: #f8fafc;
+  --color-ink-100: #f1f5f9;
+  --color-ink-200: #e2e8f0;
+  --color-ink-400: #94a3b8;
+  --color-ink-500: #64748b;
+  --color-ink-700: #334155;
+  --color-ink-900: #0f172a;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: var(--color-cream-50);
+  background-color: #ffffff;
   color: var(--color-ink-900);
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-rose-400);
-  border-radius: 999px;
+  width: 10px;
+  height: 10px;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-ink-200);
+  border-radius: 999px;
+  border: 3px solid #fff;
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-ink-400);
+}
+
+/* Tira as setinhas dos inputs numéricos */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
