@@ -25,7 +25,12 @@ function loadEnv(file) {
       .filter((line) => line && !line.startsWith('#') && line.includes('='))
       .map((line) => {
         const index = line.indexOf('=')
-        return [line.slice(0, index).trim(), line.slice(index + 1).trim().replace(/^["']|["']$/g, '')]
+        const key = line.slice(0, index).trim()
+        let value = line.slice(index + 1).trim()
+
+        // Comentário no fim da linha, como o dotenv faz: só fora de aspas.
+        if (!/^["']/.test(value)) value = value.split(/\s+#/)[0].trim()
+        return [key, value.replace(/^["']|["']$/g, '')]
       }),
   )
 }

@@ -57,16 +57,39 @@ Para um **projeto novo** (outro cliente), rode `0001_wissen_cars.sql` e depois
 Passam pelo servidor (`npm run server`), que guarda as chaves privilegiadas.
 Copie `server/.env.example` para `server/.env`:
 
-| Etapa | Variáveis | Onde conseguir |
+O `server/.env.example` já vem com **todas as URLs preenchidas** (Supabase, Chatwoot público,
+Evolution e o webhook do n8n). Faltam só quatro segredos:
+
+| Etapa | Variável | Onde conseguir |
 | --- | --- | --- |
-| Base | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `APP_URL` | Project Settings › API |
-| 2 — Google Agenda | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | Google Cloud Console |
-| 3 — Chatwoot | `CHATWOOT_BASE_URL`, `CHATWOOT_PLATFORM_TOKEN` | Chatwoot › Super Admin › Platform Apps |
-| 4 — WhatsApp | `EVOLUTION_API_KEY` | Painel da Evolution API (a URL já está em `tenant_settings.evolution_base_url`) |
-| Final | `N8N_PROVISIONING_WEBHOOK_URL` | URL do nó Webhook do fluxo de provisionamento |
+| Base | `SUPABASE_SERVICE_ROLE_KEY` | Project Settings › API › `service_role` |
+| 2 — Google Agenda | `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` | Google Cloud Console › Credenciais |
+| 3 — Chatwoot | `CHATWOOT_PLATFORM_TOKEN` | Chatwoot › `/super_admin` › Platform Apps |
+| 4 — WhatsApp | `EVOLUTION_API_KEY` | `AUTHENTICATION_API_KEY` da Evolution (EasyPanel › Environment) |
+
+O passo a passo de cada uma, com clique por clique, está em
+[`docs/CHAVES.md`](CHAVES.md). Depois de preencher:
+
+```bash
+npm run check:server
+```
+
+Ele testa cada chave contra a API de verdade e diz qual está errada, sem imprimir segredo.
 
 Enquanto uma chave não existir, a etapa correspondente diz na tela qual variável falta —
 o estoque e o dashboard seguem funcionando.
+
+### Endereços da sua infraestrutura
+
+| Serviço | URL |
+| --- | --- |
+| Chatwoot 4.13 | `https://wissen-chatwoot.2kk4lp.easypanel.host` (público) · `http://wissen_chatwoot:3000` (interno, usado por n8n e Evolution) |
+| Evolution API 2.3.7 | `https://wissen-evolution-api.2kk4lp.easypanel.host` |
+| n8n | `https://wissen-n8n.2kk4lp.easypanel.host` |
+
+O painel usa a URL pública do Chatwoot para provisionar, e **não sobrescreve** o
+`chatwoot_base_url` interno gravado em `tenant_settings` — ele continua sendo o endereço
+certo para o n8n e a Evolution, que rodam na mesma rede Docker.
 
 Para testar a etapa 4 (QR Code e a comemoração) sem WhatsApp real, use
 `WISSEN_SIMULATE=true` em `server/.env`.

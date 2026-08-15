@@ -116,17 +116,16 @@ router.post(
 
     await upsertChannel(tenant.id, { chatwoot_account_id: accountId, ativo: true })
 
-    await db.upsert(
-      'tenant_settings',
-      [
-        {
-          tenant_id: tenant.id,
-          chatwoot_base_url: baseUrl,
-          ...(adminToken ? { chatwoot_token: adminToken } : {}),
-        },
-      ],
-      'tenant_id',
-    )
+    // chatwoot_base_url já pode estar apontando para o host interno do Docker
+    // (ex.: http://wissen_chatwoot:3000), que é o endereço certo para o n8n e a
+    // Evolution usarem. Só preenchemos quando ainda está vazio.
+    const settingsPatch = { tenant_id: tenant.id }
+    if (!settings?.chatwoot_base_url) settingsPatch.chatwoot_base_url = baseUrl
+    if (adminToken) settingsPatch.chatwoot_token = adminToken
+
+    if (Object.keys(settingsPatch).length > 1) {
+      await db.upsert('tenant_settings', [settingsPatch], 'tenant_id')
+    }
 
     res.json({ account_id: accountId, users })
   }),

@@ -54,9 +54,14 @@ npm run server
 
 O Vite já encaminha `/api/*` para `http://localhost:8787` (veja `vite.config.ts`).
 
-Para conferir se o projeto Supabase está com tudo no lugar (tabelas, funções, bucket e o login
-com Google), rode `npm run check`. O passo a passo completo está em
-[`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md).
+Dois verificadores ajudam a saber se está tudo de pé:
+
+- `npm run check` — projeto Supabase: tabelas, funções, bucket e login com Google;
+- `npm run check:server` — chaves das integrações: Supabase service role, Chatwoot, Evolution,
+  Google e o webhook do n8n, cada uma testada contra a API real.
+
+Onde pegar cada chave: [`docs/CHAVES.md`](docs/CHAVES.md).
+Como o app mapeia o banco: [`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md).
 
 Sem as variáveis do Supabase o app mostra uma tela explicando a configuração pendente; sem as chaves das
 integrações no servidor, cada etapa responde com uma mensagem dizendo exatamente qual variável falta —
