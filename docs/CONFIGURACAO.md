@@ -71,6 +71,32 @@ o estoque e o dashboard seguem funcionando.
 Para testar a etapa 4 (QR Code e a comemoração) sem WhatsApp real, use
 `WISSEN_SIMULATE=true` em `server/.env`.
 
+## n8n
+
+O painel conversa com dois workflows no n8n (`wissen-n8n.2kk4lp.easypanel.host`):
+
+| Workflow | Papel |
+| --- | --- |
+| **cars Multi Tenant (Supabase)** | O agente. Já chama `tenant_context(account_id, inbox_id)` e `api_cars(tenant, model, status)` direto no Supabase — tudo que o painel grava (veículos, fotos, prompts, canal) chega nele sem nenhuma alteração. |
+| **Wissen Cars - Provisionamento do App** | Criado para o painel. Recebe o payload da etapa 4, ativa o tenant e sincroniza `tenant_channels` (inbox, instância, número). |
+
+Webhook de produção do provisionamento (já ativo):
+
+```
+POST https://wissen-n8n.2kk4lp.easypanel.host/webhook/wissen-cars/provisionamento
+```
+
+Ele é tolerante a falha: se o Supabase recusar a escrita, ainda responde `200` com
+`"supabase": "falhou..."`, para que a implementação não trave no painel — o erro fica
+registrado na execução do n8n.
+
+> **Pendência conhecida:** a credencial **“Supabase account”** do n8n responde
+> `401 Invalid API key` para o projeto `bhffexojdowetruhbpxs`. Ela é a mesma usada pelos nós
+> `Contexto do Tenant`, `Detalhes do carro` e `Buscar fotos do carro` do agente, então esses nós
+> falham do mesmo jeito. Correção: abrir a credencial no n8n e preencher com o host
+> `https://bhffexojdowetruhbpxs.supabase.co` e a **service_role key** desse projeto
+> (Project Settings › API). Não dá para fazer isso pela API — segredos só pelo painel do n8n.
+
 ## Detalhes que valem saber
 
 - **Chatwoot**: a conta da loja já existe (`chatwoot_account_id = 1`), mas `chatwoot_inbox_id`
