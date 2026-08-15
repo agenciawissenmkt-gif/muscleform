@@ -59,6 +59,14 @@ ocupados, criar/remarcar/cancelar visitas e identificar a conta conectada.
 
 Sua instalação: **https://wissen-chatwoot.2kk4lp.easypanel.host** (Chatwoot 4.13).
 
+> **Atenção ao tipo do token.** O Chatwoot tem três tokens diferentes e só um serve aqui:
+>
+> | Token | Serve para | Como reconhecer |
+> | --- | --- | --- |
+> | **Platform App** | criar contas e usuários — é o que o painel precisa | `/super_admin` › Platform Apps |
+> | Agent Bot | o agente responder mensagens (é o que o n8n usa) | responde `Access to this endpoint is not authorized for bots` na API de usuário |
+> | Usuário | operar a própria conta | Perfil › Access Token |
+
 1. Entre com a conta de **Super Admin** → `/super_admin`.
 2. Menu **Platform Apps** → **New Platform App** (nome: `wissen-cars-painel`).
 3. Copie o **Access Token** gerado.
@@ -91,6 +99,20 @@ Deve devolver a lista de instâncias (`[]` se não houver nenhuma). Se vier `401
 errada.
 
 ---
+
+## Situação atual (conferida em 15/08)
+
+| Chave | Estado |
+| --- | --- |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✓ válida |
+| `EVOLUTION_API_KEY` | ✓ válida — 1 instância (`hftea5`, conectada) |
+| `GOOGLE_CLIENT_ID` / `SECRET` | ✓ aceitos pelo Google (falta cadastrar o redirect URI) |
+| `CHATWOOT_PLATFORM_TOKEN` | ✗ o token informado é de **Agent Bot**, não de Platform App |
+
+A loja **já tem WhatsApp conectado**: instância `hftea5`, número 5541995096228, integrada à
+inbox `Júlia - WhatsApp Wise Multimarcas` (conta 1, inbox 1) do Chatwoot. Esses dados foram
+gravados em `tenant_channels`, então `tenant_context(1, 1)` já resolve a loja com os três
+prompts — e a etapa 4 do painel reconhece a conexão existente em vez de pedir um QR novo.
 
 ## Ordem recomendada
 

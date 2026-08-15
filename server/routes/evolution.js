@@ -119,6 +119,24 @@ router.post(
       return
     }
 
+    // A loja pode já ter um WhatsApp pareado (instância criada fora do painel).
+    // Nesse caso não faz sentido pedir QR de novo: adotamos a instância existente.
+    const current = await evolution(config, `instance/connectionState/${name}`).catch(() => null)
+    if ((current?.instance?.state ?? current?.state) === 'open') {
+      const inboxId = channel?.chatwoot_inbox_id ?? (await findInboxId(settings, tenant, channel?.chatwoot_account_id))
+      await upsertChannel(tenant.id, {
+        evolution_instance: name,
+        whatsapp_number: settings?.bot_phone ?? null,
+        chatwoot_account_id: channel?.chatwoot_account_id ?? null,
+        ativo: true,
+        ...(inboxId ? { chatwoot_inbox_id: inboxId } : {}),
+      })
+      await db.upsert('tenant_settings', [{ tenant_id: tenant.id, evolution_instance: name }], 'tenant_id')
+
+      res.json({ instance: name, status: 'conectado', qrcode: null, inbox_id: inboxId })
+      return
+    }
+
     // Se a instância já existir a Evolution responde erro — seguimos para o connect.
     let created = null
     try {
