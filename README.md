@@ -52,6 +52,10 @@ npm run server
 
 O Vite já encaminha `/api/*` para `http://localhost:8787` (veja `vite.config.ts`).
 
+Para conferir se o projeto Supabase está com tudo no lugar (tabelas, funções, bucket e o login
+com Google), rode `npm run check`. O passo a passo completo está em
+[`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md).
+
 Sem as variáveis do Supabase o app mostra uma tela explicando a configuração pendente; sem as chaves das
 integrações no servidor, cada etapa responde com uma mensagem dizendo exatamente qual variável falta —
 o estoque e o dashboard continuam funcionando normalmente.

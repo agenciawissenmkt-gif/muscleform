@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "check": "node scripts/check-setup.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
