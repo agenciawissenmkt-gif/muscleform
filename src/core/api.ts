@@ -69,6 +69,8 @@ export function googleDisconnect(tenantId: string) {
 export interface ChatwootProvisionResult {
   account_id: number
   users: { email: string; chatwoot_user_id: number; role: string; invited: boolean }[]
+  /** Preenchido quando a central existe mas não pode ser administrada pelo painel. */
+  warning?: string
 }
 
 export function provisionChatwoot(tenantId: string) {

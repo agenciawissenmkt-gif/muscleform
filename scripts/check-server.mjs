@@ -77,16 +77,23 @@ if (!existsSync(resolve(ROOT, 'server/.env'))) {
   } else if (/^http:\/\/[a-z_]+:\d+/i.test(url)) {
     record('erro', 'Chatwoot (Platform App)', `${url} é endereço interno do Docker — use a URL pública aqui`)
   } else {
+    // Um Platform App só enxerga o que ele mesmo criou, então ler uma conta
+    // existente devolve 401 mesmo com token bom. O teste que distingue é um POST
+    // com corpo inválido: token válido chega na validação (422), token ruim para
+    // na autenticação (401). Nada é criado.
     try {
-      const res = await fetch(`${url}/platform/api/v1/accounts/1`, {
-        headers: { api_access_token: token },
+      const res = await fetch(`${url}/platform/api/v1/accounts`, {
+        method: 'POST',
+        headers: { api_access_token: token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
       })
-      if (res.ok) record('ok', 'Chatwoot (Platform App)', `${new URL(url).host} — conta #1 acessível`)
+
+      if (res.status === 422) record('ok', 'Chatwoot (Platform App)', `${new URL(url).host} — token válido`)
       else if (res.status === 401 || res.status === 403)
-        record('erro', 'Chatwoot (Platform App)', 'token recusado — precisa ser de um Platform App, não de usuário')
-      else if (res.status === 404)
-        record('ok', 'Chatwoot (Platform App)', `${new URL(url).host} — token aceito (conta #1 não existe)`)
-      else record('erro', 'Chatwoot (Platform App)', `HTTP ${res.status}`)
+        record('erro', 'Chatwoot (Platform App)', 'token recusado — precisa ser de um Platform App (/super_admin › Platform Apps)')
+      else if (res.ok) {
+        record('aviso', 'Chatwoot (Platform App)', 'token válido, mas a checagem criou uma conta sem nome — apague no Chatwoot')
+      } else record('erro', 'Chatwoot (Platform App)', `HTTP ${res.status}`)
     } catch (error) {
       record('erro', 'Chatwoot (Platform App)', error.message)
     }

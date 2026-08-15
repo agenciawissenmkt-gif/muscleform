@@ -59,13 +59,18 @@ ocupados, criar/remarcar/cancelar visitas e identificar a conta conectada.
 
 Sua instalação: **https://wissen-chatwoot.2kk4lp.easypanel.host** (Chatwoot 4.13).
 
-> **Atenção ao tipo do token.** O Chatwoot tem três tokens diferentes e só um serve aqui:
+> **Como saber se o token é de Platform App.** Ler uma conta existente **não** serve de teste:
+> um Platform App só administra o que ele mesmo criou, então `GET /platform/api/v1/accounts/1`
+> devolve `401 Non permissible resource` mesmo com o token certo. O teste que distingue é um
+> POST com corpo inválido — token válido chega na validação (`422`), token ruim para na
+> autenticação (`401`), e nada é criado:
 >
-> | Token | Serve para | Como reconhecer |
-> | --- | --- | --- |
-> | **Platform App** | criar contas e usuários — é o que o painel precisa | `/super_admin` › Platform Apps |
-> | Agent Bot | o agente responder mensagens (é o que o n8n usa) | responde `Access to this endpoint is not authorized for bots` na API de usuário |
-> | Usuário | operar a própria conta | Perfil › Access Token |
+> ```bash
+> curl -s -X POST -H "api_access_token: SEU_TOKEN" -H "Content-Type: application/json" \
+>   -d '{}' https://wissen-chatwoot.2kk4lp.easypanel.host/platform/api/v1/accounts
+> # 422 {"message":"Name can't be blank"}  -> token bom
+> # 401 {"error":"Invalid access_token"}   -> token ruim
+> ```
 
 1. Entre com a conta de **Super Admin** → `/super_admin`.
 2. Menu **Platform Apps** → **New Platform App** (nome: `wissen-cars-painel`).
@@ -107,7 +112,12 @@ errada.
 | `SUPABASE_SERVICE_ROLE_KEY` | ✓ válida |
 | `EVOLUTION_API_KEY` | ✓ válida — 1 instância (`hftea5`, conectada) |
 | `GOOGLE_CLIENT_ID` / `SECRET` | ✓ aceitos pelo Google (falta cadastrar o redirect URI) |
-| `CHATWOOT_PLATFORM_TOKEN` | ✗ o token informado é de **Agent Bot**, não de Platform App |
+| `CHATWOOT_PLATFORM_TOKEN` | ✓ Platform App válido |
+
+Uma limitação a conhecer: a central da Wise Multimarcas (conta #1) foi criada à mão, então o
+Platform App **não pode adicionar usuários nela** — a etapa 3 avisa isso na tela e a equipe
+deve ser convidada direto no Chatwoot. Para lojas novas, criadas pelo próprio painel, o
+provisionamento funciona inteiro.
 
 A loja **já tem WhatsApp conectado**: instância `hftea5`, número 5541995096228, integrada à
 inbox `Júlia - WhatsApp Wise Multimarcas` (conta 1, inbox 1) do Chatwoot. Esses dados foram

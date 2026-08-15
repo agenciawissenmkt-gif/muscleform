@@ -74,7 +74,13 @@ export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: (
     try {
       const result = await provisionChatwoot(tenantId)
       await refresh()
-      toast(`Central criada (conta #${result.account_id}) com ${result.users.length} usuário(s).`)
+
+      if (result.warning) {
+        setError({ message: result.warning })
+        toast('Central já existente — veja o aviso abaixo.', 'info')
+      } else {
+        toast(`Central criada (conta #${result.account_id}) com ${result.users.length} usuário(s).`)
+      }
     } catch (err) {
       setError(
         err instanceof ApiError

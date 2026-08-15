@@ -34,10 +34,28 @@ async function platform(path, { method = 'GET', body } = {}) {
 
   if (!res.ok) {
     const message = data?.message || data?.error || `Erro do Chatwoot (${res.status})`
-    throw new HttpError(res.status === 401 ? 502 : res.status, `Chatwoot: ${message}`)
+    const error = new HttpError(res.status === 401 ? 502 : res.status, `Chatwoot: ${message}`)
+    error.chatwootStatus = res.status // o status original, antes do remapeamento
+    throw error
   }
 
   return data
+}
+
+/**
+ * Um Platform App só administra as contas que ele mesmo criou: numa conta criada
+ * à mão o Chatwoot devolve 401 "Non permissible resource". Descobrimos isso com
+ * um POST de corpo inválido — 422 significa que a conta é administrável.
+ */
+async function canManageAccount(accountId) {
+  try {
+    await platform(`accounts/${accountId}/account_users`, { method: 'POST', body: {} })
+    return true
+  } catch (error) {
+    if (error.chatwootStatus === 422) return true
+    if (error.chatwootStatus === 401 || error.chatwootStatus === 403) return false
+    throw error
+  }
 }
 
 function safeJson(text) {
@@ -69,6 +87,16 @@ router.post(
     if (!accountId) {
       const account = await platform('accounts', { method: 'POST', body: { name: tenant.nome } })
       accountId = account.id
+    } else if (!(await canManageAccount(accountId))) {
+      // Conta criada fora do painel: dá para cadastrar a equipe aqui, mas o
+      // convite precisa ser feito no próprio Chatwoot. Não criamos usuários
+      // soltos, que ficariam sem conta nenhuma.
+      res.json({
+        account_id: accountId,
+        users: [],
+        warning: `A central #${accountId} foi criada fora do painel, então este Platform App não pode adicionar usuários nela. Convide a equipe direto no Chatwoot (Configurações › Agentes) — a lista aqui continua servindo de referência para a IA.`,
+      })
+      return
     }
 
     const users = []
