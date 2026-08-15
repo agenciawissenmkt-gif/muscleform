@@ -6,57 +6,64 @@ const router = Router()
 
 /**
  * Fecha a implementação: monta o payload da loja e entrega ao webhook do N8N,
- * que cria o fluxo do agente autônomo para esse tenant.
+ * que cria/atualiza o fluxo do agente autônomo para esse tenant.
  */
 router.post(
   '/complete',
   route(async (req, res) => {
-    const { user, tenant } = await requireTenant(req)
+    const { user, store, tenant, settings } = await requireTenant(req)
 
-    const [settings, channel, google, team] = await Promise.all([
-      db.selectOne('tenant_settings', `tenant_id=eq.${tenant.id}&select=*`),
+    const [channel, google, team, agents] = await Promise.all([
       db.selectOne('tenant_channels', `tenant_id=eq.${tenant.id}&select=*`),
       db.selectOne('tenant_google_credentials', `tenant_id=eq.${tenant.id}&select=calendar_id,email`),
       db.select('salespeople', `tenant_id=eq.${tenant.id}&select=name,email,role&order=created_at`),
+      db.select('tenant_agents', `tenant_id=eq.${tenant.id}&select=agent_type,system_prompt`),
     ])
 
+    const prompt = (type) => agents?.find((agent) => agent.agent_type === type)?.system_prompt ?? ''
+
     const payload = {
-      store_name: tenant.nome,
+      store_name: store.name,
       owner_email: user.email,
-      bot_phone: tenant.bot_phone,
-      google_calendar_id: google?.calendar_id ?? tenant.google_calendar_id ?? 'primary',
-      prompt_descoberta: settings?.prompt_descoberta ?? '',
-      prompt_encantamento: settings?.prompt_encantamento ?? '',
-      prompt_fechamento: settings?.prompt_fechamento ?? '',
+      bot_phone: settings?.bot_phone ?? channel?.whatsapp_number ?? null,
+      google_calendar_id: google?.calendar_id ?? settings?.google_calendar_id ?? 'primary',
+      prompt_descoberta: prompt('descoberta'),
+      prompt_encantamento: prompt('encantamento'),
+      prompt_fechamento: prompt('fechamento'),
       salespeople: (team ?? []).map((person) => ({
         name: person.name,
         email: person.email,
         role: person.role,
       })),
-      // Contexto extra para o fluxo do N8N localizar a loja e respeitar suas regras
+      // Contexto extra para o fluxo localizar a loja e respeitar suas regras
       tenant: {
         id: tenant.id,
         slug: tenant.slug,
-        cnpj: tenant.cnpj,
-        contact_phone: tenant.contact_phone,
+        nome: tenant.nome,
         timezone: tenant.timezone,
-        chatwoot_base_url: tenant.chatwoot_base_url,
-        account_id: channel?.account_id ?? null,
-        inbox_id: channel?.inbox_id ?? null,
-        instance_name: channel?.instance_name ?? null,
+        store_id: store.id,
+        cnpj: store.cnpj,
+        contact_phone: store.phone,
+        chatwoot_base_url: settings?.chatwoot_base_url ?? null,
+        account_id: channel?.chatwoot_account_id ?? null,
+        inbox_id: channel?.chatwoot_inbox_id ?? null,
+        instance_name: channel?.evolution_instance ?? null,
       },
       regras: {
-        aceita_consignacao: settings?.accepts_consignment ?? false,
-        aceita_troca: settings?.accepts_trade ?? false,
-        carro_de_leilao: settings?.auction_cars ?? false,
-        laudo_cautelar: settings?.inspection_report ?? null,
-        bancos_parceiros: settings?.partner_banks ?? [],
+        aceita_consignacao: store.offers_consignment,
+        aceita_troca: store.accepts_trade,
+        carro_de_leilao: store.works_with_auction,
+        laudo_cautelar: store.has_inspection ? store.inspection_type : null,
+        bancos_parceiros: store.partner_banks ?? [],
+        garantia_meses: store.warranty_months,
+        formas_pagamento: store.payment_methods ?? [],
+        test_drive: store.offers_test_drive,
+        entrega: store.offers_delivery,
       },
-      horario_ia: {
-        modo: settings?.ai_schedule_mode ?? '24h',
-        inicio: settings?.ai_start_time ?? null,
-        fim: settings?.ai_end_time ?? null,
-      },
+      horario_ia: settings?.horario_atendimento ?? '24h',
+      endereco: [store.address_street, store.address_number, store.address_district, store.address_city, store.address_state]
+        .filter(Boolean)
+        .join(', '),
     }
 
     const webhook = process.env.N8N_PROVISIONING_WEBHOOK_URL

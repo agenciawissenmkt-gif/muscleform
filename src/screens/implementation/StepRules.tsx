@@ -1,76 +1,96 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useTenant } from '../../core/tenant'
 import { defaultPrompts } from '../../core/prompts'
-import { maskCnpj, maskPhone, onlyDigits, slugify } from '../../core/format'
-import { PARTNER_BANKS, type AiScheduleMode } from '../../core/types'
+import { maskCnpj, maskPhone, onlyDigits } from '../../core/format'
+import {
+  AGENT_HINT,
+  AGENT_LABEL,
+  INSPECTION_LABEL,
+  PARTNER_BANKS,
+  type AgentType,
+  type InspectionType,
+} from '../../core/types'
 import { Button } from '../../ui/Button'
 import { CheckPill, Field, Input, Textarea, Toggle } from '../../ui/Field'
 import { useToast } from '../../ui/Feedback'
 import { SparkIcon } from '../../ui/icons'
 import { InfoNote, StepCard } from './StepCard'
 
+const AGENT_TYPES: AgentType[] = ['descoberta', 'encantamento', 'fechamento']
+
 export function StepRules({ onNext }: { onNext: () => void }) {
-  const { tenant, settings, updateTenant, updateSettings } = useTenant()
+  const { store, tenant, settings, agents, updateStore, updateTenant, updateSettings, updateAgent } = useTenant()
   const { toast } = useToast()
 
-  const [nome, setNome] = useState('')
+  const [name, setName] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [phone, setPhone] = useState('')
   const [consignment, setConsignment] = useState(false)
   const [trade, setTrade] = useState(true)
   const [auction, setAuction] = useState(false)
-  const [report, setReport] = useState('')
+  const [inspection, setInspection] = useState<InspectionType>('nenhum')
   const [banks, setBanks] = useState<string[]>([])
-  const [mode, setMode] = useState<AiScheduleMode>('24h')
+  const [mode, setMode] = useState<'24h' | 'custom'>('24h')
   const [start, setStart] = useState('18:00')
   const [end, setEnd] = useState('08:00')
-  const [descoberta, setDescoberta] = useState('')
-  const [encantamento, setEncantamento] = useState('')
-  const [fechamento, setFechamento] = useState('')
+  const [prompts, setPrompts] = useState<Record<AgentType, string>>({
+    descoberta: '',
+    encantamento: '',
+    fechamento: '',
+  })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (tenant) {
-      setNome(tenant.nome ?? '')
-      setCnpj(tenant.cnpj ? maskCnpj(tenant.cnpj) : '')
-      setPhone(tenant.contact_phone ? maskPhone(tenant.contact_phone) : '')
+    if (store) {
+      setName(store.name?.trim() ?? '')
+      setCnpj(store.cnpj ? maskCnpj(store.cnpj) : '')
+      setPhone(store.phone ? maskPhone(store.phone) : '')
+      setConsignment(store.offers_consignment)
+      setTrade(store.accepts_trade)
+      setAuction(store.works_with_auction)
+      setInspection(store.has_inspection ? store.inspection_type : 'nenhum')
+      setBanks(store.partner_banks ?? [])
     }
-    if (settings) {
-      setConsignment(settings.accepts_consignment)
-      setTrade(settings.accepts_trade)
-      setAuction(settings.auction_cars)
-      setReport(settings.inspection_report ?? '')
-      setBanks(settings.partner_banks ?? [])
-      setMode(settings.ai_schedule_mode)
-      if (settings.ai_start_time) setStart(settings.ai_start_time.slice(0, 5))
-      if (settings.ai_end_time) setEnd(settings.ai_end_time.slice(0, 5))
-      setDescoberta(settings.prompt_descoberta ?? '')
-      setEncantamento(settings.prompt_encantamento ?? '')
-      setFechamento(settings.prompt_fechamento ?? '')
+
+    const horario = settings?.horario_atendimento?.trim()
+    if (horario && horario !== '24h' && horario.includes('-')) {
+      const [from, to] = horario.split('-')
+      setMode('custom')
+      setStart(from.trim().slice(0, 5))
+      setEnd(to.trim().slice(0, 5))
+    } else {
+      setMode('24h')
     }
-  }, [tenant?.id, settings?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [store?.id, settings?.tenant_id]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!agents.length) return
+    setPrompts({
+      descoberta: agents.find((a) => a.agent_type === 'descoberta')?.system_prompt ?? '',
+      encantamento: agents.find((a) => a.agent_type === 'encantamento')?.system_prompt ?? '',
+      fechamento: agents.find((a) => a.agent_type === 'fechamento')?.system_prompt ?? '',
+    })
+  }, [agents])
 
   function generatePrompts() {
-    const generated = defaultPrompts({
-      storeName: nome || 'loja',
-      settings: {
-        accepts_consignment: consignment,
+    setPrompts(
+      defaultPrompts({
+        ...store,
+        name,
+        offers_consignment: consignment,
         accepts_trade: trade,
-        auction_cars: auction,
-        inspection_report: report || null,
+        works_with_auction: auction,
+        inspection_type: inspection,
         partner_banks: banks,
-      },
-    })
-    setDescoberta(generated.prompt_descoberta)
-    setEncantamento(generated.prompt_encantamento)
-    setFechamento(generated.prompt_fechamento)
-    toast('Prompts sugeridos gerados. Ajuste o texto como quiser antes de salvar.', 'info')
+      }),
+    )
+    toast('Prompts sugeridos gerados. Revise o texto antes de salvar.', 'info')
   }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    if (!nome.trim()) {
+    if (!name.trim()) {
       setError('Informe o nome da loja.')
       return
     }
@@ -79,26 +99,32 @@ export function StepRules({ onNext }: { onNext: () => void }) {
     setError(null)
 
     try {
-      await updateTenant({
-        nome: nome.trim(),
-        slug: tenant?.slug || `${slugify(nome)}-${crypto.randomUUID().slice(0, 6)}`,
+      await updateStore({
+        name: name.trim(),
         cnpj: onlyDigits(cnpj) || null,
-        contact_phone: onlyDigits(phone) || null,
+        phone: onlyDigits(phone) || null,
+        offers_consignment: consignment,
+        accepts_trade: trade,
+        works_with_auction: auction,
+        has_inspection: inspection !== 'nenhum',
+        inspection_type: inspection,
+        partner_banks: banks,
       })
 
+      if (tenant && tenant.nome !== name.trim()) {
+        await updateTenant({ nome: name.trim() })
+      }
+
       await updateSettings({
-        accepts_consignment: consignment,
-        accepts_trade: trade,
-        auction_cars: auction,
-        inspection_report: report.trim() || null,
-        partner_banks: banks,
-        ai_schedule_mode: mode,
-        ai_start_time: mode === 'custom' ? `${start}:00` : null,
-        ai_end_time: mode === 'custom' ? `${end}:00` : null,
-        prompt_descoberta: descoberta.trim() || null,
-        prompt_encantamento: encantamento.trim() || null,
-        prompt_fechamento: fechamento.trim() || null,
+        horario_atendimento: mode === '24h' ? '24h' : `${start}-${end}`,
       })
+
+      // Um prompt por agente — o N8N lê tenant_agents.system_prompt
+      for (const type of AGENT_TYPES) {
+        const value = prompts[type].trim()
+        const current = agents.find((agent) => agent.agent_type === type)?.system_prompt ?? ''
+        if (value && value !== current) await updateAgent(type, value)
+      }
 
       toast('Regras da loja salvas.')
       onNext()
@@ -126,9 +152,9 @@ export function StepRules({ onNext }: { onNext: () => void }) {
               label="Nome da loja"
               required
               className="sm:col-span-2"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Auto Wissen Motors"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Wissen Multimarcas"
             />
             <Input label="CNPJ" value={cnpj} onChange={(e) => setCnpj(maskCnpj(e.target.value))} placeholder="00.000.000/0001-00" />
             <Input
@@ -160,13 +186,18 @@ export function StepRules({ onNext }: { onNext: () => void }) {
               label="Trabalha com carro de leilão"
               description="A IA informa ao cliente quando o veículo tem origem de leilão."
             />
-            <Input
-              label="Pesquisa veicular / laudo cautelar"
-              value={report}
-              onChange={(e) => setReport(e.target.value)}
-              placeholder="Laudo Cautelar 100% Aprovado"
-              hint="Frase que a IA usa ao falar da procedência dos veículos."
-            />
+          </section>
+
+          <section>
+            <h3 className="text-sm font-bold text-ink-900">Pesquisa veicular / laudo cautelar</h3>
+            <p className="mt-1 text-xs text-ink-500">O que a IA responde quando perguntarem sobre procedência.</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {(Object.keys(INSPECTION_LABEL) as InspectionType[]).map((type) => (
+                <CheckPill key={type} checked={inspection === type} onChange={() => setInspection(type)}>
+                  {INSPECTION_LABEL[type]}
+                </CheckPill>
+              ))}
+            </div>
           </section>
 
           <section>
@@ -237,7 +268,9 @@ export function StepRules({ onNext }: { onNext: () => void }) {
           <section>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-sm font-bold text-ink-900">Prompts do agente</h3>
+                <h3 className="text-sm font-bold text-ink-900">
+                  Prompts do agente {agents[0]?.nome_agente ? `(${agents[0].nome_agente})` : ''}
+                </h3>
                 <p className="mt-1 text-xs text-ink-500">As três fases da conversa, lidas pelo fluxo do N8N.</p>
               </div>
               <Button type="button" variant="secondary" size="sm" onClick={generatePrompts} icon={<SparkIcon className="size-4" />}>
@@ -245,25 +278,21 @@ export function StepRules({ onNext }: { onNext: () => void }) {
               </Button>
             </div>
 
+            <InfoNote tone="amber">
+              Atenção: sua loja já tem prompts extensos gravados. “Gerar sugestão” substitui o texto na tela — nada é
+              salvo até você clicar em “Salvar e continuar”.
+            </InfoNote>
+
             <div className="mt-4 space-y-4">
-              <Textarea
-                label="Descoberta"
-                value={descoberta}
-                onChange={(e) => setDescoberta(e.target.value)}
-                placeholder="Como a IA entende a necessidade do cliente…"
-              />
-              <Textarea
-                label="Encantamento"
-                value={encantamento}
-                onChange={(e) => setEncantamento(e.target.value)}
-                placeholder="Como a IA apresenta o veículo e envia as fotos…"
-              />
-              <Textarea
-                label="Fechamento"
-                value={fechamento}
-                onChange={(e) => setFechamento(e.target.value)}
-                placeholder="Como a IA conduz para a visita, o test-drive e o financiamento…"
-              />
+              {AGENT_TYPES.map((type) => (
+                <Textarea
+                  key={type}
+                  label={AGENT_LABEL[type]}
+                  hint={`${AGENT_HINT[type]} ${prompts[type].length.toLocaleString('pt-BR')} caracteres.`}
+                  value={prompts[type]}
+                  onChange={(e) => setPrompts((prev) => ({ ...prev, [type]: e.target.value }))}
+                />
+              ))}
             </div>
           </section>
 

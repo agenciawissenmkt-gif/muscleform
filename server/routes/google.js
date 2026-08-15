@@ -144,7 +144,11 @@ router.get('/callback', async (req, res) => {
       'tenant_id',
     )
 
-    await db.update('tenants', `id=eq.${tenantId}`, { google_calendar_id: 'primary' })
+    await db.upsert(
+      'tenant_settings',
+      [{ tenant_id: tenantId, google_calendar_id: profile.email ?? 'primary' }],
+      'tenant_id',
+    )
 
     done(true)
   } catch (error) {
@@ -157,7 +161,7 @@ router.post(
   route(async (req, res) => {
     const { tenant } = await requireTenant(req)
     await db.delete('tenant_google_credentials', `tenant_id=eq.${tenant.id}`)
-    await db.update('tenants', `id=eq.${tenant.id}`, { google_calendar_id: null })
+    await db.upsert('tenant_settings', [{ tenant_id: tenant.id, google_calendar_id: null }], 'tenant_id')
     res.json({ ok: true })
   }),
 )

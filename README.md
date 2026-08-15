@@ -19,7 +19,9 @@ de IA atendendo no WhatsApp — alimentado em tempo real pelos dados do Supabase
 - **Back-end** (`server/`): Express com as rotas de provisionamento. Existe apenas para guardar as chaves
   privilegiadas (service role do Supabase, Super Admin do Chatwoot, Evolution API, OAuth do Google) fora do navegador.
   Toda rota exige o access token do usuário e confere se ele é dono da loja.
-- **Banco** (`supabase/migrations/`): tabelas multi-tenant, RLS, bucket de fotos e as RPCs consumidas pelo N8N.
+- **Banco** (`supabase/migrations/`): o painel roda sobre o projeto Supabase que já alimenta o
+  fluxo do N8N. `0001_wissen_cars.sql` é o schema base (para subir um ambiente novo) e
+  `0002_app_layer.sql` é a camada do painel — aditiva, sem tocar no que o N8N usa.
 
 ```
 src/
@@ -38,8 +40,8 @@ server/
 ```bash
 npm install
 
-# 1. Banco: rode supabase/migrations/0001_wissen_cars.sql no SQL Editor do seu projeto Supabase
-#    e habilite o provedor Google em Authentication › Providers.
+# 1. Banco: no projeto atual a migração 0002_app_layer.sql já está aplicada.
+#    Para um ambiente novo, rode 0001_wissen_cars.sql e depois 0002_app_layer.sql.
 
 # 2. Front-end
 cp .env.example .env        # cole VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY
@@ -67,15 +69,18 @@ em `server/.env`: o servidor devolve um QR de simulação e reporta a conexão d
 
 | Tabela | Papel |
 | --- | --- |
-| `tenants` | A loja: nome, slug, CNPJ, telefone, número do bot, agenda, timezone, dados do Chatwoot e progresso da implementação. |
-| `tenant_channels` | Ligação com o atendimento: `account_id` e `inbox_id` do Chatwoot e a instância da Evolution. |
-| `tenant_settings` | Prompts das três fases + regras comerciais (consignação, troca, leilão, laudo, bancos, horário da IA). |
+| `stores` | A loja do lojista: `owner_id` é a conta Google que faz login. Guarda CNPJ, endereço, garantia, formas de pagamento, regras comerciais e o passo do wizard. |
+| `tenants` | A mesma loja do ponto de vista do agente, ligada por `stores.tenant_id`. |
+| `tenant_channels` | `chatwoot_account_id`, `chatwoot_inbox_id`, `evolution_instance` e `whatsapp_number`. |
+| `tenant_settings` | URLs e tokens do Chatwoot e da Evolution, telefone do bot, agenda e horário de atendimento. |
+| `tenant_agents` | Um prompt por fase da conversa (descoberta, encantamento, fechamento). |
 | `tenant_google_credentials` | Tokens do Google Agenda da loja. |
 | `salespeople` | Equipe de vendas e o papel de cada um (administrador/vendedor). |
-| `cars` / `car_photos` | Estoque e as fotos ordenadas no bucket `car-photos`. |
+| `cars` / `car_photos` | Estoque e as fotos (`ordem`, `is_cover`) no bucket `car-photos`. |
 
-RLS: cada tabela só devolve linhas cujo tenant pertence a `auth.uid()` (função `owns_tenant`). As fotos ficam em
-`car-photos/<tenant_id>/<car_id>/<arquivo>` e só o dono da loja pode escrever nessa pasta.
+RLS: cada tabela só devolve linhas do tenant vinculado à loja de `auth.uid()` (função `owns_tenant`). As fotos ficam em
+`car-photos/<tenant_id>/<car_id>/<arquivo>` e só o dono da loja pode escrever nessa pasta. O N8N acessa tudo com a
+service role key, que ignora RLS.
 
 ### RPCs para o agente no N8N
 
@@ -83,10 +88,12 @@ RLS: cada tabela só devolve linhas cujo tenant pertence a `auth.uid()` (funçã
 -- contexto da loja a partir do par conta/inbox do Chatwoot
 select tenant_context(1, 42);
 
--- estoque com ficha técnica e fotos ordenadas (aceita UUID ou slug da loja)
-select api_cars('auto-wissen-motors', 'corolla', 'ativo');
--- => { "cars": [ { "brand": "Toyota", ..., "photos": ["https://..."] } ] }
+-- estoque com ficha técnica e fotos ordenadas
+select api_cars('e30fd78b-...'::uuid, 'compass', 'ativo');
+-- => { "cars": [ { "brand": "JEEP", ..., "photos": [{ "url": "...", "is_cover": true }] } ] }
 ```
+
+Essas funções já existiam no projeto e não foram alteradas.
 
 ## Webhook de provisionamento
 
@@ -94,7 +101,7 @@ Ao concluir a etapa 4, o servidor envia para `N8N_PROVISIONING_WEBHOOK_URL`:
 
 ```json
 {
-  "store_name": "Auto Wissen Motors",
+  "store_name": "Wissen Multimarcas",
   "owner_email": "dono@loja.com.br",
   "bot_phone": "5541999999999",
   "google_calendar_id": "primary",
@@ -102,9 +109,10 @@ Ao concluir a etapa 4, o servidor envia para `N8N_PROVISIONING_WEBHOOK_URL`:
   "prompt_encantamento": "...",
   "prompt_fechamento": "...",
   "salespeople": [{ "name": "Marcos Vendas", "email": "marcos@loja.com.br", "role": "agent" }],
-  "tenant": { "id": "...", "slug": "...", "account_id": 1, "inbox_id": 42, "instance_name": "wissen-..." },
+  "tenant": { "id": "...", "slug": "wise-multimarcas", "account_id": 1, "inbox_id": 42, "instance_name": "wissen-..." },
   "regras": { "aceita_troca": true, "bancos_parceiros": ["BV", "Santander"], "...": "..." },
-  "horario_ia": { "modo": "24h", "inicio": null, "fim": null }
+  "horario_ia": "24h",
+  "endereco": "Rua ..., 58, centro, Curitiba, PR"
 }
 ```
 

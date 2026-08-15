@@ -21,8 +21,8 @@ const NAV: NavItem[] = [
 ]
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
-  const { tenant } = useTenant()
-  const pendingOnboarding = tenant ? !tenant.onboarding_done : false
+  const { store } = useTenant()
+  const pendingOnboarding = store ? store.onboarding_step !== 'concluido' : false
 
   return (
     <nav className="flex flex-col gap-1">
@@ -50,7 +50,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
 
 function UserCard() {
   const { user, signOut } = useAuth()
-  const { tenant } = useTenant()
+  const { store } = useTenant()
   const name = (user?.user_metadata?.full_name as string | undefined) ?? user?.email ?? ''
   const avatar = user?.user_metadata?.avatar_url as string | undefined
 
@@ -65,7 +65,7 @@ function UserCard() {
           </span>
         )}
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-bold text-ink-900">{tenant?.nome ?? 'Minha loja'}</span>
+          <span className="block truncate text-sm font-bold text-ink-900">{store?.name?.trim() || 'Minha loja'}</span>
           <span className="block truncate text-xs text-ink-500">{user?.email}</span>
         </span>
         <button
@@ -156,7 +156,7 @@ export function AppShell() {
                 <h2 className="text-base font-bold text-red-800">Não foi possível carregar sua loja</h2>
                 <p className="mt-2 text-sm text-red-700">{error}</p>
                 <p className="mt-3 text-xs text-red-600">
-                  Verifique se a migração <code className="font-mono">supabase/migrations/0001_wissen_cars.sql</code> foi
+                  Verifique se a migração <code className="font-mono">supabase/migrations/0002_app_layer.sql</code> foi
                   aplicada no seu projeto Supabase.
                 </p>
               </div>

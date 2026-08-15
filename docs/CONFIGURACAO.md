@@ -1,106 +1,84 @@
-# Conectando o app ao seu projeto Supabase
+# Configuração
 
-Passo a passo para apontar o Wissen Cars para um projeto Supabase já existente.
-Ao final, `npm run check` confirma item por item se está tudo no lugar.
+O painel roda sobre o projeto Supabase **wissen-cars-multitenant**
+(`bhffexojdowetruhbpxs`, região sa-east-1) — o mesmo que já alimenta o fluxo do N8N.
+Nada do que existia foi apagado ou renomeado.
 
----
+## Como o app enxerga o banco
 
-## 1. Rodar a migração
+| O app usa | Tabela / coluna real |
+| --- | --- |
+| Loja do lojista logado | `stores` (`owner_id` = usuário do Google) |
+| Loja do ponto de vista da IA | `tenants`, ligada por `stores.tenant_id` |
+| Regras comerciais (etapa 1) | `stores.accepts_trade`, `offers_consignment`, `works_with_auction`, `has_inspection` + `inspection_type`, `partner_banks` |
+| Horário da IA | `tenant_settings.horario_atendimento` (`24h` ou `18:00-08:00`) |
+| Prompts das 3 fases | `tenant_agents.system_prompt`, um por `agent_type` |
+| Central e WhatsApp | `tenant_channels.chatwoot_account_id`, `chatwoot_inbox_id`, `evolution_instance`, `whatsapp_number` |
+| Estoque | `cars` + `car_photos` (`ordem`, `is_cover`) |
+| Progresso do wizard | `stores.onboarding_step` (`perfil` → `calendar` → `chatwoot` → `evolution` → `concluido`) |
 
-No painel do Supabase, abra **SQL Editor › New query**, cole todo o conteúdo de
-`supabase/migrations/0001_wissen_cars.sql` e execute.
+As funções `tenant_context()`, `api_cars()`, `resolve_tenant()`, `get_agent_prompt()`,
+`upsert_lead()` e `match_faq()` continuam exatamente como estavam — o painel não as
+altera, só lê e escreve nas tabelas que elas consultam.
 
-Isso cria:
+## O que foi adicionado ao projeto
 
-- as tabelas `tenants`, `tenant_channels`, `tenant_settings`, `tenant_google_credentials`,
-  `salespeople`, `cars` e `car_photos`;
-- as políticas de RLS que isolam uma loja da outra (cada lojista só enxerga o que é dele);
-- o bucket `car-photos` com permissão de escrita apenas na pasta da própria loja;
-- as funções `tenant_context(account_id, inbox_id)` e `api_cars(tenant, model, status)`,
-  usadas pelo agente no N8N.
+A migração `supabase/migrations/0002_app_layer.sql` (já aplicada) é aditiva:
 
-O script pode ser executado mais de uma vez sem quebrar nada.
+1. **`stores.tenant_id`** — a ligação que faltava entre a loja e o tenant, mais as colunas
+   `works_with_auction` e `partner_banks`; em `cars`, `model_year`; em `car_photos`, `storage_path`.
+2. **Policies de RLS** — antes só `stores` tinha policy, então um lojista logado não conseguia
+   ler os próprios veículos pelo navegador. Agora `cars`, `car_photos`, `tenants`,
+   `tenant_channels`, `tenant_settings` e `tenant_agents` liberam exatamente as linhas do tenant
+   vinculado à loja do usuário (função `owns_tenant`). O N8N segue com a service role, que ignora RLS.
+3. **`salespeople`** e **`tenant_google_credentials`** — tabelas novas para as etapas 3 e 2.
+4. **Bucket `car-photos`** — as fotos novas vão para `car-photos/<tenant_id>/<car_id>/`;
+   as fotos antigas continuam apontando para a URL externa gravada em `car_photos.url`.
+5. **`bootstrap_store()`** — no primeiro login de um lojista novo, cria loja + tenant +
+   settings + os três agentes numa tacada só.
 
-## 2. Ativar o login com Google
+Isolamento conferido no banco: com o usuário dono, `cars` devolve 13 registros;
+com outro usuário autenticado, devolve 0.
 
-1. **Authentication › Providers › Google**: habilite e cole o Client ID e o Client Secret
-   de um OAuth Client do tipo *Aplicativo da Web* criado no
-   [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
-2. No Google Cloud, em **URIs de redirecionamento autorizados**, cadastre a URL que o próprio
-   Supabase mostra nessa tela (`https://SEU-PROJETO.supabase.co/auth/v1/callback`).
-3. **Authentication › URL Configuration**: em *Site URL* coloque o endereço do app
-   (`http://localhost:5173` em desenvolvimento, o domínio final em produção) e repita em
-   *Redirect URLs*.
-
-## 3. Apontar o app para o projeto
-
-```bash
-cp .env.example .env
-```
-
-Preencha com os valores de **Project Settings › API**:
-
-```
-VITE_SUPABASE_URL=https://SEU-PROJETO.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOi...
-```
-
-> A `anon key` é pública por natureza — quem protege os dados é a RLS. A **service_role key**
-> nunca entra aqui: ela vai só em `server/.env`, que não é versionado.
-
-## 4. Conferir
+## Rodando
 
 ```bash
-npm run check
-```
-
-Saída esperada:
-
-```
-  ✓  Conexão com o projeto            seu-projeto.supabase.co
-  ✓  Tabela tenants                   existe e responde
-  ...
-  ✓  Bucket car-photos                criado e público para leitura
-  ✓  Login com Google                 provedor habilitado
-```
-
-Depois:
-
-```bash
+npm install
+cp .env.example .env    # VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY (Project Settings › API)
+npm run check           # confere tabelas, funções, bucket e login do Google
 npm run dev
 ```
 
-Entre com a conta Google do lojista — a loja é criada sozinha no primeiro acesso.
+Para um **projeto novo** (outro cliente), rode `0001_wissen_cars.sql` e depois
+`0002_app_layer.sql`. No projeto atual, só o 0002 — o 0001 recriaria o que já existe.
 
----
+## Integrações da implementação (etapas 2, 3 e 4)
 
-## 5. Integrações da implementação (etapas 2, 3 e 4)
-
-Essas etapas passam pelo servidor (`npm run server`), que guarda as chaves privilegiadas.
-Copie `server/.env.example` para `server/.env` e preencha conforme for ativando cada uma:
+Passam pelo servidor (`npm run server`), que guarda as chaves privilegiadas.
+Copie `server/.env.example` para `server/.env`:
 
 | Etapa | Variáveis | Onde conseguir |
 | --- | --- | --- |
 | Base | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `APP_URL` | Project Settings › API |
-| 2 — Google Agenda | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | Google Cloud Console (pode ser o mesmo OAuth Client do login, adicionando `APP_URL/api/google/callback` como redirect) |
+| 2 — Google Agenda | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | Google Cloud Console |
 | 3 — Chatwoot | `CHATWOOT_BASE_URL`, `CHATWOOT_PLATFORM_TOKEN` | Chatwoot › Super Admin › Platform Apps |
-| 4 — WhatsApp | `EVOLUTION_API_URL`, `EVOLUTION_API_KEY` | Painel da sua Evolution API |
+| 4 — WhatsApp | `EVOLUTION_API_KEY` | Painel da Evolution API (a URL já está em `tenant_settings.evolution_base_url`) |
 | Final | `N8N_PROVISIONING_WEBHOOK_URL` | URL do nó Webhook do fluxo de provisionamento |
 
-Enquanto uma chave não existir, a etapa correspondente mostra na tela exatamente qual variável
-falta — o estoque e o dashboard seguem funcionando normalmente.
+Enquanto uma chave não existir, a etapa correspondente diz na tela qual variável falta —
+o estoque e o dashboard seguem funcionando.
 
-Para testar a etapa 4 (QR Code e a comemoração) sem WhatsApp real, use `WISSEN_SIMULATE=true`
-em `server/.env`: o servidor devolve um QR de simulação e reporta a conexão em ~12 segundos.
+Para testar a etapa 4 (QR Code e a comemoração) sem WhatsApp real, use
+`WISSEN_SIMULATE=true` em `server/.env`.
 
-## 6. Conferindo o que o N8N vai ler
+## Detalhes que valem saber
 
-Com a loja cadastrada e o WhatsApp conectado, no SQL Editor:
-
-```sql
--- contexto da loja pelo par conta/inbox do Chatwoot
-select tenant_context(1, 42);
-
--- estoque com ficha técnica e fotos ordenadas (aceita o slug ou o UUID da loja)
-select api_cars('auto-wissen-motors', null, 'ativo');
-```
+- **Chatwoot**: a conta da loja já existe (`chatwoot_account_id = 1`), mas `chatwoot_inbox_id`
+  está nulo. O app preenche a inbox automaticamente quando o WhatsApp conectar na etapa 4 —
+  é o par conta+inbox que o `resolve_tenant()` usa para achar a loja.
+- **Prompts**: os três prompts atuais têm ~18 mil caracteres cada. A etapa 1 carrega o texto
+  existente para edição; o botão "Gerar sugestão" só troca o que está na tela, e nada é
+  gravado até você salvar.
+- **Fotos antigas**: as 52 fotos já cadastradas apontam para `wissencars.lovable.app`. Elas
+  continuam funcionando; se aquele domínio sair do ar, basta recadastrar as fotos pelo painel
+  para que passem a viver no Storage do Supabase.

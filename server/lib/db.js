@@ -70,15 +70,28 @@ export const db = {
   delete: (table, query) => rest(`${table}?${query}`, { method: 'DELETE' }),
 }
 
-/** Cria ou atualiza o canal (Chatwoot + Evolution) da loja — um por tenant. */
+/**
+ * Cria ou atualiza o canal (Chatwoot + Evolution) da loja — um por tenant.
+ * `tenant_channels.chatwoot_account_id` é NOT NULL, então a criação do canal só
+ * acontece depois da etapa 3 (provisionamento da central).
+ */
 export async function upsertChannel(tenantId, patch) {
   const existing = await db.selectOne('tenant_channels', `tenant_id=eq.${tenantId}&select=*`)
-  const values = { ...patch, updated_at: new Date().toISOString() }
 
-  const [row] = existing
-    ? await db.update('tenant_channels', `id=eq.${existing.id}`, values)
-    : await db.insert('tenant_channels', [{ tenant_id: tenantId, ...values }])
+  if (existing) {
+    const [row] = await db.update('tenant_channels', `id=eq.${existing.id}`, patch)
+    return row
+  }
 
+  if (!patch.chatwoot_account_id) {
+    throw new HttpError(
+      400,
+      'A central de atendimento ainda não foi criada.',
+      'Volte à etapa 3 e crie a central no Chatwoot antes de conectar o WhatsApp.',
+    )
+  }
+
+  const [row] = await db.insert('tenant_channels', [{ tenant_id: tenantId, ...patch }])
   return row
 }
 

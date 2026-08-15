@@ -14,9 +14,12 @@ type Filter = 'todos' | CarStatus
 const FILTERS: Filter[] = ['todos', 'ativo', 'reservado', 'vendido']
 
 export function Inventory() {
-  const { tenant } = useTenant()
+  const { store } = useTenant()
   const { toast } = useToast()
-  const { cars, loading, error, saveCar, deleteCar } = useCars(tenant?.id)
+  const { cars, loading, error, saveCar, deleteCar } = useCars({
+    tenantId: store?.tenant_id ?? undefined,
+    storeId: store?.id,
+  })
 
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState<Filter>('todos')
@@ -31,7 +34,7 @@ export function Inventory() {
       const matchesStatus = filter === 'todos' || car.status === filter
       if (!matchesStatus) return false
       if (!term) return true
-      return `${car.brand} ${car.model} ${car.version ?? ''} ${car.color ?? ''}`.toLowerCase().includes(term)
+      return `${car.brand ?? ''} ${car.model} ${car.version ?? ''} ${car.color ?? ''}`.toLowerCase().includes(term)
     })
   }, [cars, search, filter])
 
@@ -178,7 +181,9 @@ export function Inventory() {
         }
       >
         <p className="text-sm leading-relaxed text-ink-600">
-          O anúncio <strong className="text-ink-900">{deleting?.brand} {deleting?.model}</strong> e todas as suas fotos
+          O anúncio{' '}
+          <strong className="text-ink-900">{[deleting?.brand, deleting?.model].filter(Boolean).join(' ')}</strong> e
+          todas as suas fotos
           serão removidos do estoque e deixarão de ser oferecidos pela IA.
         </p>
       </Modal>

@@ -55,7 +55,7 @@ function safeJson(text) {
 router.post(
   '/provision',
   route(async (req, res) => {
-    const { tenant } = await requireTenant(req)
+    const { tenant, settings } = await requireTenant(req)
     const { baseUrl } = chatwootConfig()
 
     const channel = await db.selectOne('tenant_channels', `tenant_id=eq.${tenant.id}&select=*`)
@@ -65,14 +65,14 @@ router.post(
       throw new HttpError(400, 'Cadastre pelo menos um vendedor antes de criar a central.')
     }
 
-    let accountId = channel?.account_id ?? null
+    let accountId = channel?.chatwoot_account_id ?? null
     if (!accountId) {
       const account = await platform('accounts', { method: 'POST', body: { name: tenant.nome } })
       accountId = account.id
     }
 
     const users = []
-    let adminToken = tenant.chatwoot_token ?? null
+    let adminToken = settings?.chatwoot_token ?? null
 
     for (const person of team) {
       let userId = person.chatwoot_user_id ?? null
@@ -94,7 +94,7 @@ router.post(
           accessToken = created.access_token ?? null
           invited = true
         } catch (error) {
-          // Usuário já existe no Chatwoot (outra loja ou cadastro anterior).
+          // 422 = usuário já existe no Chatwoot (outra loja ou cadastro anterior)
           if (error.status !== 422) throw error
         }
       }
@@ -114,12 +114,19 @@ router.post(
       users.push({ email: person.email, chatwoot_user_id: userId, role: person.role, invited })
     }
 
-    await upsertChannel(tenant.id, { account_id: accountId, status: 'central_criada' })
+    await upsertChannel(tenant.id, { chatwoot_account_id: accountId, ativo: true })
 
-    await db.update('tenants', `id=eq.${tenant.id}`, {
-      chatwoot_base_url: baseUrl,
-      ...(adminToken ? { chatwoot_token: adminToken } : {}),
-    })
+    await db.upsert(
+      'tenant_settings',
+      [
+        {
+          tenant_id: tenant.id,
+          chatwoot_base_url: baseUrl,
+          ...(adminToken ? { chatwoot_token: adminToken } : {}),
+        },
+      ],
+      'tenant_id',
+    )
 
     res.json({ account_id: accountId, users })
   }),

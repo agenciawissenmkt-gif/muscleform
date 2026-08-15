@@ -9,25 +9,24 @@ const SIMULATE = process.env.WISSEN_SIMULATE === 'true'
 const SIMULATED_CONNECT_MS = 12_000
 const simulated = new Map()
 
-function evolutionConfig() {
-  const baseUrl = (process.env.EVOLUTION_API_URL || '').replace(/\/$/, '')
+/** A URL da Evolution pode vir das configurações da loja ou do ambiente. */
+function evolutionConfig(settings) {
+  const baseUrl = (settings?.evolution_base_url || process.env.EVOLUTION_API_URL || '').replace(/\/$/, '')
   const apiKey = process.env.EVOLUTION_API_KEY
 
   if (!baseUrl || !apiKey) {
     if (SIMULATE) return null
     throw new HttpError(
       501,
-      'Evolution API não configurada no servidor.',
-      'Defina EVOLUTION_API_URL e EVOLUTION_API_KEY em server/.env — ou WISSEN_SIMULATE=true para testar o fluxo sem WhatsApp real.',
+      'Evolution API não configurada.',
+      'Defina EVOLUTION_API_KEY em server/.env (a URL pode vir de tenant_settings.evolution_base_url) — ou WISSEN_SIMULATE=true para testar o fluxo sem WhatsApp real.',
     )
   }
 
   return { baseUrl, apiKey }
 }
 
-async function evolution(path, { method = 'GET', body } = {}) {
-  const config = evolutionConfig()
-
+async function evolution(config, path, { method = 'GET', body } = {}) {
   const res = await fetch(`${config.baseUrl}/${path}`, {
     method,
     headers: { apikey: config.apiKey, 'Content-Type': 'application/json' },
@@ -56,13 +55,7 @@ function instanceName(tenant) {
 
 /** Extrai o QR em base64 das várias formas que a Evolution devolve. */
 function readQrCode(payload) {
-  const raw =
-    payload?.qrcode?.base64 ??
-    payload?.qrcode?.code ??
-    payload?.base64 ??
-    payload?.code ??
-    null
-
+  const raw = payload?.qrcode?.base64 ?? payload?.qrcode?.code ?? payload?.base64 ?? payload?.code ?? null
   if (!raw) return null
   return String(raw).startsWith('data:') ? raw : `data:image/png;base64,${raw}`
 }
@@ -74,8 +67,7 @@ function simulatedQr(name) {
     .map((_, i) => {
       const x = (i % 12) * 20
       const y = Math.floor(i / 12) * 20
-      const on = (i * 7 + name.length * 3) % 3 !== 0
-      return on ? `<rect x="${x}" y="${y}" width="20" height="20"/>` : ''
+      return (i * 7 + name.length * 3) % 3 !== 0 ? `<rect x="${x}" y="${y}" width="20" height="20"/>` : ''
     })
     .join('')}</g>
 <rect x="80" y="90" width="80" height="60" rx="8" fill="#7C3AED"/>
@@ -84,15 +76,19 @@ function simulatedQr(name) {
   return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`
 }
 
-/** Descobre o inbox criado pela integração no Chatwoot — o par (account, inbox) identifica o tenant no N8N. */
-async function findInboxId(tenant, accountId) {
-  if (!tenant.chatwoot_base_url || !tenant.chatwoot_token || !accountId) return null
+/**
+ * Descobre a inbox criada pela integração no Chatwoot. O par
+ * (chatwoot_account_id, chatwoot_inbox_id) é o que resolve_tenant() usa no N8N.
+ */
+async function findInboxId(settings, tenant, accountId) {
+  if (!settings?.chatwoot_base_url || !settings?.chatwoot_token || !accountId) return null
 
   try {
-    const res = await fetch(`${tenant.chatwoot_base_url}/api/v1/accounts/${accountId}/inboxes`, {
-      headers: { api_access_token: tenant.chatwoot_token },
+    const res = await fetch(`${settings.chatwoot_base_url}/api/v1/accounts/${accountId}/inboxes`, {
+      headers: { api_access_token: settings.chatwoot_token },
     })
     if (!res.ok) return null
+
     const data = await res.json()
     const inboxes = data?.payload ?? []
     const match = inboxes.find((inbox) => String(inbox.name).includes(tenant.slug)) ?? inboxes[0]
@@ -107,43 +103,47 @@ async function findInboxId(tenant, accountId) {
 router.post(
   '/instance',
   route(async (req, res) => {
-    const { tenant } = await requireTenant(req)
+    const { tenant, settings } = await requireTenant(req)
     const channel = await db.selectOne('tenant_channels', `tenant_id=eq.${tenant.id}&select=*`)
-    const name = instanceName(tenant)
-    const config = evolutionConfig()
+    const name = channel?.evolution_instance || instanceName(tenant)
+    const config = evolutionConfig(settings)
 
     if (!config) {
       simulated.set(name, Date.now())
-      await upsertChannel(tenant.id, { instance_name: name, status: 'aguardando_leitura' })
+      await upsertChannel(tenant.id, {
+        evolution_instance: name,
+        whatsapp_number: settings?.bot_phone ?? null,
+        chatwoot_account_id: channel?.chatwoot_account_id ?? null,
+      })
       res.json({ instance: name, status: 'aguardando_leitura', qrcode: simulatedQr(name), simulated: true })
       return
     }
 
-    // Se a instância já existir, a Evolution responde 403/409 — nesse caso seguimos para o connect.
+    // Se a instância já existir a Evolution responde erro — seguimos para o connect.
     let created = null
     try {
-      created = await evolution('instance/create', {
+      created = await evolution(config, 'instance/create', {
         method: 'POST',
         body: {
           instanceName: name,
           qrcode: true,
           integration: 'WHATSAPP-BAILEYS',
-          ...(tenant.bot_phone ? { number: tenant.bot_phone } : {}),
+          ...(settings?.bot_phone ? { number: settings.bot_phone } : {}),
         },
       })
     } catch (error) {
       if (!/already|exists|in use/i.test(error.message)) throw error
     }
 
-    // Liga a instância à central de atendimento da loja (cria a inbox no Chatwoot).
-    if (channel?.account_id && tenant.chatwoot_base_url && tenant.chatwoot_token) {
-      await evolution(`chatwoot/set/${name}`, {
+    // Liga a instância à central da loja (cria a inbox no Chatwoot)
+    if (channel?.chatwoot_account_id && settings?.chatwoot_base_url && settings?.chatwoot_token) {
+      await evolution(config, `chatwoot/set/${name}`, {
         method: 'POST',
         body: {
           enabled: true,
-          accountId: String(channel.account_id),
-          token: tenant.chatwoot_token,
-          url: tenant.chatwoot_base_url,
+          accountId: String(channel.chatwoot_account_id),
+          token: settings.chatwoot_token,
+          url: settings.chatwoot_base_url,
           signMsg: false,
           reopenConversation: true,
           conversationPending: false,
@@ -160,11 +160,16 @@ router.post(
 
     let qrcode = readQrCode(created)
     if (!qrcode) {
-      const connect = await evolution(`instance/connect/${name}`)
+      const connect = await evolution(config, `instance/connect/${name}`)
       qrcode = readQrCode(connect)
     }
 
-    await upsertChannel(tenant.id, { instance_name: name, status: 'aguardando_leitura' })
+    await upsertChannel(tenant.id, {
+      evolution_instance: name,
+      whatsapp_number: settings?.bot_phone ?? null,
+      chatwoot_account_id: channel?.chatwoot_account_id ?? null,
+    })
+    await db.upsert('tenant_settings', [{ tenant_id: tenant.id, evolution_instance: name }], 'tenant_id')
 
     res.json({ instance: name, status: 'aguardando_leitura', qrcode })
   }),
@@ -175,18 +180,16 @@ router.post(
 router.get(
   '/state',
   route(async (req, res) => {
-    const { tenant } = await requireTenant(req)
+    const { tenant, settings } = await requireTenant(req)
     const channel = await db.selectOne('tenant_channels', `tenant_id=eq.${tenant.id}&select=*`)
-    const name = channel?.instance_name || instanceName(tenant)
-    const config = evolutionConfig()
+    const name = channel?.evolution_instance || instanceName(tenant)
+    const config = evolutionConfig(settings)
 
     if (!config) {
       const startedAt = simulated.get(name)
       const connected = startedAt && Date.now() - startedAt > SIMULATED_CONNECT_MS
-      if (connected) {
-        await upsertChannel(tenant.id, { status: 'conectado', inbox_id: channel?.inbox_id ?? null })
-        await db.update('tenants', `id=eq.${tenant.id}`, { whatsapp_status: 'conectado' })
-      }
+      if (connected) await upsertChannel(tenant.id, { ativo: true })
+
       res.json({
         instance: name,
         status: connected ? 'conectado' : 'aguardando_leitura',
@@ -196,19 +199,20 @@ router.get(
       return
     }
 
-    const data = await evolution(`instance/connectionState/${name}`)
+    const data = await evolution(config, `instance/connectionState/${name}`)
     const rawState = data?.instance?.state ?? data?.state ?? 'close'
 
     if (rawState === 'open') {
-      const inboxId = channel?.inbox_id ?? (await findInboxId(tenant, channel?.account_id))
-      await upsertChannel(tenant.id, { status: 'conectado', ...(inboxId ? { inbox_id: inboxId } : {}) })
-      await db.update('tenants', `id=eq.${tenant.id}`, { whatsapp_status: 'conectado' })
+      const inboxId = channel?.chatwoot_inbox_id ?? (await findInboxId(settings, tenant, channel?.chatwoot_account_id))
+      await upsertChannel(tenant.id, {
+        ativo: true,
+        ...(inboxId ? { chatwoot_inbox_id: inboxId } : {}),
+      })
       res.json({ instance: name, status: 'conectado', qrcode: null, inbox_id: inboxId })
       return
     }
 
-    // Ainda não leram o QR: devolve um código atualizado.
-    const connect = await evolution(`instance/connect/${name}`).catch(() => null)
+    const connect = await evolution(config, `instance/connect/${name}`).catch(() => null)
     res.json({ instance: name, status: 'aguardando_leitura', qrcode: readQrCode(connect) })
   }),
 )
@@ -218,20 +222,21 @@ router.get(
 router.post(
   '/disconnect',
   route(async (req, res) => {
-    const { tenant } = await requireTenant(req)
+    const { tenant, settings } = await requireTenant(req)
     const channel = await db.selectOne('tenant_channels', `tenant_id=eq.${tenant.id}&select=*`)
-    const name = channel?.instance_name || instanceName(tenant)
-    const config = evolutionConfig()
+    const name = channel?.evolution_instance || instanceName(tenant)
+    const config = evolutionConfig(settings)
 
     if (config) {
-      await evolution(`instance/logout/${name}`, { method: 'DELETE' }).catch(() => undefined)
-      await evolution(`instance/delete/${name}`, { method: 'DELETE' }).catch(() => undefined)
+      await evolution(config, `instance/logout/${name}`, { method: 'DELETE' }).catch(() => undefined)
+      await evolution(config, `instance/delete/${name}`, { method: 'DELETE' }).catch(() => undefined)
     } else {
       simulated.delete(name)
     }
 
-    await upsertChannel(tenant.id, { status: 'desconectado' })
-    await db.update('tenants', `id=eq.${tenant.id}`, { whatsapp_status: 'desconectado' })
+    if (channel) {
+      await db.update('tenant_channels', `id=eq.${channel.id}`, { ativo: false, evolution_instance: null })
+    }
 
     res.json({ ok: true })
   }),

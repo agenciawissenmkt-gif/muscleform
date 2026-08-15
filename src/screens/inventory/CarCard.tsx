@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function CarCard({ car, onEdit, onDelete }: Props) {
-  const cover = car.car_photos[0]?.url
+  const cover = car.car_photos[0]?.url ?? car.cover_url
 
   const specs = [
     formatYear(car.year, car.model_year),
@@ -32,7 +32,7 @@ export function CarCard({ car, onEdit, onDelete }: Props) {
         {cover ? (
           <img
             src={cover}
-            alt={`${car.brand} ${car.model}`}
+            alt={[car.brand, car.model].filter(Boolean).join(' ')}
             loading="lazy"
             className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -55,7 +55,7 @@ export function CarCard({ car, onEdit, onDelete }: Props) {
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-base font-bold leading-snug text-ink-900">
-          {car.brand} {car.model}
+          {[car.brand, car.model].filter(Boolean).join(' ')}
         </h3>
         {car.version && <p className="mt-0.5 line-clamp-1 text-sm text-ink-500">{car.version}</p>}
 

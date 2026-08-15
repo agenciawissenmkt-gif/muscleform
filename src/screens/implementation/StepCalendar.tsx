@@ -13,7 +13,9 @@ const PERMISSIONS = [
 ]
 
 export function StepCalendar({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const { tenant, google, refresh } = useTenant()
+  const { store, settings, google, refresh } = useTenant()
+  const tenant = store?.tenant_id ? { id: store.tenant_id } : null
+  const connected = google ?? (settings?.google_calendar_id ? { email: null, calendar_id: settings.google_calendar_id } : null)
   const { toast } = useToast()
   const [connecting, setConnecting] = useState(false)
   const [error, setError] = useState<{ message: string; hint?: string } | null>(null)
@@ -77,21 +79,21 @@ export function StepCalendar({ onNext, onBack }: { onNext: () => void; onBack: (
           <Button variant="ghost" onClick={onBack}>
             Voltar
           </Button>
-          <Button onClick={onNext} variant={google ? 'primary' : 'secondary'}>
-            {google ? 'Continuar' : 'Pular por enquanto'}
+          <Button onClick={onNext} variant={connected ? 'primary' : 'secondary'}>
+            {connected ? 'Continuar' : 'Pular por enquanto'}
           </Button>
         </>
       }
     >
-      {google ? (
+      {connected ? (
         <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6">
           <span className="grid size-12 place-items-center rounded-2xl bg-emerald-500 text-white">
             <CheckIcon className="size-6" />
           </span>
           <h3 className="mt-4 text-base font-bold text-emerald-900">Agenda conectada</h3>
           <p className="mt-1 text-sm text-emerald-800">
-            Conta <strong>{google.email ?? 'Google'}</strong> · calendário{' '}
-            <code className="rounded bg-white/70 px-1.5 py-0.5 font-mono text-xs">{google.calendar_id}</code>
+            Conta <strong>{connected.email ?? 'Google'}</strong> · calendário{' '}
+            <code className="rounded bg-white/70 px-1.5 py-0.5 font-mono text-xs">{connected.calendar_id}</code>
           </p>
           <Button variant="secondary" size="sm" className="mt-5" onClick={() => void disconnect()}>
             Desconectar

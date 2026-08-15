@@ -15,7 +15,8 @@ const ROLE_LABEL: Record<SalespersonRole, string> = {
 }
 
 export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const { tenant, channel, salespeople, refresh } = useTenant()
+  const { store, settings, channel, salespeople, refresh } = useTenant()
+  const tenantId = store?.tenant_id ?? null
   const { toast } = useToast()
 
   const [name, setName] = useState('')
@@ -25,16 +26,16 @@ export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: (
   const [provisioning, setProvisioning] = useState(false)
   const [error, setError] = useState<{ message: string; hint?: string } | null>(null)
 
-  const provisioned = Boolean(channel?.account_id)
+  const provisioned = Boolean(channel?.chatwoot_account_id)
 
   async function addPerson(event: FormEvent) {
     event.preventDefault()
-    if (!tenant || !name.trim() || !email.trim()) return
+    if (!tenantId || !name.trim() || !email.trim()) return
 
     setAdding(true)
     setError(null)
     const { error: insertError } = await supabase.from('salespeople').insert({
-      tenant_id: tenant.id,
+      tenant_id: tenantId,
       name: name.trim(),
       email: email.trim().toLowerCase(),
       role,
@@ -62,7 +63,7 @@ export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: (
   }
 
   async function provision() {
-    if (!tenant) return
+    if (!tenantId) return
     if (salespeople.length === 0) {
       setError({ message: 'Cadastre pelo menos um membro da equipe antes de criar a central.' })
       return
@@ -71,7 +72,7 @@ export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: (
     setProvisioning(true)
     setError(null)
     try {
-      const result = await provisionChatwoot(tenant.id)
+      const result = await provisionChatwoot(tenantId)
       await refresh()
       toast(`Central criada (conta #${result.account_id}) com ${result.users.length} usuário(s).`)
     } catch (err) {
@@ -109,7 +110,7 @@ export function StepChatwoot({ onNext, onBack }: { onNext: () => void; onBack: (
             <div>
               <h3 className="text-sm font-bold text-emerald-900">Central provisionada</h3>
               <p className="text-sm text-emerald-800">
-                Conta #{channel?.account_id} criada em {tenant?.chatwoot_base_url ?? 'seu Chatwoot'}.
+                Conta #{channel?.chatwoot_account_id} criada em {settings?.chatwoot_base_url ?? 'seu Chatwoot'}.
               </p>
             </div>
           </div>

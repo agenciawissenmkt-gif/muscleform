@@ -34,10 +34,15 @@ const env = { ...loadEnv('.env'), ...loadEnv('.env.local'), ...process.env }
 const url = (env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 const anonKey = env.VITE_SUPABASE_ANON_KEY || ''
 
-const TABLES = ['tenants', 'tenant_channels', 'tenant_settings', 'tenant_google_credentials', 'salespeople', 'cars', 'car_photos']
+const TABLES = [
+  'stores', 'tenants', 'tenant_channels', 'tenant_settings', 'tenant_agents',
+  'cars', 'car_photos', 'salespeople', 'tenant_google_credentials',
+]
 const FUNCTIONS = [
   { name: 'tenant_context', body: { p_account_id: 0, p_inbox_id: 0 } },
-  { name: 'api_cars', body: { p_tenant: 'checagem', p_model: null, p_status: 'ativo' } },
+  { name: 'api_cars', body: { p_tenant: '00000000-0000-4000-8000-000000000000', p_model: null, p_status: 'ativo' } },
+  { name: 'owns_tenant', body: { p_tenant: '00000000-0000-4000-8000-000000000000' } },
+  { name: 'bootstrap_store', body: { p_nome: 'checagem' } },
 ]
 
 const results = []
@@ -57,7 +62,9 @@ const headers = { apikey: anonKey, Authorization: `Bearer ${anonKey}` }
 // --- Conexão ----------------------------------------------------------------
 
 try {
-  const res = await fetch(`${url}/rest/v1/`, { headers })
+  // O endpoint raiz do PostgREST responde 401 para a anon key em projetos novos,
+  // então a checagem de conexão usa uma tabela de verdade.
+  const res = await fetch(`${url}/rest/v1/stores?select=id&limit=1`, { headers })
   if (res.status === 401) {
     record(false, 'Conexão com o projeto', 'a anon key foi recusada — confira se copiou a chave certa')
   } else {
@@ -75,8 +82,8 @@ for (const table of TABLES) {
     if (res.ok) {
       record(true, `Tabela ${table}`, 'existe e responde')
     } else {
-      const body = await res.json().catch(() => ({}))
-      record(false, `Tabela ${table}`, body.message || `HTTP ${res.status}`)
+      const body = (await res.json().catch(() => null)) ?? {}
+      record(false, `Tabela ${table}`, body?.message || `HTTP ${res.status}`)
     }
   } catch (error) {
     record(false, `Tabela ${table}`, error.message)
@@ -94,8 +101,9 @@ for (const fn of FUNCTIONS) {
       headers: { ...headers, 'Content-Type': 'application/json' },
       body: JSON.stringify(fn.body),
     })
-    const body = await res.json().catch(() => ({}))
-    const missing = res.status === 404 || /could not find the function|does not exist/i.test(body.message || '')
+    const body = (await res.json().catch(() => null)) ?? {}
+    const missing =
+      res.status === 404 || /could not find the function|does not exist/i.test(body?.message || '')
 
     if (missing) {
       record(false, `Função ${fn.name}()`, 'não encontrada — rode a migração')
@@ -155,6 +163,6 @@ if (pending.length === 0) {
   console.log('\n  Tudo pronto. Rode "npm run dev" e entre com sua conta Google.\n')
 } else {
   console.log(`\n  ${pending.length} item(ns) pendente(s).`)
-  console.log('  A migração fica em supabase/migrations/0001_wissen_cars.sql — cole no SQL Editor do projeto.\n')
+  console.log('  A migração do app fica em supabase/migrations/0002_app_layer.sql — cole no SQL Editor do projeto.\n')
   process.exit(1)
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTenant } from '../core/tenant'
+import { ONBOARDING_TO_STEP, STEP_TO_ONBOARDING } from '../core/types'
 import { CalendarIcon, ChatIcon, SettingsIcon, WhatsappIcon } from '../ui/icons'
 import { StepRules } from './implementation/StepRules'
 import { StepCalendar } from './implementation/StepCalendar'
@@ -15,24 +16,26 @@ const STEPS = [
 ]
 
 export function Implementation() {
-  const { tenant, updateTenant } = useTenant()
+  const { store, updateStore } = useTenant()
   const [step, setStep] = useState(1)
   const [maxVisited, setMaxVisited] = useState(1)
 
   useEffect(() => {
-    if (!tenant) return
-    const saved = Math.min(Math.max(tenant.onboarding_step, 1), 4)
+    if (!store) return
+    const saved = store.onboarding_step === 'concluido' ? 4 : ONBOARDING_TO_STEP[store.onboarding_step] ?? 1
     setStep(saved)
-    setMaxVisited((prev) => Math.max(prev, saved))
-  }, [tenant?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+    setMaxVisited(store.onboarding_step === 'concluido' ? 4 : saved)
+  }, [store?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function goTo(next: number) {
     const target = Math.min(Math.max(next, 1), 4)
     setStep(target)
     setMaxVisited((prev) => Math.max(prev, target))
-    if (tenant && target > tenant.onboarding_step) {
+
+    const current = store ? ONBOARDING_TO_STEP[store.onboarding_step] ?? 1 : 1
+    if (store && store.onboarding_step !== 'concluido' && target > current) {
       try {
-        await updateTenant({ onboarding_step: target })
+        await updateStore({ onboarding_step: STEP_TO_ONBOARDING[target] })
       } catch {
         /* a navegação não deve travar se o salvamento do progresso falhar */
       }
@@ -50,7 +53,6 @@ export function Implementation() {
         </p>
       </header>
 
-      {/* Trilha de etapas */}
       <div className="relative mt-8">
         <div className="absolute left-0 top-5 h-0.5 w-full rounded-full bg-ink-200" />
         <motion.div

@@ -2,7 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useTenant } from '../../core/tenant'
-import { ApiError, completeProvisioning, createWhatsappInstance, disconnectWhatsapp, whatsappState, type EvolutionState } from '../../core/api'
+import {
+  ApiError,
+  completeProvisioning,
+  createWhatsappInstance,
+  disconnectWhatsapp,
+  whatsappState,
+  type EvolutionState,
+} from '../../core/api'
 import { celebrate } from '../../core/celebrate'
 import { maskPhone, onlyDigits, toWhatsappNumber } from '../../core/format'
 import { Button } from '../../ui/Button'
@@ -20,29 +27,34 @@ const INSTRUCTIONS = [
 ]
 
 export function StepWhatsapp({ onBack }: { onBack: () => void }) {
-  const { tenant, updateTenant, refresh } = useTenant()
+  const { store, settings, channel, updateStore, updateSettings, refresh } = useTenant()
   const { toast } = useToast()
 
-  const [phone, setPhone] = useState(tenant?.bot_phone ? maskPhone(tenant.bot_phone) : '')
+  const tenantId = store?.tenant_id ?? null
+  const savedNumber = channel?.whatsapp_number ?? settings?.bot_phone ?? ''
+
+  const [phone, setPhone] = useState(savedNumber ? maskPhone(savedNumber.replace(/^55/, '')) : '')
   const [state, setState] = useState<EvolutionState | null>(null)
   const [starting, setStarting] = useState(false)
   const [error, setError] = useState<{ message: string; hint?: string } | null>(null)
   const [finishing, setFinishing] = useState(false)
   const celebratedRef = useRef(false)
 
-  const connected = state?.status === 'conectado' || tenant?.whatsapp_status === 'conectado'
+  const connected =
+    state?.status === 'conectado' ||
+    (Boolean(channel?.evolution_instance) && store?.onboarding_step === 'concluido')
 
-  /** Dispara a comemoração, marca a implementação como concluída e avisa o N8N. */
+  /** Comemora, marca a implementação como concluída e avisa o N8N. */
   const finish = useCallback(async () => {
-    if (celebratedRef.current) return
+    if (celebratedRef.current || !tenantId) return
     celebratedRef.current = true
 
     celebrate()
     setFinishing(true)
 
     try {
-      await updateTenant({ whatsapp_status: 'conectado', onboarding_step: 4, onboarding_done: true })
-      const result = await completeProvisioning(tenant!.id)
+      await updateStore({ onboarding_step: 'concluido' })
+      const result = await completeProvisioning(tenantId)
       toast(
         result.forwarded
           ? 'Tudo pronto! Sua loja foi enviada para o fluxo de automação.'
@@ -58,16 +70,16 @@ export function StepWhatsapp({ onBack }: { onBack: () => void }) {
       setFinishing(false)
       await refresh()
     }
-  }, [tenant, updateTenant, refresh, toast])
+  }, [tenantId, updateStore, refresh, toast])
 
   // Enquanto o QR estiver na tela, consulta o status da instância.
   useEffect(() => {
-    if (!tenant || connected) return
+    if (!tenantId || connected) return
     if (!state || state.status === 'pendente') return
 
     const timer = setInterval(async () => {
       try {
-        const next = await whatsappState(tenant.id)
+        const next = await whatsappState(tenantId)
         setState(next)
         if (next.status === 'conectado') {
           clearInterval(timer)
@@ -79,10 +91,10 @@ export function StepWhatsapp({ onBack }: { onBack: () => void }) {
     }, POLL_INTERVAL)
 
     return () => clearInterval(timer)
-  }, [tenant, state, connected, finish])
+  }, [tenantId, state, connected, finish])
 
   async function start() {
-    if (!tenant) return
+    if (!tenantId) return
     const digits = onlyDigits(phone)
     if (digits.length < 10) {
       setError({ message: 'Informe o número de WhatsApp da loja com DDD.' })
@@ -92,8 +104,8 @@ export function StepWhatsapp({ onBack }: { onBack: () => void }) {
     setStarting(true)
     setError(null)
     try {
-      await updateTenant({ bot_phone: toWhatsappNumber(digits) })
-      const next = await createWhatsappInstance(tenant.id)
+      await updateSettings({ bot_phone: toWhatsappNumber(digits) })
+      const next = await createWhatsappInstance(tenantId)
       setState(next)
       if (next.status === 'conectado') void finish()
     } catch (err) {
@@ -108,10 +120,9 @@ export function StepWhatsapp({ onBack }: { onBack: () => void }) {
   }
 
   async function reset() {
-    if (!tenant) return
+    if (!tenantId) return
     celebratedRef.current = false
-    await disconnectWhatsapp(tenant.id).catch(() => undefined)
-    await updateTenant({ whatsapp_status: 'desconectado' }).catch(() => undefined)
+    await disconnectWhatsapp(tenantId).catch(() => undefined)
     setState(null)
     await refresh()
   }
@@ -129,9 +140,9 @@ export function StepWhatsapp({ onBack }: { onBack: () => void }) {
           </span>
           <h3 className="mt-5 text-xl font-extrabold text-ink-900">Implementação concluída!</h3>
           <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-ink-600">
-            O número <strong>{tenant?.bot_phone ? maskPhone(tenant.bot_phone.replace(/^55/, '')) : ''}</strong> está
-            conectado. A partir de agora o agente responde os clientes, apresenta os veículos do seu estoque e agenda
-            visitas automaticamente.
+            O número <strong>{savedNumber ? maskPhone(savedNumber.replace(/^55/, '')) : ''}</strong> está conectado. A
+            partir de agora o agente responde os clientes, apresenta os veículos do seu estoque e agenda visitas
+            automaticamente.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
