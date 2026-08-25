@@ -17,6 +17,7 @@ import Inicio from './pages/Inicio';
 const Catalogo = lazy(() => import('./pages/Catalogo'));
 const Produto = lazy(() => import('./pages/Produto'));
 const Sobre = lazy(() => import('./pages/Sobre'));
+const Beneficios = lazy(() => import('./pages/Beneficios'));
 const Contato = lazy(() => import('./pages/Contato'));
 const Carrinho = lazy(() => import('./pages/Carrinho'));
 const NaoEncontrada = lazy(() => import('./pages/NaoEncontrada'));
@@ -27,6 +28,7 @@ const rotas = [
   { caminho: '/categoria/:slug', elemento: <Catalogo /> },
   { caminho: '/boneca/:slug', elemento: <Produto /> },
   { caminho: '/sobre', elemento: <Sobre /> },
+  { caminho: '/beneficios', elemento: <Beneficios /> },
   { caminho: '/contato', elemento: <Contato /> },
   { caminho: '/carrinho', elemento: <Carrinho /> },
   { caminho: '*', elemento: <NaoEncontrada /> },

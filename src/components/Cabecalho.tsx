@@ -10,6 +10,7 @@ const links = [
   { para: '/', rotulo: 'Início' },
   { para: '/bonecas', rotulo: 'Bonecas' },
   { para: '/sobre', rotulo: 'O Ateliê' },
+  { para: '/beneficios', rotulo: 'Benefícios' },
   { para: '/contato', rotulo: 'Contato' },
 ];
 

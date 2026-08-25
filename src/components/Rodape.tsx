@@ -42,6 +42,11 @@ export default function Rodape() {
               </Link>
             </li>
             <li>
+              <Link to="/beneficios" className="transition-colors hover:text-rosa-700">
+                Benefícios de brincar
+              </Link>
+            </li>
+            <li>
               <Link to="/bonecas" className="transition-colors hover:text-rosa-700">
                 Todas as bonecas
               </Link>
