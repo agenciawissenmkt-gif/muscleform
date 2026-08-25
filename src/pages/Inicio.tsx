@@ -97,7 +97,7 @@ function Hero({ vitrine }: { vitrine: Produto[] }) {
 
           <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-sepia-700 lg:mx-0">
             Cada boneca do <strong className="font-semibold">{site.nome}</strong> nasce à mão: tecido escolhido a
-            dedo, rostinho bordado ponto a ponto e um coração costurado por dentro. Escolha a sua e leve um
+            dedo, rostinho feito com capricho e um coração costurado por dentro. Escolha a sua e leve um
             abraço para casa.
           </p>
 
@@ -376,7 +376,11 @@ function ComoNasce({ boneca }: { boneca?: Produto }) {
   const passos = [
     { emoji: '✂️', titulo: 'Escolha do tecido', texto: 'Tecidos selecionados um a um, pensando no toque e na durabilidade.' },
     { emoji: '🧵', titulo: 'Corte e costura', texto: 'Molde desenhado à mão, costurado devagar, sem pressa.' },
-    { emoji: '🪡', titulo: 'Rostinho bordado', texto: 'Olhinhos e sorriso bordados ponto a ponto — sem peças soltas.' },
+    {
+      emoji: '🪡',
+      titulo: 'Rostinho caprichado',
+      texto: 'Nos brinquedos para bebê, olhinhos e sorriso bordados ponto a ponto.',
+    },
     {
       emoji: '🎁',
       titulo: 'Embalagem do ateliê',
@@ -459,7 +463,7 @@ function Seguranca() {
     {
       e: '👀',
       t: 'Rostinho seguro',
-      d: 'Nos bonecos de berço, todo bordado. Nos demais, olhinhos e fuça de plástico com trava de segurança e costura reforçada.',
+      d: 'Nos brinquedos para bebê, olhos, fuça e boquinha bordados. Nos demais, plástico com trava interna ou costurado com fio de poliamida super reforçado.',
     },
     {
       e: '💪',
@@ -469,7 +473,7 @@ function Seguranca() {
     {
       e: '👶',
       t: 'Feitos para o berço',
-      d: 'Os bonecos de berço são pensados para recém-nascidos e prematuros: rostinho todo bordado, sem peça nenhuma para soltar.',
+      d: 'Os brinquedos para bebê são pensados para recém-nascidos: rostinho todo bordado, sem peça pequena para soltar.',
     },
     {
       e: '🫧',
@@ -488,7 +492,7 @@ function Seguranca() {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
             Boneca de pano bem feita não solta pelo e não rasga. A nossa é costurada pensando em quem ainda leva
-            tudo à boca — e a linha de berço vai com o rostinho todo bordado.
+            tudo à boca — e a linha para bebê vai com o rostinho todo bordado.
           </p>
         </Reveal>
 

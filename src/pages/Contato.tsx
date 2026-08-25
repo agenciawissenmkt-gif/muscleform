@@ -12,7 +12,7 @@ const perguntas = [
   },
   {
     p: 'A boneca é segura para bebê?',
-    r: 'Os bonecos de berço são feitos pensando em recém-nascidos: o rostinho é todo bordado, sem olhos de plástico, botões ou peças pequenas que possam soltar. Nas demais peças, os olhinhos e a fuça são de plástico com trava de segurança e costura reforçada. O enchimento é antialérgico. Se for presente para bebê, chama a gente que ajudamos a escolher a peça certa.',
+    r: 'Os brinquedos destinados a bebês têm olhos, fuças e boquinhas bordados e não possuem peças pequenas que possam soltar — por isso são seguros para o bebê. Os demais brinquedos têm olhos e fuças de plástico com travas internas, ou costurados com fio de poliamida super reforçado, para maior segurança. O enchimento é antialérgico. Se for presente para bebê, chama a gente que ajudamos a escolher a peça certa.',
   },
   {
     p: 'Vocês fazem boneca personalizada?',

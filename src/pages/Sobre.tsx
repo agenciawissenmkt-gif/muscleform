@@ -142,7 +142,7 @@ export default function Sobre() {
             {[
               {
                 t: 'Segurança em primeiro lugar',
-                d: 'Os bonecos de berço têm o rostinho todo bordado, sem peça nenhuma para soltar. Nos demais, os olhinhos e a fuça são de plástico com trava de segurança e costura reforçada.',
+                d: 'Os brinquedos para bebê têm olhos, fuças e boquinhas bordados, sem peça pequena que possa soltar. Nos demais, o plástico leva trava interna ou é costurado com fio de poliamida super reforçado.',
               },
               {
                 t: 'Tecido bom de verdade',

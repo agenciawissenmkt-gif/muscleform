@@ -266,10 +266,11 @@ export default function Produto() {
               </Sanfona>
               <Sanfona titulo="Segurança para bebês e crianças pequenas">
                 <p>
-                  Nos bonecos de berço, todo o rostinho é bordado — <strong>não existe olho de plástico, botão,
-                  miçanga ou aplique colado</strong> que possa soltar e ir parar na boquinha. Nas demais peças, os
-                  olhinhos e a fuça são de plástico <strong>com trava de segurança e costura reforçada</strong>. O
-                  tecido é fechado com costura dupla:{' '}
+                  Nos brinquedos destinados a bebês, os <strong>olhos, as fuças e as boquinhas são bordados</strong>{' '}
+                  — não existe peça pequena que possa soltar e ir parar na boquinha. Nos demais brinquedos, os
+                  olhos e as fuças são de plástico{' '}
+                  <strong>com travas internas, ou costurados com fio de poliamida super reforçado</strong>, para
+                  maior segurança. O tecido é fechado com costura dupla:{' '}
                   <strong>não solta pelinho, não solta fiapo e não desfia</strong>. O enchimento é antialérgico,
                   atóxico, sem cheiro e sem tratamento químico. Na dúvida sobre esta peça, é só chamar no
                   WhatsApp que a gente conta como ela foi feita.
@@ -344,7 +345,7 @@ function SeloSeguranca() {
     {
       i: '👀',
       t: 'Rostinho seguro',
-      d: 'Nos bonecos de berço, todo bordado. Nos demais, olhinhos e fuça de plástico com trava de segurança e costura reforçada.',
+      d: 'Nos brinquedos para bebê, olhos, fuça e boquinha bordados. Nos demais, plástico com trava interna ou costurado com fio de poliamida super reforçado.',
     },
     {
       i: '💪',
@@ -354,7 +355,7 @@ function SeloSeguranca() {
     {
       i: '👶',
       t: 'Pensada para o berço',
-      d: 'Os bonecos de berço têm o rostinho todo bordado, feitos para recém-nascidos e bebês prematuros.',
+      d: 'Os brinquedos para bebê têm olhos, fuça e boquinha bordados, feitos para recém-nascidos.',
     },
   ];
 
