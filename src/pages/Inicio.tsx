@@ -450,7 +450,7 @@ function Seguranca() {
     {
       e: '🧵',
       t: 'Não solta pelinho',
-      d: 'Cabelo costurado fio a fio e tecido que não desfia: nada solta e nada vai parar na boquinha.',
+      d: 'Tecido que não desfia e acabamento firme: nada solta e nada vai parar na boquinha.',
     },
     {
       e: '👀',

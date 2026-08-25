@@ -269,7 +269,7 @@ export default function Produto() {
                   Nos bonecos de berço, todo o rostinho é bordado — <strong>não existe olho de plástico, botão,
                   miçanga ou aplique colado</strong> que possa soltar e ir parar na boquinha. Nas demais peças, os
                   olhinhos e a fuça são de plástico <strong>com trava de segurança e costura reforçada</strong>. O
-                  cabelo é preso fio a fio e o tecido é fechado com costura dupla:{' '}
+                  tecido é fechado com costura dupla:{' '}
                   <strong>não solta pelinho, não solta fiapo e não desfia</strong>. O enchimento é antialérgico,
                   atóxico, sem cheiro e sem tratamento químico. Na dúvida sobre esta peça, é só chamar no
                   WhatsApp que a gente conta como ela foi feita.
@@ -339,7 +339,7 @@ function SeloSeguranca() {
     {
       i: '🧵',
       t: 'Não solta pelinho nem fiapo',
-      d: 'O cabelo é costurado fio a fio e o tecido não desfia — nada solta, nada vai parar na boquinha ou no narizinho.',
+      d: 'O tecido não desfia e o acabamento é firme — nada solta, nada vai parar na boquinha ou no narizinho.',
     },
     {
       i: '👀',

@@ -14,7 +14,7 @@ interface ApresentacaoColecao {
 }
 
 const CUIDADOS_PADRAO =
-  "Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento dela. Antes de limpar a sua, chama a gente no WhatsApp que a gente orienta direitinho — assim ela dura anos bonita. O cabelo pode ser penteado com os dedos: os fios são chuleados fio a fio e não soltam.";
+  "Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento dela. Antes de limpar a sua, chama a gente no WhatsApp que a gente orienta direitinho — assim ela dura anos bonita.";
 
 const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
   "bonecas-de-pano": {
