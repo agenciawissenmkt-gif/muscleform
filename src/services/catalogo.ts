@@ -14,12 +14,12 @@ interface ApresentacaoColecao {
 }
 
 const CUIDADOS_PADRAO =
-  "Lavar à mão, com sabão neutro e água fria — o tecido é resistente e não desbota. Secar à sombra, sem torcer. Não usar máquina, alvejante nem secadora. O cabelo pode ser penteado com os dedos: os fios são chuleados fio a fio e não soltam.";
+  "Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento dela. Antes de limpar a sua, chama a gente no WhatsApp que a gente orienta direitinho — assim ela dura anos bonita. O cabelo pode ser penteado com os dedos: os fios são chuleados fio a fio e não soltam.";
 
 const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
   "bonecas-de-pano": {
     subtitulo: "As clássicas do ateliê",
-    descricao: "Bonecas costuradas à mão, com rostinho bordado, cabelo de lã e vestidinho de algodão. As companheiras de toda a vida.",
+    descricao: "Bonecas costuradas uma a uma, com cabelo de lã e roupinha feita aqui no ateliê. As companheiras de toda a vida.",
     emoji: "🎀",
   },
   "meninos": {
@@ -39,7 +39,7 @@ const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
   },
   "naninhas": {
     subtitulo: "Para o soninho do bebê",
-    descricao: "Naninhas de plush macio, kits maternidade e enxoval do ateliê. O primeiro amigo de pano do bebê.",
+    descricao: "Naninhas macias, kits maternidade e enxoval do ateliê. O primeiro amigo de pano do bebê.",
     emoji: "🌙",
   },
   "decoracao": {
@@ -49,7 +49,7 @@ const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
   },
   "bonecas": {
     subtitulo: "As clássicas do ateliê",
-    descricao: "Bonecas costuradas à mão, com rostinho bordado, cabelo de lã e vestidinho de algodão. As companheiras de toda a vida.",
+    descricao: "Bonecas costuradas uma a uma, com cabelo de lã e roupinha feita aqui no ateliê. As companheiras de toda a vida.",
     emoji: "🎀",
   },
   "enxoval": {

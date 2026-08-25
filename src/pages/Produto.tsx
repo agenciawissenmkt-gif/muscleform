@@ -266,12 +266,13 @@ export default function Produto() {
               </Sanfona>
               <Sanfona titulo="Segurança para bebês e crianças pequenas">
                 <p>
-                  Esta peça pode ir para o berço desde o primeiro dia, inclusive de bebês prematuros. Todo o
-                  rostinho é bordado à mão — <strong>não existe olho de plástico, botão, miçanga ou aplique
-                  colado</strong> que possa soltar e ir parar na boquinha. O cabelo é preso fio a fio e o tecido
-                  é fechado com costura dupla: <strong>não solta pelinho, não solta fiapo e não desfia</strong>.
-                  O enchimento é de fibra siliconada antialérgica, atóxica, sem cheiro e sem tratamento químico —
-                  o mesmo usado em travesseiro de bebê.
+                  Nos bonecos de berço, todo o rostinho é bordado — <strong>não existe olho de plástico, botão,
+                  miçanga ou aplique colado</strong> que possa soltar e ir parar na boquinha. Nas demais peças, os
+                  olhinhos e a fuça são de plástico <strong>com trava de segurança e costura reforçada</strong>. O
+                  cabelo é preso fio a fio e o tecido é fechado com costura dupla:{' '}
+                  <strong>não solta pelinho, não solta fiapo e não desfia</strong>. O enchimento é antialérgico,
+                  atóxico, sem cheiro e sem tratamento químico. Na dúvida sobre esta peça, é só chamar no
+                  WhatsApp que a gente conta como ela foi feita.
                 </p>
               </Sanfona>
               <Sanfona titulo="Como cuidar">
@@ -333,7 +334,7 @@ function SeloSeguranca() {
     {
       i: '🌿',
       t: 'Tecido antialérgico',
-      d: 'Algodão hipoalergênico pré-lavado e enchimento de fibra siliconada atóxica, sem cheiro e sem tratamento químico.',
+      d: 'Tecidos antialérgicos e enchimento atóxico, sem cheiro e sem tratamento químico.',
     },
     {
       i: '🧵',
@@ -342,8 +343,8 @@ function SeloSeguranca() {
     },
     {
       i: '👀',
-      t: 'Nenhuma peça que possa soltar',
-      d: 'O rostinho é todo bordado à mão: sem olho de plástico, botão, miçanga ou aplique colado.',
+      t: 'Rostinho seguro',
+      d: 'Nos bonecos de berço, todo bordado. Nos demais, olhinhos e fuça de plástico com trava de segurança e costura reforçada.',
     },
     {
       i: '💪',
@@ -352,8 +353,8 @@ function SeloSeguranca() {
     },
     {
       i: '👶',
-      t: 'Segura desde o primeiro dia',
-      d: 'Pode ir para o berço de recém-nascidos e de bebês prematuros, e para a mão de crianças pequenas, sem preocupação nenhuma.',
+      t: 'Pensada para o berço',
+      d: 'Os bonecos de berço têm o rostinho todo bordado, feitos para recém-nascidos e bebês prematuros.',
     },
   ];
 

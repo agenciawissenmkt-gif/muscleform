@@ -12,7 +12,7 @@ const perguntas = [
   },
   {
     p: 'A boneca é segura para bebê?',
-    r: 'Sim. O rostinho é bordado, sem olhos de plástico, botões ou peças pequenas que possam soltar. O enchimento é de fibra siliconada antialérgica.',
+    r: 'Os bonecos de berço são feitos pensando em recém-nascidos: o rostinho é todo bordado, sem olhos de plástico, botões ou peças pequenas que possam soltar. Nas demais peças, os olhinhos e a fuça são de plástico com trava de segurança e costura reforçada. O enchimento é antialérgico. Se for presente para bebê, chama a gente que ajudamos a escolher a peça certa.',
   },
   {
     p: 'Vocês fazem boneca personalizada?',
@@ -27,8 +27,8 @@ const perguntas = [
     r: 'Pix (com desconto), cartão em até 3x sem juros ou transferência. Tudo combinado direto na conversa, sem cadastro nem formulário chato.',
   },
   {
-    p: 'Posso lavar a boneca?',
-    r: 'Pode, à mão, com sabão neutro e água fria, secando à sombra. Nada de máquina, alvejante ou secadora — assim ela dura anos bonita.',
+    p: 'Como faço para limpar a boneca?',
+    r: 'Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento. Antes de limpar a sua, chama a gente no WhatsApp que orientamos o jeito certo — assim ela dura anos bonita.',
   },
 ];
 

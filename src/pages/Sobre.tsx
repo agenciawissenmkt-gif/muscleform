@@ -142,11 +142,11 @@ export default function Sobre() {
             {[
               {
                 t: 'Segurança em primeiro lugar',
-                d: 'Rostinho bordado, sem olhos de plástico nem peças pequenas. Seguro desde o berço.',
+                d: 'Os bonecos de berço têm o rostinho todo bordado, sem peça nenhuma para soltar. Nos demais, os olhinhos e a fuça são de plástico com trava de segurança e costura reforçada.',
               },
               {
                 t: 'Tecido bom de verdade',
-                d: 'Algodão e plush antialérgico, pré-lavados. Aguentam abraço apertado e lavagem à mão.',
+                d: 'Tecidos macios e antialérgicos, escolhidos um a um pelo toque e pela durabilidade. Aguentam abraço apertado e anos de brincadeira.',
               },
               {
                 t: 'Nada de produção em série',

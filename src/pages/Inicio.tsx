@@ -374,7 +374,7 @@ function Destaques({ destaques, carregando, erro, recarregar }: ListaProps) {
 
 function ComoNasce({ boneca }: { boneca?: Produto }) {
   const passos = [
-    { emoji: '✂️', titulo: 'Escolha do tecido', texto: 'Algodões e plush selecionados um a um, pensando no toque.' },
+    { emoji: '✂️', titulo: 'Escolha do tecido', texto: 'Tecidos selecionados um a um, pensando no toque e na durabilidade.' },
     { emoji: '🧵', titulo: 'Corte e costura', texto: 'Molde desenhado à mão, costurado devagar, sem pressa.' },
     { emoji: '🪡', titulo: 'Rostinho bordado', texto: 'Olhinhos e sorriso bordados ponto a ponto — sem peças soltas.' },
     { emoji: '🎁', titulo: 'Embalagem de presente', texto: 'Sai daqui com laço, tag e um bilhetinho escrito à mão.' },
@@ -445,7 +445,7 @@ function Seguranca() {
     {
       e: '🌿',
       t: 'Tudo antialérgico',
-      d: 'Algodão hipoalergênico pré-lavado e enchimento de fibra siliconada atóxica, sem cheiro e sem química.',
+      d: 'Tecidos antialérgicos e enchimento atóxico, sem cheiro e sem tratamento químico.',
     },
     {
       e: '🧵',
@@ -454,8 +454,8 @@ function Seguranca() {
     },
     {
       e: '👀',
-      t: 'Rostinho bordado',
-      d: 'Sem olho de plástico, botão ou aplique colado — não existe peça pequena para soltar.',
+      t: 'Rostinho seguro',
+      d: 'Nos bonecos de berço, todo bordado. Nos demais, olhinhos e fuça de plástico com trava de segurança e costura reforçada.',
     },
     {
       e: '💪',
@@ -464,13 +464,13 @@ function Seguranca() {
     },
     {
       e: '👶',
-      t: 'Desde o primeiro dia',
-      d: 'Pode ir para o berço de recém-nascidos e de bebês prematuros, sem preocupação nenhuma.',
+      t: 'Feitos para o berço',
+      d: 'Os bonecos de berço são pensados para recém-nascidos e prematuros: rostinho todo bordado, sem peça nenhuma para soltar.',
     },
     {
       e: '🫧',
-      t: 'Fácil de lavar',
-      d: 'Lavagem à mão com sabão neutro. O tecido é resistente, não desbota e volta macio.',
+      t: 'Cuidado orientado',
+      d: 'Cada peça pede um cuidado. A gente explica no WhatsApp como limpar a sua sem estragar.',
     },
   ];
 
@@ -483,8 +483,8 @@ function Seguranca() {
             Segura para bebê, <span className="font-script text-rosa-600">de verdade</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
-            Boneca de pano bem feita não solta pelo, não rasga e não tem peça que caia. A nossa é costurada
-            pensando em quem ainda leva tudo à boca.
+            Boneca de pano bem feita não solta pelo e não rasga. A nossa é costurada pensando em quem ainda leva
+            tudo à boca — e a linha de berço vai com o rostinho todo bordado.
           </p>
         </Reveal>
 
