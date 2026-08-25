@@ -488,7 +488,7 @@ function Seguranca() {
         <Reveal className="text-center">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-rosa-600">Pode entregar na mãozinha</p>
           <h2 className="mt-3 font-display text-3xl text-sepia-900 sm:text-4xl">
-            Segura para bebê, <span className="font-script text-rosa-600">de verdade</span>
+            Segurança para bebê, <span className="font-script text-rosa-600">de verdade</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
             Boneca de pano bem feita não solta pelo e não rasga. A nossa é costurada pensando em quem ainda leva
@@ -538,7 +538,7 @@ function ParaOsAvos({ boneca }: { boneca?: Produto }) {
 
             <ul className="mt-6 flex flex-col gap-2.5">
               {[
-                'Segura para neto pequeno, recém-nascido e prematuro',
+                'Segurança para neto pequeno, recém-nascido e prematuro',
                 'Aguenta anos de uso — não rasga e não desbota',
                 'Vai na sacola kraft do ateliê, em papel de seda e com lacre de segurança',
                 'A gente ajuda a escolher pelo WhatsApp, sem pressa',
