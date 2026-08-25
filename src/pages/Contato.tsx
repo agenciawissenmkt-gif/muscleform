@@ -12,7 +12,7 @@ const perguntas = [
   },
   {
     p: 'A boneca é segura para bebê?',
-    r: 'Os brinquedos destinados a bebês têm olhos, fuças e boquinhas bordados e não possuem peças pequenas que possam soltar — por isso são seguros para o bebê. Os demais brinquedos têm olhos e fuças de plástico com travas internas, ou costurados com fio de poliamida super reforçado, para maior segurança. O enchimento é antialérgico. Se for presente para bebê, chama a gente que ajudamos a escolher a peça certa.',
+    r: 'Os brinquedos de berço têm olhos, fuças e boquinhas bordados e não possuem peças pequenas que possam soltar — por isso são seguros para o bebê. Os demais brinquedos têm olhos e fuças de plástico com travas internas, ou costurados com fio de poliamida super reforçado, para maior segurança. O enchimento é antialérgico. Se for presente para bebê, chama a gente que ajudamos a escolher a peça certa.',
   },
   {
     p: 'Vocês fazem boneca personalizada?',
@@ -27,8 +27,8 @@ const perguntas = [
     r: 'Pix (com desconto), cartão em até 3x sem juros ou transferência. Tudo combinado direto na conversa, sem cadastro nem formulário chato.',
   },
   {
-    p: 'Como faço para limpar a boneca?',
-    r: 'Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento. Antes de limpar a sua, chama a gente no WhatsApp que orientamos o jeito certo — assim ela dura anos bonita.',
+    p: 'Posso lavar a boneca?',
+    r: 'Depende do brinquedo. Os brinquedos de berço podem ser lavados com sabão neutro ou limpos com um pano úmido, sem nenhum problema. Os demais devem ser limpos apenas com pano úmido, sem muito atrito. Em nenhum dos casos use máquina de lavar, centrífuga ou secadora. E nunca use alvejante: além de ser tóxico para as crianças, estragaria o brinquedo.',
   },
 ];
 

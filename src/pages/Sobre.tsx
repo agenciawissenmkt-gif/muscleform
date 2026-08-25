@@ -142,7 +142,7 @@ export default function Sobre() {
             {[
               {
                 t: 'Segurança em primeiro lugar',
-                d: 'Os brinquedos para bebê têm olhos, fuças e boquinhas bordados, sem peça pequena que possa soltar. Nos demais, o plástico leva trava interna ou é costurado com fio de poliamida super reforçado.',
+                d: 'Os brinquedos de berço têm olhos, fuças e boquinhas bordados, sem peça pequena que possa soltar. Nos demais, o plástico leva trava interna ou é costurado com fio de poliamida super reforçado.',
               },
               {
                 t: 'Tecido bom de verdade',

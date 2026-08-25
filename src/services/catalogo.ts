@@ -14,7 +14,7 @@ interface ApresentacaoColecao {
 }
 
 const CUIDADOS_PADRAO =
-  "Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento dela. Antes de limpar a sua, chama a gente no WhatsApp que a gente orienta direitinho — assim ela dura anos bonita.";
+  "Os brinquedos de berço podem ser lavados com sabão neutro ou limpos com um pano úmido, sem nenhum problema. Os demais devem ser limpos apenas com pano úmido, sem muito atrito. Em nenhum dos casos use máquina de lavar, centrífuga ou secadora. E nunca use alvejante: além de ser tóxico para as crianças, estragaria o brinquedo.";
 
 const BONECAS: ApresentacaoColecao = {
   subtitulo: "As clássicas do ateliê",

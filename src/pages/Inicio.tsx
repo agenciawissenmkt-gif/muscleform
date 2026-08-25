@@ -379,7 +379,7 @@ function ComoNasce({ boneca }: { boneca?: Produto }) {
     {
       emoji: '🪡',
       titulo: 'Rostinho caprichado',
-      texto: 'Nos brinquedos para bebê, olhinhos e sorriso bordados ponto a ponto.',
+      texto: 'Nos brinquedos de berço, olhinhos e sorriso bordados ponto a ponto.',
     },
     {
       emoji: '🎁',
@@ -463,7 +463,7 @@ function Seguranca() {
     {
       e: '👀',
       t: 'Rostinho seguro',
-      d: 'Nos brinquedos para bebê, olhos, fuça e boquinha bordados. Nos demais, plástico com trava interna ou costurado com fio de poliamida super reforçado.',
+      d: 'Nos brinquedos de berço, olhos, fuça e boquinha bordados. Nos demais, plástico com trava interna ou costurado com fio de poliamida super reforçado.',
     },
     {
       e: '💪',
@@ -473,12 +473,12 @@ function Seguranca() {
     {
       e: '👶',
       t: 'Feitos para o berço',
-      d: 'Os brinquedos para bebê são pensados para recém-nascidos: rostinho todo bordado, sem peça pequena para soltar.',
+      d: 'Os brinquedos de berço são pensados para recém-nascidos: rostinho todo bordado, sem peça pequena para soltar.',
     },
     {
       e: '🫧',
-      t: 'Cuidado orientado',
-      d: 'Cada peça pede um cuidado. A gente explica no WhatsApp como limpar a sua sem estragar.',
+      t: 'Limpeza simples',
+      d: 'Os brinquedos de berço podem ser lavados com sabão neutro. Os demais, só pano úmido — nunca máquina, secadora ou alvejante.',
     },
   ];
 
@@ -492,7 +492,7 @@ function Seguranca() {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-sepia-700">
             Boneca de pano bem feita não solta pelo e não rasga. A nossa é costurada pensando em quem ainda leva
-            tudo à boca — e a linha para bebê vai com o rostinho todo bordado.
+            tudo à boca — e a linha de berço vai com o rostinho todo bordado.
           </p>
         </Reveal>
 
