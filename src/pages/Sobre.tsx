@@ -56,7 +56,7 @@ export default function Sobre() {
             </p>
 
             <p className="my-8 text-center font-script text-3xl leading-snug text-rosa-600 sm:text-4xl">
-              Porque brincar é muito mais do que brincar.
+              Porque brincar é muito mais do que só brincar.
             </p>
 
             <p className="leading-relaxed text-sepia-700">
