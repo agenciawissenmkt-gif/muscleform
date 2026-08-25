@@ -22,15 +22,99 @@ export default function Sobre() {
             Um ateliê que começou com
             <span className="font-script text-rosa-600"> uma boneca só</span>
           </h1>
-          <p className="mt-5 leading-relaxed text-sepia-700">
-            O {site.nome} nasceu de um presente. Uma boneca costurada de madrugada, com retalhos guardados e muita
-            vontade de acertar. Ela foi parar no colo de uma menina que dorme abraçada com ela até hoje — e foi
-            assim que a gente entendeu que boneca de pano não é brinquedo, é companhia.
-          </p>
-          <p className="mt-4 leading-relaxed text-sepia-700">
-            Desde então já foram mais de mil bonecas, cada uma com nome, cada uma com história. Continuamos
-            fazendo tudo à mão, aqui em {site.cidade}, uma de cada vez, sem pressa.
-          </p>
+        </Reveal>
+
+        <Reveal delay={0.25}>
+          <div className="mx-auto mt-8 max-w-2xl text-left">
+            <p className="text-lg leading-relaxed text-sepia-800">
+              “{site.nome}” nasceu da crença de que um mundo mais doce é possível.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Somos duas pedagogas que dedicaram mais de 30 anos de suas vidas à infância. Ao longo dessa
+              caminhada, aprendemos que cuidar de uma criança vai muito além de atender às suas necessidades. É
+              preciso olhar com atenção, acolher com carinho, respeitar seu tempo e, sobretudo, compreender a
+              delicadeza e a importância de cada experiência vivida nos primeiros anos.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Foi desse olhar que nasceu a {site.nome}.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Sentimos que poderíamos continuar cuidando da infância de uma maneira diferente: criando
+              personagens, histórias e companheiros de brincadeira capazes de despertar sentimentos, alimentar a
+              imaginação e oferecer aquela sensação gostosa de colo e segurança.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Assim nasceram nossas bonecas, bichinhos e naninhas — feitos para abraçar o coração e acalentar a
+              alma.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Cada criação carrega um pouco da nossa história e da nossa experiência com crianças. Uma boneca
+              pode se transformar em amiga, confidente ou personagem de uma aventura. Um bichinho pode ganhar
+              vida nas mãos de uma criança e habitar para sempre suas histórias. E uma naninha pode se tornar
+              aquele companheiro especial que acompanha o sono, o aconchego e os primeiros momentos de descoberta
+              do mundo.
+            </p>
+
+            <p className="my-8 text-center font-script text-3xl leading-snug text-rosa-600 sm:text-4xl">
+              Porque brincar é muito mais do que brincar.
+            </p>
+
+            <p className="leading-relaxed text-sepia-700">
+              É imaginar. É experimentar. É criar histórias. É desenvolver sentimentos. É construir memórias que
+              permanecem.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              E talvez seja justamente por isso que, mesmo depois de adultos, todos nós carregamos uma criança
+              sonhadora dentro do coração — uma criança que guarda lembranças de cheiros, texturas, histórias,
+              abraços e pequenos objetos que um dia fizeram o mundo parecer mais seguro e mais bonito.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">É esse sentimento que queremos despertar.</p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Nossas criações nascem para fazer parte do universo mágico do imaginário infantil, mas também para
+              tocar a memória afetiva dos adultos que um dia foram crianças e que agora desejam oferecer aos
+              pequenos aquilo que há de mais precioso: tempo, carinho, segurança e liberdade para sonhar.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Na {site.nome}, cada peça é criada artesanalmente, com atenção aos detalhes e, principalmente, com
+              respeito à infância. Não criamos simplesmente bonecas ou bichinhos.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-800">
+              <strong className="font-semibold">Criamos companheiros de histórias.</strong>
+              <br />
+              <strong className="font-semibold">
+                Criamos pequenos pedaços de afeto que podem atravessar gerações.
+              </strong>
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Por isso, {site.nome} não é uma fábrica de bonecas.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              É um ateliê onde tecidos, linhas, cores e imaginação se encontram para materializar uma missão que
+              nos acompanha há décadas: cuidar da infância, despertar o imaginário e espalhar carinho.
+            </p>
+
+            <p className="mt-5 leading-relaxed text-sepia-700">
+              Porque acreditamos que uma infância cercada de afeto pode deixar o mundo um pouquinho mais doce.
+            </p>
+
+            <p className="mt-8 text-center font-script text-3xl leading-snug text-rosa-600 sm:text-4xl">
+              E é por isso que continuamos sonhando.
+              <br />
+              Para que as crianças continuem brincando.
+            </p>
+          </div>
         </Reveal>
       </section>
 
