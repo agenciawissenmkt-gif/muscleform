@@ -1,16 +1,11 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import FotoBoneca from '../components/FotoBoneca';
 import Logo from '../components/Logo';
 import Reveal from '../components/Reveal';
 import BotaoSonho from '../components/BotaoSonho';
-import { useCatalogo } from '../store/catalogo';
 import { linkWhatsApp, site } from '../config/site';
 
 export default function Sobre() {
-  const { produtos } = useCatalogo();
-  const bonecaDaVitrine = produtos.find((p) => p.foto ?? p.fotoEstudio);
-
   return (
     <div className="pb-16">
       <section className="mx-auto max-w-4xl px-4 py-10 text-center sm:px-6">
@@ -120,19 +115,28 @@ export default function Sobre() {
 
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <Reveal efeito="lado">
-          <div className="relative mx-auto aspect-square w-full max-w-md">
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-rosa-200 via-creme-100 to-rosa-100 sombra-suave"
-              style={{ borderRadius: '48% 52% 56% 44%' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
-            />
-            {bonecaDaVitrine && (
+          <figure className="mx-auto w-full max-w-md">
+            <div className="relative aspect-square w-full">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-rosa-200 via-creme-100 to-rosa-100 sombra-suave"
+                style={{ borderRadius: '48% 52% 56% 44%' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
+              />
               <div className="absolute inset-6 overflow-hidden rounded-[2rem] sombra-suave">
-                <FotoBoneca produto={bonecaDaVitrine} />
+                <img
+                  src="/fundadoras.jpg"
+                  alt={`As fundadoras do ${site.nome} no ateliê`}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
-            )}
-          </div>
+            </div>
+            <figcaption className="mt-4 text-center text-[0.7rem] uppercase tracking-[0.24em] text-sepia-500/80">
+              Fundadoras
+            </figcaption>
+          </figure>
         </Reveal>
 
         <Reveal delay={0.1}>
