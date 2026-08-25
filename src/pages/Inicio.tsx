@@ -117,11 +117,10 @@ function Hero({ vitrine }: { vitrine: Produto[] }) {
             </Link>
           </div>
 
-          <dl className="mt-10 grid grid-cols-3 gap-3 border-t border-rosa-300/60 pt-6 text-center lg:text-left">
+          <dl className="mt-10 grid grid-cols-2 gap-3 border-t border-rosa-300/60 pt-6 text-center lg:text-left">
             {[
-              { n: '+1.200', r: 'bonecas costuradas' },
-              { n: '100%', r: 'feito à mão' },
               { n: '7 a 12', r: 'dias de produção' },
+              { n: 'Única', r: 'nenhuma sai igual' },
             ].map((item) => (
               <div key={item.r}>
                 <dt className="font-display text-2xl text-rosa-700 sm:text-3xl">{item.n}</dt>
