@@ -11,7 +11,10 @@ import type { Categoria, Produto } from '../data/types';
  */
 interface CatalogoContexto {
   produtos: Produto[];
+  /** Coleções que têm peça para mostrar — é o que vai para os menus e listagens. */
   categorias: Categoria[];
+  /** Todas as coleções do painel, inclusive as ainda vazias. */
+  todasCategorias: Categoria[];
   carregando: boolean;
   erro: string | null;
   /** true enquanto a primeira carga não terminou. */
@@ -69,9 +72,15 @@ export function ProvedorCatalogo({ children }: { children: ReactNode }) {
     const porId = new Map(produtos.map((p) => [p.id, p]));
     const porSlug = new Map(produtos.map((p) => [p.slug, p]));
 
+    // Coleção recém-criada no painel, ainda sem peça, não entra no menu: o link
+    // levaria a uma página vazia. Ela aparece sozinha assim que ganhar a primeira.
+    const comPecas = new Set(produtos.map((p) => p.categoria));
+    const comProdutos = categorias.filter((c) => comPecas.has(c.slug));
+
     return {
       produtos,
-      categorias,
+      categorias: comProdutos,
+      todasCategorias: categorias,
       carregando,
       erro,
       primeiraCarga,
