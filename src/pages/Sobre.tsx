@@ -190,8 +190,12 @@ export default function Sobre() {
           {[
             { e: '💬', t: 'Você escolhe a sua', d: 'Chama no WhatsApp e diz qual boneca te conquistou.' },
             { e: '📷', t: 'A gente confere', d: 'Mando fotos da peça pronta, de todos os ângulos, antes de fechar.' },
-            { e: '🎀', t: 'Preparo com carinho', d: 'A boneca é revisada ponto a ponto e embalada para presente.' },
-            { e: '📦', t: 'Chega em casa', d: 'Embalada para presente, com rastreio no WhatsApp.' },
+            {
+              e: '🎀',
+              t: 'Preparo com carinho',
+              d: 'A peça é revisada ponto a ponto, envolta em papel de seda e vai na sacola kraft do ateliê.',
+            },
+            { e: '📦', t: 'Chega em casa', d: 'Correios, Uber ou outro jeito, combinado com você no WhatsApp.' },
           ].map((p, i) => (
             <Reveal key={p.t} delay={i * 0.08} efeito="zoom">
               <li className="relative flex h-full flex-col items-center gap-2 rounded-[1.5rem] border border-rosa-200 bg-white/75 p-6 text-center sombra-suave">

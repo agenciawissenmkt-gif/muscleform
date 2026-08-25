@@ -212,7 +212,7 @@ export default function Produto() {
                 {[
                   { i: '🪡', t: 'Feito à mão' },
                   { i: '🚚', t: 'Envio p/ todo Brasil' },
-                  { i: '🎁', t: 'Embalagem presente' },
+                  { i: '🎁', t: 'Embalagem do ateliê' },
                   { i: '💬', t: 'Atendimento humano' },
                 ].map((b) => (
                   <div
@@ -281,8 +281,8 @@ export default function Produto() {
               <Sanfona titulo="Prazo e envio">
                 <p>
                   Produção artesanal de <strong>{site.prazoProducao}</strong> após a confirmação do pedido. Depois
-                  disso, enviamos por Correios ou transportadora para todo o Brasil, e você recebe o código de
-                  rastreio no WhatsApp. Retirada combinada em {site.cidade}.
+                  disso, o envio é combinado com você no WhatsApp — Correios, Uber ou outro meio que funcione
+                  melhor. Retirada combinada em {site.cidade}.
                 </p>
               </Sanfona>
               <Sanfona titulo="Pagamento">
@@ -408,8 +408,8 @@ function PresenteDeAvo({ nome, texto }: { nome: string; texto?: string }) {
           `A ${nome} é daquelas lembranças que ficam. Vó e vô que dão uma boneca de pano não estão dando um brinquedo de moda — estão dando o abraço que fica no quarto quando eles não estão. É segura para o neto pequeno, aguenta anos de uso e volta em foto de aniversário, um ano atrás do outro.`}
       </p>
       <p className="mt-3 text-sm text-sepia-500">
-        Se for presente, a gente embala com laço e escreve o seu recadinho à mão no cartão — é só avisar no
-        WhatsApp.
+        Toda peça sai na sacola kraft personalizada do ateliê, envolta em papel de seda e com o lacre de
+        segurança — pronta para entregar.
       </p>
     </div>
   );

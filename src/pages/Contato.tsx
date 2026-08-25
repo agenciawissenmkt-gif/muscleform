@@ -20,7 +20,7 @@ const perguntas = [
   },
   {
     p: 'Vocês enviam para todo o Brasil?',
-    r: 'Sim, enviamos por Correios ou transportadora, com código de rastreio enviado no WhatsApp. Em Curitiba e região dá para combinar retirada ou entrega.',
+    r: 'Sim. O envio é combinado com você na conversa — pode ser Correios, Uber ou outro meio que funcione melhor para o seu endereço. Em Curitiba e região dá para combinar retirada ou entrega.',
   },
   {
     p: 'Como faço para pagar?',

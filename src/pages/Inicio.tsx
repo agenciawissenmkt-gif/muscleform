@@ -261,7 +261,7 @@ function FaixaCorrendo() {
     'Enchimento antialérgico',
     'Cada peça é única',
     'Enviamos para todo o Brasil',
-    'Embalagem de presente',
+    'Sacola kraft personalizada',
   ];
   const lista = [...itens, ...itens];
 
@@ -377,7 +377,11 @@ function ComoNasce({ boneca }: { boneca?: Produto }) {
     { emoji: '✂️', titulo: 'Escolha do tecido', texto: 'Tecidos selecionados um a um, pensando no toque e na durabilidade.' },
     { emoji: '🧵', titulo: 'Corte e costura', texto: 'Molde desenhado à mão, costurado devagar, sem pressa.' },
     { emoji: '🪡', titulo: 'Rostinho bordado', texto: 'Olhinhos e sorriso bordados ponto a ponto — sem peças soltas.' },
-    { emoji: '🎁', titulo: 'Embalagem de presente', texto: 'Sai daqui com laço, tag e um bilhetinho escrito à mão.' },
+    {
+      emoji: '🎁',
+      titulo: 'Embalagem do ateliê',
+      texto: 'Papel de seda personalizado, sacola kraft e lacre de segurança com a nossa etiqueta.',
+    },
   ];
 
   return (
@@ -532,7 +536,7 @@ function ParaOsAvos({ boneca }: { boneca?: Produto }) {
               {[
                 'Segura para neto pequeno, recém-nascido e prematuro',
                 'Aguenta anos de uso — não rasga e não desbota',
-                'Vai embalada para presente, com laço e cartão escrito à mão',
+                'Vai na sacola kraft do ateliê, em papel de seda e com lacre de segurança',
                 'A gente ajuda a escolher pelo WhatsApp, sem pressa',
               ].map((t, i) => (
                 <motion.li
