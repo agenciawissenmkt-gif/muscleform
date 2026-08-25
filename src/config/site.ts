@@ -11,9 +11,9 @@ export const site = {
   instagramUser: '@sonhosdebrincar.atelie',
   email: 'sonhosdebrincar.atelie@gmail.com',
   /** Número exibido no site. */
-  whatsappExibicao: '+55 41 9509-6228',
+  whatsappExibicao: '+55 (41) 98500-1824',
   /** Número usado no link wa.me (somente dígitos, com DDI + DDD). */
-  whatsappNumero: '554195096228',
+  whatsappNumero: '5541985001824',
   prazoProducao: '7 a 12 dias úteis',
   frase: 'Feito à mão, feito com amor.',
 } as const;

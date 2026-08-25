@@ -146,12 +146,12 @@ Tudo o que é "dado do negócio" está separado do código:
 O número fica em `src/config/site.ts`:
 
 ```ts
-whatsappExibicao: '+55 41 9509-6228',  // como aparece escrito no site
-whatsappNumero: '554195096228',        // usado no link wa.me (só números)
+whatsappExibicao: '+55 (41) 98500-1824',  // como aparece escrito no site
+whatsappNumero: '5541985001824',          // usado no link wa.me (só números)
 ```
 
-> Se o número tiver o nono dígito (41 **9** 9509-6228), troque `whatsappNumero`
-> por `5541995096228` — o link do WhatsApp precisa do número completo para abrir a conversa.
+> `whatsappNumero` precisa do número completo, com DDI, DDD e o nono dígito, sem
+> espaço nem traço — é assim que o link `wa.me` abre a conversa.
 
 ### Produtos
 

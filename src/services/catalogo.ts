@@ -16,47 +16,41 @@ interface ApresentacaoColecao {
 const CUIDADOS_PADRAO =
   "Cada peça pede um cuidado diferente, por causa dos tecidos e do acabamento dela. Antes de limpar a sua, chama a gente no WhatsApp que a gente orienta direitinho — assim ela dura anos bonita.";
 
+const BONECAS: ApresentacaoColecao = {
+  subtitulo: "As clássicas do ateliê",
+  descricao:
+    "Bonecas costuradas uma a uma, com cabelo de lã e roupinha feita aqui no ateliê. As companheiras de toda a vida.",
+  emoji: "🎀",
+};
+
+const BERCO: ApresentacaoColecao = {
+  subtitulo: "Para o soninho do bebê",
+  descricao:
+    "Naninhas macias e brinquedos de berço, com o rostinho todo bordado. O primeiro amigo de pano do bebê.",
+  emoji: "🌙",
+};
+
+const DECORACAO: ApresentacaoColecao = {
+  subtitulo: "Detalhes que encantam",
+  descricao:
+    "Bonecos de decoração para o quartinho: enfeites, lembrancinhas e peças que ficam na estante.",
+  emoji: "🏡",
+};
+
+/**
+ * As três coleções do ateliê. Cada uma aparece aqui sob os slugs que o painel
+ * pode usar, para o subtítulo e o emoji continuarem certos se o nome mudar por lá.
+ */
 const APRESENTACAO_COLECOES: Record<string, ApresentacaoColecao> = {
-  "bonecas-de-pano": {
-    subtitulo: "As clássicas do ateliê",
-    descricao: "Bonecas costuradas uma a uma, com cabelo de lã e roupinha feita aqui no ateliê. As companheiras de toda a vida.",
-    emoji: "🎀",
-  },
-  "meninos": {
-    subtitulo: "Para os meninos também",
-    descricao: "Bonecos costurados com o mesmo capricho das bonecas: camisa de botão, bermuda, tênis de cadarço e aquele cabelo que ninguém consegue pentear.",
-    emoji: "⚓",
-  },
-  "bailarinas": {
-    subtitulo: "Tutus de tule e pontinhas",
-    descricao: "Bonecas bailarinas com saia de tule, sapatilhas bordadas e fitinhas de cetim. Um giro de sonho na estante.",
-    emoji: "🩰",
-  },
-  "ursinhos": {
-    subtitulo: "Abraço garantido",
-    descricao: "Ursinhos, coelhinhas e amigos de pelúcia macia, com laços de cetim e enchimento antialérgico. Feitos para apertar.",
-    emoji: "🧸",
-  },
-  "naninhas": {
-    subtitulo: "Para o soninho do bebê",
-    descricao: "Naninhas macias, kits maternidade e enxoval do ateliê. O primeiro amigo de pano do bebê.",
-    emoji: "🌙",
-  },
-  "decoracao": {
-    subtitulo: "Detalhes que encantam",
-    descricao: "Móbiles, bonequinhas de porta-maternidade, mini bonecas de lembrancinha e enfeites para o quartinho.",
-    emoji: "🏡",
-  },
-  "bonecas": {
-    subtitulo: "As clássicas do ateliê",
-    descricao: "Bonecas costuradas uma a uma, com cabelo de lã e roupinha feita aqui no ateliê. As companheiras de toda a vida.",
-    emoji: "🎀",
-  },
-  "enxoval": {
-    subtitulo: "Enxoval do ateliê",
-    descricao: "Kits maternidade, porta-maternidade e peças de enxoval costuradas com o mesmo capricho das bonecas.",
-    emoji: "🧺",
-  },
+  "bonecas": BONECAS,
+  "bonecas-de-pano": BONECAS,
+  "naninhas": BERCO,
+  "naninhas-e-brinquedos-de-berco": BERCO,
+  "brinquedos-de-berco": BERCO,
+  "berco": BERCO,
+  "enxoval": BERCO,
+  "decoracao": DECORACAO,
+  "bonecos-de-decoracao": DECORACAO,
 };
 
 /** Usada quando o painel cria uma coleção que o código ainda não conhece. */
@@ -92,12 +86,13 @@ const COLUNAS_CATEGORIA = 'id, name, slug';
 const ORDEM_COLECOES = [
   'bonecas',
   'bonecas-de-pano',
-  'meninos',
-  'bailarinas',
-  'ursinhos',
   'naninhas',
+  'naninhas-e-brinquedos-de-berco',
+  'brinquedos-de-berco',
+  'berco',
   'enxoval',
   'decoracao',
+  'bonecos-de-decoracao',
 ];
 
 /** Uma peça recém-cadastrada ganha o selo "Novidade" por este tempo. */

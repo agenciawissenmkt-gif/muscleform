@@ -47,11 +47,6 @@ export default function Rodape() {
               </Link>
             </li>
             <li>
-              <Link to="/categoria/meninos" className="transition-colors hover:text-rosa-700">
-                Bonecos de pano
-              </Link>
-            </li>
-            <li>
               <Link to="/contato" className="transition-colors hover:text-rosa-700">
                 Dúvidas frequentes
               </Link>
