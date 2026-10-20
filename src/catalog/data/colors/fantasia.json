@@ -614,5 +614,42 @@
       "#46552B",
       "#61723D"
     ]
+  },
+  {
+    "id": "tie-dye",
+    "name": "Tie-Dye",
+    "aka": [
+      "Tie dye",
+      "Cabelo tie-dye",
+      "Tie-dye capilar",
+      "Cabelo manchado colorido",
+      "Batik",
+      "Tie-dye hair"
+    ],
+    "description": "Várias cores vivas misturadas em manchas, como uma camiseta tie-dye.",
+    "swatch": [
+      "#E8458B",
+      "#F2A33A",
+      "#3FB8C9",
+      "#7A4FC4"
+    ]
+  },
+  {
+    "id": "rosa-antigo",
+    "name": "Rosa Antigo",
+    "aka": [
+      "Rosa seco",
+      "Rosa queimado",
+      "Malva",
+      "Rosa malva",
+      "Dusty rose",
+      "Mauve hair"
+    ],
+    "description": "Rosa suave e puxado pro cinza, mais fechado e elegante que o rosa chiclete.",
+    "swatch": [
+      "#9E6E78",
+      "#B88A93",
+      "#CFA8AE"
+    ]
   }
 ]

@@ -430,5 +430,23 @@
       "#8A4232",
       "#9F543E"
     ]
+  },
+  {
+    "id": "cowboy-copper",
+    "name": "Cowboy Copper",
+    "aka": [
+      "Cobre cowboy",
+      "Ruivo cowboy",
+      "Cobre acastanhado",
+      "Cobre couro",
+      "Cowboy copper hair",
+      "6.43"
+    ],
+    "description": "Cobre misturado com castanho, cor de bota de couro, quente e moderno.",
+    "swatch": [
+      "#4E2A1A",
+      "#7A3E22",
+      "#9C5530"
+    ]
   }
 ]

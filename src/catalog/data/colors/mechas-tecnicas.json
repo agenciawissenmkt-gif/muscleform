@@ -738,5 +738,161 @@
       "#E8B930",
       "#4A6FD6"
     ]
+  },
+  {
+    "id": "ribbon-lights",
+    "name": "Ribbon Lights",
+    "aka": [
+      "Ribbon highlights",
+      "Mechas fita",
+      "Mechas em fita",
+      "Luzes em fita",
+      "Ribbon hair"
+    ],
+    "description": "Mechas claras mais largas e marcadas, como fitas de luz no cabelo.",
+    "swatch": [
+      "#3E2B1F",
+      "#7A5838",
+      "#D2B07C"
+    ]
+  },
+  {
+    "id": "ruiva-iluminada",
+    "name": "Ruiva Iluminada",
+    "aka": [
+      "Ruivo iluminado",
+      "Ruiva com mechas",
+      "Cobre iluminado",
+      "Mechas no ruivo",
+      "Copper with highlights"
+    ],
+    "description": "Ruivo cobre com mechinhas douradas que dão mais luz e brilho.",
+    "swatch": [
+      "#7A3518",
+      "#A8522A",
+      "#D99A5E"
+    ]
+  },
+  {
+    "id": "mechas-marsala",
+    "name": "Mechas Marsala",
+    "aka": [
+      "Mechas vinho",
+      "Mechas bordô",
+      "Mechas bordo",
+      "Luzes marsala",
+      "Mechas cor de vinho",
+      "Burgundy highlights"
+    ],
+    "description": "Mechas cor de vinho no cabelo escuro, chiques e com brilho avermelhado.",
+    "swatch": [
+      "#24150F",
+      "#5E1E26",
+      "#7E2A34"
+    ]
+  },
+  {
+    "id": "mechas-vermelhas",
+    "name": "Mechas Vermelhas",
+    "aka": [
+      "Mechas vermelho",
+      "Luzes vermelhas",
+      "Cabelo preto com mechas vermelhas",
+      "Mechas cereja",
+      "Red streaks"
+    ],
+    "description": "Mechas vermelho vivo no cabelo preto ou castanho, ousadas e marcantes.",
+    "swatch": [
+      "#151010",
+      "#A3121F",
+      "#C8202C"
+    ]
+  },
+  {
+    "id": "mechas-fantasia-roxo",
+    "name": "Mechas Fantasia Roxo",
+    "aka": [
+      "Mechas roxas",
+      "Mechas roxo",
+      "Mechas violeta",
+      "Mechas lilás",
+      "Purple highlights",
+      "Purple streaks"
+    ],
+    "description": "Mechas roxas bem vivas espalhadas pelo cabelo, ousadas e cheias de estilo.",
+    "swatch": [
+      "#3A2A20",
+      "#5B2A8C",
+      "#8A4FC4"
+    ]
+  },
+  {
+    "id": "ombre-marsala",
+    "name": "Ombré Marsala",
+    "aka": [
+      "Ombré hair marsala",
+      "Ombré vinho",
+      "Ombré bordô",
+      "Degradê marsala",
+      "Burgundy ombré",
+      "Marsala ombre"
+    ],
+    "description": "Raiz escura que vai virando cor de vinho marsala até as pontas.",
+    "swatch": [
+      "#24170F",
+      "#4A1E1E",
+      "#7A2A33"
+    ]
+  },
+  {
+    "id": "ombre-rosa",
+    "name": "Ombré Rosa",
+    "aka": [
+      "Ombré pink",
+      "Ombré hair rosa",
+      "Degradê rosa",
+      "Pontas rosa",
+      "Pink ombré",
+      "Pink ombre"
+    ],
+    "description": "Raiz escura que vai clareando até pontas cor-de-rosa, num degradê suave.",
+    "swatch": [
+      "#2E2220",
+      "#A0466E",
+      "#EE9CC0"
+    ]
+  },
+  {
+    "id": "raiz-colorida",
+    "name": "Raiz Colorida",
+    "aka": [
+      "Raiz neon",
+      "Raiz verde",
+      "Raiz verde neon",
+      "Cabelo Billie Eilish",
+      "Colored roots",
+      "Neon roots"
+    ],
+    "description": "Raiz verde neon e o resto do cabelo preto, um contraste bem ousado.",
+    "swatch": [
+      "#8FE03A",
+      "#101010"
+    ]
+  },
+  {
+    "id": "split-dye-rosa-azul",
+    "name": "Split Dye Rosa e Azul",
+    "aka": [
+      "Split dye colorido",
+      "Cabelo metade rosa metade azul",
+      "Gemini hair",
+      "Cabelo bicolor colorido",
+      "Pink and blue split dye"
+    ],
+    "description": "Cabelo dividido no meio: um lado rosa e o outro azul, bem divertido.",
+    "swatch": [
+      "#E8649F",
+      "#3F6FD8"
+    ]
   }
 ]

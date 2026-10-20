@@ -243,5 +243,23 @@
       "#A6A8AB",
       "#D8DADC"
     ]
+  },
+  {
+    "id": "prateado-azulado",
+    "name": "Prateado Azulado",
+    "aka": [
+      "Prata azulado",
+      "Grisalho azulado",
+      "Branco azulado",
+      "Azul gelo",
+      "Blue rinse",
+      "Silver blue"
+    ],
+    "description": "Prata clarinho com um leve toque azul, fresco, frio e bem iluminado.",
+    "swatch": [
+      "#9FA9B8",
+      "#B9C3D1",
+      "#D6DEE8"
+    ]
   }
 ]
