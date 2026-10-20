@@ -2,7 +2,15 @@ import { useState } from 'react';
 import BeforeAfter from '../components/BeforeAfter';
 import { Flower } from '../components/Flowers';
 import { Button, Icon } from '../components/ui';
-import { convertImage, downloadBlob, fileName, saveOrShare, type Photo } from '../lib/image';
+import {
+  canShareFiles,
+  convertImage,
+  detectPlatform,
+  downloadBlob,
+  fileName,
+  shareFile,
+  type Photo,
+} from '../lib/image';
 import type { Selection } from './Choose';
 
 type View = 'after' | 'before' | 'compare';
@@ -27,7 +35,8 @@ export default function Result({
   const label = [selection.mode !== 'color' && selection.cut?.name, selection.mode !== 'cut' && selection.color?.name]
     .filter(Boolean)
     .join(' + ');
-  const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+  const [platform] = useState(detectPlatform);
+  const [canShare] = useState(canShareFiles);
 
   async function run(key: string, fn: () => Promise<string | null>) {
     setBusy(key);
@@ -41,17 +50,32 @@ export default function Result({
     }
   }
 
-  const save = () =>
-    run('save', async () => {
-      const blob = await convertImage(image, 'jpg');
-      const r = await saveOrShare(blob, fileName(label, 'jpg'));
-      return r === 'downloaded' ? 'Imagem baixada! Procure na pasta Downloads.' : r === 'shared' ? 'Pronto!' : null;
+  // Cada aparelho salva de um jeito:
+  // - iPhone: a folha de compartilhar tem "Salvar Imagem" (vai para o app Fotos);
+  // - Android: o download vai para a pasta Download, que aparece na Galeria;
+  // - computador: download normal.
+  const useShareSheet = platform === 'ios' && canShare;
+
+  const save = (format: 'jpg' | 'png' = 'jpg') =>
+    run(format === 'png' ? 'png' : 'save', async () => {
+      const blob = await convertImage(image, format);
+      const name = fileName(label, format);
+      if (useShareSheet) {
+        const r = await shareFile(blob, name);
+        if (r !== 'unsupported') return null;
+      }
+      downloadBlob(blob, name);
+      if (platform === 'android') return 'Imagem salva! Ela aparece na Galeria, na pasta Download.';
+      if (platform === 'ios') return 'Imagem salva em Arquivos → Downloads.';
+      return `Imagem ${format.toUpperCase()} baixada!`;
     });
 
-  const download = (format: 'jpg' | 'png') =>
-    run(format, async () => {
-      downloadBlob(await convertImage(image, format), fileName(label, format));
-      return `Imagem ${format.toUpperCase()} baixada!`;
+  const send = () =>
+    run('send', async () => {
+      const r = await shareFile(await convertImage(image, 'jpg'), fileName(label, 'jpg'));
+      return r === 'unsupported'
+        ? 'Este aparelho não permite enviar direto. Salve a imagem e envie pela galeria.'
+        : null;
     });
 
   return (
@@ -117,20 +141,25 @@ export default function Result({
         )}
 
         <div className="flex flex-col gap-3 lg:mt-4">
-          <Button size="xl" icon={isTouch ? 'share' : 'download'} onClick={save} disabled={!!busy}>
-            {busy === 'save' ? 'Preparando…' : isTouch ? 'Salvar ou enviar' : 'Baixar imagem'}
+          <Button size="xl" icon="download" onClick={() => save('jpg')} disabled={!!busy}>
+            {busy === 'save' ? 'Preparando…' : platform === 'desktop' ? 'Baixar imagem' : 'Salvar na galeria'}
           </Button>
+          {platform !== 'desktop' && canShare && (
+            <Button variant="secondary" icon="share" onClick={send} disabled={!!busy}>
+              {busy === 'send' ? 'Preparando…' : 'Enviar (WhatsApp…)'}
+            </Button>
+          )}
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="secondary" icon="download" size="md" onClick={() => download('jpg')} disabled={!!busy}>
+            <Button variant="ghost" icon="download" size="md" onClick={() => save('jpg')} disabled={!!busy}>
               Baixar JPG
             </Button>
-            <Button variant="secondary" icon="download" size="md" onClick={() => download('png')} disabled={!!busy}>
+            <Button variant="ghost" icon="download" size="md" onClick={() => save('png')} disabled={!!busy}>
               Baixar PNG
             </Button>
           </div>
-          {isTouch && (
+          {useShareSheet && (
             <p className="px-1 text-sm text-ink-soft">
-              Dica: em “Salvar ou enviar”, toque em <b>Salvar imagem</b> para guardar na galeria, ou escolha o WhatsApp.
+              Dica: no iPhone, toque em <b>Salvar Imagem</b> para guardar no app Fotos.
             </p>
           )}
           {notice && (

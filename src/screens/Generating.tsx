@@ -77,48 +77,53 @@ export default function Generating({ photo, mode, onCancel }: { photo: string; m
   }, []);
 
   return (
-    <main className="brand-gradient fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden px-6 text-white">
+    // Rola em celulares bem pequenos: o botão "Cancelar" nunca fica escondido.
+    <main className="brand-gradient fixed inset-0 z-50 overflow-y-auto text-white">
       <FallingPetals />
-      <div className="safe-top absolute left-0 right-0 top-0 flex justify-center pt-5">
-        <Logo size="sm" light />
-      </div>
-
-      <div className="screen-in relative flex w-full max-w-sm flex-col items-center text-center">
-        <div className="relative w-56 sm:w-64">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-[32px] ring-4 ring-white/40 shadow-[0_30px_60px_-20px_rgb(26_9_51/0.7)]">
-            <img src={photo} alt="" className="absolute inset-0 size-full object-cover blur-[1.5px] saturate-75" />
-            <div className="absolute inset-0 bg-plum-900/30" />
-            <div className="shimmer absolute inset-0" />
-            <div className="scan-line absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-orchid-400/45 to-transparent" />
-          </div>
-          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
-            <BloomingFlower />
-          </div>
+      <div className="safe-top safe-bottom relative flex min-h-full flex-col items-center px-6">
+        <div className="mt-5 flex justify-center">
+          <Logo size="sm" light />
         </div>
 
-        <h1 className="mt-16 text-[1.7rem] font-extrabold leading-tight">Criando seu novo visual</h1>
-        <p key={index} className="fade-swap mt-2 min-h-7 text-lg font-semibold text-plum-100" aria-live="polite">
-          {messages[index]}
-        </p>
+        <div className="screen-in relative my-auto flex w-full max-w-sm flex-col items-center py-6 text-center">
+          <div className="relative w-[clamp(7rem,calc((100dvh-27rem)*0.75),16rem)]">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-[32px] ring-4 ring-white/40 shadow-[0_30px_60px_-20px_rgb(26_9_51/0.7)]">
+              <img src={photo} alt="" className="absolute inset-0 size-full object-cover blur-[1.5px] saturate-75" />
+              <div className="absolute inset-0 bg-plum-900/30" />
+              <div className="shimmer absolute inset-0" />
+              <div className="scan-line absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-orchid-400/45 to-transparent" />
+            </div>
+            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
+              <BloomingFlower />
+            </div>
+          </div>
 
-        <div
-          className="mt-6 h-3 w-full overflow-hidden rounded-full bg-white/20"
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={Math.round(progress)}
-          aria-label="Progresso"
-        >
+          <h1 className="mt-14 text-[1.7rem] font-extrabold leading-tight [@media(max-height:640px)]:mt-10 [@media(max-height:640px)]:text-2xl">
+            Criando seu novo visual
+          </h1>
+          <p key={index} className="fade-swap mt-2 min-h-14 text-lg font-semibold text-plum-100" aria-live="polite">
+            {messages[index]}
+          </p>
+
           <div
-            className="h-full rounded-full bg-gradient-to-r from-blossom-200 to-pollen transition-[width] duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <p className="mt-3 text-sm text-plum-100">Isso leva alguns segundos. Não feche esta tela.</p>
+            className="mt-6 h-3 w-full overflow-hidden rounded-full bg-white/20 [@media(max-height:640px)]:mt-3"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progress)}
+            aria-label="Progresso"
+          >
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-blossom-200 to-pollen transition-[width] duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="mt-3 text-sm text-plum-100">Isso leva alguns segundos. Não feche esta tela.</p>
 
-        <Button variant="light" size="md" onClick={onCancel} className="mt-8">
-          Cancelar
-        </Button>
+          <Button variant="light" size="md" onClick={onCancel} className="mt-6 [@media(max-height:640px)]:mt-3">
+            Cancelar
+          </Button>
+        </div>
       </div>
     </main>
   );

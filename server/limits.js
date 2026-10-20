@@ -26,10 +26,10 @@ export function startJob(email) {
   running.add(email);
 }
 
-/** Só conta no limite quando a imagem foi gerada com sucesso. */
-export function finishJob(email, ok) {
+/** Conta no limite as imagens geradas e as canceladas no meio (falhas da IA não contam). */
+export function finishJob(email, counted) {
   running.delete(email);
-  if (!ok) return;
+  if (!counted) return;
   const list = history.get(email) || [];
   list.push(Date.now());
   history.set(email, list);

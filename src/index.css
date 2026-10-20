@@ -87,6 +87,13 @@
   );
 }
 
+/* Botão principal desativado: legível (o texto dele é a instrução do próximo passo) */
+.brand-gradient:disabled {
+  background: var(--color-plum-100);
+  color: var(--color-plum-800);
+  box-shadow: none;
+}
+
 .text-gradient {
   background: linear-gradient(120deg, var(--color-plum-700), var(--color-orchid-500));
   -webkit-background-clip: text;

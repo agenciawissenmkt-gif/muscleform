@@ -36,23 +36,28 @@ export default function Start({
   }
 
   return (
-    <main className="screen-in relative mx-auto flex w-full max-w-6xl flex-1 flex-col overflow-hidden px-5 pb-10 pt-6 lg:flex-row lg:items-center lg:gap-14 lg:pt-14">
+    // Celular: saudação → botões → passos (botões sempre visíveis sem rolar).
+    // Computador: saudação e passos à esquerda, botões à direita.
+    <main className="screen-in relative mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 content-start gap-6 overflow-hidden px-5 pb-10 pt-6 lg:grid-cols-[1fr_420px] lg:content-center lg:gap-x-14 lg:pt-14">
       <FloralCorner flip className="pointer-events-none absolute -right-14 -top-6 w-48 opacity-70 lg:w-72" />
 
-      <section className="relative z-10 lg:flex-1">
+      <section className="relative z-10 order-1 lg:order-none lg:col-start-1 lg:row-start-1 lg:self-end">
         <p className="text-lg font-bold text-plum-600">Olá, {firstName}!</p>
         <h1 className="mt-1 text-[2rem] font-extrabold leading-tight text-plum-950 sm:text-5xl">
           Vamos descobrir o seu <span className="font-display italic text-gradient">novo visual</span>?
         </h1>
+      </section>
 
-        <ol className="mt-6 grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1">
+      <section className="relative z-10 order-3 lg:order-none lg:col-start-1 lg:row-start-2 lg:self-start">
+        <p className="mb-2 text-sm font-extrabold uppercase tracking-wider text-plum-600">Como funciona</p>
+        <ol className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1">
           {[
             { n: 1, t: 'Tire uma foto', d: 'de frente, com o rosto bem visível' },
             { n: 2, t: 'Escolha', d: 'o corte, a cor ou os dois' },
             { n: 3, t: 'Veja e salve', d: 'o resultado em segundos' },
           ].map((s) => (
-            <li key={s.n} className="flex items-center gap-3 rounded-2xl bg-white/85 px-4 py-3 ring-1 ring-plum-100">
-              <span className="brand-gradient flex size-9 shrink-0 items-center justify-center rounded-full text-lg font-extrabold text-white">
+            <li key={s.n} className="flex items-center gap-3 py-1">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-plum-100 text-lg font-extrabold text-plum-700">
                 {s.n}
               </span>
               <span>
@@ -64,7 +69,7 @@ export default function Start({
         </ol>
       </section>
 
-      <section className="relative z-10 mt-8 flex flex-col gap-4 lg:mt-0 lg:w-[420px]">
+      <section className="relative z-10 order-2 flex flex-col gap-4 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
         {!aiReady && (
           <p
             role="status"

@@ -148,23 +148,40 @@ export function downloadBlob(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-/**
- * No celular abre a folha de compartilhamento do sistema, que tem
- * "Salvar imagem" (galeria/Fotos), WhatsApp etc. No computador, baixa o arquivo.
- * Retorna 'shared' | 'downloaded' | 'cancelled'.
- */
-export async function saveOrShare(blob: Blob, name: string): Promise<'shared' | 'downloaded' | 'cancelled'> {
-  const file = new File([blob], name, { type: blob.type });
-  const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
-  const isTouch = window.matchMedia('(pointer: coarse)').matches;
-  if (isTouch && nav.canShare?.({ files: [file] })) {
-    try {
-      await nav.share({ files: [file], title: 'Meu novo visual — Beauty and self' });
-      return 'shared';
-    } catch (err) {
-      if ((err as DOMException)?.name === 'AbortError') return 'cancelled';
-    }
+export type Platform = 'ios' | 'android' | 'desktop';
+
+export function detectPlatform(): Platform {
+  const ua = navigator.userAgent;
+  if (/android/i.test(ua)) return 'android';
+  if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
+  return 'desktop';
+}
+
+type ShareNavigator = Navigator & { canShare?: (data: ShareData) => boolean };
+
+export function canShareFiles(): boolean {
+  const nav = navigator as ShareNavigator;
+  try {
+    return !!nav.canShare?.({
+      files: [new File([new Blob(['x'], { type: 'image/jpeg' })], 'x.jpg', { type: 'image/jpeg' })],
+    });
+  } catch {
+    return false;
   }
-  downloadBlob(blob, name);
-  return 'downloaded';
+}
+
+/**
+ * Abre a folha de compartilhamento do sistema com a imagem (WhatsApp etc.;
+ * no iPhone também tem "Salvar Imagem", que guarda no app Fotos).
+ */
+export async function shareFile(blob: Blob, name: string): Promise<'shared' | 'cancelled' | 'unsupported'> {
+  const file = new File([blob], name, { type: blob.type });
+  const nav = navigator as ShareNavigator;
+  if (!nav.canShare?.({ files: [file] })) return 'unsupported';
+  try {
+    await nav.share({ files: [file], title: 'Meu novo visual — Beauty and self' });
+    return 'shared';
+  } catch (err) {
+    return (err as DOMException)?.name === 'AbortError' ? 'cancelled' : 'unsupported';
+  }
 }

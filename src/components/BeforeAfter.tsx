@@ -15,12 +15,15 @@ export default function BeforeAfter({ before, after, ratio }: { before: string; 
   return (
     <div
       ref={box}
-      className="relative w-full touch-none select-none overflow-hidden"
+      className="relative w-full touch-pan-y select-none overflow-hidden"
       style={{ aspectRatio: ratio.replace(':', ' / ') }}
+      // Arrastar para os lados move a barra; deslizar para cima/baixo rola a página.
       onPointerDown={(e) => {
         dragging.current = true;
-        (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-        moveTo(e.clientX);
+        if (e.pointerType === 'mouse') {
+          (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+          moveTo(e.clientX);
+        }
       }}
       onPointerMove={(e) => dragging.current && moveTo(e.clientX)}
       onPointerUp={() => (dragging.current = false)}

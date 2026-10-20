@@ -15,6 +15,10 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
   const [shot, setShot] = useState<Photo | null>(null);
   const [flash, setFlash] = useState(false);
   const [hasTwoCameras, setHasTwoCameras] = useState(true);
+  const [retry, setRetry] = useState(0);
+  const [fileError, setFileError] = useState<string | null>(null);
+  // Hora da última foto: ignora toques duplos que cairiam nos botões seguintes.
+  const shotAt = useRef(0);
 
   const stop = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
@@ -48,6 +52,7 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
           video.srcObject = stream;
           await video.play().catch(() => undefined);
         }
+        if (cancelled) return;
         setStatus('live');
         navigator.mediaDevices
           .enumerateDevices()
@@ -58,8 +63,8 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
         const name = (err as DOMException)?.name;
         setErrorMsg(
           name === 'NotAllowedError'
-            ? 'A câmera foi bloqueada. Toque no cadeado ao lado do endereço do site e permita a câmera — ou use os botões abaixo.'
-            : 'Não consegui abrir a câmera. Use os botões abaixo para tirar a foto pelo aparelho ou escolher da galeria.',
+            ? 'A câmera está bloqueada. Libere a câmera nos ajustes do navegador e toque em "Tentar de novo" — ou use os botões abaixo.'
+            : 'Não consegui abrir a câmera. Toque em "Tentar de novo", tire a foto pelo aparelho ou escolha da galeria.',
         );
         setStatus('error');
       }
@@ -68,7 +73,7 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
     return () => {
       cancelled = true;
     };
-  }, [facing, shot, stop]);
+  }, [facing, shot, stop, retry]);
 
   useEffect(() => stop, [stop]);
 
@@ -76,22 +81,31 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
     const video = videoRef.current;
     if (!video || !video.videoWidth) return;
     const photo = drawToPhoto(video, video.videoWidth, video.videoHeight, { mirror: facing === 'user', ratio: [3, 4] });
+    shotAt.current = Date.now();
     setFlash(true);
     setTimeout(() => setFlash(false), 280);
     stop();
     setShot(photo);
   }
 
+  /** Evita que um toque duplo no botão da foto acione o botão de baixo. */
+  const guarded = (fn: () => void) => () => {
+    if (Date.now() - shotAt.current < 600) return;
+    fn();
+  };
+
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
+    setFileError(null);
     try {
+      // Só desliga a câmera depois que a foto da galeria abriu direitinho.
+      const photo = await photoFromFile(file);
       stop();
-      onPhoto(await photoFromFile(file));
+      onPhoto(photo);
     } catch (err) {
-      setErrorMsg((err as Error).message);
-      setStatus('error');
+      setFileError((err as Error).message);
     }
   }
 
@@ -164,6 +178,11 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
                   <Icon name="camera" size={44} className="text-plum-300" />
                   <p className="text-base font-semibold leading-relaxed">{errorMsg}</p>
+                  {typeof navigator.mediaDevices?.getUserMedia === 'function' && (
+                    <Button icon="refresh" onClick={() => setRetry((n) => n + 1)}>
+                      Tentar de novo
+                    </Button>
+                  )}
                   <Button variant="light" icon="camera" onClick={() => nativeRef.current?.click()}>
                     Tirar foto pelo aparelho
                   </Button>
@@ -176,12 +195,20 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
       </div>
 
       <div className="safe-bottom px-5 pt-4">
+        {fileError && (
+          <p
+            role="alert"
+            className="mx-auto mb-3 max-w-md rounded-2xl bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700"
+          >
+            {fileError}
+          </p>
+        )}
         {shot ? (
           <div className="mx-auto flex max-w-md flex-col gap-3">
-            <Button size="xl" icon="check" onClick={() => onPhoto(shot)}>
+            <Button size="xl" icon="check" onClick={guarded(() => onPhoto(shot))}>
               Usar esta foto
             </Button>
-            <Button variant="light" icon="refresh" onClick={() => setShot(null)}>
+            <Button variant="light" icon="refresh" onClick={guarded(() => setShot(null))}>
               Tirar outra
             </Button>
           </div>
@@ -209,7 +236,7 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
             <button
               type="button"
               onClick={() => setFacing((f) => (f === 'user' ? 'environment' : 'user'))}
-              disabled={!hasTwoCameras || status === 'error'}
+              disabled={!hasTwoCameras || status !== 'live'}
               className="flex w-20 flex-col items-center gap-1 text-sm font-bold disabled:opacity-40"
             >
               <span className="flex size-14 items-center justify-center rounded-2xl bg-white/12 ring-1 ring-white/30">

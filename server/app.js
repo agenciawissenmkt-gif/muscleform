@@ -142,7 +142,8 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     if (!(err instanceof AiError)) console.error('[generate] erro inesperado', err);
     res.status(status).json({ error: err instanceof AiError ? err.message : 'Erro interno ao gerar a imagem.' });
   } finally {
-    finishJob(email, ok);
+    // Cancelado no meio também conta: o pedido já chegou à IA e pode ser cobrado.
+    finishJob(email, ok || abort.signal.aborted);
     console.log(
       JSON.stringify({
         evt: 'generate',

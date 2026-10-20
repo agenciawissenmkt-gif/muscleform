@@ -49,6 +49,18 @@ export default function Choose({
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query);
   const listTop = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  // Altura real da barra fixa do celular: o fim da lista nunca fica escondido atrás dela.
+  const [barHeight, setBarHeight] = useState(180);
+
+  useEffect(() => {
+    const el = barRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => setBarHeight(el.offsetHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const activeTab: 'cut' | 'color' = mode === 'both' ? tab : mode;
 
@@ -74,7 +86,8 @@ export default function Choose({
   function scrollToList() {
     const el = listTop.current;
     if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - 76;
+    const header = document.querySelector('header')?.getBoundingClientRect().height ?? 64;
+    const y = el.getBoundingClientRect().top + window.scrollY - header - 8;
     if (window.scrollY > y) window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
@@ -93,27 +106,37 @@ export default function Choose({
   const onSelect = useCallback((item: CatalogItem) => {
     const { selection, onChange } = latest.current;
     const { cut, color, mode } = selection;
+    // Tocar só seleciona (um toque duplo não desmarca). Para tirar, use o X da escolha.
     if (item.kind === 'cut') {
-      const same = cut?.id === item.id;
-      onChange({ ...selection, cut: same ? null : item });
-      if (!same && mode === 'both' && !color) {
+      if (cut?.id === item.id) return;
+      onChange({ ...selection, cut: item });
+      if (mode === 'both' && !color) {
         setTimeout(() => {
+          if (latest.current.selection.cut?.id !== item.id) return;
           setTab('color');
           scrollToList();
         }, 350);
       }
-    } else {
-      onChange({ ...selection, color: color?.id === item.id ? null : item });
+    } else if (color?.id !== item.id) {
+      onChange({ ...selection, color: item });
     }
   }, []);
 
   const summary = (
-    <div className={`grid gap-2 ${mode === 'both' ? 'grid-cols-2' : 'grid-cols-1'}`}>
+    <div
+      className={`grid gap-2 ${mode === 'both' ? 'grid-cols-1 min-[440px]:grid-cols-2 lg:grid-cols-1' : 'grid-cols-1'}`}
+    >
       {mode !== 'color' && (
-        <Chip label="Corte" value={cut?.name} onClear={cut ? () => onChange({ ...selection, cut: null }) : undefined} />
+        <Chip
+          icon="scissors"
+          label="Corte"
+          value={cut?.name}
+          onClear={cut ? () => onChange({ ...selection, cut: null }) : undefined}
+        />
       )}
       {mode !== 'cut' && (
         <Chip
+          icon="palette"
           label="Cor"
           value={color?.name}
           onClear={color ? () => onChange({ ...selection, color: null }) : undefined}
@@ -130,12 +153,20 @@ export default function Choose({
 
   return (
     <>
-      <main className="screen-in mx-auto w-full max-w-6xl flex-1 px-4 pb-44 pt-4 sm:px-5 lg:grid lg:grid-cols-[340px_1fr] lg:gap-8 lg:pb-12 lg:pt-6">
+      <main
+        className="screen-in mx-auto w-full max-w-6xl flex-1 px-4 pt-4 sm:px-5 lg:grid lg:grid-cols-[340px_1fr] lg:gap-8 lg:!pb-12 lg:pt-6"
+        style={{ paddingBottom: barHeight + 24 }}
+      >
         {/* Coluna da foto (no computador fica fixa ao lado) */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="flex items-center gap-3 lg:flex-col lg:items-stretch">
-            <div className="relative w-20 shrink-0 overflow-hidden rounded-2xl ring-2 ring-plum-200 sm:w-24 lg:w-full lg:rounded-[28px]">
-              <img src={photo.dataUrl} alt="Sua foto" className="aspect-[3/4] w-full object-cover" />
+            <div className="relative w-20 shrink-0 overflow-hidden rounded-2xl ring-2 ring-plum-200 sm:w-24 lg:mx-auto lg:w-auto lg:rounded-[28px]">
+              {/* No computador, a foto encolhe com a altura da tela para o botão caber sempre */}
+              <img
+                src={photo.dataUrl}
+                alt="Sua foto"
+                className="aspect-[3/4] w-full object-cover lg:h-[clamp(12rem,calc(100dvh-25rem),28rem)] lg:w-auto"
+              />
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-lg font-extrabold leading-tight text-plum-950 lg:hidden">O que vamos mudar?</p>
@@ -216,11 +247,20 @@ export default function Choose({
           {/* Pesquisa */}
           <div
             ref={listTop}
-            className="sticky top-16 z-20 -mx-4 mt-3 bg-paper/90 px-4 py-2 backdrop-blur-md sm:-mx-5 sm:px-5 lg:mx-0 lg:px-0"
+            className="sticky top-[calc(4rem+1px+env(safe-area-inset-top))] z-20 -mx-4 mt-3 bg-paper/90 px-4 py-2 backdrop-blur-md sm:-mx-5 sm:px-5 lg:mx-0 lg:px-0"
           >
-            <label className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-[var(--shadow-soft)] ring-2 ring-plum-100 focus-within:ring-plum-400">
+            {/* A tecla "Buscar" do teclado fecha o teclado e mostra os resultados */}
+            <form
+              role="search"
+              onSubmit={(e) => {
+                e.preventDefault();
+                searchRef.current?.blur();
+              }}
+              className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-[var(--shadow-soft)] ring-2 ring-plum-100 focus-within:ring-plum-400"
+            >
               <Icon name="search" className="shrink-0 text-plum-500" />
               <input
+                ref={searchRef}
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -239,7 +279,7 @@ export default function Choose({
                   <Icon name="close" size={20} />
                 </button>
               )}
-            </label>
+            </form>
           </div>
 
           <div className="mt-2">
@@ -276,7 +316,10 @@ export default function Choose({
       </main>
 
       {/* Barra fixa no celular (fora do <main> animado para ficar presa à tela) */}
-      <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-plum-100 bg-white/95 px-4 pt-3 shadow-[0_-12px_30px_-18px_rgb(76_29_149/0.5)] backdrop-blur-md lg:hidden">
+      <div
+        ref={barRef}
+        className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-plum-100 bg-white/95 px-4 pt-3 shadow-[0_-12px_30px_-18px_rgb(76_29_149/0.5)] backdrop-blur-md lg:hidden"
+      >
         <div className="mx-auto max-w-xl">
           {error && <ErrorNote message={error} />}
           <div className="mb-2.5">{summary}</div>
@@ -305,21 +348,34 @@ function Grid({
   );
 }
 
-function Chip({ label, value, onClear }: { label: string; value?: string; onClear?: () => void }) {
+function Chip({
+  icon,
+  label,
+  value,
+  onClear,
+}: {
+  icon: 'scissors' | 'palette';
+  label: string;
+  value?: string;
+  onClear?: () => void;
+}) {
   return (
     <span
-      className={`flex min-h-10 min-w-0 items-center gap-1.5 rounded-full pl-3.5 text-[0.92rem] font-bold ${
+      className={`flex min-h-11 min-w-0 items-center gap-2 rounded-full pl-3.5 text-[0.95rem] font-bold ${
         value ? 'bg-plum-100 text-plum-900' : 'border border-dashed border-plum-300 bg-plum-50 pr-3.5 text-ink-soft'
       } ${value && !onClear ? 'pr-3.5' : ''}`}
     >
-      <span className="shrink-0 text-plum-600">{label}:</span>
-      <span className="min-w-0 flex-1 truncate">{value ?? 'escolher'}</span>
+      <Icon name={icon} size={20} className="shrink-0 text-plum-600" />
+      <span className="sr-only">{label}:</span>
+      <span className="min-w-0 flex-1 truncate">
+        {value ?? (label === 'Cor' ? 'escolha a cor' : 'escolha o corte')}
+      </span>
       {value && onClear && (
         <button
           type="button"
           onClick={onClear}
           aria-label={`Remover ${label.toLowerCase()}`}
-          className="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-plum-200"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-plum-200"
         >
           <Icon name="close" size={16} strokeWidth={2.6} />
         </button>

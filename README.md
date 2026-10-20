@@ -128,7 +128,7 @@ Outros comandos:
   3. Rode `npm run check`.
 - **Regras gerais da IA** (preservar rosto e fundo, realismo): `server/prompts.js`.
 - **Trocar de modelo de IA no futuro:** adicione o modelo em `server/ai.js` (objeto `MODELS`) e mude `AI_MODEL`. O app não precisa mudar.
-- **Limites de uso por conta:** `LIMIT_PER_HOUR` e `LIMIT_PER_DAY`. Só contam as imagens geradas com sucesso.
+- **Limites de uso por conta:** `LIMIT_PER_HOUR` e `LIMIT_PER_DAY`. Contam as imagens geradas e as canceladas no meio; falhas da IA não contam.
 - **Cores e visual:** tokens no topo de `src/index.css` (roxos, orquídea e pétalas).
 
 ---

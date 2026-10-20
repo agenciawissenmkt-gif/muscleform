@@ -38,7 +38,15 @@ function loadGoogleScript(): Promise<void> {
   return gsiPromise;
 }
 
-export default function Login({ config, onLogin }: { config: AppConfig; onLogin: (u: User) => void }) {
+export default function Login({
+  config,
+  onLogin,
+  notice,
+}: {
+  config: AppConfig;
+  onLogin: (u: User) => void;
+  notice?: string | null;
+}) {
   const btnRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(() => {
     // Erro vindo do login por redirecionamento (?login_error=...)
@@ -147,6 +155,14 @@ export default function Login({ config, onLogin }: { config: AppConfig; onLogin:
         </ul>
 
         <div className="mt-9 flex w-full flex-col items-center gap-3">
+          {notice && (
+            <p
+              role="status"
+              className="w-full max-w-[360px] rounded-2xl bg-plum-100 px-4 py-3 text-sm font-bold text-plum-900"
+            >
+              {notice}
+            </p>
+          )}
           {config.googleClientId ? (
             <>
               <p className="text-sm font-bold uppercase tracking-wider text-plum-700">Entre com sua conta Google</p>

@@ -143,7 +143,7 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'light';
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'brand-gradient text-white shadow-[var(--shadow-lift)] hover:brightness-110 active:brightness-95 disabled:opacity-45 disabled:shadow-none',
+    'brand-gradient text-white shadow-[var(--shadow-lift)] hover:brightness-110 active:brightness-95 disabled:shadow-none disabled:hover:brightness-100',
   secondary:
     'bg-white text-plum-800 ring-2 ring-plum-200 shadow-[var(--shadow-soft)] hover:ring-plum-400 active:bg-plum-50 disabled:opacity-50',
   ghost: 'bg-transparent text-plum-700 hover:bg-plum-100 active:bg-plum-200 disabled:opacity-50',
