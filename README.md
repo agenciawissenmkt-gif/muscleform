@@ -24,7 +24,7 @@ mostra o resultado       ◀───────────  devolve a imagem 
 
 - **`src/`**: o aplicativo (React + Vite + Tailwind). Telas: login → início → câmera → escolha → carregamento → resultado.
 - **`src/catalog/data/`**: o catálogo público (nomes e descrições em português).
-- **`server/`**: o servidor (Node + Express). Guarda a chave da IA, faz o login, limita o uso e chama o Muse.
+- **`server/`**: o servidor (Node + Express). Guarda a chave da IA, faz o login, limita o uso e chama o Muse. `server/app.js` tem as rotas; `server/index.js` liga o servidor na VPS/EasyPanel; `api/index.js` é a entrada na Vercel.
 - **`server/prompts/`**: os prompts em inglês de cada corte e cor.
 - **`server/prompts.js`**: o "prompt mestre", com as regras que valem para toda geração: mexer só no cabelo, não alterar rosto, pele, maquiagem, expressão, roupa, fundo, luz nem enquadramento, e resultado realista fio a fio.
 
@@ -81,6 +81,21 @@ O projeto já tem um `Dockerfile`: o mesmo servidor entrega o app e a API.
 7. Volte ao console do Google e confirme que esse domínio está nas **Origens JavaScript autorizadas**.
 
 **Dica:** no celular, abra o app e use **"Adicionar à tela inicial"**. Ele abre em tela cheia, como um aplicativo.
+
+---
+
+## 2b. Ou publicar na Vercel
+
+O projeto também está pronto para a Vercel (`vercel.json` + `api/index.js`). O app vai para a CDN da Vercel e a API roda como uma função.
+
+1. Na Vercel: **Add New → Project** → importe este repositório do GitHub. As configurações já vêm do `vercel.json`.
+2. **Settings → Environment Variables**: adicione as mesmas variáveis (`FAL_KEY`, `GOOGLE_CLIENT_ID`, `SESSION_SECRET`, `ALLOWED_EMAILS`...).
+3. Cada `git push` gera uma nova versão automaticamente.
+4. No console do Google, adicione o endereço da Vercel (ex.: `https://beauty-and-self.vercel.app`) nas **Origens JavaScript autorizadas** e `https://…/api/auth/google/redirect` nos **URIs de redirecionamento**.
+
+Diferenças em relação à VPS:
+- Cada envio pode ter no máximo 4,5 MB. O app já reduz a foto, então fica bem abaixo disso.
+- Os limites de uso por conta (`LIMIT_PER_HOUR` / `LIMIT_PER_DAY`) ficam na memória de cada instância da função. Na Vercel eles são aproximados.
 
 ---
 

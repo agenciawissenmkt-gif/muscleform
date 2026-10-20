@@ -1,0 +1,303 @@
+[
+  {
+    "id": "box-braids",
+    "name": "Box Braids",
+    "aka": ["Tranças box", "Box braid", "Tranças afro soltas", "Tranças com jumbo", "Tranças médias", "Trancas box"],
+    "description": "As tranças soltinhas mais pedidas: médias, bem feitas e até o meio das costas.",
+    "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "trancas-nago-retas",
+    "name": "Tranças Nagô Retas",
+    "aka": ["Nagô", "Nago", "Cornrows", "Trança rasteira", "Trança de raiz", "Nagô para trás"],
+    "description": "Tranças coladinhas na cabeça, em linhas retas da testa até a nuca.",
+    "look": { "length": 0.5, "volume": 0.2, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "knotless-braids",
+    "name": "Knotless Braids",
+    "aka": ["Box braids sem nó", "Knotless", "Tranças sem nó", "Trancas sem no", "Knotless box braids"],
+    "description": "Box braids sem nó na raiz: mais leves, naturais e confortáveis.",
+    "look": { "length": 0.78, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "tranca-boxeadora",
+    "name": "Trança Boxeadora",
+    "aka": ["Boxer braids", "Duas tranças embutidas", "Trança boxer", "Dutch braids", "Trança holandesa", "Tranca boxeadora"],
+    "description": "Duas tranças coladas na cabeça, uma de cada lado. Firmes e esportivas.",
+    "look": { "length": 0.6, "volume": 0.3, "layers": 0, "fringe": "none", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "twist-senegalesa",
+    "name": "Twist Senegalesa",
+    "aka": ["Senegalese twists", "Twist senegalês", "Twist", "Tranças twist", "Rope twists", "Twist senegales"],
+    "description": "Tranças torcidas em duas mechas, lisinhas e brilhantes, como uma cordinha.",
+    "look": { "length": 0.78, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "twists" }
+  },
+  {
+    "id": "fulani-braids",
+    "name": "Fulani Braids",
+    "aka": ["Tranças fulani", "Fulani", "Fulani com box braids", "Nagô com box braids", "Fulani knotless", "Trancas fulani"],
+    "description": "Nagô no meio e nas laterais, com tranças soltas atrás. Estilo africano clássico.",
+    "look": { "length": 0.75, "volume": 0.4, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "boho-braids",
+    "name": "Boho Braids",
+    "aka": ["Gypsy braids", "Tranças gypsy", "Boho knotless", "Goddess braids", "Tranças boho", "Tranças com cachos soltos"],
+    "description": "Tranças com cachinhos soltos saindo pelo meio. Visual leve e romântico.",
+    "look": { "length": 0.8, "volume": 0.65, "layers": 0.2, "fringe": "none", "texture": "curly", "style": "braids" }
+  },
+  {
+    "id": "faux-locs",
+    "name": "Faux Locs",
+    "aka": ["Dread falso", "Dreads sintéticos", "Locs falsos", "Faux dreads", "Dread de crochê", "Faux loc"],
+    "description": "Visual de dread sem compromisso: locs firmes, compridos e bem acabados.",
+    "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "dreadlocks",
+    "name": "Dreadlocks",
+    "aka": ["Dread", "Dreads", "Locs", "Locs naturais", "Dread natural"],
+    "description": "Dreads de verdade: mechas enroladas, naturais e com aparência madura.",
+    "look": { "length": 0.65, "volume": 0.55, "layers": 0.15, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "trancas-nago-grossas",
+    "name": "Nagô Grossa (Ghana Braids)",
+    "aka": ["Ghana braids", "Feed-in braids", "Nagô com jumbo", "Goddess cornrows", "Tranças nagô grossas", "Nago grossa"],
+    "description": "Poucas tranças nagô grossas, retas para trás, compridas e marcantes.",
+    "look": { "length": 0.8, "volume": 0.35, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "box-braids-jumbo",
+    "name": "Box Braids Jumbo",
+    "aka": ["Jumbo braids", "Jumbo box braids", "Tranças grossas", "Box braids grossas", "Tranças jumbo"],
+    "description": "Tranças bem grossas e marcantes, que ficam prontas mais rápido.",
+    "look": { "length": 0.75, "volume": 0.6, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "tranca-embutida",
+    "name": "Trança Embutida",
+    "aka": ["French braid", "Trança francesa", "Trança raiz", "Trança embutida única", "Tranca embutida"],
+    "description": "Uma trança só, rente à cabeça, do alto até a nuca e solta nas costas.",
+    "look": { "length": 0.6, "volume": 0.3, "layers": 0, "fringe": "none", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "crochet-braids-cacheado",
+    "name": "Crochet Braids Cacheado",
+    "aka": ["Crochet braids", "Crochet cacheado", "Cabelo de crochê", "Crochet", "Crochet curls", "Cacheado de croche"],
+    "description": "Cachos cheios e volumosos aplicados no crochê. Visual de cabelo cacheado grande.",
+    "look": { "length": 0.5, "volume": 0.9, "layers": 0.4, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "microtrancas",
+    "name": "Microtranças",
+    "aka": ["Micro braids", "Micro tranças", "Box braids finas", "Small box braids", "Tranças fininhas", "Microtrancas"],
+    "description": "Muitas tranças bem fininhas e delicadas, que balançam como cabelo solto.",
+    "look": { "length": 0.78, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "box-braids-bob",
+    "name": "Bob Braids",
+    "aka": ["Box braids curtas", "Bob box braids", "Tranças curtas", "Box braids chanel", "Tranças bob", "Short box braids"],
+    "description": "Box braids curtinhas, no comprimento do chanel. Práticas e modernas.",
+    "look": { "length": 0.3, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "nago-desenhada",
+    "name": "Tranças Nagô Desenhadas",
+    "aka": ["Nagô desenhada", "Nagô com desenho", "Nagô zigue-zague", "Zigzag cornrows", "Cornrows design", "Nago desenhada"],
+    "description": "Nagô com desenhos na cabeça, como zigue-zague e formas criativas.",
+    "look": { "length": 0.6, "volume": 0.25, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "lemonade-braids",
+    "name": "Lemonade Braids",
+    "aka": ["Nagô lateral", "Nagô de lado", "Side cornrows", "Tranças lemonade", "Tranças laterais", "Nago lateral"],
+    "description": "Nagô fininhas de lado, caindo todas sobre um ombro. Elegantes e famosas.",
+    "look": { "length": 0.9, "volume": 0.35, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "butterfly-locs",
+    "name": "Butterfly Locs",
+    "aka": ["Locs borboleta", "Butterfly", "Distressed locs", "Faux locs bagunçado", "Butterfly loc"],
+    "description": "Locs leves e bagunçadinhos, com voltinhas soltas. Visual despojado.",
+    "look": { "length": 0.55, "volume": 0.6, "layers": 0.2, "fringe": "none", "texture": "curly", "style": "locs" }
+  },
+  {
+    "id": "twist-out-definido",
+    "name": "Twist Out",
+    "aka": ["Twist-out", "Finalização twist out", "Cachos de twist", "Twistout", "Twist out crespo"],
+    "description": "Cabelo crespo solto e definido depois de desfazer os twists. Volume lindo.",
+    "look": { "length": 0.35, "volume": 0.85, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "two-strand-twists",
+    "name": "Twist no Cabelo Natural",
+    "aka": ["Two strand twist", "Two strand twists", "Twist natural", "Twist de duas mechas", "Twist sem aplique", "Mini twists"],
+    "description": "Twists feitos no próprio cabelo crespo, sem aplique. Natural e prático.",
+    "look": { "length": 0.35, "volume": 0.6, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "twists" }
+  },
+  {
+    "id": "box-braids-longas",
+    "name": "Box Braids Longas",
+    "aka": ["Box braids compridas", "Tranças longas", "Tranças até a cintura", "Long box braids", "Waist-length braids", "Box braids extra longas"],
+    "description": "Box braids bem compridas, passando da cintura. Visual poderoso.",
+    "look": { "length": 0.97, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "coque-box-braids",
+    "name": "Coque com Box Braids",
+    "aka": ["Box braids presas", "Coque de tranças", "Braided bun", "Coque alto com tranças", "Updo box braids"],
+    "description": "Box braids presas num coque alto e elegante. Ótimo para festas.",
+    "look": { "length": 0.15, "volume": 0.6, "layers": 0, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "rabo-de-cavalo-nago",
+    "name": "Rabo de Cavalo com Nagô",
+    "aka": ["Cornrow ponytail", "Nagô com rabo de cavalo", "Rabo de tranças", "Braided ponytail", "Nagô no alto", "Rabo de cavalo nago"],
+    "description": "Nagô subindo até um rabo de cavalo alto, cheio de tranças compridas.",
+    "look": { "length": 0.75, "volume": 0.4, "layers": 0, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "tribal-braids",
+    "name": "Tribal Braids",
+    "aka": ["Tranças tribais", "Tribal", "Meio nagô meio box", "Half cornrows half box braids", "Trancas tribais"],
+    "description": "Nagô na frente em várias direções, com tranças soltas atrás. Muito estilo.",
+    "look": { "length": 0.75, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "passion-twists",
+    "name": "Passion Twists",
+    "aka": ["Passion twist", "Twist passion", "Twist ondulado", "Bohemian twists", "Twist cacheado"],
+    "description": "Twists macios e ondulados, com aparência leve e romântica.",
+    "look": { "length": 0.7, "volume": 0.6, "layers": 0.2, "fringe": "none", "texture": "wavy", "style": "twists" }
+  },
+  {
+    "id": "french-curl-braids",
+    "name": "French Curl Braids",
+    "aka": ["French curls", "French curl", "Tranças com pontas cacheadas", "Box braids pontas cacheadas", "Spanish curl braids"],
+    "description": "Tranças até o ombro que terminam em cachos soltos, longos e brilhantes.",
+    "look": { "length": 0.75, "volume": 0.65, "layers": 0.2, "fringe": "none", "texture": "wavy", "style": "braids" }
+  },
+  {
+    "id": "bantu-knots",
+    "name": "Bantu Knots",
+    "aka": ["Bantu knot", "Coquinhos", "Nós bantu", "Zulu knots", "Coquinho afro"],
+    "description": "Vários coquinhos enroladinhos pela cabeça. Estilo afro tradicional.",
+    "look": { "length": 0.1, "volume": 0.55, "layers": 0, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "flat-twist",
+    "name": "Flat Twist",
+    "aka": ["Flat twists", "Twist rasteiro", "Twist colado", "Twist nagô", "Twist nago"],
+    "description": "Twists colados na cabeça como nagô, só que torcidos. Simples e charmoso.",
+    "look": { "length": 0.45, "volume": 0.35, "layers": 0, "fringe": "none", "texture": "coily", "style": "twists" }
+  },
+  {
+    "id": "goddess-locs",
+    "name": "Goddess Locs",
+    "aka": ["Locs deusa", "Faux locs com cachos", "Boho locs", "Locs cacheados", "Goddess loc"],
+    "description": "Faux locs com mechas e pontas cacheadas, num visual de deusa.",
+    "look": { "length": 0.8, "volume": 0.6, "layers": 0.2, "fringe": "none", "texture": "curly", "style": "locs" }
+  },
+  {
+    "id": "braid-out-ondulado",
+    "name": "Braid Out",
+    "aka": ["Braid-out", "Finalização braid out", "Ondas de trança", "Braidout", "Braid out crespo"],
+    "description": "Cabelo solto com ondas marcadas, feitas ao desfazer as tranças.",
+    "look": { "length": 0.4, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "box-braids-meio-preso",
+    "name": "Box Braids Meio Preso",
+    "aka": ["Half up box braids", "Meio preso com tranças", "Half up half down braids", "Tranças meio presas", "Box braids com coquinho"],
+    "description": "Box braids com a parte de cima presa num coquinho e o resto solto.",
+    "look": { "length": 0.75, "volume": 0.55, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "tranca-espinha-de-peixe",
+    "name": "Trança Espinha de Peixe",
+    "aka": ["Fishtail braid", "Espinha de peixe", "Trança rabo de peixe", "Fishtail", "Tranca espinha de peixe"],
+    "description": "Trança delicada que lembra uma espinha de peixe, caindo sobre o ombro.",
+    "look": { "length": 0.6, "volume": 0.35, "layers": 0, "fringe": "none", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "tranca-coroa",
+    "name": "Trança Coroa",
+    "aka": ["Crown braid", "Trança de coroa", "Milkmaid braid", "Halo braid", "Trança tiara", "Tranca coroa"],
+    "description": "Trança que contorna a cabeça como uma coroa. Romântica e elegante.",
+    "look": { "length": 0.15, "volume": 0.35, "layers": 0, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "stitch-braids",
+    "name": "Stitch Braids",
+    "aka": ["Nagô stitch", "Stitch cornrows", "Tranças costuradas", "Nagô com degrau", "Stitch braid"],
+    "description": "Nagô retas com marquinhas em degrau, bem definidas e certinhas.",
+    "look": { "length": 0.8, "volume": 0.3, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "nago-curvas",
+    "name": "Tranças Nagô Curvas",
+    "aka": ["Nagô curvada", "Nagô em curva", "Curved cornrows", "Nagô ondulada", "Swirl cornrows", "Nago curva"],
+    "description": "Nagô em linhas curvas e onduladas que contornam a cabeça.",
+    "look": { "length": 0.6, "volume": 0.25, "layers": 0, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "soft-locs",
+    "name": "Soft Locs",
+    "aka": ["Locs macios", "Faux locs leves", "Fluffy locs", "Soft dreads", "Soft loc"],
+    "description": "Faux locs macios e fofinhos, mais leves e com acabamento suave.",
+    "look": { "length": 0.75, "volume": 0.55, "layers": 0.15, "fringe": "none", "texture": "wavy", "style": "locs" }
+  },
+  {
+    "id": "marley-twists",
+    "name": "Marley Twists",
+    "aka": ["Marley twist", "Kinky twists", "Twist afro", "Twist crespo", "Marley"],
+    "description": "Twists com textura crespa, parecendo o próprio cabelo afro.",
+    "look": { "length": 0.7, "volume": 0.55, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "twists" }
+  },
+  {
+    "id": "spring-twists",
+    "name": "Spring Twists",
+    "aka": ["Spring twist", "Twist mola", "Twist molinha", "Bomb twists", "Twist curtinho"],
+    "description": "Twists curtinhos com efeito mola: leves, cheios e divertidos.",
+    "look": { "length": 0.35, "volume": 0.75, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "twists" }
+  },
+  {
+    "id": "island-twists",
+    "name": "Island Twists",
+    "aka": ["Boho twists", "Twist boho", "Twist com cachos", "Knotless twists", "Twist gypsy", "Island twist"],
+    "description": "Twists sem nó com cachinhos soltos pelo meio. Visual praiano e leve.",
+    "look": { "length": 0.75, "volume": 0.6, "layers": 0.2, "fringe": "none", "texture": "curly", "style": "twists" }
+  },
+  {
+    "id": "sisterlocks",
+    "name": "Sisterlocks",
+    "aka": ["Microlocs", "Micro locs", "Micro dread", "Sister locks", "Dread fininho"],
+    "description": "Dreads bem fininhos e delicados, que se mexem quase como cabelo solto.",
+    "look": { "length": 0.6, "volume": 0.5, "layers": 0.15, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "dreads-iniciais",
+    "name": "Dreads Iniciais",
+    "aka": ["Starter locs", "Dread inicial", "Comb coils", "Dreads curtos", "Início de dread"],
+    "description": "Dreads curtinhos no começo da formação, com enroladinhos certinhos.",
+    "look": { "length": 0.2, "volume": 0.55, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "twist-jumbo",
+    "name": "Twist Jumbo (Havana)",
+    "aka": ["Havana twists", "Jumbo twists", "Twist grosso", "Twist havana", "Twists grossos"],
+    "description": "Twists bem grossos e volumosos, rápidos de fazer e cheios de presença.",
+    "look": { "length": 0.75, "volume": 0.65, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "twists" }
+  },
+  {
+    "id": "box-braids-triangulares",
+    "name": "Box Braids Triangulares",
+    "aka": ["Triangle box braids", "Box braids triângulo", "Triangle braids", "Tranças com divisão em triângulo", "Box braids triangulo"],
+    "description": "Box braids com divisões em triângulo na cabeça. Detalhe moderno.",
+    "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  }
+]
