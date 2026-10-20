@@ -71,12 +71,9 @@ export default function Start({
 
       <section className="relative z-10 order-2 flex flex-col gap-4 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
         {!aiReady && (
-          <p
-            role="status"
-            className="flex gap-2 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200"
-          >
-            <Icon name="alert" size={20} className="shrink-0" />A IA ainda não está conectada (falta a chave FAL_KEY no
-            servidor). Dá para navegar, mas não gerar imagens.
+          <p role="status" className="flex gap-2 rounded-2xl bg-plum-50 px-4 py-3 text-sm font-bold text-plum-800">
+            <Icon name="sparkles" size={20} className="shrink-0" />
+            Modo demonstração: explore os cortes e as cores à vontade. A criação das imagens será ativada em breve.
           </p>
         )}
 

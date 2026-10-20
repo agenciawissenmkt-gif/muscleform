@@ -83,7 +83,7 @@ app.post('/api/auth/demo', (req, res) => {
     res.status(404).json({ error: 'Modo de teste desativado.' });
     return;
   }
-  const user = { email: 'teste@beautyandself.app', name: 'Modo teste' };
+  const user = { email: 'teste@beautyandself.app', name: 'Visitante' };
   setSession(req, res, user);
   res.json({ user });
 });

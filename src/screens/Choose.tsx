@@ -145,11 +145,32 @@ export default function Choose({
     </div>
   );
 
+  // Enquanto a IA não estiver ativada no servidor, o botão mostra um aviso
+  // simpático em vez de um termo técnico.
+  const [soon, setSoon] = useState(false);
+  useEffect(() => {
+    if (!soon) return;
+    const t = setTimeout(() => setSoon(false), 6000);
+    return () => clearTimeout(t);
+  }, [soon]);
   const generateButton = (
-    <Button size="xl" icon="sparkles" onClick={onGenerate} disabled={!ready || !aiReady} className="w-full">
-      {!aiReady ? 'IA não conectada' : ready ? 'Ver meu novo visual' : missing}
+    <Button
+      size="xl"
+      icon="sparkles"
+      onClick={() => (aiReady ? onGenerate() : setSoon(true))}
+      disabled={!ready}
+      className="w-full"
+    >
+      {ready ? 'Veja sua beleza' : missing}
     </Button>
   );
+  const soonNote = soon && !aiReady && (
+    <p role="status" className="pop-in mb-3 rounded-2xl bg-plum-50 px-3.5 py-2.5 text-sm font-bold text-plum-800">
+      ✨ A criação das imagens será ativada em breve. Por enquanto, explore à vontade os cortes e as cores!
+    </p>
+  );
+  // No celular: só uma linha discreta com o que foi escolhido (sem caixas).
+  const chosen = [mode !== 'color' && cut?.name, mode !== 'cut' && color?.name].filter(Boolean).join(' + ');
 
   return (
     <>
@@ -184,7 +205,10 @@ export default function Choose({
             <p className="mb-2 text-sm font-extrabold uppercase tracking-wider text-plum-600">Sua escolha</p>
             {summary}
             {error && <ErrorNote message={error} />}
-            <div className="mt-4">{generateButton}</div>
+            <div className="mt-4">
+              {soonNote}
+              {generateButton}
+            </div>
           </div>
         </aside>
 
@@ -322,7 +346,13 @@ export default function Choose({
       >
         <div className="mx-auto max-w-xl">
           {error && <ErrorNote message={error} />}
-          <div className="mb-2.5">{summary}</div>
+          {soonNote}
+          {chosen && (
+            <p className="mb-2 truncate text-center text-[0.95rem] font-bold text-plum-700">
+              <Icon name="check" size={16} strokeWidth={3} className="mr-1 inline-block align-[-2px]" />
+              {chosen}
+            </p>
+          )}
           {generateButton}
         </div>
       </div>
