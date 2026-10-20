@@ -1,0 +1,282 @@
+[
+  {
+    "id": "camadas-para-cachos",
+    "name": "Camadas para Cachos",
+    "aka": ["Corte em camadas cacheado", "Camadas cacheadas", "Corte para cacheadas", "Curly layers", "Layered curly cut", "Corte a seco em camadas"],
+    "description": "Camadas que soltam os cachos, tiram o peso e dão movimento e forma.",
+    "look": { "length": 0.6, "volume": 0.7, "layers": 0.75, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "corte-arredondado-cachos",
+    "name": "Corte Arredondado para Cachos",
+    "aka": ["Corte redondo cacheado", "Cachos arredondados", "Corte sem triângulo", "Round curly cut", "Round layers", "Corte anti-triangulo"],
+    "description": "Forma redondinha e equilibrada, sem aquele volume em triângulo nas pontas.",
+    "look": { "length": 0.45, "volume": 0.8, "layers": 0.7, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "shaggy-cacheado",
+    "name": "Shaggy Cacheado",
+    "aka": ["Curly shag", "Curly shaggy", "Shag cacheado", "Shaggy para cachos", "Shag curly haircut", "Corte shaggy cacheado"],
+    "description": "Camadas bem marcadas no topo e franjinha, com cachos cheios de volume.",
+    "look": { "length": 0.45, "volume": 0.85, "layers": 0.9, "fringe": "curtain", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "chanel-cacheado",
+    "name": "Chanel Cacheado",
+    "aka": ["Bob cacheado", "Curly bob", "Chanel para cachos", "Chanel crespo", "Chanel curto cacheado", "Bob curto cacheado"],
+    "description": "Chanel na altura do queixo, com cachos redondinhos e cheios de vida.",
+    "look": { "length": 0.3, "volume": 0.75, "layers": 0.4, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "long-bob-cacheado",
+    "name": "Long Bob Cacheado",
+    "aka": ["Curly lob", "Lob cacheado", "Long bob para cachos", "Chanel longo cacheado", "Long bob crespo", "Curly long bob"],
+    "description": "Cachos entre os ombros e a clavícula, com volume leve e fácil de cuidar.",
+    "look": { "length": 0.45, "volume": 0.7, "layers": 0.45, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "black-power",
+    "name": "Black Power",
+    "aka": ["Afro redondo", "Afro", "Blackpower", "Black power redondo", "Round afro", "Cabelo black"],
+    "description": "O clássico afro redondo, cheio e poderoso, em volta de toda a cabeça.",
+    "look": { "length": 0.35, "volume": 0.95, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "big-chop",
+    "name": "Big Chop (Transição)",
+    "aka": ["Big chop", "BC", "Transição capilar", "Transicao capilar", "Corte da transição", "Curtinho cacheado natural"],
+    "description": "Corte curtinho que tira as pontas lisas e deixa só os cachos naturais.",
+    "look": { "length": 0.15, "volume": 0.6, "layers": 0.3, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "cacheado-longo-definido",
+    "name": "Cacheado Longo Definido",
+    "aka": ["Cachos longos", "Cacheado longo", "Cachos definidos", "Cabelo cacheado comprido", "Long defined curls", "Long curly hair"],
+    "description": "Cachos longos, bem definidos e soltinhos, até o meio das costas.",
+    "look": { "length": 0.75, "volume": 0.7, "layers": 0.55, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "cacheado-3b-definido",
+    "name": "Cacheado 3B Definido",
+    "aka": ["Cacho 3B", "3B", "Cachos em espiral", "Cacheado definido", "Cachos médios", "Springy curls 3B"],
+    "description": "Cachos médios em espiral, cheios de balanço e muito bem definidos.",
+    "look": { "length": 0.5, "volume": 0.7, "layers": 0.55, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "cacheado-3c-definido",
+    "name": "Cacheado 3C Definido",
+    "aka": ["Cacho 3C", "3C", "Cachos fechados", "Cachos com fitagem", "Tight curls 3C", "Corkscrew curls"],
+    "description": "Cachos fechadinhos e densos, em espirais pequenas e cheias de volume.",
+    "look": { "length": 0.42, "volume": 0.8, "layers": 0.5, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "cacheado-3a-definido",
+    "name": "Cacheado 3A Definido",
+    "aka": ["Cacho 3A", "3A", "Cachos largos", "Cachos soltos", "Cacheado aberto", "Loose curls 3A"],
+    "description": "Cachos largos e soltinhos, em espirais grandes e bem definidas.",
+    "look": { "length": 0.6, "volume": 0.6, "layers": 0.5, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "ondulado-2b-natural",
+    "name": "Ondulado 2B Natural",
+    "aka": ["Onda 2B", "2B", "Ondulado definido", "Ondas em S", "Ondulado médio", "Wavy hair 2B"],
+    "description": "Ondas em S bem marcadas, com movimento natural desde o meio dos fios.",
+    "look": { "length": 0.55, "volume": 0.55, "layers": 0.55, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "ondulado-2c-natural",
+    "name": "Ondulado 2C Natural",
+    "aka": ["Onda 2C", "2C", "Ondulado volumoso", "Ondas fortes", "Ondulado quase cacheado", "Wavy curly 2C"],
+    "description": "Ondas fortes e volumosas, quase cachos, com muito movimento.",
+    "look": { "length": 0.6, "volume": 0.7, "layers": 0.6, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "ondulado-2a-natural",
+    "name": "Ondulado 2A Natural",
+    "aka": ["Onda 2A", "2A", "Ondulado leve", "Ondas suaves", "Ondulado natural", "Loose waves 2A"],
+    "description": "Ondas leves e soltinhas, quase lisas na raiz e mais marcadas nas pontas.",
+    "look": { "length": 0.72, "volume": 0.45, "layers": 0.5, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "crespo-4a-definido",
+    "name": "Crespo 4A Definido",
+    "aka": ["Crespo 4A", "4A", "Crespo definido", "Molinhas", "Cachos mola", "Defined coils 4A"],
+    "description": "Molinhas crespas bem definidas e brilhantes, com volume redondo.",
+    "look": { "length": 0.4, "volume": 0.8, "layers": 0.4, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "crespo-4c-longo",
+    "name": "Crespo 4C Longo",
+    "aka": ["Crespo 4C", "4C", "Afro longo", "Crespo longo", "Crespo comprido", "Long 4C hair"],
+    "description": "Crespo 4C longo e cheio, com muita densidade, volume e textura natural.",
+    "look": { "length": 0.6, "volume": 1, "layers": 0.35, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "crespo-4b-natural",
+    "name": "Crespo 4B Natural",
+    "aka": ["Crespo 4B", "4B", "Crespo zigue-zague", "Crespo fofinho", "Crespo natural", "Z-pattern coils"],
+    "description": "Fios crespos em zigue-zague, fofinhos e cheios, com forma bem redonda.",
+    "look": { "length": 0.38, "volume": 0.9, "layers": 0.35, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "devacut",
+    "name": "DevaCut",
+    "aka": ["Deva cut", "Corte Deva", "Corte a seco", "Corte cacho a cacho", "Dry cut", "DevaCurl cut"],
+    "description": "Corte a seco, cacho a cacho, que dá forma redonda e muito volume.",
+    "look": { "length": 0.5, "volume": 0.85, "layers": 0.8, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "cacheado-com-franja",
+    "name": "Cacheado com Franja",
+    "aka": ["Franja cacheada", "Cachos com franja", "Franja de cachos", "Curly bangs", "Curly fringe", "Cacheada com franja"],
+    "description": "Cachos com franjinha cacheada na testa, divertida e cheia de charme.",
+    "look": { "length": 0.5, "volume": 0.75, "layers": 0.65, "fringe": "full", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "juba-cacheada",
+    "name": "Juba Cacheada",
+    "aka": ["Juba", "Cabelo juba", "Cachos volumosos", "Volumão", "Big curly hair", "Voluminous curls"],
+    "description": "Cachos com muito, muito volume, cheios e soltos como uma juba de leão.",
+    "look": { "length": 0.55, "volume": 1, "layers": 0.7, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "afro-volumoso",
+    "name": "Afro Volumoso",
+    "aka": ["Crespo volumoso", "Afro grande", "Afro gigante", "Crespo solto", "Big afro", "Volume afro"],
+    "description": "Um afro bem grande e livre, com muito volume e textura natural.",
+    "look": { "length": 0.55, "volume": 1, "layers": 0.4, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "borboleta-cacheado",
+    "name": "Corte Borboleta Cacheado",
+    "aka": ["Curly butterfly cut", "Butterfly cacheado", "Borboleta cacheado", "Butterfly cut curly", "Camadas borboleta cacheadas"],
+    "description": "Camadas curtas no rosto que abrem os cachos como asas de borboleta.",
+    "look": { "length": 0.62, "volume": 0.8, "layers": 0.85, "fringe": "curtain", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "franja-cortina-cacheada",
+    "name": "Franja Cortina Cacheada",
+    "aka": ["Cortina cacheada", "Franja cortina para cachos", "Franja aberta cacheada", "Curly curtain bangs", "Curtain bangs curly"],
+    "description": "Franja cacheada aberta no meio, que emoldura o rosto com leveza.",
+    "look": { "length": 0.55, "volume": 0.7, "layers": 0.65, "fringe": "curtain", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "wolf-cut-cacheado",
+    "name": "Wolf Cut Cacheado",
+    "aka": ["Curly wolf cut", "Wolf cut curly", "Wolf cacheado", "Corte lobo cacheado", "Wolf cut para cachos"],
+    "description": "Muito volume no topo e pontas mais finas, com cachos rebeldes e modernos.",
+    "look": { "length": 0.48, "volume": 0.85, "layers": 0.95, "fringe": "wispy", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "twa-afro-curtinho",
+    "name": "TWA (Afro Curtinho)",
+    "aka": ["TWA", "Teeny weeny afro", "Afro curtinho", "Crespo curtinho", "Mini afro", "Short afro"],
+    "description": "Afro bem curtinho e redondinho, leve, prático e cheio de personalidade.",
+    "look": { "length": 0.06, "volume": 0.4, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "pixie-cacheado",
+    "name": "Pixie Cacheado",
+    "aka": ["Curly pixie", "Joãozinho cacheado", "Joaozinho cacheado", "Pixie cut cacheado", "Curto cacheado", "Pixie crespo"],
+    "description": "Curtinho e cheio de cachos no topo, com laterais e nuca bem limpas.",
+    "look": { "length": 0.12, "volume": 0.6, "layers": 0.5, "fringe": "wispy", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "afro-degrade",
+    "name": "Afro Degradê (Tapered)",
+    "aka": ["Tapered afro", "Tapered cut", "Afro com degradê", "Afro degrade", "Afro cônico", "Degradê crespo feminino"],
+    "description": "Laterais e nuca curtinhas, com mais volume crespo no topo da cabeça.",
+    "look": { "length": 0.12, "volume": 0.6, "layers": 0.6, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "afro-puff",
+    "name": "Afro Puff",
+    "aka": ["Puff", "Puff afro", "Afro puff alto", "Coque puff", "Rabo de cavalo crespo", "High puff"],
+    "description": "Cabelo crespo preso no alto, num pompom grande e fofinho.",
+    "look": { "length": 0.4, "volume": 0.85, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "abacaxi-pineapple",
+    "name": "Abacaxi (Pineapple)",
+    "aka": ["Pineapple", "Abacaxi cacheado", "Coque abacaxi", "Rabo alto cacheado", "Pineapple curls", "Pineapple updo"],
+    "description": "Cachos presos bem no alto da cabeça, caindo para a frente como um chafariz.",
+    "look": { "length": 0.55, "volume": 0.75, "layers": 0.5, "fringe": "none", "texture": "curly", "style": "updo" }
+  },
+  {
+    "id": "rezo-cut",
+    "name": "Rezo Cut",
+    "aka": ["Rëzo cut", "Corte Rezo", "Corte Rëzo", "Rezo", "Rezo haircut"],
+    "description": "Mantém o comprimento por igual e dá volume desde a raiz, sem perder a forma.",
+    "look": { "length": 0.6, "volume": 0.8, "layers": 0.55, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "mullet-cacheado",
+    "name": "Mullet Cacheado",
+    "aka": ["Curly mullet", "Mullet curly", "Mullet para cachos", "Mullet crespo", "Mullet feminino cacheado"],
+    "description": "Curto e cheio na frente e nos lados, mais comprido atrás, com cachos.",
+    "look": { "length": 0.42, "volume": 0.75, "layers": 0.85, "fringe": "wispy", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "corte-v-cacheado",
+    "name": "Corte em V Cacheado",
+    "aka": ["V cacheado", "V-cut cacheado", "Corte V para cachos", "Bico atrás cacheado", "Curly V-cut"],
+    "description": "Cachos longos com as pontas em V nas costas e camadas no rosto.",
+    "look": { "length": 0.72, "volume": 0.65, "layers": 0.7, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "afro-esticado-blowout",
+    "name": "Afro Esticado (Blowout)",
+    "aka": ["Blowout afro", "Crespo esticado", "Afro escovado", "Afro anos 70", "Blow out crespo", "Stretched afro"],
+    "description": "Crespo esticado no secador, macio e fofo, com um volume grande e redondo.",
+    "look": { "length": 0.5, "volume": 0.95, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "cacheado-lateral-raspada",
+    "name": "Cacheado com Lateral Raspada",
+    "aka": ["Undercut cacheado", "Lateral raspada cacheada", "Cacheado raspado do lado", "Sidecut cacheado", "Curly undercut", "Side shave curly"],
+    "description": "Um lado raspadinho e os cachos jogados para o outro lado. Ousado!",
+    "look": { "length": 0.48, "volume": 0.75, "layers": 0.55, "fringe": "side", "texture": "curly", "style": "shaved" }
+  },
+  {
+    "id": "cacheado-assimetrico",
+    "name": "Cacheado Assimétrico",
+    "aka": ["Bob assimétrico cacheado", "Assimétrico cacheado", "Chanel assimétrico cacheado", "Curly asymmetric bob", "Asymmetrical curls"],
+    "description": "Um lado mais comprido que o outro, com cachos cheios e um ar moderno.",
+    "look": { "length": 0.35, "volume": 0.75, "layers": 0.5, "fringe": "side", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "afro-com-franja",
+    "name": "Afro com Franja",
+    "aka": ["Crespo com franja", "Franja crespa", "Afro franja", "Afro bangs", "Coily bangs"],
+    "description": "Afro redondo com franjinha crespa na testa, moderno e fofo.",
+    "look": { "length": 0.38, "volume": 0.85, "layers": 0.5, "fringe": "full", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "dois-puffs",
+    "name": "Dois Puffs",
+    "aka": ["Puffs duplos", "Dois pompons", "Pompons crespos", "Two puffs", "Double puffs", "Afro puffs"],
+    "description": "Dois pompons crespos no alto da cabeça, um de cada lado. Fofo e alegre!",
+    "look": { "length": 0.35, "volume": 0.8, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "ouidad-cut",
+    "name": "Corte Ouidad",
+    "aka": ["Ouidad", "Ouidad cut", "Carving and slicing", "Carve and slice", "Corte quebra-cabeça"],
+    "description": "Técnica que encaixa os cachos como quebra-cabeça e tira o volume extra.",
+    "look": { "length": 0.55, "volume": 0.6, "layers": 0.7, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "moicano-crespo",
+    "name": "Moicano Crespo",
+    "aka": ["Moicano afro", "Moicano cacheado", "Mohawk crespo", "Coily mohawk", "Curly mohawk"],
+    "description": "Laterais raspadas e uma faixa de cachos crespos bem alta no meio.",
+    "look": { "length": 0.2, "volume": 0.75, "layers": 0.4, "fringe": "none", "texture": "coily", "style": "shaved" }
+  },
+  {
+    "id": "frohawk",
+    "name": "Frohawk",
+    "aka": ["Moicano sem raspar", "Moicano crespo preso", "Afro hawk", "Fro hawk", "Fauxhawk afro"],
+    "description": "Moicano afro sem raspar: laterais presas e volume alto no centro.",
+    "look": { "length": 0.4, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "updo" }
+  }
+]
