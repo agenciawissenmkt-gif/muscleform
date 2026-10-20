@@ -1,0 +1,205 @@
+[
+  {
+    "id": "camadas-longas",
+    "name": "Camadas Longas",
+    "aka": ["Long layers", "Corte em camadas", "Cabelo longo em camadas", "Camadas", "Longo com camadas", "Layered long hair"],
+    "description": "Cabelo comprido com camadas suaves que dão leveza e movimento.",
+    "look": { "length": 0.75, "volume": 0.5, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-em-v",
+    "name": "Corte em V",
+    "aka": ["V-cut", "V cut", "Corte V", "Corte em V longo", "Pontas em V", "V-shaped layers"],
+    "description": "Comprido, com as pontas formando um V nas costas. Leve e alongado.",
+    "look": { "length": 0.78, "volume": 0.45, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-reto-longo",
+    "name": "Corte Reto Longo",
+    "aka": ["Blunt cut longo", "Long blunt cut", "Corte reto", "Pontas retas", "One length", "Corte seco"],
+    "description": "Comprido e todo do mesmo tamanho, com as pontas retinhas e cheias.",
+    "look": { "length": 0.72, "volume": 0.4, "layers": 0.05, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "repicado-longo",
+    "name": "Repicado Longo",
+    "aka": ["Long choppy layers", "Cabelo longo repicado", "Corte repicado", "Repicado", "Longo repicado", "Choppy long hair"],
+    "description": "Comprido com várias camadas soltinhas, cheio de movimento e leveza.",
+    "look": { "length": 0.68, "volume": 0.55, "layers": 0.85, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-em-u",
+    "name": "Corte em U",
+    "aka": ["U-cut", "U cut", "Corte U", "Pontas em U", "Arredondado atrás", "U-shaped haircut"],
+    "description": "Comprido, com as pontas arredondadas nas costas, formando um U.",
+    "look": { "length": 0.75, "volume": 0.45, "layers": 0.45, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-borboleta-longo",
+    "name": "Corte Borboleta Longo",
+    "aka": ["Butterfly cut", "Long butterfly cut", "Butterfly haircut", "Corte butterfly", "Borboleta", "Butterfly longo"],
+    "description": "Camadas que abrem como asas de borboleta, com muito volume e balanço.",
+    "look": { "length": 0.68, "volume": 0.8, "layers": 0.8, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-no-rosto-longo",
+    "name": "Camadas no Rosto",
+    "aka": ["Face framing", "Face-framing layers", "Moldura no rosto", "Repicado na frente", "Camadas na frente", "Mechas na frente"],
+    "description": "Comprido atrás e com camadas na frente que valorizam o rosto.",
+    "look": { "length": 0.72, "volume": 0.45, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "desfiado-longo",
+    "name": "Desfiado Longo",
+    "aka": ["Corte desfiado", "Navalhado longo", "Corte na navalha", "Long razor cut", "Desfiado", "Razor cut"],
+    "description": "Feito na navalha, com pontas fininhas e leves que balançam fácil.",
+    "look": { "length": 0.7, "volume": 0.4, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-invisiveis",
+    "name": "Camadas Invisíveis",
+    "aka": ["Camadas invisiveis", "Hidden layers", "Invisible layers", "Camadas escondidas", "Camadas internas", "Internal layers"],
+    "description": "Parece todo do mesmo tamanho, mas tem camadas escondidas que dão volume.",
+    "look": { "length": 0.72, "volume": 0.55, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "escadinha-longa",
+    "name": "Escadinha Longa",
+    "aka": ["Corte em escadinha", "Escadinha", "Escadinha na frente", "Long stepped layers", "Degradê na frente", "Degrade na frente"],
+    "description": "Camadas na frente em degraus, como uma escadinha. Clássico e bonito.",
+    "look": { "length": 0.7, "volume": 0.45, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "shaggy-longo",
+    "name": "Shaggy Longo",
+    "aka": ["Long shag", "Shag longo", "Shaggy", "Long shaggy cut", "Corte shaggy", "Shag"],
+    "description": "Muitas camadas desfiadas e despojadas, com volume no alto da cabeça.",
+    "look": { "length": 0.65, "volume": 0.7, "layers": 0.95, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-sereia",
+    "name": "Corte Sereia",
+    "aka": ["Mermaid hair", "Mermaid layers", "Cabelo de sereia", "Sereia", "Ondas de sereia", "Mermaid waves"],
+    "description": "Bem comprido, com camadas delicadas e ondas soltas de sereia.",
+    "look": { "length": 0.88, "volume": 0.6, "layers": 0.55, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "corte-bordado",
+    "name": "Corte Bordado",
+    "aka": ["Pontas bordadas", "Pontas desfiadas", "Bordado", "Pontas picotadas", "Textured ends", "Point cut ends"],
+    "description": "Quase reto, com as pontas desfiadas e leves, como um bordado.",
+    "look": { "length": 0.7, "volume": 0.35, "layers": 0.25, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-cascata",
+    "name": "Corte em Cascata",
+    "aka": ["Cascata", "Camadas em cascata", "Waterfall layers", "Cascade layers", "Cascade haircut"],
+    "description": "Camadas que caem uma sobre a outra, como uma cascata. Muito movimento.",
+    "look": { "length": 0.75, "volume": 0.6, "layers": 0.85, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "ghost-layers-longo",
+    "name": "Ghost Layers",
+    "aka": ["Camadas fantasma", "Ghost layers longo", "Camadas leves", "Camadas de ar", "Ghost haircut"],
+    "description": "Camadas quase invisíveis que deixam o cabelo leve e com balanço.",
+    "look": { "length": 0.72, "volume": 0.5, "layers": 0.35, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "wolf-cut-longo",
+    "name": "Wolf Cut Longo",
+    "aka": ["Long wolf cut", "Wolf cut", "Corte lobo", "Corte lobo longo", "Wolf longo", "Wolf haircut"],
+    "description": "Muitas camadas no alto e pontas compridas e leves. Moderno e ousado.",
+    "look": { "length": 0.62, "volume": 0.75, "layers": 0.95, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-blowout-anos-90",
+    "name": "Blowout Anos 90",
+    "aka": ["90s blowout", "Supermodel blowout", "Camadas anos 90", "Escova anos 90", "Bouncy blowout", "90s layers"],
+    "description": "Escova volumosa dos anos 90, com camadas e pontas cheias de balanço.",
+    "look": { "length": 0.62, "volume": 0.9, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "v-profundo",
+    "name": "V Profundo",
+    "aka": ["Deep V cut", "Corte em V profundo", "V marcado", "Corte em V acentuado", "V pontudo", "Deep V-shaped layers"],
+    "description": "V bem marcado: bem comprido no meio das costas e mais curto dos lados.",
+    "look": { "length": 0.85, "volume": 0.4, "layers": 0.7, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-rapunzel",
+    "name": "Corte Rapunzel",
+    "aka": ["Cabelo na cintura", "Longuíssimo", "Longuissimo", "Rapunzel hair", "Waist-length hair", "Cabelo muito longo"],
+    "description": "Cabelo bem comprido, até a cintura, cheio e saudável.",
+    "look": { "length": 0.98, "volume": 0.45, "layers": 0.2, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-arredondadas",
+    "name": "Camadas Arredondadas",
+    "aka": ["Round layers", "Corte arredondado", "Round layered cut", "Camadas redondas", "Rounded layers"],
+    "description": "Camadas redondinhas que dão volume e um formato bem macio.",
+    "look": { "length": 0.68, "volume": 0.7, "layers": 0.7, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "feathered-longo",
+    "name": "Feathered Longo",
+    "aka": ["Camadas plumadas", "Feathered layers", "Corte plumado", "Feathered hair", "Long feathered cut", "Corte pluma"],
+    "description": "Camadas leves penteadas para trás, como penas. Solto e volumoso.",
+    "look": { "length": 0.68, "volume": 0.65, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-bombshell",
+    "name": "Camadas Bombshell",
+    "aka": ["Bombshell hair", "Bombshell layers", "Victoria's Secret hair", "Cabelo de Angel", "Cabelo volumoso", "Ondas volumosas"],
+    "description": "Volume de diva, com ondas grandes e soltas e repartido de lado.",
+    "look": { "length": 0.72, "volume": 0.95, "layers": 0.75, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "camadas-pontas-para-fora",
+    "name": "Camadas com Pontas para Fora",
+    "aka": ["Pontas para fora", "Flipped ends", "Flipped-out layers", "Pontas viradas", "Flip", "Long flipped layers"],
+    "description": "Comprido com camadas e as pontas viradas para fora, cheias de charme.",
+    "look": { "length": 0.62, "volume": 0.65, "layers": 0.65, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "longo-assimetrico",
+    "name": "Longo Assimétrico",
+    "aka": ["Longo assimetrico", "Asymmetrical long cut", "Assimétrico longo", "Corte assimétrico", "Um lado maior", "Asymmetric long hair"],
+    "description": "Um lado mais curto e o outro mais comprido. Moderno e marcante.",
+    "look": { "length": 0.65, "volume": 0.45, "layers": 0.4, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-coreanas",
+    "name": "Camadas Coreanas",
+    "aka": ["Korean layered cut", "C-curl", "Corte coreano", "Pontas para dentro", "Korean long layers", "Corte C-curl"],
+    "description": "Estilo coreano: liso, brilhante e com as pontas viradas para dentro.",
+    "look": { "length": 0.65, "volume": 0.55, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "hush-cut-longo",
+    "name": "Hush Cut",
+    "aka": ["Hush cut longo", "Corte hush", "Korean hush cut", "Corte coreano leve", "Camadas suaves coreanas"],
+    "description": "Estilo coreano leve, com camadas soltinhas e franjinha bem fininha.",
+    "look": { "length": 0.62, "volume": 0.45, "layers": 0.8, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "longo-lateral-raspada",
+    "name": "Longo com Lateral Raspada",
+    "aka": ["Sidecut", "Side shave", "Lateral raspada longo", "Undercut lateral", "Raspado do lado", "Sidecut longo"],
+    "description": "Comprido, com um ladinho da cabeça raspado. Ousado e moderno.",
+    "look": { "length": 0.7, "volume": 0.45, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "jellyfish-cut-longo",
+    "name": "Jellyfish Cut",
+    "aka": ["Corte água-viva", "Corte agua viva", "Água-viva", "Jellyfish haircut", "Corte em dois níveis", "Corte em dois niveis"],
+    "description": "Parte de cima curtinha e reta, e a parte de baixo bem comprida.",
+    "look": { "length": 0.68, "volume": 0.4, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "octopus-cut-longo",
+    "name": "Octopus Cut",
+    "aka": ["Corte polvo", "Polvo", "Octopus haircut", "Camadas polvo", "Octopus cut longo"],
+    "description": "Volume redondo em cima e pontas compridas e fininhas embaixo.",
+    "look": { "length": 0.62, "volume": 0.65, "layers": 0.9, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  }
+]

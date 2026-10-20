@@ -1,0 +1,810 @@
+[
+  {
+    "id": "chanel-classico",
+    "name": "Chanel Clássico",
+    "aka": [
+      "Chanel",
+      "Chanel reto",
+      "Corte chanel",
+      "Bob clássico",
+      "Classic bob",
+      "Chin-length bob"
+    ],
+    "description": "O chanel de sempre: reto, na altura do queixo, elegante e fácil de arrumar.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.45,
+      "layers": 0.1,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob",
+    "name": "Long Bob",
+    "aka": [
+      "Lob",
+      "Longbob",
+      "Bob alongado",
+      "Chanel nos ombros",
+      "Long bob reto",
+      "Shoulder-length bob"
+    ],
+    "description": "Corte na altura dos ombros, moderno e versátil, fácil de soltar ou prender.",
+    "look": {
+      "length": 0.43,
+      "volume": 0.45,
+      "layers": 0.25,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-de-bico",
+    "name": "Chanel de Bico",
+    "aka": [
+      "Chanel bicudo",
+      "Chanel com bico",
+      "Bob A-line",
+      "A-line bob",
+      "Bob angulado",
+      "Angled bob"
+    ],
+    "description": "Mais curtinho atrás e mais comprido na frente, formando um bico bonito.",
+    "look": {
+      "length": 0.32,
+      "volume": 0.45,
+      "layers": 0.2,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-com-franja",
+    "name": "Chanel com Franja",
+    "aka": [
+      "Chanel franja reta",
+      "Bob com franja",
+      "Chanel e franja",
+      "Bob with bangs",
+      "Blunt bob with bangs"
+    ],
+    "description": "Chanel na altura do queixo com franja reta, um charme clássico e jovem.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.45,
+      "layers": 0.1,
+      "fringe": "full",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-repicado",
+    "name": "Chanel Repicado",
+    "aka": [
+      "Chanel desfiado",
+      "Bob repicado",
+      "Bob desfiado",
+      "Bob em camadas",
+      "Layered bob",
+      "Choppy bob"
+    ],
+    "description": "Chanel com camadas e pontas desfiadas, cheio de movimento e leveza.",
+    "look": {
+      "length": 0.31,
+      "volume": 0.55,
+      "layers": 0.65,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-ondulado",
+    "name": "Long Bob Ondulado",
+    "aka": [
+      "Lob ondulado",
+      "Long bob com ondas",
+      "Lob praiano",
+      "Wavy lob",
+      "Beach wave lob"
+    ],
+    "description": "Long bob nos ombros com ondas soltinhas, natural e cheio de movimento.",
+    "look": {
+      "length": 0.43,
+      "volume": 0.6,
+      "layers": 0.3,
+      "fringe": "none",
+      "texture": "wavy",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-invertido",
+    "name": "Chanel Invertido",
+    "aka": [
+      "Bob invertido",
+      "Chanel com nuca curta",
+      "Bob graduado atrás",
+      "Stacked bob",
+      "Inverted bob"
+    ],
+    "description": "Nuca curtinha com volume atrás e frente mais longa, moderno e prático.",
+    "look": {
+      "length": 0.27,
+      "volume": 0.6,
+      "layers": 0.5,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-de-bico",
+    "name": "Long Bob de Bico",
+    "aka": [
+      "Lob de bico",
+      "Long bob angulado",
+      "Long bob A-line",
+      "A-line lob",
+      "Angled lob"
+    ],
+    "description": "Long bob mais curto atrás e mais longo na frente, chegando perto do colo.",
+    "look": {
+      "length": 0.45,
+      "volume": 0.4,
+      "layers": 0.2,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-repicado",
+    "name": "Long Bob Repicado",
+    "aka": [
+      "Lob repicado",
+      "Long bob desfiado",
+      "Long bob com camadas",
+      "Layered lob",
+      "Textured lob"
+    ],
+    "description": "Long bob com camadas leves e mechas na frente que dão movimento.",
+    "look": {
+      "length": 0.44,
+      "volume": 0.55,
+      "layers": 0.6,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-longo",
+    "name": "Chanel Longo",
+    "aka": [
+      "Chanel médio",
+      "Bob médio",
+      "Bob no pescoço",
+      "Long chanel",
+      "Mid-length bob",
+      "Neck-length bob"
+    ],
+    "description": "Chanel um pouco abaixo do queixo, no meio do pescoço. Fácil e elegante.",
+    "look": {
+      "length": 0.36,
+      "volume": 0.45,
+      "layers": 0.15,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-curto",
+    "name": "Chanel Curto",
+    "aka": [
+      "Chanel curtinho",
+      "Bob curto",
+      "Bob na mandíbula",
+      "Short bob",
+      "Jaw-length bob"
+    ],
+    "description": "Chanel curtinho na linha do maxilar, prático e cheio de personalidade.",
+    "look": {
+      "length": 0.25,
+      "volume": 0.45,
+      "layers": 0.15,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-ondulado",
+    "name": "Chanel Ondulado",
+    "aka": [
+      "Bob ondulado",
+      "Chanel com ondas",
+      "Chanel praiano",
+      "Wavy bob",
+      "Beach wave bob"
+    ],
+    "description": "Chanel na altura do queixo com ondas leves, solto e super charmoso.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.6,
+      "layers": 0.3,
+      "fringe": "none",
+      "texture": "wavy",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "micro-bob",
+    "name": "Micro Bob",
+    "aka": [
+      "Micro chanel",
+      "Chanel bem curtinho",
+      "Bob curtíssimo",
+      "Mini bob",
+      "Ear-length bob"
+    ],
+    "description": "Chanel bem curtinho, na altura da orelha. Ousado, leve e moderno.",
+    "look": {
+      "length": 0.2,
+      "volume": 0.4,
+      "layers": 0.15,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-franja-cortina",
+    "name": "Long Bob com Franja Cortina",
+    "aka": [
+      "Lob com franja cortina",
+      "Long bob com franja aberta",
+      "Long bob com franja",
+      "Lob with curtain bangs",
+      "Curtain bangs lob"
+    ],
+    "description": "Long bob nos ombros com franja aberta no meio, leve e moderno.",
+    "look": {
+      "length": 0.43,
+      "volume": 0.5,
+      "layers": 0.35,
+      "fringe": "curtain",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-franja-cortina",
+    "name": "Chanel com Franja Cortina",
+    "aka": [
+      "Chanel franja aberta",
+      "Chanel franja dividida",
+      "Bob com franja cortina",
+      "Bob with curtain bangs",
+      "Curtain bangs bob"
+    ],
+    "description": "Chanel na altura do queixo com franja aberta no meio, leve e jovem.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.5,
+      "layers": 0.3,
+      "fringe": "curtain",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-italiano",
+    "name": "Bob Italiano",
+    "aka": [
+      "Italian bob",
+      "Chanel italiano",
+      "Bob encorpado",
+      "Bob volumoso",
+      "Chanel volumoso"
+    ],
+    "description": "Chanel encorpado entre o queixo e o pescoço, com volume e caimento rico.",
+    "look": {
+      "length": 0.33,
+      "volume": 0.7,
+      "layers": 0.25,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "french-bob",
+    "name": "French Bob",
+    "aka": [
+      "Bob francês",
+      "Chanel francês",
+      "Bob parisiense",
+      "French bob com franja",
+      "Carré français"
+    ],
+    "description": "Chanel curtinho, entre a orelha e o queixo, com franja e ar parisiense.",
+    "look": {
+      "length": 0.24,
+      "volume": 0.45,
+      "layers": 0.2,
+      "fringe": "full",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-assimetrico",
+    "name": "Chanel Assimétrico",
+    "aka": [
+      "Bob assimétrico",
+      "Chanel com um lado maior",
+      "Bob desigual",
+      "Asymmetrical bob",
+      "Asymmetric bob"
+    ],
+    "description": "Um lado mais comprido que o outro: chanel moderno e cheio de estilo.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.45,
+      "layers": 0.25,
+      "fringe": "side",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-franja-lateral",
+    "name": "Chanel com Franja Lateral",
+    "aka": [
+      "Chanel franja de lado",
+      "Chanel franja longa",
+      "Bob com franja lateral",
+      "Bob with side bangs",
+      "Side-swept bangs bob"
+    ],
+    "description": "Chanel no queixo com franja de lado, delicado e fácil de usar.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.45,
+      "layers": 0.2,
+      "fringe": "side",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-texturizado",
+    "name": "Bob Texturizado",
+    "aka": [
+      "Chanel texturizado",
+      "Chanel bagunçado",
+      "Bob navalhado",
+      "Messy bob",
+      "Textured bob",
+      "Razor bob"
+    ],
+    "description": "Chanel com pontas leves e jeitinho despojado, bonito sem esforço.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.55,
+      "layers": 0.45,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-reto-polido",
+    "name": "Bob Reto Polido",
+    "aka": [
+      "Chanel liso espelhado",
+      "Chanel reto liso",
+      "Blunt bob",
+      "Glass bob",
+      "Sleek bob",
+      "Glass hair bob"
+    ],
+    "description": "Chanel reto e liso espelhado, com pontas retinhas e muito brilho.",
+    "look": {
+      "length": 0.28,
+      "volume": 0.25,
+      "layers": 0,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "clavicut",
+    "name": "Clavicut",
+    "aka": [
+      "Long bob na clavícula",
+      "Lob reto",
+      "Long bob reto",
+      "Collarbone bob",
+      "Clavicut lob"
+    ],
+    "description": "Corte reto na altura da clavícula, prático e com pontas encorpadas.",
+    "look": {
+      "length": 0.5,
+      "volume": 0.4,
+      "layers": 0.05,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-nuca-raspada",
+    "name": "Chanel com Nuca Raspada",
+    "aka": [
+      "Chanel nuca batida",
+      "Chanel com undercut",
+      "Bob raspado atrás",
+      "Undercut bob",
+      "Nape undercut bob"
+    ],
+    "description": "Chanel com a nuca raspadinha por baixo, ousado e fresquinho.",
+    "look": {
+      "length": 0.28,
+      "volume": 0.45,
+      "layers": 0.3,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-anos-90",
+    "name": "Bob Anos 90",
+    "aka": [
+      "Chanel anos 90",
+      "Bob noventinha",
+      "Bob escovado anos 90",
+      "90s bob",
+      "Nineties bob"
+    ],
+    "description": "Chanel com escova volumosa e pontas para dentro, inspirado nos anos 90.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.65,
+      "layers": 0.3,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "micro-bob-franja-curtinha",
+    "name": "Micro Bob com Franja Curtinha",
+    "aka": [
+      "Micro chanel com franja",
+      "Chanel com franjinha",
+      "Bob com franja curta",
+      "Micro bob with baby bangs",
+      "Baby bangs bob"
+    ],
+    "description": "Chanel bem curto com franjinha curtinha, divertido e cheio de atitude.",
+    "look": {
+      "length": 0.2,
+      "volume": 0.4,
+      "layers": 0.1,
+      "fringe": "micro",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "chanel-de-bico-acentuado",
+    "name": "Chanel de Bico Acentuado",
+    "aka": [
+      "Chanel bico longo",
+      "Bob super angulado",
+      "Bob angular",
+      "Extreme A-line bob",
+      "Concave bob"
+    ],
+    "description": "Nuca bem curta e frente bem longa: um bico marcante e poderoso.",
+    "look": {
+      "length": 0.38,
+      "volume": 0.45,
+      "layers": 0.35,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-curvy",
+    "name": "Bob Curvy",
+    "aka": [
+      "Bob com pontas para dentro",
+      "Chanel pontas para dentro",
+      "Bob arredondado",
+      "Curvy bob",
+      "Curved bob",
+      "C-curl bob"
+    ],
+    "description": "Chanel com as pontas curvadas para dentro, formando um contorno macio.",
+    "look": {
+      "length": 0.32,
+      "volume": 0.55,
+      "layers": 0.2,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-graduado",
+    "name": "Bob Graduado (Wedge)",
+    "aka": [
+      "Bob em cunha",
+      "Chanel graduado",
+      "Bob nuca curta",
+      "Wedge bob",
+      "Graduated bob"
+    ],
+    "description": "Chanel curtinho com camadas atrás que dão volume e formato arredondado.",
+    "look": {
+      "length": 0.2,
+      "volume": 0.55,
+      "layers": 0.6,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "cloud-bob",
+    "name": "Cloud Bob",
+    "aka": [
+      "Bob nuvem",
+      "Chanel nuvem",
+      "Bob fofinho",
+      "Soft bob",
+      "Fluffy bob"
+    ],
+    "description": "Chanel macio e fofinho como uma nuvem, com volume leve e pontas suaves.",
+    "look": {
+      "length": 0.4,
+      "volume": 0.75,
+      "layers": 0.4,
+      "fringe": "none",
+      "texture": "wavy",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "box-bob",
+    "name": "Box Bob",
+    "aka": [
+      "Bob quadrado",
+      "Chanel quadrado",
+      "Bob reto encorpado",
+      "Square bob",
+      "Boxy bob"
+    ],
+    "description": "Chanel reto e encorpado com formato quadradinho, forte e moderno.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.6,
+      "layers": 0.05,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bubble-bob",
+    "name": "Bubble Bob",
+    "aka": [
+      "Bob bolha",
+      "Chanel bolha",
+      "Bob balão",
+      "Bob redondo volumoso",
+      "Bouncy bob"
+    ],
+    "description": "Chanel redondinho e cheio de volume, com pontas viradas para dentro.",
+    "look": {
+      "length": 0.28,
+      "volume": 0.85,
+      "layers": 0.3,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-assimetrico",
+    "name": "Long Bob Assimétrico",
+    "aka": [
+      "Lob assimétrico",
+      "Long bob com um lado maior",
+      "Asymmetrical lob",
+      "Asymmetric long bob"
+    ],
+    "description": "Long bob com um lado mais comprido que o outro, moderno e marcante.",
+    "look": {
+      "length": 0.45,
+      "volume": 0.45,
+      "layers": 0.25,
+      "fringe": "side",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "long-bob-franja-reta",
+    "name": "Long Bob com Franja Reta",
+    "aka": [
+      "Lob com franja",
+      "Long bob com franja cheia",
+      "Long bob e franja",
+      "Lob with bangs",
+      "Blunt bangs lob"
+    ],
+    "description": "Long bob nos ombros com franja reta na sobrancelha, lindo e marcante.",
+    "look": {
+      "length": 0.43,
+      "volume": 0.45,
+      "layers": 0.2,
+      "fringe": "full",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "birkin-bob",
+    "name": "Birkin Bob",
+    "aka": [
+      "Bob Jane Birkin",
+      "Chanel Birkin",
+      "Bob com franja desfiada",
+      "Bob franja leve",
+      "Birkin bangs bob"
+    ],
+    "description": "Chanel despojado com franja leve e desfiada, com charme francês.",
+    "look": {
+      "length": 0.33,
+      "volume": 0.5,
+      "layers": 0.4,
+      "fringe": "wispy",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "butterfly-bob",
+    "name": "Butterfly Bob",
+    "aka": [
+      "Bob borboleta",
+      "Chanel borboleta",
+      "Bob com camadas na frente",
+      "Butterfly lob",
+      "Butterfly cut bob"
+    ],
+    "description": "Chanel com camadas na frente que se abrem como asas, cheio de volume.",
+    "look": {
+      "length": 0.4,
+      "volume": 0.7,
+      "layers": 0.75,
+      "fringe": "curtain",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-pontas-para-fora",
+    "name": "Bob com Pontas para Fora",
+    "aka": [
+      "Chanel pontas para fora",
+      "Bob virado para fora",
+      "Flipped bob",
+      "Flip bob",
+      "Bob flip"
+    ],
+    "description": "Chanel com as pontinhas viradas para fora, divertido e cheio de charme.",
+    "look": {
+      "length": 0.32,
+      "volume": 0.55,
+      "layers": 0.2,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-geometrico",
+    "name": "Bob Geométrico",
+    "aka": [
+      "Chanel geométrico",
+      "Bob de precisão",
+      "Bob com linhas marcadas",
+      "Geometric bob",
+      "Precision bob"
+    ],
+    "description": "Chanel de linhas bem retas e marcadas, com franja certinha. Moderno!",
+    "look": {
+      "length": 0.27,
+      "volume": 0.3,
+      "layers": 0.05,
+      "fringe": "full",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-franja-bottleneck",
+    "name": "Bob com Franja Bottleneck",
+    "aka": [
+      "Bottleneck bob",
+      "Chanel com franja bottleneck",
+      "Bob franja gargalo",
+      "Franja garrafa",
+      "Bottleneck bangs bob"
+    ],
+    "description": "Chanel com franja curtinha no meio e mais longa dos lados. Super atual!",
+    "look": {
+      "length": 0.33,
+      "volume": 0.5,
+      "layers": 0.35,
+      "fringe": "curtain",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-coreano",
+    "name": "Bob Coreano",
+    "aka": [
+      "Chanel coreano",
+      "Bob com franja coreana",
+      "Tassel cut",
+      "Korean bob",
+      "See-through bangs bob",
+      "K-bob"
+    ],
+    "description": "Chanel reto e liso no estilo coreano, com franjinha leve e fininha.",
+    "look": {
+      "length": 0.33,
+      "volume": 0.3,
+      "layers": 0.05,
+      "fringe": "wispy",
+      "texture": "straight",
+      "style": "loose"
+    }
+  },
+  {
+    "id": "bob-wet-look",
+    "name": "Bob Wet Look",
+    "aka": [
+      "Chanel molhado",
+      "Bob efeito molhado",
+      "Chanel penteado para trás",
+      "Wet look bob",
+      "Slicked-back bob"
+    ],
+    "description": "Chanel penteado para trás com efeito molhado, chique para festas.",
+    "look": {
+      "length": 0.3,
+      "volume": 0.15,
+      "layers": 0.1,
+      "fringe": "none",
+      "texture": "straight",
+      "style": "loose"
+    }
+  }
+]

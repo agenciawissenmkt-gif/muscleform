@@ -1,0 +1,212 @@
+[
+  {
+    "id": "repicado-medio",
+    "name": "Repicado Médio",
+    "aka": ["Médio repicado", "Medio repicado", "Corte repicado", "Repicado no ombro", "Layered medium cut", "Choppy layers"],
+    "description": "Repicado na altura dos ombros, com pontas leves e muito movimento.",
+    "look": { "length": 0.45, "volume": 0.55, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-medias",
+    "name": "Médio em Camadas",
+    "aka": ["Camadas médias", "Camadas medias", "Medio em camadas", "Corte em camadas", "Medium layers", "Layered cut"],
+    "description": "Camadas suaves e bem misturadas na altura da clavícula. Clássico e elegante.",
+    "look": { "length": 0.52, "volume": 0.5, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-reto-medio",
+    "name": "Corte Reto Médio",
+    "aka": ["Médio reto", "Medio reto", "Corte reto", "Blunt cut", "Blunt medium cut", "One length"],
+    "description": "Pontas retinhas e cheias, um pouco abaixo da clavícula. Simples e chique.",
+    "look": { "length": 0.55, "volume": 0.45, "layers": 0.05, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-v-medio",
+    "name": "Corte em V Médio",
+    "aka": ["Corte em V", "Corte V", "Corte em V medio", "V-cut", "V-shaped layers", "Bico atrás"],
+    "description": "Mais comprido no meio das costas, formando um V, com camadas leves.",
+    "look": { "length": 0.58, "volume": 0.45, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-borboleta-medio",
+    "name": "Corte Borboleta Médio",
+    "aka": ["Butterfly cut", "Butterfly cut médio", "Corte borboleta", "Butterfly haircut", "Butterfly layers", "Camadas borboleta"],
+    "description": "Camadas curtas na frente e muito volume, lembrando asas de borboleta.",
+    "look": { "length": 0.52, "volume": 0.8, "layers": 0.85, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "desfiado-medio",
+    "name": "Desfiado Médio",
+    "aka": ["Ponta desfiada", "Pontas desfiadas", "Corte desfiado", "Corte na navalha", "Razor cut", "Feathered ends"],
+    "description": "Pontas finas e levinhas, feitas na navalha, com caimento solto.",
+    "look": { "length": 0.47, "volume": 0.4, "layers": 0.45, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "shaggy-medio",
+    "name": "Shaggy Médio",
+    "aka": ["Shag", "Shag médio", "Shag medio", "Modern shag", "Medium shag", "Corte shaggy"],
+    "description": "Muitas camadas desfiadas, volume no topo e franjinha leve. Despojado!",
+    "look": { "length": 0.42, "volume": 0.7, "layers": 0.9, "fringe": "wispy", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "corte-u-medio",
+    "name": "Corte em U Médio",
+    "aka": ["Corte em U", "Corte U", "Corte em U medio", "U-cut", "U-shaped haircut", "Corte arredondado"],
+    "description": "Pontas cheias que fazem uma curva redonda nas costas, como a letra U.",
+    "look": { "length": 0.56, "volume": 0.5, "layers": 0.5, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-medias-franja-cortina",
+    "name": "Camadas Médias com Franja Cortina",
+    "aka": ["Médio com franja cortina", "Medio com franja cortina", "Franja cortina", "Franja de cortina", "Curtain bangs", "Curtain bangs with layers"],
+    "description": "Camadas suaves com franja aberta no meio, caindo para os dois lados.",
+    "look": { "length": 0.5, "volume": 0.55, "layers": 0.7, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "escadinha-media",
+    "name": "Escadinha Média",
+    "aka": ["Corte escadinha", "Escadinha", "Escadinha na frente", "Corte em escada", "Step cut", "Degraus na frente"],
+    "description": "Degraus bem marcados na frente do cabelo, do queixo até a clavícula.",
+    "look": { "length": 0.55, "volume": 0.45, "layers": 0.55, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "wolf-cut-medio",
+    "name": "Wolf Cut",
+    "aka": ["Corte lobo", "Corte wolf", "Wolf cut médio", "Wolf cut medio", "Wolf haircut", "Wolfcut"],
+    "description": "Muitas camadas, volume no topo e pontas mais compridas. Moderno e ousado.",
+    "look": { "length": 0.47, "volume": 0.8, "layers": 0.95, "fringe": "curtain", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "medio-liso-escovado",
+    "name": "Médio Liso Escovado",
+    "aka": ["Liso espelhado", "Liso polido", "Escova lisa", "Progressiva", "Glass hair", "Sleek straight"],
+    "description": "Cabelo médio bem lisinho, brilhante e alinhado, como depois da escova.",
+    "look": { "length": 0.55, "volume": 0.3, "layers": 0.25, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-ondas-soltas",
+    "name": "Médio com Ondas Soltas",
+    "aka": ["Ondas desalinhadas", "Ondas de praia", "Médio ondulado", "Medio ondulado", "Beach waves", "Wavy layers"],
+    "description": "Ondas soltinhas e naturais, com jeito de quem acabou de voltar da praia.",
+    "look": { "length": 0.52, "volume": 0.6, "layers": 0.55, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "mullet-feminino",
+    "name": "Mullet Feminino",
+    "aka": ["Mullet", "Mullet moderno", "Mullet repicado", "Corte mullet", "Modern mullet", "Mullet medio"],
+    "description": "Curtinho na frente e nas laterais, mais comprido atrás. Estilo rock.",
+    "look": { "length": 0.42, "volume": 0.6, "layers": 0.85, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "camadas-invisiveis-medio",
+    "name": "Médio com Camadas Invisíveis",
+    "aka": ["Camadas invisíveis", "Camadas invisiveis", "Camadas fantasma", "Camadas internas", "Ghost layers", "Invisible layers"],
+    "description": "Parece corte reto, mas tem camadas escondidas que deixam o cabelo leve.",
+    "look": { "length": 0.55, "volume": 0.45, "layers": 0.35, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "picotado-medio",
+    "name": "Picotado Médio",
+    "aka": ["Corte picotado", "Pontas picotadas", "Picotado", "Medio picotado", "Choppy cut", "Choppy medium"],
+    "description": "Pontas recortadas em mechas desiguais, com efeito moderno e despojado.",
+    "look": { "length": 0.44, "volume": 0.5, "layers": 0.5, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-anos-90",
+    "name": "Médio Anos 90",
+    "aka": ["Camadas anos 90", "Corte anos 90", "Escova anos 90", "90s layers", "Bouncy blowout", "90s blowout"],
+    "description": "Camadas com escova redonda, pontas para trás e muito balanço.",
+    "look": { "length": 0.52, "volume": 0.85, "layers": 0.8, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-pontas-para-dentro",
+    "name": "Médio com Pontas para Dentro",
+    "aka": ["Pontas para dentro", "Pontas viradas para dentro", "Escova modelada", "C-curl", "Corte coreano C-curl", "Bevel cut"],
+    "description": "Pontas arredondadas viradas para dentro, com escova lisa e elegante.",
+    "look": { "length": 0.48, "volume": 0.55, "layers": 0.45, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-pontas-para-fora",
+    "name": "Médio com Pontas para Fora",
+    "aka": ["Pontas para fora", "Pontas viradas para fora", "Flipped ends", "Flipped layers", "Flicks", "Flip"],
+    "description": "Camadas com as pontinhas viradas para fora. Divertido e cheio de charme.",
+    "look": { "length": 0.48, "volume": 0.6, "layers": 0.6, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "kitty-cut",
+    "name": "Kitty Cut",
+    "aka": ["Corte kitty", "Kitty haircut", "Kitty cut médio", "Wolf cut suave", "Soft wolf cut"],
+    "description": "Versão mais suave do wolf cut: camadas leves e franja cortina fininha.",
+    "look": { "length": 0.45, "volume": 0.65, "layers": 0.8, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-old-money",
+    "name": "Corte Old Money",
+    "aka": ["Old money", "Cabelo old money", "Escova old money", "Old money hair", "Quiet luxury hair"],
+    "description": "Cabelo saudável, escova impecável e pontas suaves. Chique e discreto.",
+    "look": { "length": 0.56, "volume": 0.6, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-assimetrico",
+    "name": "Médio Assimétrico",
+    "aka": ["Corte assimétrico", "Corte assimetrico", "Assimétrico médio", "Um lado maior", "Asymmetrical cut", "Asymmetric medium"],
+    "description": "Um lado mais comprido que o outro, com repartição de lado. Moderno!",
+    "look": { "length": 0.5, "volume": 0.45, "layers": 0.5, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "bombshell-medio",
+    "name": "Bombshell Médio",
+    "aka": ["Bombshell", "Corte bombshell", "Escova bombshell", "Bombshell layers", "Big hair", "Médio volumoso"],
+    "description": "Muito volume, repartição de lado e cachos grandes nas pontas. Glamour!",
+    "look": { "length": 0.56, "volume": 0.95, "layers": 0.7, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "feathered-medio",
+    "name": "Feathered Médio",
+    "aka": ["Feathered", "Feathered cut", "Feathered layers", "Corte plumado", "Camadas plumadas", "Camadas para trás"],
+    "description": "Camadas leves jogadas para trás, como penas, com muita leveza.",
+    "look": { "length": 0.45, "volume": 0.65, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "shullet",
+    "name": "Shullet",
+    "aka": ["Shag mullet", "Mullet shag", "Shullet feminino", "Shag com mullet"],
+    "description": "Mistura de shaggy com mullet: volume em cima e mais comprido atrás.",
+    "look": { "length": 0.42, "volume": 0.7, "layers": 0.9, "fringe": "wispy", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "octopus-cut-medio",
+    "name": "Octopus Cut Médio",
+    "aka": ["Octopus cut", "Corte polvo", "Corte octopus", "Octopus hair", "Octopus haircut"],
+    "description": "Topo cheio e arredondado, com mechas finas e compridas embaixo.",
+    "look": { "length": 0.52, "volume": 0.65, "layers": 0.95, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "hush-cut-medio",
+    "name": "Hush Cut Médio",
+    "aka": ["Hush cut", "Corte hush", "Hush cut coreano", "Korean hush cut", "Corte coreano em camadas"],
+    "description": "Corte coreano com camadas fininhas e leves, com um ar bem delicado.",
+    "look": { "length": 0.47, "volume": 0.45, "layers": 0.8, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "repicado-anos-2000",
+    "name": "Repicado Anos 2000",
+    "aka": ["Corte Y2K", "Repicado Y2K", "Camadas anos 2000", "Corte anos 2000", "Y2K layers", "Chunky layers"],
+    "description": "Mechas repicadas bem marcadas, lisinhas e com pontas para fora.",
+    "look": { "length": 0.45, "volume": 0.5, "layers": 0.85, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "medio-lateral-raspada",
+    "name": "Médio com Lateral Raspada",
+    "aka": ["Lateral raspada", "Médio raspado do lado", "Undercut lateral", "Undercut feminino médio", "Side shave", "Side undercut"],
+    "description": "Um lado raspadinho e o resto do cabelo jogado para o outro lado.",
+    "look": { "length": 0.45, "volume": 0.45, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "medio-efeito-molhado",
+    "name": "Médio Efeito Molhado",
+    "aka": ["Efeito molhado", "Cabelo molhado", "Wet look", "Wet look médio", "Wet hair look"],
+    "description": "Penteado para trás com brilho de cabelo molhado. Moderno e sofisticado.",
+    "look": { "length": 0.52, "volume": 0.15, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "franja-cortina",
+    "name": "Franja Cortina",
+    "aka": ["Curtain bangs", "Franja cortininha", "Franja aberta", "Franja dividida ao meio", "Cabelo longo com franja cortina", "Curtain fringe"],
+    "description": "Franja aberta no meio que desce para os lados, com cabelo comprido.",
+    "look": { "length": 0.7, "volume": 0.5, "layers": 0.55, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-reta",
+    "name": "Franja Reta",
+    "aka": ["Blunt bangs", "Franja reta longa", "Franja tradicional", "Franja cheia", "Full bangs", "Cabelo longo com franja reta"],
+    "description": "Franjinha retinha na altura da sobrancelha, com cabelo comprido.",
+    "look": { "length": 0.7, "volume": 0.4, "layers": 0.2, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-lateral",
+    "name": "Franja Lateral",
+    "aka": ["Side bangs", "Side-swept bangs", "Franja de lado", "Franja para o lado", "Franja lateral curta", "Side fringe"],
+    "description": "Franja caída para um lado, com cabelo médio e leve.",
+    "look": { "length": 0.55, "volume": 0.45, "layers": 0.45, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-desfiada",
+    "name": "Franja Desfiada",
+    "aka": ["Textured bangs", "Choppy bangs", "Franja texturizada", "Franja repicada", "Franja desfiada longa", "Feathered bangs"],
+    "description": "Franja com pontas soltinhas e leves, com cabelo comprido em camadas.",
+    "look": { "length": 0.65, "volume": 0.5, "layers": 0.7, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-de-lado-longa",
+    "name": "Franja de Lado Longa",
+    "aka": ["Long side bangs", "Long side-swept fringe", "Franja lateral longa", "Franja longa de lado", "Franja comprida de lado", "Side swept long bangs"],
+    "description": "Franja comprida varrida para um lado, que se junta ao cabelo longo.",
+    "look": { "length": 0.72, "volume": 0.45, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-cortina-longa",
+    "name": "Franja Cortina Longa",
+    "aka": ["Long curtain bangs", "Franja longa", "Franja cortina comprida", "Franja até o queixo", "Franja aberta longa", "Grown-out bangs"],
+    "description": "Franja aberta e comprida, até o queixo, que emoldura o rosto.",
+    "look": { "length": 0.72, "volume": 0.5, "layers": 0.5, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-birkin",
+    "name": "Franja Birkin",
+    "aka": ["Birkin bangs", "Jane Birkin", "Franja francesa", "French girl bangs", "Franja anos 70", "Franja Jane Birkin"],
+    "description": "Franja cheia e soltinha até os cílios, com cabelo longo bem natural.",
+    "look": { "length": 0.62, "volume": 0.45, "layers": 0.4, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-reta-cabelo-medio",
+    "name": "Franja Reta com Cabelo Médio",
+    "aka": ["Blunt bangs medium hair", "Médio com franja reta", "Franja reta e cabelo médio", "Corte médio com franja", "Mid-length hair with bangs"],
+    "description": "Cabelo na altura do colo com franja retinha na sobrancelha.",
+    "look": { "length": 0.5, "volume": 0.5, "layers": 0.45, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-cortina-curta",
+    "name": "Franja Cortina Curta",
+    "aka": ["Short curtain bangs", "Cortininha", "Franja cortininha curta", "Franja cortina fechada", "Mini curtain bangs"],
+    "description": "Franja curtinha, quase fechada, que abre só um pouquinho no meio.",
+    "look": { "length": 0.55, "volume": 0.5, "layers": 0.5, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-cortina-de-lado",
+    "name": "Franja Cortina de Lado",
+    "aka": ["Side-parted curtain bangs", "Franja cortina lateral", "Franja cortina com risca de lado", "Side curtain bangs", "Franja aberta de lado"],
+    "description": "Franja aberta com a risca de lado, um lado maior que o outro.",
+    "look": { "length": 0.7, "volume": 0.5, "layers": 0.55, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-wispy",
+    "name": "Franja Wispy",
+    "aka": ["Wispy bangs", "Franja fina", "Franja leve", "Franja ralinha", "Franja transparente", "See-through bangs"],
+    "description": "Franja fininha e leve, que deixa a testa aparecer entre os fios.",
+    "look": { "length": 0.68, "volume": 0.4, "layers": 0.45, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franjinha-curta",
+    "name": "Franjinha Curta",
+    "aka": ["Baby bangs", "Micro bangs", "Micro franja", "Franja curtinha", "Franja baby", "Franja curta"],
+    "description": "Franja bem curtinha no meio da testa, com cabelo comprido. Ousada!",
+    "look": { "length": 0.65, "volume": 0.35, "layers": 0.2, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-em-camadas",
+    "name": "Franja em Camadas",
+    "aka": ["Layered bangs", "Franja com camadas", "Franja volumosa", "Franja escovada", "Blowout bangs", "Franja repicada em camadas"],
+    "description": "Franja cheia e fofinha, com camadas que se misturam ao cabelo.",
+    "look": { "length": 0.65, "volume": 0.7, "layers": 0.7, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-bardot",
+    "name": "Franja Bardot",
+    "aka": ["Bardot bangs", "Brigitte Bardot", "Franja anos 60", "Franja Brigitte Bardot", "Bardot fringe", "Franja cortina volumosa"],
+    "description": "Franja aberta e longa com bastante volume no alto. Charme dos anos 60.",
+    "look": { "length": 0.68, "volume": 0.8, "layers": 0.55, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-coreana",
+    "name": "Franja Coreana",
+    "aka": ["Korean bangs", "Air bangs", "Franja air", "Franja K-pop", "Franja coreana fina", "Franja de ar"],
+    "description": "Franja bem fininha e delicada, no estilo coreano, com cabelo longo.",
+    "look": { "length": 0.62, "volume": 0.4, "layers": 0.4, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-bottleneck",
+    "name": "Franja Bottleneck",
+    "aka": ["Bottleneck bangs", "Franja garrafa", "Franja gargalo", "Bottleneck fringe", "Franja bottleneck longa"],
+    "description": "Franja curtinha no meio que abre para os lados, como um gargalo.",
+    "look": { "length": 0.65, "volume": 0.5, "layers": 0.55, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-com-camadas-no-rosto",
+    "name": "Franja com Camadas no Rosto",
+    "aka": ["Bangs with face-framing layers", "Franja integrada", "Franja com moldura", "Franja e camadas na frente", "Blended bangs"],
+    "description": "Franja cheia que se junta às camadas da frente, emoldurando o rosto.",
+    "look": { "length": 0.68, "volume": 0.5, "layers": 0.65, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-shag",
+    "name": "Shag com Franja Cheia",
+    "aka": ["Shag with full bangs", "Shaggy com franja", "Franja shag", "Shag com franja", "Shag anos 70 com franja", "Choppy shag bangs"],
+    "description": "Corte médio cheio de camadas e volume, com franja cheia e desfiada.",
+    "look": { "length": 0.45, "volume": 0.7, "layers": 0.85, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-arredondada",
+    "name": "Franja Arredondada",
+    "aka": ["Rounded bangs", "Curved bangs", "Franja curva", "Franja em arco", "Franja redonda", "Franja meia-lua"],
+    "description": "Franja em curva, mais curta no meio e mais longa nos cantos.",
+    "look": { "length": 0.6, "volume": 0.45, "layers": 0.35, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-pesada",
+    "name": "Franja Pesada",
+    "aka": ["Heavy bangs", "Thick blunt bangs", "Franja grossa", "Franja cheia reta", "Franja densa", "Franja nos cílios"],
+    "description": "Franja reta bem cheia e grossa, com cabelo bem comprido e alinhado.",
+    "look": { "length": 0.82, "volume": 0.35, "layers": 0.05, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-emo",
+    "name": "Franja Emo",
+    "aka": ["Emo bangs", "Emo fringe", "Franja emo anos 2000", "Franja de lado emo", "Scene hair", "Franja no olho"],
+    "description": "Franja longa caída de lado, com camadas desfiadas. Estilo anos 2000.",
+    "look": { "length": 0.5, "volume": 0.6, "layers": 0.85, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-curta-picotada",
+    "name": "Franja Curta Picotada",
+    "aka": ["Choppy baby bangs", "Franja picotada", "Micro franja desfiada", "Franja curta irregular", "Choppy micro bangs"],
+    "description": "Franja curtinha com pontas irregulares e cabelo médio desfiado.",
+    "look": { "length": 0.42, "volume": 0.55, "layers": 0.75, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-assimetrica",
+    "name": "Franja Assimétrica",
+    "aka": ["Asymmetrical bangs", "Franja diagonal", "Franja torta", "Franja inclinada", "Slanted bangs", "Diagonal fringe"],
+    "description": "Franja reta cortada na diagonal, mais curta de um lado. Moderna!",
+    "look": { "length": 0.62, "volume": 0.4, "layers": 0.3, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "franja-em-v",
+    "name": "Franja em V",
+    "aka": ["V bangs", "Pointed bangs", "Franja pontuda", "Franja V", "V-shaped bangs", "Franja triangular"],
+    "description": "Franja cortada em ponta, formando um V no meio da testa.",
+    "look": { "length": 0.72, "volume": 0.35, "layers": 0.25, "fringe": "full", "texture": "straight", "style": "loose" }
+  }
+]

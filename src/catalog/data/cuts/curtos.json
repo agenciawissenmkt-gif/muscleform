@@ -1,0 +1,226 @@
+[
+  {
+    "id": "pixie-cut",
+    "name": "Pixie Cut",
+    "aka": ["Joãozinho", "Joaozinho", "Pixie", "Corte pixie", "Pixie clássico", "Classic pixie"],
+    "description": "O famoso joãozinho: curtinho atrás e dos lados, com franja de lado.",
+    "look": { "length": 0.12, "volume": 0.35, "layers": 0.6, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-longo",
+    "name": "Pixie Longo",
+    "aka": ["Long pixie", "Joãozinho longo", "Joaozinho longo", "Pixie alongado", "Pixie comprido"],
+    "description": "Joãozinho mais comprido em cima, com franja longa e suave.",
+    "look": { "length": 0.18, "volume": 0.4, "layers": 0.6, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "curto-classico-volume",
+    "name": "Curto Clássico com Volume",
+    "aka": ["Curto clássico", "Curto com volume", "Curto escovado", "Corte curto senhora", "Short layered cut", "Classic short cut"],
+    "description": "Curtinho, macio e com volume no alto da cabeça. Elegante e fácil de arrumar.",
+    "look": { "length": 0.16, "volume": 0.7, "layers": 0.7, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "bixie-cut",
+    "name": "Bixie Cut",
+    "aka": ["Bixie", "Pixie bob", "Bob pixie", "Corte bixie", "Pixie chanel"],
+    "description": "Mistura de pixie com chanel: curtinho, leve e cheio de movimento.",
+    "look": { "length": 0.22, "volume": 0.5, "layers": 0.7, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-repicado",
+    "name": "Pixie Repicado",
+    "aka": ["Choppy pixie", "Curtíssimo repicado", "Curtissimo repicado", "Joãozinho repicado", "Pixie bagunçado", "Messy pixie"],
+    "description": "Joãozinho bem repicado, com mechas soltinhas e despojadas.",
+    "look": { "length": 0.12, "volume": 0.45, "layers": 0.85, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-franja-lateral",
+    "name": "Pixie com Franja Lateral",
+    "aka": ["Side-swept pixie", "Pixie franja de lado", "Joãozinho com franja", "Pixie franja longa", "Pixie Halle Berry"],
+    "description": "Curtinho atrás e com uma franja longa caindo para o lado.",
+    "look": { "length": 0.14, "volume": 0.35, "layers": 0.55, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "undercut-feminino",
+    "name": "Undercut Feminino",
+    "aka": ["Undercut", "Pixie com undercut", "Pixie undercut", "Laterais raspadas", "Nuca raspada"],
+    "description": "Laterais e nuca raspadas, com o cabelo de cima longo e jogado de lado.",
+    "look": { "length": 0.14, "volume": 0.4, "layers": 0.4, "fringe": "side", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "pixie-assimetrico",
+    "name": "Pixie Assimétrico",
+    "aka": ["Asymmetrical pixie", "Asymmetric pixie", "Pixie assimetrico", "Joãozinho assimétrico", "Pixie desigual"],
+    "description": "Um lado bem curtinho e o outro mais comprido. Moderno e marcante.",
+    "look": { "length": 0.2, "volume": 0.35, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "lateral-raspada",
+    "name": "Lateral Raspada",
+    "aka": ["Side shave", "Side undercut", "Sidecut", "Raspado lateral", "Lateral raspadinha", "Meia cabeça raspada"],
+    "description": "Um só lado raspadinho e o resto do cabelo caindo para o outro lado.",
+    "look": { "length": 0.18, "volume": 0.35, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "shag-curto",
+    "name": "Shag Curto",
+    "aka": ["Short shag", "Shixie", "Pixie shag", "Shag pixie", "Shaggy curto"],
+    "description": "Curtinho com muitas camadas, volume no topo e franja desfiada.",
+    "look": { "length": 0.22, "volume": 0.6, "layers": 0.9, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-degrade",
+    "name": "Pixie Degradê",
+    "aka": ["Tapered pixie", "Pixie fade", "Pixie degrade", "Pixie disfarçado", "Curto degradê"],
+    "description": "Laterais e nuca em degradê bem baixinho, com o topo curtinho.",
+    "look": { "length": 0.1, "volume": 0.3, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "buzz-cut",
+    "name": "Buzz Cut",
+    "aka": ["Raspado", "Cabelo raspado", "Buzzcut", "Corte na máquina", "Raspado feminino"],
+    "description": "Cabelo raspado na máquina, todo do mesmo tamanho. Prático e ousado.",
+    "look": { "length": 0.03, "volume": 0.05, "layers": 0.0, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "corte-garconne",
+    "name": "Corte Garçonne",
+    "aka": ["Garçonne", "Garconne", "Corte garçon", "Garçon", "Corte anos 20", "Flapper cut"],
+    "description": "Curtinho, liso e alinhado, com risca lateral. Chique como nos anos 20.",
+    "look": { "length": 0.1, "volume": 0.15, "layers": 0.3, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-soft",
+    "name": "Pixie Soft",
+    "aka": ["Soft pixie", "Air pixie", "Pixie leve", "Pixie desfiado", "Feathered pixie", "Pixie suave"],
+    "description": "Pixie leve e macio, com pontas desfiadas e jeitinho natural.",
+    "look": { "length": 0.16, "volume": 0.45, "layers": 0.75, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-franja-cortina",
+    "name": "Pixie com Franja Cortina",
+    "aka": ["Curtain bang pixie", "Pixie franja cortina", "Pixie franja aberta", "Pixie franja repartida", "Joãozinho franja cortina"],
+    "description": "Curtinho com franja aberta no meio, caindo para os dois lados.",
+    "look": { "length": 0.16, "volume": 0.4, "layers": 0.6, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "crop-texturizado",
+    "name": "Crop Texturizado",
+    "aka": ["Textured crop", "Crop cut", "French crop feminino", "Caesar feminino", "Corte Caesar"],
+    "description": "Topo curtinho puxado para a frente, com franja reta e desfiada.",
+    "look": { "length": 0.08, "volume": 0.3, "layers": 0.6, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-gamine",
+    "name": "Corte Gamine",
+    "aka": ["Gamine", "Gamine cut", "Pixie gamine", "Pixie franjinha curta", "Pixie Audrey Hepburn"],
+    "description": "Curtinho e arredondado, com franjinha bem curta e delicada.",
+    "look": { "length": 0.1, "volume": 0.3, "layers": 0.5, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "micro-pixie",
+    "name": "Micro Pixie",
+    "aka": ["Pixie curtíssimo", "Pixie curtissimo", "Joãozinho curtíssimo", "Cropped pixie", "Ultra short pixie"],
+    "description": "O pixie mais curtinho de todos, bem rente e fácil de cuidar.",
+    "look": { "length": 0.06, "volume": 0.2, "layers": 0.3, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-italiano",
+    "name": "Pixie Italiano",
+    "aka": ["Italian pixie", "Pixie volumoso", "Pixie redondo", "Pixie com volume", "Voluminous pixie"],
+    "description": "Pixie volumoso e redondinho, com franja longa e muito movimento.",
+    "look": { "length": 0.18, "volume": 0.7, "layers": 0.6, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-mullet",
+    "name": "Pixie Mullet",
+    "aka": ["Mullet pixie", "Mixie", "Mullet curto", "Mullet feminino curto", "Pixie com nuca longa"],
+    "description": "Curtinho em cima e na frente, com a nuca mais comprida.",
+    "look": { "length": 0.2, "volume": 0.45, "layers": 0.8, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-ondulado",
+    "name": "Pixie Ondulado",
+    "aka": ["Wavy pixie", "Pixie com ondas", "Joãozinho ondulado", "Joaozinho ondulado"],
+    "description": "Joãozinho com ondas soltas e naturais, cheio de movimento.",
+    "look": { "length": 0.16, "volume": 0.55, "layers": 0.6, "fringe": "side", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "pixie-topete",
+    "name": "Pixie com Topete",
+    "aka": ["Pompadour pixie", "Pixie topete", "Pixie quiff", "Topete feminino", "Pixie rockabilly"],
+    "description": "Laterais curtinhas e topete alto na frente. Retrô e moderno.",
+    "look": { "length": 0.14, "volume": 0.6, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-espetado",
+    "name": "Pixie Espetado",
+    "aka": ["Spiky pixie", "Pixie arrepiado", "Cabelo espetado", "Joãozinho espetado", "Pixie pontas para cima"],
+    "description": "Curtinho com as pontas para cima, bem arrepiado e divertido.",
+    "look": { "length": 0.1, "volume": 0.5, "layers": 0.8, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "buzz-cut-degrade",
+    "name": "Buzz Cut Degradê",
+    "aka": ["Fade buzz cut", "Corte militar feminino", "Crew cut feminino", "Buzz degradê", "Raspado degradê"],
+    "description": "Raspado curtinho em cima e sumindo nas laterais em degradê.",
+    "look": { "length": 0.04, "volume": 0.08, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "raspado-total",
+    "name": "Raspado Total",
+    "aka": ["Careca", "Cabeça raspada", "Máquina zero", "Maquina zero", "Shaved head", "Máquina 1"],
+    "description": "Cabeça toda raspada bem rente, na máquina zero ou um.",
+    "look": { "length": 0.01, "volume": 0.0, "layers": 0.0, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "moicano-feminino",
+    "name": "Moicano Feminino",
+    "aka": ["Moicano", "Mohawk", "Mohawk feminino", "Moicano raspado", "Moicano punk"],
+    "description": "Laterais raspadas e uma faixa de cabelo no meio, para cima.",
+    "look": { "length": 0.1, "volume": 0.5, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "faux-hawk",
+    "name": "Faux Hawk",
+    "aka": ["Fauxhawk", "Falso moicano", "Moicano sem raspar", "Faux hawk feminino", "Fohawk"],
+    "description": "Moicano sem raspar: laterais curtas e o topo puxado para o centro.",
+    "look": { "length": 0.12, "volume": 0.5, "layers": 0.5, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "lateral-raspada-desenho",
+    "name": "Lateral Raspada com Desenho",
+    "aka": ["Hair tattoo", "Undercut com desenho", "Raspado com desenho", "Desenho na máquina", "Risquinho", "Freestyle"],
+    "description": "Um lado raspado com desenho feito na máquina. Criativo e ousado.",
+    "look": { "length": 0.18, "volume": 0.35, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "pixie-franja-reta",
+    "name": "Pixie com Franja Reta",
+    "aka": ["Blunt bang pixie", "Pixie franja reta", "Pixie com franja cheia", "Pixie mod", "Joãozinho com franja reta"],
+    "description": "Curtinho e arredondado, com franja reta e cheia na sobrancelha.",
+    "look": { "length": 0.14, "volume": 0.35, "layers": 0.4, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-penteado-para-tras",
+    "name": "Pixie Penteado para Trás",
+    "aka": ["Slicked back pixie", "Pixie wet look", "Pixie lambido", "Pixie efeito molhado", "Slick back curto"],
+    "description": "Curtinho, todo penteado para trás, com efeito molhado e brilho.",
+    "look": { "length": 0.12, "volume": 0.1, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-cogumelo",
+    "name": "Corte Cogumelo",
+    "aka": ["Bowl cut", "Mushroom cut", "Corte cuia", "Corte tigelinha", "Cogumelo"],
+    "description": "Formato redondinho como uma cuia, com franja reta e cheia.",
+    "look": { "length": 0.2, "volume": 0.5, "layers": 0.2, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-ondas-retro",
+    "name": "Pixie com Ondas Retrô",
+    "aka": ["Finger waves", "Finger wave pixie", "Pixie anos 20", "Ondas retrô", "Ondas vintage", "Ondas marcadas"],
+    "description": "Curtinho com ondas marcadas e brilhantes, no estilo dos anos 20.",
+    "look": { "length": 0.12, "volume": 0.2, "layers": 0.3, "fringe": "side", "texture": "wavy", "style": "loose" }
+  }
+]
