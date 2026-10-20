@@ -16,7 +16,7 @@
   {
     "id": "ondas-gisele",
     "name": "Ondas Praianas (Gisele)",
-    "aka": ["Ondas Gisele Bündchen", "Cabelo da Gisele", "Beach waves", "Ondas de praia", "Ondas soltas longas", "Ondas Gisele Bundchen"],
+    "aka": ["Gisele Bündchen", "Beach waves", "Ondas de praia", "Camadas bombshell", "Victoria's Secret hair", "Cabelo de Angel"],
     "description": "Cabelo longo com ondas grandes e soltinhas, cheio de volume e movimento.",
     "look": { "length": 0.78, "volume": 0.7, "layers": 0.6, "fringe": "none", "texture": "wavy", "style": "loose" }
   },
@@ -37,16 +37,9 @@
   {
     "id": "corte-farrah",
     "name": "Corte Farrah (Anos 70)",
-    "aka": ["Farrah Fawcett", "Cabelo de Pantera", "As Panteras", "Feathered anos 70", "70s feathered hair", "Corte Farrah Fawcett"],
+    "aka": ["Farrah Fawcett", "As Panteras", "Feathered médio", "Feathered layers", "Corte plumado", "Camadas plumadas"],
     "description": "Bem volumoso, com franja e laterais viradas para trás como asas.",
     "look": { "length": 0.5, "volume": 0.9, "layers": 0.85, "fringe": "curtain", "texture": "wavy", "style": "loose" }
-  },
-  {
-    "id": "corte-lady-di",
-    "name": "Curto Lady Di",
-    "aka": ["Corte Lady Di", "Princesa Diana", "Princess Diana haircut", "Lady Diana", "Curto com topete de lado"],
-    "description": "Curtinho e elegante, com a frente penteada de lado e volume no alto.",
-    "look": { "length": 0.15, "volume": 0.55, "layers": 0.7, "fringe": "side", "texture": "straight", "style": "loose" }
   },
   {
     "id": "permanente-anos-80",
@@ -112,20 +105,6 @@
     "look": { "length": 0.28, "volume": 0.45, "layers": 0.15, "fringe": "micro", "texture": "straight", "style": "loose" }
   },
   {
-    "id": "bob-cleopatra",
-    "name": "Chanel Cleópatra",
-    "aka": ["Corte Cleópatra", "Cleopatra bob", "Bob egípcio", "Egyptian bob", "Cleopatra", "Chanel reto com franja pesada"],
-    "description": "Reto, pesado e bem liso, com franja grossa. Um visual forte e marcante.",
-    "look": { "length": 0.4, "volume": 0.35, "layers": 0.0, "fringe": "full", "texture": "straight", "style": "loose" }
-  },
-  {
-    "id": "pixie-twiggy",
-    "name": "Pixie Twiggy (Anos 60)",
-    "aka": ["Twiggy", "Corte Twiggy", "Joãozinho anos 60", "Joaozinho anos 60", "Pixie anos 60", "Mod pixie"],
-    "description": "Joãozinho bem lisinho, com a franja penteada de lado. Charme anos 60.",
-    "look": { "length": 0.1, "volume": 0.2, "layers": 0.3, "fringe": "side", "texture": "straight", "style": "loose" }
-  },
-  {
     "id": "bob-louise-brooks",
     "name": "Bob Melindrosa (Anos 20)",
     "aka": ["Louise Brooks", "Bob Louise Brooks", "Flapper bob", "Corte melindrosa", "Bob anos 20", "Chanel anos 20"],
@@ -159,20 +138,6 @@
     "aka": ["Bouffant", "Bouffant flip", "Flip anos 60", "Bufante com pontas viradas", "Pontas viradas retrô", "Jackie Kennedy"],
     "description": "Volume no alto da cabeça e pontas viradinhas para fora, bem anos 60.",
     "look": { "length": 0.35, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
-  },
-  {
-    "id": "bob-assimetrico-rihanna",
-    "name": "Bob Assimétrico Rihanna",
-    "aka": ["Rihanna", "Rihanna bob", "Bob assimétrico raspado", "Bob assimetrico", "Bob com lado raspado", "Asymmetric bob"],
-    "description": "Um lado bem curtinho e o outro mais longo, com franja de lado. Ousado!",
-    "look": { "length": 0.25, "volume": 0.3, "layers": 0.4, "fringe": "side", "texture": "straight", "style": "shaved" }
-  },
-  {
-    "id": "scene-hair",
-    "name": "Scene Hair (Anos 2000)",
-    "aka": ["Scene", "Cabelo scene", "Corte scene", "Scene queen", "Emo scene", "Cabelo emo armado"],
-    "description": "Topo bem armado, muitas camadas e franja longa de lado. Bem anos 2000.",
-    "look": { "length": 0.5, "volume": 0.85, "layers": 0.9, "fringe": "side", "texture": "straight", "style": "loose" }
   },
   {
     "id": "corte-pajem",

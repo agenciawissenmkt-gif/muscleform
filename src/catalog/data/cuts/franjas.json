@@ -142,7 +142,7 @@
   {
     "id": "franja-emo",
     "name": "Franja Emo",
-    "aka": ["Emo bangs", "Emo fringe", "Franja emo anos 2000", "Franja de lado emo", "Scene hair", "Franja no olho"],
+    "aka": ["Cabelo emo", "Emo fringe", "Franja emo anos 2000", "Scene hair", "Cabelo scene", "Franja no olho"],
     "description": "Franja longa caída de lado, com camadas desfiadas. Estilo anos 2000.",
     "look": { "length": 0.5, "volume": 0.6, "layers": 0.85, "fringe": "side", "texture": "straight", "style": "loose" }
   },

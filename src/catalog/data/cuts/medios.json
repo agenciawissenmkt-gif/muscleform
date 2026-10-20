@@ -2,7 +2,7 @@
   {
     "id": "repicado-medio",
     "name": "Repicado Médio",
-    "aka": ["Médio repicado", "Medio repicado", "Corte repicado", "Repicado no ombro", "Layered medium cut", "Choppy layers"],
+    "aka": ["Corte repicado", "Repicado no ombro", "Long bob repicado", "Lob repicado", "Layered lob", "Choppy layers"],
     "description": "Repicado na altura dos ombros, com pontas leves e muito movimento.",
     "look": { "length": 0.45, "volume": 0.55, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
   },
@@ -159,13 +159,6 @@
     "aka": ["Bombshell", "Corte bombshell", "Escova bombshell", "Bombshell layers", "Big hair", "Médio volumoso"],
     "description": "Muito volume, repartição de lado e cachos grandes nas pontas. Glamour!",
     "look": { "length": 0.56, "volume": 0.95, "layers": 0.7, "fringe": "none", "texture": "wavy", "style": "loose" }
-  },
-  {
-    "id": "feathered-medio",
-    "name": "Feathered Médio",
-    "aka": ["Feathered", "Feathered cut", "Feathered layers", "Corte plumado", "Camadas plumadas", "Camadas para trás"],
-    "description": "Camadas leves jogadas para trás, como penas, com muita leveza.",
-    "look": { "length": 0.45, "volume": 0.65, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
   },
   {
     "id": "shullet",

@@ -60,9 +60,13 @@
       "Moreno",
       "Medium brown",
       "4.0",
-      "4"
+      "4",
+      "Cobertura de Brancos",
+      "Cobertura de fios brancos",
+      "Tinta para cabelos brancos",
+      "Gray coverage"
     ],
-    "description": "Castanho do meio, nem claro nem escuro, natural e equilibrado.",
+    "description": "Castanho do meio, natural e equilibrado, que cobre bem os fios brancos.",
     "swatch": [
       "#352419",
       "#402C1F",
@@ -186,11 +190,11 @@
       "Chestnut brown",
       "5.35"
     ],
-    "description": "Castanho quente cor de castanha doce, com leve reflexo avermelhado.",
+    "description": "Castanho quente cor de castanha doce, com brilho dourado e leve toque avermelhado.",
     "swatch": [
-      "#47291C",
-      "#573222",
-      "#693D29"
+      "#4A2E1F",
+      "#5A3825",
+      "#6B442D"
     ]
   },
   {
@@ -217,16 +221,16 @@
     "aka": [
       "Mocha",
       "Moca",
-      "Café com leite",
+      "Café mocha",
       "Castanho mocha",
       "Mocha brown",
-      "6.07"
+      "5.07"
     ],
-    "description": "Castanho suave cor de café com leite e cacau, a cor queridinha de 2025.",
+    "description": "Castanho suave cor de café com cacau, macio e elegante, a queridinha de 2025.",
     "swatch": [
-      "#533D31",
-      "#66503F",
-      "#7A6250"
+      "#503A2F",
+      "#62493B",
+      "#755A4A"
     ]
   },
   {
@@ -336,21 +340,20 @@
     ]
   },
   {
-    "id": "chocolate-cereja",
-    "name": "Chocolate Cereja",
+    "id": "castanho-bege",
+    "name": "Castanho Bege",
     "aka": [
-      "Cherry cola",
-      "Cereja cola",
-      "Castanho cereja",
-      "Chocolate cherry",
-      "4.65",
-      "4.62"
+      "Castanho claro bege",
+      "Café com leite",
+      "Castanho nude",
+      "Beige brown",
+      "5.13"
     ],
-    "description": "Castanho chocolate com reflexo vermelho cereja, que brilha na luz.",
+    "description": "Castanho claro bege, cor de café com leite, neutro, suave e elegante.",
     "swatch": [
-      "#2E1416",
-      "#45191C",
-      "#5A2125"
+      "#5A4636",
+      "#6E5844",
+      "#836C57"
     ]
   },
   {
@@ -369,23 +372,6 @@
       "#2F2724",
       "#39302C",
       "#443A35"
-    ]
-  },
-  {
-    "id": "canela",
-    "name": "Canela",
-    "aka": [
-      "Castanho canela",
-      "Marrom canela",
-      "Cinnamon brown",
-      "Cinnamon",
-      "6.74"
-    ],
-    "description": "Castanho quentinho com toque acobreado de canela, bem aconchegante.",
-    "swatch": [
-      "#5A311E",
-      "#744025",
-      "#8E5230"
     ]
   },
   {
@@ -457,23 +443,6 @@
       "#110D14",
       "#18121D",
       "#211829"
-    ]
-  },
-  {
-    "id": "preto-cereja",
-    "name": "Preto Cereja",
-    "aka": [
-      "Black cherry",
-      "Preto vinho",
-      "Preto avermelhado",
-      "Preto com reflexo vermelho",
-      "2.6"
-    ],
-    "description": "Preto com reflexo vermelho cereja escuro, que aparece na luz.",
-    "swatch": [
-      "#160C0D",
-      "#1F0F11",
-      "#2B1416"
     ]
   }
 ]

@@ -1,0 +1,742 @@
+[
+  {
+    "id": "morena-iluminada-caramelo",
+    "name": "Morena Iluminada Caramelo",
+    "aka": [
+      "Morena iluminada",
+      "Mechas caramelo",
+      "Iluminado caramelo",
+      "Caramel highlights",
+      "Caramel brunette"
+    ],
+    "description": "Cabelo castanho com mechas caramelo suaves que dão luz e brilho.",
+    "swatch": [
+      "#3B2618",
+      "#6B4527",
+      "#A8743F"
+    ]
+  },
+  {
+    "id": "mechas-loiras-tradicionais",
+    "name": "Mechas Loiras Tradicionais",
+    "aka": [
+      "Mechas tradicionais",
+      "Mechas loiras",
+      "Luzes",
+      "Luzes loiras",
+      "Mechas no papel",
+      "Foil highlights"
+    ],
+    "description": "Mechas loiras clássicas, da raiz às pontas, bem visíveis no castanho.",
+    "swatch": [
+      "#5A4130",
+      "#C8B08A",
+      "#E0CFAE"
+    ]
+  },
+  {
+    "id": "balayage-loiro",
+    "name": "Balayage Loiro",
+    "aka": [
+      "Balayage",
+      "Balaiagem loira",
+      "Balaiage",
+      "Balayage loiro bege",
+      "Blonde balayage"
+    ],
+    "description": "Loiro pintado à mão, que começa suave no meio e clareia nas pontas.",
+    "swatch": [
+      "#3E2A1E",
+      "#9C7A55",
+      "#DCC7A0"
+    ]
+  },
+  {
+    "id": "mechas-air-touch",
+    "name": "Mechas Air Touch",
+    "aka": [
+      "Air touch",
+      "Airtouch",
+      "Mechas com secador",
+      "Air touch loiro",
+      "Air touch balayage"
+    ],
+    "description": "Loiro bege bem esfumado, feito com o ar do secador, sem marcar a raiz.",
+    "swatch": [
+      "#6B5440",
+      "#C9B79C",
+      "#E8DFCF"
+    ]
+  },
+  {
+    "id": "babylights-loiro",
+    "name": "Babylights Loiro",
+    "aka": [
+      "Babylights",
+      "Baby lights",
+      "Luzes de bebê",
+      "Mechas ultrafinas",
+      "Micro luzes"
+    ],
+    "description": "Mechinhas loiras bem fininhas, que deixam o cabelo iluminado e natural.",
+    "swatch": [
+      "#6A5039",
+      "#A88A63",
+      "#CDB48C"
+    ]
+  },
+  {
+    "id": "morena-iluminada-mel",
+    "name": "Morena Iluminada Mel",
+    "aka": [
+      "Mechas mel",
+      "Iluminado mel",
+      "Morena mel",
+      "Honey highlights",
+      "Honey brunette"
+    ],
+    "description": "Castanho com luzes cor de mel, douradas e quentinhas, cheias de brilho.",
+    "swatch": [
+      "#4A3020",
+      "#8A5E30",
+      "#C2914E"
+    ]
+  },
+  {
+    "id": "luzes-finas-douradas",
+    "name": "Luzes Finas Douradas",
+    "aka": [
+      "Luzes finas",
+      "Luzes douradas",
+      "Mechas finas",
+      "Luzes na touca",
+      "Fine highlights",
+      "Golden highlights"
+    ],
+    "description": "Muitas luzes fininhas e douradas espalhadas por todo o cabelo.",
+    "swatch": [
+      "#6B4F36",
+      "#B08A52",
+      "#D4AE6E"
+    ]
+  },
+  {
+    "id": "contorno-iluminado",
+    "name": "Contorno Iluminado",
+    "aka": [
+      "Face framing",
+      "Hair contour",
+      "Contorno de rosto",
+      "Mechas na frente",
+      "Iluminado frontal",
+      "Contouring"
+    ],
+    "description": "Mechas claras só na frente, em volta do rosto, para dar luz ao visual.",
+    "swatch": [
+      "#4A3222",
+      "#9A6D3E",
+      "#CFA56C"
+    ]
+  },
+  {
+    "id": "balayage-caramelo",
+    "name": "Balayage Caramelo",
+    "aka": [
+      "Balaiagem caramelo",
+      "Balayage caramelo dourado",
+      "Balayage morena",
+      "Caramel balayage"
+    ],
+    "description": "Castanho escuro com caramelo pintado à mão, mais claro nas pontas.",
+    "swatch": [
+      "#2F1F15",
+      "#6E4626",
+      "#A5703A"
+    ]
+  },
+  {
+    "id": "mechas-platinadas",
+    "name": "Mechas Platinadas",
+    "aka": [
+      "Luzes platinadas",
+      "Mechas brancas",
+      "Mechas gelo",
+      "Mechas platinadas no castanho",
+      "Platinum highlights"
+    ],
+    "description": "Mechas loiro platinado, quase brancas, com muito contraste no castanho.",
+    "swatch": [
+      "#3A2A20",
+      "#BDB6AA",
+      "#ECE9E2"
+    ]
+  },
+  {
+    "id": "ombre-hair-classico",
+    "name": "Ombré Hair Clássico",
+    "aka": [
+      "Ombré hair",
+      "Ombré",
+      "Ombre",
+      "Degradê",
+      "Cabelo degradê",
+      "Ombré loiro"
+    ],
+    "description": "Escuro em cima e loiro nas pontas, mudando de cor aos pouquinhos.",
+    "swatch": [
+      "#33231A",
+      "#8D6843",
+      "#D9C29A"
+    ]
+  },
+  {
+    "id": "money-piece",
+    "name": "Money Piece",
+    "aka": [
+      "Mechas frontais",
+      "Mecha na frente",
+      "Mechas da frente",
+      "Money piece loiro",
+      "Face framing loiro"
+    ],
+    "description": "Duas mechas loiras bem claras na frente do cabelo, perto do rosto.",
+    "swatch": [
+      "#3A2A1F",
+      "#E3D3B3"
+    ]
+  },
+  {
+    "id": "morena-iluminada-loiro-bege",
+    "name": "Morena Iluminada Loiro Bege",
+    "aka": [
+      "Morena iluminada loira",
+      "Morena iluminada bege",
+      "Mechas bege",
+      "Iluminado loiro",
+      "Beige highlights"
+    ],
+    "description": "Base castanha com muitas mechas loiro bege, bem iluminada e elegante.",
+    "swatch": [
+      "#3A281C",
+      "#8F7658",
+      "#D2BE9C"
+    ]
+  },
+  {
+    "id": "balayage-mel",
+    "name": "Balayage Mel",
+    "aka": [
+      "Balaiagem mel",
+      "Balayage loiro mel",
+      "Balayage dourado",
+      "Honey balayage"
+    ],
+    "description": "Castanho com mel dourado pintado à mão, brilhando mais nas pontas.",
+    "swatch": [
+      "#4B3121",
+      "#94642F",
+      "#CFA05A"
+    ]
+  },
+  {
+    "id": "mechas-californianas",
+    "name": "Mechas Californianas",
+    "aka": [
+      "Californianas",
+      "Luzes californianas",
+      "Mechas californiana",
+      "Efeito sol",
+      "Californian highlights",
+      "Sun-kissed"
+    ],
+    "description": "Raiz escura e pontas douradas, como cabelo clareado pelo sol da praia.",
+    "swatch": [
+      "#4A3322",
+      "#A07A44",
+      "#DDBB7E"
+    ]
+  },
+  {
+    "id": "raiz-esfumada",
+    "name": "Raiz Esfumada",
+    "aka": [
+      "Root shadow",
+      "Shadow root",
+      "Raiz sombreada",
+      "Raiz esfumaçada",
+      "Loiro com raiz escura"
+    ],
+    "description": "Loiro claro com a raiz um pouco mais escura e esfumada, bem natural.",
+    "swatch": [
+      "#6A5847",
+      "#C9BBA2",
+      "#E6DECF"
+    ]
+  },
+  {
+    "id": "morena-iluminada-avela",
+    "name": "Morena Iluminada Avelã",
+    "aka": [
+      "Mechas avelã",
+      "Morena iluminada avela",
+      "Iluminado avelã",
+      "Mechas sutis",
+      "Hazelnut highlights",
+      "Earthy Chocolate",
+      "Chocolate terroso",
+      "Chocolate multitonal",
+      "Chocolate com caramelo"
+    ],
+    "description": "Castanho com luzes discretas cor de avelã, só um pouquinho mais claras.",
+    "swatch": [
+      "#30211A",
+      "#5A3E2A",
+      "#7E5A3C"
+    ]
+  },
+  {
+    "id": "balayage-acinzentado",
+    "name": "Balayage Acinzentado",
+    "aka": [
+      "Balayage cinza",
+      "Balaiagem cinza",
+      "Balayage gelo",
+      "Ash balayage",
+      "Smoky balayage",
+      "Balayage Prateado",
+      "Balayage prata",
+      "Silver balayage",
+      "Gray balayage"
+    ],
+    "description": "Castanho frio com mechas acinzentadas e prateadas pintadas à mão, sem amarelo.",
+    "swatch": [
+      "#3A3330",
+      "#8A8279",
+      "#C7C3BC"
+    ]
+  },
+  {
+    "id": "babylights-perolado",
+    "name": "Babylights Perolado",
+    "aka": [
+      "Babylights pérola",
+      "Baby lights perolado",
+      "Luzes peroladas",
+      "Mechas peroladas finas",
+      "Pearl babylights"
+    ],
+    "description": "Mechinhas fininhas loiro pérola, com brilho delicado e sem amarelado.",
+    "swatch": [
+      "#7A6656",
+      "#C9BEB4",
+      "#E8E1DA"
+    ]
+  },
+  {
+    "id": "color-melting",
+    "name": "Color Melting",
+    "aka": [
+      "Cor derretida",
+      "Colour melting",
+      "Color melt",
+      "Melting",
+      "Degradê de três tons"
+    ],
+    "description": "Três tons que se misturam bem suave: chocolate, caramelo e mel.",
+    "swatch": [
+      "#3A261A",
+      "#7A5030",
+      "#C49557"
+    ]
+  },
+  {
+    "id": "balayage-perolado",
+    "name": "Balayage Perolado",
+    "aka": [
+      "Balayage pérola",
+      "Balaiagem perolada",
+      "Balayage loiro pérola",
+      "Pearl balayage"
+    ],
+    "description": "Mechas pintadas à mão em loiro pérola, frio e brilhante nas pontas.",
+    "swatch": [
+      "#5C4C42",
+      "#B3A79D",
+      "#E6DED8"
+    ]
+  },
+  {
+    "id": "mechas-ruivas",
+    "name": "Mechas Ruivas",
+    "aka": [
+      "Mechas acobreadas",
+      "Mechas cobre",
+      "Luzes ruivas",
+      "Copper highlights",
+      "Red highlights"
+    ],
+    "description": "Mechas cor de cobre bem vivas no castanho, quentes e marcantes.",
+    "swatch": [
+      "#3A2519",
+      "#8E3F1E",
+      "#C2582A"
+    ]
+  },
+  {
+    "id": "balayage-cobre",
+    "name": "Balayage Cobre",
+    "aka": [
+      "Balayage ruivo",
+      "Balayage acobreado",
+      "Balaiagem cobre",
+      "Copper balayage"
+    ],
+    "description": "Castanho com cobre brilhante pintado à mão, mais vivo nas pontas.",
+    "swatch": [
+      "#3A2519",
+      "#9A4E23",
+      "#D17A3A"
+    ]
+  },
+  {
+    "id": "root-melt",
+    "name": "Root Melt",
+    "aka": [
+      "Raiz derretida",
+      "Root melt loiro",
+      "Melting de raiz",
+      "Esfumado de raiz",
+      "Raiz natural"
+    ],
+    "description": "A raiz castanha vai se misturando bem devagar até o loiro dourado.",
+    "swatch": [
+      "#5A4232",
+      "#9C8060",
+      "#D4BC91"
+    ]
+  },
+  {
+    "id": "mechas-canela",
+    "name": "Mechas Canela",
+    "aka": [
+      "Mechas cor de canela",
+      "Morena canela",
+      "Iluminado canela",
+      "Cinnamon brunette",
+      "Cinnamon highlights"
+    ],
+    "description": "Castanho com mechas cor de canela, acobreadas e suaves.",
+    "swatch": [
+      "#32221A",
+      "#7A4A2E",
+      "#A5653C"
+    ]
+  },
+  {
+    "id": "balayage-chocolate",
+    "name": "Balayage Chocolate",
+    "aka": [
+      "Balaiagem chocolate",
+      "Balayage castanho",
+      "Balayage no cabelo preto",
+      "Mechas chocolate",
+      "Chocolate balayage"
+    ],
+    "description": "Cabelo bem escuro com toques de chocolate ao leite, discreto e elegante.",
+    "swatch": [
+      "#1C1512",
+      "#4A3226",
+      "#6E4B35"
+    ]
+  },
+  {
+    "id": "sombre",
+    "name": "Sombré",
+    "aka": [
+      "Sombre",
+      "Sombré hair",
+      "Ombré suave",
+      "Degradê suave",
+      "Soft ombré"
+    ],
+    "description": "Um degradê bem suave, com as pontas só um pouco mais claras.",
+    "swatch": [
+      "#4A3526",
+      "#6E5238",
+      "#94744F"
+    ]
+  },
+  {
+    "id": "reflexo-acobreado",
+    "name": "Reflexo Acobreado",
+    "aka": [
+      "Tonalizante acobreado",
+      "Tonalizante",
+      "Banho de brilho",
+      "Reflexo cobre",
+      "Copper gloss"
+    ],
+    "description": "Um brilho cor de cobre por cima da sua cor, que aparece na luz.",
+    "swatch": [
+      "#3E2A1E",
+      "#6A3F26",
+      "#8E5530"
+    ]
+  },
+  {
+    "id": "balayage-rose-gold",
+    "name": "Balayage Rose Gold",
+    "aka": [
+      "Balayage rosé",
+      "Balayage ouro rosé",
+      "Rose gold",
+      "Mechas rose gold",
+      "Rose gold balayage"
+    ],
+    "description": "Castanho com pontas em ouro rosé, um loiro rosado bem delicado.",
+    "swatch": [
+      "#4A3528",
+      "#B4846E",
+      "#E0B5A0"
+    ]
+  },
+  {
+    "id": "lowlights-caramelo",
+    "name": "Lowlights Caramelo",
+    "aka": [
+      "Lowlights",
+      "Low lights",
+      "Mechas escuras",
+      "Luzes escuras",
+      "Mechas caramelo no loiro"
+    ],
+    "description": "Loiro com mechas caramelo mais escuras, que dão profundidade e movimento.",
+    "swatch": [
+      "#9A6C3E",
+      "#D6BC8C",
+      "#E4CFA6"
+    ]
+  },
+  {
+    "id": "ombre-ruivo",
+    "name": "Ombré Ruivo",
+    "aka": [
+      "Ombré cobre",
+      "Ombré acobreado",
+      "Degradê ruivo",
+      "Red ombré",
+      "Copper ombré"
+    ],
+    "description": "Castanho em cima que vira um ruivo cobre vibrante nas pontas.",
+    "swatch": [
+      "#33231A",
+      "#8A3A1C",
+      "#D0622C"
+    ]
+  },
+  {
+    "id": "mechas-fantasia-rosa",
+    "name": "Mechas Fantasia Rosa",
+    "aka": [
+      "Mechas rosa",
+      "Mechas pink",
+      "Mechas coloridas",
+      "Rosa chiclete",
+      "Pink highlights"
+    ],
+    "description": "Mechas rosa chiclete bem vivas, divertidas e cheias de atitude.",
+    "swatch": [
+      "#5A4232",
+      "#E0569A",
+      "#F07CB4"
+    ]
+  },
+  {
+    "id": "foilyage-loiro",
+    "name": "Foilyage Loiro",
+    "aka": [
+      "Foilyage",
+      "Balayage no papel",
+      "Balayage com papel alumínio",
+      "Foil balayage",
+      "Balayage iluminado"
+    ],
+    "description": "Balayage feito no papel alumínio, com um loiro bem claro e luminoso.",
+    "swatch": [
+      "#4A3526",
+      "#C8B391",
+      "#EDE3CF"
+    ]
+  },
+  {
+    "id": "teasylights",
+    "name": "Teasylights",
+    "aka": [
+      "Teasy lights",
+      "Mechas com desfiado",
+      "Mechas esfumadas",
+      "Loiro manteiga",
+      "Buttery blonde"
+    ],
+    "description": "Loiro manteiga bem esfumado, macio e natural, sem marcas de mechas.",
+    "swatch": [
+      "#6A5240",
+      "#C8AC7E",
+      "#E3CFA4"
+    ]
+  },
+  {
+    "id": "mechas-ocultas",
+    "name": "Mechas Ocultas",
+    "aka": [
+      "Peekaboo",
+      "Peek-a-boo",
+      "Mechas escondidas",
+      "Mechas por baixo",
+      "Peekaboo loiro",
+      "Hidden highlights"
+    ],
+    "description": "Loiro platinado escondido por baixo, que aparece quando o cabelo mexe.",
+    "swatch": [
+      "#3A2A20",
+      "#E8E3D8"
+    ]
+  },
+  {
+    "id": "tiger-eye",
+    "name": "Tiger Eye",
+    "aka": [
+      "Olho de tigre",
+      "Mechas olho de tigre",
+      "Tiger eye hair",
+      "Tigers eye"
+    ],
+    "description": "Castanho chocolate com reflexos âmbar e dourados, como a pedra olho de tigre.",
+    "swatch": [
+      "#2A1C15",
+      "#6B4222",
+      "#B07A36"
+    ]
+  },
+  {
+    "id": "chunky-highlights",
+    "name": "Chunky Highlights",
+    "aka": [
+      "Mechas grossas",
+      "Mechas anos 2000",
+      "Mechas chunky",
+      "Mechas zebra",
+      "Y2K highlights"
+    ],
+    "description": "Mechas loiras grossas e bem marcadas, no estilo dos anos 2000.",
+    "swatch": [
+      "#2E2119",
+      "#E2D2AA"
+    ]
+  },
+  {
+    "id": "ombre-reverso",
+    "name": "Ombré Reverso",
+    "aka": [
+      "Ombré invertido",
+      "Ombré ao contrário",
+      "Degradê invertido",
+      "Reverse ombré"
+    ],
+    "description": "Loiro em cima e castanho escuro nas pontas: o ombré ao contrário.",
+    "swatch": [
+      "#D4BC92",
+      "#8C6440",
+      "#3A2719"
+    ]
+  },
+  {
+    "id": "ombre-fantasia-roxo",
+    "name": "Ombré Fantasia Roxo",
+    "aka": [
+      "Ombré roxo",
+      "Ombré lilás",
+      "Ombré colorido",
+      "Degradê roxo",
+      "Purple ombré"
+    ],
+    "description": "Raiz escura que vira roxo e depois lilás clarinho nas pontas.",
+    "swatch": [
+      "#2E2220",
+      "#6A2E8A",
+      "#B696DB"
+    ]
+  },
+  {
+    "id": "mechas-fantasia-azul",
+    "name": "Mechas Fantasia Azul",
+    "aka": [
+      "Mechas azuis",
+      "Mechas azul royal",
+      "Azul elétrico",
+      "Mechas coloridas azul",
+      "Blue highlights"
+    ],
+    "description": "Mechas azul vibrante espalhadas pelo cabelo, ousadas e divertidas.",
+    "swatch": [
+      "#3A2A20",
+      "#1E44B8",
+      "#3A6BE0"
+    ]
+  },
+  {
+    "id": "split-dye-preto-loiro",
+    "name": "Split Dye Preto e Loiro",
+    "aka": [
+      "Split dye",
+      "Cabelo metade metade",
+      "Cabelo duas cores",
+      "Metade preto metade loiro",
+      "Half and half hair",
+      "Cruella Preto e Branco",
+      "Cabelo Cruella",
+      "Cruella de Vil",
+      "Metade preto metade branco",
+      "Bicolor preto e branco"
+    ],
+    "description": "Cabelo dividido no meio: um lado preto e o outro platinado quase branco.",
+    "swatch": [
+      "#121010",
+      "#ECE7DC"
+    ]
+  },
+  {
+    "id": "dip-dye-vermelho",
+    "name": "Dip Dye Vermelho",
+    "aka": [
+      "Dip dye",
+      "Pontas vermelhas",
+      "Pontas coloridas",
+      "Pontas pintadas",
+      "Red dip dye"
+    ],
+    "description": "Só as pontas pintadas de vermelho vivo, com a divisão bem marcada.",
+    "swatch": [
+      "#3A2A20",
+      "#B0122A"
+    ]
+  },
+  {
+    "id": "underlights-arco-iris",
+    "name": "Underlights Arco-íris",
+    "aka": [
+      "Underlights",
+      "Arco-íris escondido",
+      "Mechas arco-íris",
+      "Mechas coloridas por baixo",
+      "Hidden rainbow",
+      "Rainbow underlights"
+    ],
+    "description": "Arco-íris escondido embaixo do cabelo, que aparece quando ele se mexe.",
+    "swatch": [
+      "#D8403A",
+      "#E8B930",
+      "#4A6FD6"
+    ]
+  }
+]

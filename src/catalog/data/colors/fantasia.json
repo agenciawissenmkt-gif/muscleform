@@ -1,0 +1,618 @@
+[
+  {
+    "id": "rosa-pastel",
+    "name": "Rosa Pastel",
+    "aka": [
+      "Rosa bebê",
+      "Rosa bebe",
+      "Rosa claro",
+      "Rosinha",
+      "Pastel pink",
+      "Baby pink"
+    ],
+    "description": "Rosa bem clarinho e delicado, suave e romântico como um doce.",
+    "swatch": [
+      "#E7A9B8",
+      "#F0C1CC",
+      "#F7DCE2"
+    ]
+  },
+  {
+    "id": "lilas",
+    "name": "Lilás",
+    "aka": [
+      "Lilas",
+      "Lilás pastel",
+      "Roxo claro",
+      "Lilac",
+      "Pastel lilac"
+    ],
+    "description": "Lilás clarinho, entre o rosa e o roxo, delicado e cheio de charme.",
+    "swatch": [
+      "#B497C8",
+      "#C9B0DA",
+      "#DDCBE8"
+    ]
+  },
+  {
+    "id": "rosa-chiclete",
+    "name": "Rosa Chiclete",
+    "aka": [
+      "Rosa chiclé",
+      "Pink chiclete",
+      "Rosa bala",
+      "Bubblegum pink",
+      "Candy pink"
+    ],
+    "description": "Rosa forte e alegre, cor de chiclete, divertido e cheio de vida.",
+    "swatch": [
+      "#D9548E",
+      "#EA74A6",
+      "#F49BC0"
+    ]
+  },
+  {
+    "id": "azul-royal",
+    "name": "Azul Royal",
+    "aka": [
+      "Azul",
+      "Azul forte",
+      "Azul safira",
+      "Royal blue",
+      "Sapphire blue"
+    ],
+    "description": "Azul forte e profundo, intenso como uma pedra de safira.",
+    "swatch": [
+      "#142C7A",
+      "#1E3FA6",
+      "#3159C7"
+    ]
+  },
+  {
+    "id": "roxo",
+    "name": "Roxo",
+    "aka": [
+      "Roxo vibrante",
+      "Roxo ametista",
+      "Purple",
+      "Purple hair",
+      "Amethyst"
+    ],
+    "description": "Roxo vibrante e marcante, cor de ametista, bem chamativo.",
+    "swatch": [
+      "#4A1F6E",
+      "#6A2C98",
+      "#8A47B8"
+    ]
+  },
+  {
+    "id": "rose-gold",
+    "name": "Rosé Gold",
+    "aka": [
+      "Rose gold",
+      "Ouro rosé",
+      "Rosé dourado",
+      "Rose gold hair",
+      "Rosa dourado",
+      "Loiro Ouro Rosé",
+      "Loiro rosé",
+      "Loiro rose gold",
+      "Rose gold blonde"
+    ],
+    "description": "Rosa com dourado, brilhante como joia de ouro rosé, moderno e suave.",
+    "swatch": [
+      "#B9837A",
+      "#D3A196",
+      "#E6C1B2"
+    ]
+  },
+  {
+    "id": "azul-pastel",
+    "name": "Azul Pastel",
+    "aka": [
+      "Azul bebê",
+      "Azul bebe",
+      "Azul claro",
+      "Azul céu",
+      "Pastel blue",
+      "Baby blue"
+    ],
+    "description": "Azul bem clarinho, como céu de manhã, leve e delicado.",
+    "swatch": [
+      "#8FB4D6",
+      "#AFCBE4",
+      "#CDE0F0"
+    ]
+  },
+  {
+    "id": "unicornio",
+    "name": "Unicórnio",
+    "aka": [
+      "Unicornio",
+      "Cabelo unicórnio",
+      "Arco-íris pastel",
+      "Unicorn hair",
+      "Pastel rainbow"
+    ],
+    "description": "Mistura de cores pastel: rosa, lilás, azul e verde, como um unicórnio.",
+    "swatch": [
+      "#F2B8CB",
+      "#C9B3E3",
+      "#A9D2EE",
+      "#B8E6D2"
+    ]
+  },
+  {
+    "id": "sereia",
+    "name": "Sereia",
+    "aka": [
+      "Cabelo sereia",
+      "Mermaid",
+      "Mermaid hair",
+      "Sereia azul e verde",
+      "Cauda de sereia"
+    ],
+    "description": "Azul, verde-água e roxo misturados, com brilho de cauda de sereia.",
+    "swatch": [
+      "#1D4F7A",
+      "#138A8E",
+      "#3CC2B4",
+      "#7A5BB8"
+    ]
+  },
+  {
+    "id": "lavanda",
+    "name": "Lavanda",
+    "aka": [
+      "Lavender",
+      "Lilás acinzentado",
+      "Lilás frio",
+      "Pastel lavender",
+      "Lavanda cinza"
+    ],
+    "description": "Roxinho clarinho e frio, puxado para o cinza, suave como lavanda.",
+    "swatch": [
+      "#9C97C2",
+      "#B5B1D4",
+      "#CFCCE4"
+    ]
+  },
+  {
+    "id": "azul-marinho",
+    "name": "Azul Marinho",
+    "aka": [
+      "Azul escuro",
+      "Azul noite",
+      "Azul meia-noite",
+      "Navy blue",
+      "Midnight blue"
+    ],
+    "description": "Azul bem escuro, quase preto, que brilha azul quando bate a luz.",
+    "swatch": [
+      "#0C1530",
+      "#14224A",
+      "#1F3366"
+    ]
+  },
+  {
+    "id": "preto-com-azul",
+    "name": "Preto com Azul",
+    "aka": [
+      "Preto azulado fantasia",
+      "Preto com reflexo azul",
+      "Preto azul",
+      "Blue black",
+      "Black and blue"
+    ],
+    "description": "Cabelo preto com reflexo azul forte, que aparece quando bate a luz.",
+    "swatch": [
+      "#0A0B12",
+      "#101A3A",
+      "#1F3A8A"
+    ]
+  },
+  {
+    "id": "verde-esmeralda",
+    "name": "Verde Esmeralda",
+    "aka": [
+      "Esmeralda",
+      "Verde escuro vivo",
+      "Verde joia",
+      "Emerald green",
+      "Emerald hair"
+    ],
+    "description": "Verde intenso e elegante, cor de pedra esmeralda.",
+    "swatch": [
+      "#0B4A34",
+      "#0F6B48",
+      "#1E8C5E"
+    ]
+  },
+  {
+    "id": "azul-petroleo",
+    "name": "Azul Petróleo",
+    "aka": [
+      "Azul petroleo",
+      "Petróleo",
+      "Verde petróleo",
+      "Teal escuro",
+      "Petrol blue",
+      "Dark teal"
+    ],
+    "description": "Azul escuro esverdeado, profundo e sofisticado, cor de fundo do mar.",
+    "swatch": [
+      "#0A2B33",
+      "#0F3F4A",
+      "#185A66"
+    ]
+  },
+  {
+    "id": "rosa-neon",
+    "name": "Rosa Neon",
+    "aka": [
+      "Rosa choque",
+      "Pink neon",
+      "Pink choque",
+      "Hot pink",
+      "Neon pink"
+    ],
+    "description": "Rosa choque fluorescente, superforte e brilhante, para quem quer ousar.",
+    "swatch": [
+      "#D1147A",
+      "#F0279A",
+      "#FF5CB8"
+    ]
+  },
+  {
+    "id": "magenta",
+    "name": "Magenta",
+    "aka": [
+      "Fúcsia",
+      "Fucsia",
+      "Pink fúcsia",
+      "Rosa magenta",
+      "Fuchsia",
+      "Electric fuchsia"
+    ],
+    "description": "Pink forte puxado para o roxo, intenso e vibrante, cor de fúcsia.",
+    "swatch": [
+      "#7A0E52",
+      "#A8186E",
+      "#C9338C"
+    ]
+  },
+  {
+    "id": "violeta",
+    "name": "Violeta",
+    "aka": [
+      "Violeta intenso",
+      "Roxo azulado",
+      "Ultravioleta",
+      "Violet",
+      "Ultra violet"
+    ],
+    "description": "Roxo puxado para o azul, intenso e moderno, cor de flor violeta.",
+    "swatch": [
+      "#2E1A6B",
+      "#432A94",
+      "#5E43BA"
+    ]
+  },
+  {
+    "id": "turquesa",
+    "name": "Turquesa",
+    "aka": [
+      "Azul turquesa",
+      "Azul piscina",
+      "Azul tiffany",
+      "Turquoise",
+      "Teal"
+    ],
+    "description": "Azul esverdeado vivo, como mar do Caribe, alegre e refrescante.",
+    "swatch": [
+      "#0E7F86",
+      "#14A3A8",
+      "#3CC6C4"
+    ]
+  },
+  {
+    "id": "verde-agua",
+    "name": "Verde Água",
+    "aka": [
+      "Verde agua",
+      "Verde água pastel",
+      "Aqua",
+      "Seafoam green",
+      "Verde mar"
+    ],
+    "description": "Verde clarinho puxado para o azul, cor de água do mar, leve e fresco.",
+    "swatch": [
+      "#5FB8AE",
+      "#86CFC4",
+      "#B2E3DA"
+    ]
+  },
+  {
+    "id": "azul-eletrico",
+    "name": "Azul Elétrico",
+    "aka": [
+      "Azul eletrico",
+      "Azul neon",
+      "Azul cobalto",
+      "Electric blue",
+      "Cobalt blue"
+    ],
+    "description": "Azul vivo e brilhante, mais claro que o royal, cheio de energia.",
+    "swatch": [
+      "#1747C9",
+      "#1F63EA",
+      "#3E86FF"
+    ]
+  },
+  {
+    "id": "verde-menta",
+    "name": "Verde Menta",
+    "aka": [
+      "Menta",
+      "Verde pastel",
+      "Verde claro",
+      "Mint green",
+      "Pastel mint"
+    ],
+    "description": "Verde clarinho e fresquinho, cor de sorvete de menta.",
+    "swatch": [
+      "#8DC9AE",
+      "#AEDCC6",
+      "#CDEBDD"
+    ]
+  },
+  {
+    "id": "galaxia",
+    "name": "Galáxia",
+    "aka": [
+      "Galaxia",
+      "Cabelo galáxia",
+      "Galaxy hair",
+      "Nebulosa",
+      "Cosmic hair"
+    ],
+    "description": "Azul-escuro, roxo e pink misturados, como um céu cheio de estrelas.",
+    "swatch": [
+      "#0D1033",
+      "#2B1A6E",
+      "#6A2A9E",
+      "#B83C9E"
+    ]
+  },
+  {
+    "id": "pessego",
+    "name": "Pêssego",
+    "aka": [
+      "Pessego",
+      "Rosa pêssego",
+      "Damasco",
+      "Peach",
+      "Pastel peach",
+      "Apricot"
+    ],
+    "description": "Laranja rosado bem suave, cor de pêssego, delicado e iluminado.",
+    "swatch": [
+      "#E39B7E",
+      "#EDB597",
+      "#F5CDB4"
+    ]
+  },
+  {
+    "id": "coral",
+    "name": "Coral",
+    "aka": [
+      "Coral vivo",
+      "Rosa coral",
+      "Salmão vivo",
+      "Living coral",
+      "Coral hair"
+    ],
+    "description": "Entre o rosa e o laranja, vibrante e tropical, cor de coral.",
+    "swatch": [
+      "#D9534A",
+      "#EE6F5E",
+      "#F7927E"
+    ]
+  },
+  {
+    "id": "uva",
+    "name": "Uva",
+    "aka": [
+      "Roxo uva",
+      "Roxo escuro",
+      "Berinjela",
+      "Grape",
+      "Eggplant purple",
+      "Dark purple"
+    ],
+    "description": "Roxo bem escuro, quase preto, cor de uva madura, misterioso e elegante.",
+    "swatch": [
+      "#1E0C26",
+      "#33143F",
+      "#4E1F5E"
+    ]
+  },
+  {
+    "id": "algodao-doce",
+    "name": "Algodão-Doce",
+    "aka": [
+      "Algodao doce",
+      "Rosa e azul",
+      "Rosa e azul pastel",
+      "Cotton candy",
+      "Cotton candy hair"
+    ],
+    "description": "Rosa e azul clarinhos juntos, doce e divertido como algodão-doce.",
+    "swatch": [
+      "#F3B3CB",
+      "#D3B9E4",
+      "#A9CDEE"
+    ]
+  },
+  {
+    "id": "arco-iris",
+    "name": "Arco-Íris",
+    "aka": [
+      "Arco iris",
+      "Cabelo arco-íris",
+      "Colorido",
+      "Multicolorido",
+      "Rainbow hair"
+    ],
+    "description": "Todas as cores do arco-íris juntas no cabelo, vivas e alegres.",
+    "swatch": [
+      "#E0313B",
+      "#F28C28",
+      "#F5D33B",
+      "#3DB563",
+      "#2F6FD6",
+      "#7B3FB8"
+    ]
+  },
+  {
+    "id": "verde-neon",
+    "name": "Verde Neon",
+    "aka": [
+      "Verde limão",
+      "Verde limao",
+      "Verde fluorescente",
+      "Neon green",
+      "Lime green"
+    ],
+    "description": "Verde-limão fluorescente, superforte e brilhante, para quem ama ousar.",
+    "swatch": [
+      "#4FB81E",
+      "#7FDB21",
+      "#B5F23A"
+    ]
+  },
+  {
+    "id": "amarelo",
+    "name": "Amarelo",
+    "aka": [
+      "Amarelo vivo",
+      "Amarelo canário",
+      "Amarelo limão",
+      "Yellow hair",
+      "Canary yellow"
+    ],
+    "description": "Amarelo vivo e ensolarado, cor de canário, alegre e diferente.",
+    "swatch": [
+      "#E6B800",
+      "#F5D312",
+      "#FCE84A"
+    ]
+  },
+  {
+    "id": "azul-jeans",
+    "name": "Azul Jeans",
+    "aka": [
+      "Azul acinzentado",
+      "Azul denim",
+      "Denim",
+      "Denim hair",
+      "Denim blue"
+    ],
+    "description": "Azul acinzentado e suave, cor de calça jeans, fácil de usar.",
+    "swatch": [
+      "#3B4F72",
+      "#56698C",
+      "#7D8FAD"
+    ]
+  },
+  {
+    "id": "opala",
+    "name": "Opala",
+    "aka": [
+      "Cabelo opala",
+      "Perolado colorido",
+      "Opal hair",
+      "Opalescent",
+      "Holographic hair"
+    ],
+    "description": "Branco perolado com brilhos de rosa, lilás e azul, como pedra opala.",
+    "swatch": [
+      "#E4D7E6",
+      "#D5E3EE",
+      "#E9F1EA",
+      "#F3E2E8"
+    ]
+  },
+  {
+    "id": "oil-slick",
+    "name": "Oil Slick",
+    "aka": [
+      "Mancha de óleo",
+      "Petróleo furta-cor",
+      "Oil slick hair",
+      "Preto furta-cor",
+      "Iridescent black"
+    ],
+    "description": "Base escura com reflexos verde, azul e roxo, como brilho de óleo.",
+    "swatch": [
+      "#0B0D14",
+      "#0F4A44",
+      "#1B3D8A",
+      "#4A1F6E"
+    ]
+  },
+  {
+    "id": "por-do-sol",
+    "name": "Pôr do Sol",
+    "aka": [
+      "Por do sol",
+      "Degradê pôr do sol",
+      "Sunset hair",
+      "Sunset ombré",
+      "Rosa laranja e amarelo"
+    ],
+    "description": "Rosa, laranja e amarelo em degradê, como o céu no fim da tarde.",
+    "swatch": [
+      "#D6336C",
+      "#F06A4A",
+      "#F79A2E",
+      "#F7CF4A"
+    ]
+  },
+  {
+    "id": "neon-uv",
+    "name": "Neon UV",
+    "aka": [
+      "Neon",
+      "Cabelo neon",
+      "Neon fluorescente",
+      "Cabelo que brilha no escuro",
+      "UV hair",
+      "Blacklight hair"
+    ],
+    "description": "Mistura de cores neon fluorescentes, superfortes, que parecem brilhar.",
+    "swatch": [
+      "#F2F21A",
+      "#5CF02E",
+      "#FF3FA4",
+      "#FF7A1A"
+    ]
+  },
+  {
+    "id": "verde-oliva",
+    "name": "Verde Oliva",
+    "aka": [
+      "Verde musgo",
+      "Verde militar",
+      "Oliva",
+      "Olive green",
+      "Moss green"
+    ],
+    "description": "Verde escuro e discreto, cor de azeitona, moderno e diferente.",
+    "swatch": [
+      "#2F3A1E",
+      "#46552B",
+      "#61723D"
+    ]
+  }
+]

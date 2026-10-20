@@ -16,7 +16,7 @@
   {
     "id": "curto-classico-volume",
     "name": "Curto Clássico com Volume",
-    "aka": ["Curto clássico", "Curto com volume", "Curto escovado", "Corte curto senhora", "Short layered cut", "Classic short cut"],
+    "aka": ["Curto Lady Di", "Princesa Diana", "Princess Diana", "Curto escovado", "Corte curto senhora", "Short layered cut"],
     "description": "Curtinho, macio e com volume no alto da cabeça. Elegante e fácil de arrumar.",
     "look": { "length": 0.16, "volume": 0.7, "layers": 0.7, "fringe": "side", "texture": "straight", "style": "loose" }
   },
@@ -51,7 +51,7 @@
   {
     "id": "pixie-assimetrico",
     "name": "Pixie Assimétrico",
-    "aka": ["Asymmetrical pixie", "Asymmetric pixie", "Pixie assimetrico", "Joãozinho assimétrico", "Pixie desigual"],
+    "aka": ["Asymmetrical pixie", "Joãozinho assimétrico", "Pixie desigual", "Bob assimétrico Rihanna", "Bob com lado raspado"],
     "description": "Um lado bem curtinho e o outro mais comprido. Moderno e marcante.",
     "look": { "length": 0.2, "volume": 0.35, "layers": 0.5, "fringe": "side", "texture": "straight", "style": "loose" }
   },
@@ -86,7 +86,7 @@
   {
     "id": "corte-garconne",
     "name": "Corte Garçonne",
-    "aka": ["Garçonne", "Garconne", "Corte garçon", "Garçon", "Corte anos 20", "Flapper cut"],
+    "aka": ["Corte anos 20", "Flapper cut", "Pixie Twiggy", "Joãozinho anos 60", "Pixie anos 60", "Mod pixie"],
     "description": "Curtinho, liso e alinhado, com risca lateral. Chique como nos anos 20.",
     "look": { "length": 0.1, "volume": 0.15, "layers": 0.3, "fringe": "side", "texture": "straight", "style": "loose" }
   },

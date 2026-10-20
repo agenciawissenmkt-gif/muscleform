@@ -84,13 +84,6 @@
     "look": { "length": 0.6, "volume": 0.3, "layers": 0, "fringe": "none", "texture": "straight", "style": "braids" }
   },
   {
-    "id": "crochet-braids-cacheado",
-    "name": "Crochet Braids Cacheado",
-    "aka": ["Crochet braids", "Crochet cacheado", "Cabelo de crochê", "Crochet", "Crochet curls", "Cacheado de croche"],
-    "description": "Cachos cheios e volumosos aplicados no crochê. Visual de cabelo cacheado grande.",
-    "look": { "length": 0.5, "volume": 0.9, "layers": 0.4, "fringe": "none", "texture": "curly", "style": "loose" }
-  },
-  {
     "id": "microtrancas",
     "name": "Microtranças",
     "aka": ["Micro braids", "Micro tranças", "Box braids finas", "Small box braids", "Tranças fininhas", "Microtrancas"],

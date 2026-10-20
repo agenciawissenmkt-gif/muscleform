@@ -147,13 +147,6 @@
     "look": { "length": 0.68, "volume": 0.65, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
   },
   {
-    "id": "camadas-bombshell",
-    "name": "Camadas Bombshell",
-    "aka": ["Bombshell hair", "Bombshell layers", "Victoria's Secret hair", "Cabelo de Angel", "Cabelo volumoso", "Ondas volumosas"],
-    "description": "Volume de diva, com ondas grandes e soltas e repartido de lado.",
-    "look": { "length": 0.72, "volume": 0.95, "layers": 0.75, "fringe": "none", "texture": "wavy", "style": "loose" }
-  },
-  {
     "id": "camadas-pontas-para-fora",
     "name": "Camadas com Pontas para Fora",
     "aka": ["Pontas para fora", "Flipped ends", "Flipped-out layers", "Pontas viradas", "Flip", "Long flipped layers"],

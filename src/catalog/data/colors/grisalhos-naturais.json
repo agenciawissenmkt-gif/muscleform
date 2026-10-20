@@ -1,0 +1,247 @@
+[
+  {
+    "id": "grisalho-natural",
+    "name": "Grisalho Natural",
+    "aka": [
+      "Grisalho",
+      "Cabelo grisalho",
+      "Cabelo branco e cinza",
+      "Fios brancos assumidos",
+      "Natural gray",
+      "Grey hair"
+    ],
+    "description": "Mistura natural de fios brancos e cinzas, suave, elegante e cheia de charme.",
+    "swatch": [
+      "#8A8784",
+      "#A7A5A2",
+      "#C4C3C0"
+    ]
+  },
+  {
+    "id": "transicao-grisalha",
+    "name": "Transição Grisalha",
+    "aka": [
+      "Gray blending",
+      "Grey blending",
+      "Transicao grisalha",
+      "Transição para o grisalho",
+      "Mechas para transição grisalha",
+      "Assumir os brancos"
+    ],
+    "description": "Mechas que misturam os brancos com a sua cor, sem aquela linha marcada na raiz.",
+    "swatch": [
+      "#B9B8B5",
+      "#8E837A",
+      "#6E5E52"
+    ]
+  },
+  {
+    "id": "sal-e-pimenta",
+    "name": "Sal e Pimenta",
+    "aka": [
+      "Salt and pepper",
+      "Sal & pimenta",
+      "Grisalho mesclado",
+      "Mesclado preto e branco",
+      "Grisalho escuro mesclado"
+    ],
+    "description": "Fios brancos espalhados no cabelo escuro, como sal e pimenta, bem natural.",
+    "swatch": [
+      "#3B3735",
+      "#5F5B59",
+      "#8C8987"
+    ]
+  },
+  {
+    "id": "prateado",
+    "name": "Prateado",
+    "aka": [
+      "Cabelo prateado",
+      "Grisalho prateado",
+      "Prata natural",
+      "Silver hair",
+      "Silver fox",
+      "Granny hair",
+      "Prata Metalizado",
+      "Prata",
+      "Metallic silver"
+    ],
+    "description": "Prata clarinho e brilhante, frio e uniforme, sem nada de amarelado.",
+    "swatch": [
+      "#A9ABAE",
+      "#C3C5C8",
+      "#DCDEE0"
+    ]
+  },
+  {
+    "id": "branco-natural",
+    "name": "Branco Natural",
+    "aka": [
+      "Cabelo branco",
+      "Branco",
+      "Grisalho branco",
+      "Branquinho",
+      "Natural white",
+      "White hair",
+      "Branco Gelo",
+      "Branco neve",
+      "Ice white",
+      "Snow white"
+    ],
+    "description": "Cabelo todo branquinho, limpo e brilhante, sem fundo amarelado.",
+    "swatch": [
+      "#D9D9D6",
+      "#E8E8E5",
+      "#F5F5F2"
+    ]
+  },
+  {
+    "id": "luzes-disfarca-brancos",
+    "name": "Luzes para Disfarçar Brancos",
+    "aka": [
+      "Mechas para disfarçar brancos",
+      "Luzes para camuflar brancos",
+      "Luzes finas para grisalhos",
+      "Blonde blending",
+      "Herringbone highlights",
+      "Gray blending loiro"
+    ],
+    "description": "Luzes loiras bem finas que disfarçam os fios brancos e iluminam o cabelo.",
+    "swatch": [
+      "#6E6258",
+      "#A89A88",
+      "#CFC3AF"
+    ]
+  },
+  {
+    "id": "grisalho-com-lowlights",
+    "name": "Grisalho com Lowlights",
+    "aka": [
+      "Grisalho com luzes baixas",
+      "Lowlights no grisalho",
+      "Grisalho com mechas escuras",
+      "Mechas escuras no grisalho",
+      "Gray with lowlights",
+      "Grisalho Iluminado",
+      "Grisalho com luzes",
+      "Blend de grisalhos",
+      "Silver blending"
+    ],
+    "description": "Grisalho prateado com mechas mais escuras no meio, para dar profundidade.",
+    "swatch": [
+      "#C2C3C4",
+      "#8A8785",
+      "#A9A8A6"
+    ]
+  },
+  {
+    "id": "mecha-branca-frontal",
+    "name": "Mecha Branca Frontal",
+    "aka": [
+      "Mecha branca",
+      "Mecha da Vampira",
+      "Mecha Rogue",
+      "Skunk stripe",
+      "Money piece branco",
+      "White streak"
+    ],
+    "description": "Mechas brancas bem na frente do rosto, contrastando com o resto do cabelo.",
+    "swatch": [
+      "#2F2520",
+      "#F0F0EC"
+    ]
+  },
+  {
+    "id": "grisalho-chumbo",
+    "name": "Grisalho Chumbo",
+    "aka": [
+      "Cinza chumbo",
+      "Chumbo",
+      "Grisalho escuro",
+      "Pewter gray",
+      "Steel gray",
+      "Gunmetal gray",
+      "Cinza Grafite",
+      "Grafite",
+      "Graphite",
+      "Charcoal gray"
+    ],
+    "description": "Cinza escuro e natural, cor de chumbo, discreto e sofisticado.",
+    "swatch": [
+      "#45474A",
+      "#5A5C5F",
+      "#717376"
+    ]
+  },
+  {
+    "id": "grisalho-greige",
+    "name": "Grisalho Greige",
+    "aka": [
+      "Greige",
+      "Balayage greige",
+      "Grisalho bege",
+      "Cinza bege",
+      "Gray beige",
+      "Greige hair"
+    ],
+    "description": "Mistura de cinza com bege, um prateado mais quentinho e suave.",
+    "swatch": [
+      "#8C857D",
+      "#B8AFA3",
+      "#D6CFC4"
+    ]
+  },
+  {
+    "id": "ombre-prateado",
+    "name": "Ombré Prateado",
+    "aka": [
+      "Ombre prateado",
+      "Ombré hair prateado",
+      "Degradê prateado",
+      "Ombré cinza",
+      "Silver ombre",
+      "Gray ombre"
+    ],
+    "description": "Raiz escura que vai clareando até as pontas prateadas, num degradê suave.",
+    "swatch": [
+      "#33281F",
+      "#7D7873",
+      "#D3D5D7"
+    ]
+  },
+  {
+    "id": "prata-perolado",
+    "name": "Prata Perolado",
+    "aka": [
+      "Prateado perolado",
+      "Prata pérola",
+      "Grisalho perolado",
+      "Pearl silver",
+      "Silver pearl",
+      "10.21"
+    ],
+    "description": "Prata clarinho com brilho de pérola, que muda de leve com a luz.",
+    "swatch": [
+      "#BDBCC2",
+      "#D5D2D8",
+      "#ECE8EC"
+    ]
+  },
+  {
+    "id": "prateado-raiz-esfumada",
+    "name": "Prateado com Raiz Esfumada",
+    "aka": [
+      "Raiz esfumada prateada",
+      "Prata com raiz escura",
+      "Shadow root prateado",
+      "Root smudge prateado",
+      "Silver shadow root"
+    ],
+    "description": "Prateado claro com a raiz mais escura e esfumada, que dá menos trabalho.",
+    "swatch": [
+      "#4C4C4E",
+      "#A6A8AB",
+      "#D8DADC"
+    ]
+  }
+]

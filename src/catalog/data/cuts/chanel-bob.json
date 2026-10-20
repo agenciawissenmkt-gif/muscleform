@@ -164,26 +164,6 @@
     }
   },
   {
-    "id": "long-bob-repicado",
-    "name": "Long Bob Repicado",
-    "aka": [
-      "Lob repicado",
-      "Long bob desfiado",
-      "Long bob com camadas",
-      "Layered lob",
-      "Textured lob"
-    ],
-    "description": "Long bob com camadas leves e mechas na frente que dão movimento.",
-    "look": {
-      "length": 0.44,
-      "volume": 0.55,
-      "layers": 0.6,
-      "fringe": "none",
-      "texture": "straight",
-      "style": "loose"
-    }
-  },
-  {
     "id": "chanel-longo",
     "name": "Chanel Longo",
     "aka": [
@@ -651,10 +631,11 @@
     "name": "Long Bob com Franja Reta",
     "aka": [
       "Lob com franja",
-      "Long bob com franja cheia",
-      "Long bob e franja",
       "Lob with bangs",
-      "Blunt bangs lob"
+      "Blunt bangs lob",
+      "Chanel Cleópatra",
+      "Bob egípcio",
+      "Egyptian bob"
     ],
     "description": "Long bob nos ombros com franja reta na sobrancelha, lindo e marcante.",
     "look": {
