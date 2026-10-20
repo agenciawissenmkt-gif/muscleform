@@ -1,0 +1,479 @@
+[
+  {
+    "id": "preto-natural",
+    "name": "Preto Natural",
+    "aka": [
+      "Preto",
+      "Preto 1.0",
+      "Preto clássico",
+      "Natural black",
+      "1.0",
+      "1"
+    ],
+    "description": "Preto clássico e natural, profundo e com brilho, sem reflexo colorido.",
+    "swatch": [
+      "#121010",
+      "#181514",
+      "#201B19"
+    ]
+  },
+  {
+    "id": "castanho-escuro",
+    "name": "Castanho Escuro",
+    "aka": [
+      "Castanho escuro natural",
+      "Moreno escuro",
+      "Dark brown",
+      "3.0",
+      "3"
+    ],
+    "description": "Castanho bem escuro e natural, quase preto na sombra, lindo e fácil de usar.",
+    "swatch": [
+      "#261A14",
+      "#2F2019",
+      "#3A281E"
+    ]
+  },
+  {
+    "id": "castanho-chocolate",
+    "name": "Castanho Chocolate",
+    "aka": [
+      "Chocolate",
+      "Marrom chocolate",
+      "Chocolate brown",
+      "5.7",
+      "4.7"
+    ],
+    "description": "Castanho quentinho cor de chocolate, rico, brilhante e bem charmoso.",
+    "swatch": [
+      "#3B231A",
+      "#4A2D20",
+      "#5A3828"
+    ]
+  },
+  {
+    "id": "castanho-medio",
+    "name": "Castanho Médio",
+    "aka": [
+      "Castanho medio",
+      "Castanho médio natural",
+      "Moreno",
+      "Medium brown",
+      "4.0",
+      "4"
+    ],
+    "description": "Castanho do meio, nem claro nem escuro, natural e equilibrado.",
+    "swatch": [
+      "#352419",
+      "#402C1F",
+      "#4C3526"
+    ]
+  },
+  {
+    "id": "castanho-claro",
+    "name": "Castanho Claro",
+    "aka": [
+      "Castanho claro natural",
+      "Morena clara",
+      "Light brown",
+      "5.0",
+      "5"
+    ],
+    "description": "Castanho mais clarinho e natural, leve e suave, sem puxar pro dourado.",
+    "swatch": [
+      "#4A3526",
+      "#57402E",
+      "#654B37"
+    ]
+  },
+  {
+    "id": "preto-azulado",
+    "name": "Preto Azulado",
+    "aka": [
+      "Preto azul",
+      "Preto azul noite",
+      "Blue black",
+      "1.1",
+      "1.10",
+      "2.8"
+    ],
+    "description": "Preto bem intenso com brilho azulado que aparece quando bate a luz.",
+    "swatch": [
+      "#0C0D12",
+      "#12151F",
+      "#1A1F2E"
+    ]
+  },
+  {
+    "id": "chocolate-amargo",
+    "name": "Chocolate Amargo",
+    "aka": [
+      "Chocolate escuro",
+      "Castanho escuro chocolate",
+      "Cacau",
+      "Dark chocolate",
+      "3.7",
+      "3.77"
+    ],
+    "description": "Castanho bem escuro cor de chocolate amargo, profundo e brilhante.",
+    "swatch": [
+      "#24150F",
+      "#2E1B14",
+      "#3A2219"
+    ]
+  },
+  {
+    "id": "castanho-iluminado",
+    "name": "Castanho Iluminado",
+    "aka": [
+      "Castanho luminoso",
+      "Castanho brilhante",
+      "Castanho claro dourado bege",
+      "Luminous brown",
+      "Glossy brunette",
+      "5.31"
+    ],
+    "description": "Castanho claro com brilho dourado suave, que deixa o cabelo luminoso.",
+    "swatch": [
+      "#4D3524",
+      "#66482F",
+      "#82603E"
+    ]
+  },
+  {
+    "id": "castanho-caramelo",
+    "name": "Castanho Caramelo",
+    "aka": [
+      "Caramelo",
+      "Castanho caramelo escuro",
+      "Toffee",
+      "Caramel brown",
+      "6.34",
+      "6.73"
+    ],
+    "description": "Castanho quentinho com reflexo caramelo, doce, dourado e alegre.",
+    "swatch": [
+      "#5A3A22",
+      "#77502C",
+      "#94683A"
+    ]
+  },
+  {
+    "id": "castanho-mel",
+    "name": "Castanho Mel",
+    "aka": [
+      "Mel escuro",
+      "Castanho dourado mel",
+      "Castanho claro mel",
+      "Honey brown",
+      "5.33",
+      "5.34"
+    ],
+    "description": "Castanho com reflexo cor de mel, dourado e brilhante como mel na luz.",
+    "swatch": [
+      "#5A3A18",
+      "#7A5222",
+      "#9A6B2F"
+    ]
+  },
+  {
+    "id": "marrom-glace",
+    "name": "Marrom Glacê",
+    "aka": [
+      "Marrom glace",
+      "Marron glacê",
+      "Castanha",
+      "Chestnut brown",
+      "5.35"
+    ],
+    "description": "Castanho quente cor de castanha doce, com leve reflexo avermelhado.",
+    "swatch": [
+      "#47291C",
+      "#573222",
+      "#693D29"
+    ]
+  },
+  {
+    "id": "cafe-expresso",
+    "name": "Café Expresso",
+    "aka": [
+      "Expresso",
+      "Cafe expresso",
+      "Castanho café",
+      "Espresso brown",
+      "Espresso martini",
+      "2.7"
+    ],
+    "description": "O castanho mais escuro de todos, cor de café forte, quase preto.",
+    "swatch": [
+      "#1C1411",
+      "#221813",
+      "#2A1E18"
+    ]
+  },
+  {
+    "id": "mocha-mousse",
+    "name": "Mocha Mousse",
+    "aka": [
+      "Mocha",
+      "Moca",
+      "Café com leite",
+      "Castanho mocha",
+      "Mocha brown",
+      "6.07"
+    ],
+    "description": "Castanho suave cor de café com leite e cacau, a cor queridinha de 2025.",
+    "swatch": [
+      "#533D31",
+      "#66503F",
+      "#7A6250"
+    ]
+  },
+  {
+    "id": "castanho-acinzentado",
+    "name": "Castanho Acinzentado",
+    "aka": [
+      "Castanho cinza",
+      "Castanho claro acinzentado",
+      "Castanho fumê",
+      "Ash brown",
+      "5.1",
+      "5.11"
+    ],
+    "description": "Castanho frio e esfumado, puxado pro cinza, sem nada de vermelho.",
+    "swatch": [
+      "#3E3632",
+      "#4A413C",
+      "#574D47"
+    ]
+  },
+  {
+    "id": "castanho-dourado",
+    "name": "Castanho Dourado",
+    "aka": [
+      "Castanho claro dourado",
+      "Marrom dourado",
+      "Golden brown",
+      "5.3",
+      "4.3"
+    ],
+    "description": "Castanho com brilho dourado, quentinho e cheio de luz.",
+    "swatch": [
+      "#4A311C",
+      "#5C3E23",
+      "#6E4C2C"
+    ]
+  },
+  {
+    "id": "preto-acastanhado",
+    "name": "Preto Acastanhado",
+    "aka": [
+      "Preto suave",
+      "Castanho escuríssimo",
+      "Castanho escurissimo",
+      "Ébano",
+      "Soft black",
+      "2.0"
+    ],
+    "description": "Preto suave com fundo castanho, mais leve e natural que o preto puro.",
+    "swatch": [
+      "#17110E",
+      "#1D1511",
+      "#251B16"
+    ]
+  },
+  {
+    "id": "chocolate-ao-leite",
+    "name": "Chocolate ao Leite",
+    "aka": [
+      "Chocolate claro",
+      "Castanho chocolate claro",
+      "Chocolate cremoso",
+      "Milk chocolate brown",
+      "6.7",
+      "6.77"
+    ],
+    "description": "Chocolate mais clarinho e cremoso, doce e quentinho como chocolate ao leite.",
+    "swatch": [
+      "#4E3022",
+      "#643E2C",
+      "#7A4F38"
+    ]
+  },
+  {
+    "id": "preto-intenso",
+    "name": "Preto Intenso",
+    "aka": [
+      "Preto absoluto",
+      "Preto ônix",
+      "Preto onix",
+      "Preto puro",
+      "Jet black",
+      "1.00"
+    ],
+    "description": "Preto puro e fortíssimo, com brilho de espelho, bem marcante.",
+    "swatch": [
+      "#0A0A0B",
+      "#0E0E10",
+      "#141416"
+    ]
+  },
+  {
+    "id": "avela",
+    "name": "Avelã",
+    "aka": [
+      "Avela",
+      "Castanho avelã",
+      "Castanho claro avelã",
+      "Hazelnut brown",
+      "6.37"
+    ],
+    "description": "Castanho claro cor de avelã, suave, natural e levemente dourado.",
+    "swatch": [
+      "#574030",
+      "#6C503B",
+      "#826348"
+    ]
+  },
+  {
+    "id": "chocolate-cereja",
+    "name": "Chocolate Cereja",
+    "aka": [
+      "Cherry cola",
+      "Cereja cola",
+      "Castanho cereja",
+      "Chocolate cherry",
+      "4.65",
+      "4.62"
+    ],
+    "description": "Castanho chocolate com reflexo vermelho cereja, que brilha na luz.",
+    "swatch": [
+      "#2E1416",
+      "#45191C",
+      "#5A2125"
+    ]
+  },
+  {
+    "id": "castanho-frio",
+    "name": "Castanho Frio",
+    "aka": [
+      "Castanho médio frio",
+      "Castanho neutro frio",
+      "Castanho sem vermelho",
+      "Cool brown",
+      "4.1",
+      "4.12"
+    ],
+    "description": "Castanho médio sem vermelho e sem dourado, frio, moderno e elegante.",
+    "swatch": [
+      "#2F2724",
+      "#39302C",
+      "#443A35"
+    ]
+  },
+  {
+    "id": "canela",
+    "name": "Canela",
+    "aka": [
+      "Castanho canela",
+      "Marrom canela",
+      "Cinnamon brown",
+      "Cinnamon",
+      "6.74"
+    ],
+    "description": "Castanho quentinho com toque acobreado de canela, bem aconchegante.",
+    "swatch": [
+      "#5A311E",
+      "#744025",
+      "#8E5230"
+    ]
+  },
+  {
+    "id": "castanho-cogumelo",
+    "name": "Castanho Cogumelo",
+    "aka": [
+      "Mushroom brown",
+      "Cogumelo",
+      "Castanho taupe",
+      "Taupe brown",
+      "5.12"
+    ],
+    "description": "Castanho frio e acinzentado, com toque bege, cor de cogumelo.",
+    "swatch": [
+      "#4A4038",
+      "#5A4F46",
+      "#6B6056"
+    ]
+  },
+  {
+    "id": "castanho-rose",
+    "name": "Castanho Rosé",
+    "aka": [
+      "Castanho rose",
+      "Castanho rosado",
+      "Chocolate rosé",
+      "Rose brown",
+      "Mauve brown",
+      "5.26"
+    ],
+    "description": "Castanho com reflexo rosado bem suave, delicado e romântico.",
+    "swatch": [
+      "#4A3030",
+      "#5E3D3C",
+      "#74504D"
+    ]
+  },
+  {
+    "id": "castanho-ameixa",
+    "name": "Castanho Ameixa",
+    "aka": [
+      "Ameixa",
+      "Castanho violeta",
+      "Castanho berinjela",
+      "Plum brown",
+      "4.2",
+      "4.20"
+    ],
+    "description": "Castanho escuro com reflexo roxo de ameixa, profundo e brilhante.",
+    "swatch": [
+      "#2A1520",
+      "#3A1C2B",
+      "#4A2436"
+    ]
+  },
+  {
+    "id": "preto-violeta",
+    "name": "Preto Violeta",
+    "aka": [
+      "Preto ameixa",
+      "Preto roxo",
+      "Violet black",
+      "Plum black",
+      "1.2",
+      "2.2"
+    ],
+    "description": "Preto com brilho violeta que aparece na luz, misterioso e chique.",
+    "swatch": [
+      "#110D14",
+      "#18121D",
+      "#211829"
+    ]
+  },
+  {
+    "id": "preto-cereja",
+    "name": "Preto Cereja",
+    "aka": [
+      "Black cherry",
+      "Preto vinho",
+      "Preto avermelhado",
+      "Preto com reflexo vermelho",
+      "2.6"
+    ],
+    "description": "Preto com reflexo vermelho cereja escuro, que aparece na luz.",
+    "swatch": [
+      "#160C0D",
+      "#1F0F11",
+      "#2B1416"
+    ]
+  }
+]

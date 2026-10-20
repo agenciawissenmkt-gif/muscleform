@@ -1,0 +1,426 @@
+[
+  {
+    "id": "ruivo-acobreado",
+    "name": "Ruivo Acobreado",
+    "aka": [
+      "Acobreado",
+      "Ruivo cobre",
+      "Ruivo acobreado clássico",
+      "Copper red",
+      "7.4",
+      "7.43"
+    ],
+    "description": "Ruivo cor de cobre bem quentinho, vivo e luminoso, o queridinho das ruivas.",
+    "swatch": [
+      "#8A3418",
+      "#A6421E",
+      "#BD5628"
+    ]
+  },
+  {
+    "id": "marsala",
+    "name": "Marsala",
+    "aka": [
+      "Cabelo marsala",
+      "Vinho marsala",
+      "Ruivo marsala",
+      "Marsala red",
+      "5.62"
+    ],
+    "description": "Tom de vinho puxado para o marrom, elegante, discreto e cheio de charme.",
+    "swatch": [
+      "#4A1C20",
+      "#5E2428",
+      "#712E32"
+    ]
+  },
+  {
+    "id": "vinho",
+    "name": "Vinho",
+    "aka": [
+      "Borgonha",
+      "Bordô",
+      "Vermelho vinho",
+      "Burgundy",
+      "Wine red",
+      "4.62"
+    ],
+    "description": "Vermelho cor de vinho, profundo e marcante, com brilho arroxeado.",
+    "swatch": [
+      "#3A1020",
+      "#4E1529",
+      "#621C33"
+    ]
+  },
+  {
+    "id": "ruivo-natural",
+    "name": "Ruivo Natural",
+    "aka": [
+      "Ruiva natural",
+      "Ruivo de nascença",
+      "Natural red",
+      "Natural redhead",
+      "8.43"
+    ],
+    "description": "Ruivo de quem nasceu ruiva: cobre suave com fios dourados naturais.",
+    "swatch": [
+      "#94461F",
+      "#AD5628",
+      "#C26C38"
+    ]
+  },
+  {
+    "id": "cobre-intenso",
+    "name": "Cobre Intenso",
+    "aka": [
+      "Cobre",
+      "Acobreado intenso",
+      "Ruivo cobre intenso",
+      "Vivid copper",
+      "7.44",
+      "77.44"
+    ],
+    "description": "Cobre bem forte e brilhante, um laranja acobreado que chama atenção.",
+    "swatch": [
+      "#A3421A",
+      "#C0531F",
+      "#D6682A"
+    ]
+  },
+  {
+    "id": "auburn",
+    "name": "Castanho Avermelhado",
+    "aka": [
+      "Auburn",
+      "Castanho ruivo",
+      "Castanho acobreado avermelhado",
+      "Castanho avermelhado claro",
+      "5.46",
+      "5.4"
+    ],
+    "description": "Castanho com reflexo vermelho, quentinho e natural, que brilha no sol.",
+    "swatch": [
+      "#45201A",
+      "#5A2A1E",
+      "#6E3624"
+    ]
+  },
+  {
+    "id": "vermelho-intenso",
+    "name": "Vermelho Intenso",
+    "aka": [
+      "Vermelho",
+      "Vermelho vivo",
+      "Ruivo vermelho",
+      "True red",
+      "6.66",
+      "7.66"
+    ],
+    "description": "Vermelho puro e vivo, bem forte e chamativo, para quem ama ousar.",
+    "swatch": [
+      "#82121A",
+      "#9E1A21",
+      "#B5242A"
+    ]
+  },
+  {
+    "id": "acaju",
+    "name": "Acaju",
+    "aka": [
+      "Castanho acaju",
+      "Vermelho acaju",
+      "Ruivo acaju",
+      "Red mahogany",
+      "5.5",
+      "6.5"
+    ],
+    "description": "Castanho bem avermelhado, com reflexo vermelho vivo e toque arroxeado.",
+    "swatch": [
+      "#5E1C1E",
+      "#742424",
+      "#882F2B"
+    ]
+  },
+  {
+    "id": "ruivo-cereja",
+    "name": "Ruivo Cereja",
+    "aka": [
+      "Cereja",
+      "Vermelho cereja",
+      "Cherry red",
+      "Cherry hair",
+      "6.62",
+      "6.6"
+    ],
+    "description": "Vermelho cor de cereja, vivo e brilhante, com fundo levemente rosado.",
+    "swatch": [
+      "#6E0E20",
+      "#8A1429",
+      "#A01C33"
+    ]
+  },
+  {
+    "id": "mogno",
+    "name": "Mogno",
+    "aka": [
+      "Castanho mogno",
+      "Marrom mogno",
+      "Mahogany brown",
+      "Dark mahogany",
+      "4.5",
+      "4.56"
+    ],
+    "description": "Castanho escuro com reflexo avermelhado suave, como madeira de mogno.",
+    "swatch": [
+      "#33191A",
+      "#41201E",
+      "#4F2924"
+    ]
+  },
+  {
+    "id": "loiro-morango",
+    "name": "Loiro Morango",
+    "aka": [
+      "Strawberry blonde",
+      "Loiro avermelhado",
+      "Loiro ruivo",
+      "Ruivo morango",
+      "9.43",
+      "9.34"
+    ],
+    "description": "Loiro clarinho com toque ruivo rosado, delicado como morango.",
+    "swatch": [
+      "#B9825A",
+      "#CC966B",
+      "#DDAE88"
+    ]
+  },
+  {
+    "id": "ginger",
+    "name": "Ruivo Ginger",
+    "aka": [
+      "Ginger",
+      "Ruivo gengibre",
+      "Gengibre",
+      "Golden ginger",
+      "Cobre dourado",
+      "8.34"
+    ],
+    "description": "Ruivo alaranjado e dourado, alegre e solar, cor de gengibre.",
+    "swatch": [
+      "#B05C25",
+      "#C77032",
+      "#D98A47"
+    ]
+  },
+  {
+    "id": "cobre-claro",
+    "name": "Cobre Claro",
+    "aka": [
+      "Acobreado claro",
+      "Loiro acobreado",
+      "Cobre suave",
+      "Light copper",
+      "8.4",
+      "9.4"
+    ],
+    "description": "Cobre clarinho e suave, cor de pêssego, leve e luminoso.",
+    "swatch": [
+      "#BC6D40",
+      "#CF8352",
+      "#E09C6E"
+    ]
+  },
+  {
+    "id": "ruivo-canela",
+    "name": "Ruivo Canela",
+    "aka": [
+      "Canela",
+      "Castanho canela",
+      "Castanho acobreado",
+      "Cobre canela",
+      "Cinnamon",
+      "6.34"
+    ],
+    "description": "Castanho acobreado cor de canela, quentinho, natural e fácil de usar.",
+    "swatch": [
+      "#5E321F",
+      "#764127",
+      "#8D5233"
+    ]
+  },
+  {
+    "id": "ruivo-escuro",
+    "name": "Ruivo Escuro",
+    "aka": [
+      "Cobre escuro",
+      "Acobreado escuro",
+      "Dark copper",
+      "Deep copper",
+      "6.44",
+      "5.44"
+    ],
+    "description": "Ruivo cobre mais fechado e profundo, intenso sem ficar chamativo demais.",
+    "swatch": [
+      "#62240F",
+      "#782E15",
+      "#8C3A1C"
+    ]
+  },
+  {
+    "id": "cherry-cola",
+    "name": "Cherry Cola",
+    "aka": [
+      "Ruivo cherry cola",
+      "Castanho cereja",
+      "Cherry brown",
+      "Preto avermelhado",
+      "3.6",
+      "3.66"
+    ],
+    "description": "Quase preto, com um reflexo vermelho-cereja que aparece na luz.",
+    "swatch": [
+      "#1F0F10",
+      "#301318",
+      "#451A22"
+    ]
+  },
+  {
+    "id": "ruivo-fogo",
+    "name": "Ruivo Fogo",
+    "aka": [
+      "Vermelho fogo",
+      "Vermelho acobreado",
+      "Fire red",
+      "Red copper",
+      "7.64",
+      "6.46"
+    ],
+    "description": "Vermelho alaranjado e vibrante, quente como fogo e cheio de energia.",
+    "swatch": [
+      "#A02A14",
+      "#BC3A1A",
+      "#D04F24"
+    ]
+  },
+  {
+    "id": "cobre-rose",
+    "name": "Cobre Rosé",
+    "aka": [
+      "Cobre rose",
+      "Cobre rosado",
+      "Rose copper",
+      "Copper rose",
+      "Ruivo rosé",
+      "8.42"
+    ],
+    "description": "Cobre clarinho com toque rosado, romântico, delicado e moderno.",
+    "swatch": [
+      "#B0624E",
+      "#C47863",
+      "#D6947F"
+    ]
+  },
+  {
+    "id": "red-velvet",
+    "name": "Red Velvet",
+    "aka": [
+      "Ruivo red velvet",
+      "Vermelho veludo",
+      "Vermelho profundo",
+      "Deep red",
+      "5.66"
+    ],
+    "description": "Vermelho escuro e aveludado, sofisticado como o bolo red velvet.",
+    "swatch": [
+      "#4E0D15",
+      "#63121B",
+      "#781A22"
+    ]
+  },
+  {
+    "id": "ruivo-alaranjado",
+    "name": "Ruivo Alaranjado",
+    "aka": [
+      "Ruivo laranja",
+      "Cabelo laranja",
+      "Laranja tangerina",
+      "Orange hair",
+      "Bright orange",
+      "8.44"
+    ],
+    "description": "Ruivo bem laranja, vivo e divertido, cor de tangerina.",
+    "swatch": [
+      "#C04E18",
+      "#D8611F",
+      "#EA7B32"
+    ]
+  },
+  {
+    "id": "pumpkin-spice",
+    "name": "Pumpkin Spice",
+    "aka": [
+      "Ruivo abóbora",
+      "Ruivo abobora",
+      "Cobre abóbora",
+      "Laranja queimado",
+      "Pumpkin hair"
+    ],
+    "description": "Laranja queimado com fundo castanho, cor de abóbora, quente e outonal.",
+    "swatch": [
+      "#7E3A1A",
+      "#9C4B20",
+      "#B6602C"
+    ]
+  },
+  {
+    "id": "ruivo-veneziano",
+    "name": "Ruivo Veneziano",
+    "aka": [
+      "Ruivo ticiano",
+      "Ruivo renascentista",
+      "Venetian red",
+      "Titian red",
+      "Titian hair"
+    ],
+    "description": "Ruivo dourado com reflexo avermelhado, clássico como pintura antiga.",
+    "swatch": [
+      "#9E4E2E",
+      "#B5603A",
+      "#C87A50"
+    ]
+  },
+  {
+    "id": "bronde-acobreado",
+    "name": "Bronde Acobreado",
+    "aka": [
+      "Copper bronde",
+      "Cobre bronze",
+      "Bronze acobreado",
+      "Bronde cobre"
+    ],
+    "description": "Mistura de castanho claro, loiro e cobre, iluminada e natural.",
+    "swatch": [
+      "#6A4630",
+      "#946043",
+      "#B98056"
+    ]
+  },
+  {
+    "id": "ruivo-terracota",
+    "name": "Ruivo Terracota",
+    "aka": [
+      "Terracota",
+      "Ruivo tijolo",
+      "Cobre terroso",
+      "Terracotta hair",
+      "Brick red"
+    ],
+    "description": "Ruivo terroso cor de tijolo, suave e moderno, como barro cozido.",
+    "swatch": [
+      "#73352A",
+      "#8A4232",
+      "#9F543E"
+    ]
+  }
+]

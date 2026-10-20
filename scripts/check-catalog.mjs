@@ -56,8 +56,11 @@ function checkType(type) {
       } else {
         const words = prompt.trim().split(/\s+/).length;
         if (words > 140) warnings.push(`${where}: prompt muito longo (${words} palavras)`);
-        if (NON_HAIR.test(prompt))
-          warnings.push(`${where}: prompt cita algo que não é cabelo ("${prompt.match(NON_HAIR)[0]}")`);
+        // "face-framing" / "frame the face" são termos de corte (moldura do rosto), não pedem mudar o rosto.
+        const hairOnly = prompt.replace(/face[- ]?fram\w*|fram\w* (?:the )?face|around the face|toward the face|away from the face|off the face/gi, '');
+        if (NON_HAIR.test(hairOnly)) {
+          warnings.push(`${where}: prompt cita algo que não é cabelo ("${hairOnly.match(NON_HAIR)[0]}")`);
+        }
         if (type === 'cuts' && COLOR_WORDS.test(prompt)) {
           warnings.push(`${where}: prompt de corte cita cor ("${prompt.match(COLOR_WORDS)[0]}")`);
         }
