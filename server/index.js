@@ -1,72 +1,191 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import express from 'express';
-import cors from 'cors';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { AiError, aiReady, editImage, modelName } from './ai.js';
+import { clearSession, currentUser, isAllowed, requireAuth, setSession, verifyGoogleCredential } from './auth.js';
+import { checkLimit, finishJob, startJob } from './limits.js';
+import { buildPrompt, colorPrompts, cutPrompts } from './prompts.js';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const PORT = process.env.PORT || 8787;
+dotenv.config({ path: fileURLToPath(new URL('./.env', import.meta.url)), quiet: true });
+
+const PORT = Number(process.env.PORT) || 8787;
+const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
+const demoLogin = () => process.env.DEMO_LOGIN === 'true';
 
 const app = express();
-app.use(cors());
-app.use(express.json({ limit: '20mb' }));
+app.disable('x-powered-by');
+app.set('trust proxy', 1); // atrás do proxy do EasyPanel (HTTPS)
+
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Permissions-Policy', 'camera=(self), microphone=(), geolocation=()');
+  next();
+});
+
+app.use('/api', express.json({ limit: '12mb' }));
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, configured: Boolean(OPENAI_API_KEY) });
+  res.json({ ok: true, ai: aiReady(), model: modelName(), cuts: cutPrompts.size, colors: colorPrompts.size });
 });
 
-app.post('/api/transform', async (req, res) => {
-  if (!OPENAI_API_KEY) {
-    res.status(503).json({ error: 'O servidor ainda não tem uma chave da OpenAI configurada.' });
-    return;
-  }
+app.get('/api/config', (_req, res) => {
+  res.json({
+    googleClientId: process.env.GOOGLE_CLIENT_ID || null,
+    demoLogin: demoLogin(),
+    aiReady: aiReady(),
+  });
+});
 
-  const { imageBase64, maskBase64, prompt } = req.body ?? {};
-  if (typeof imageBase64 !== 'string' || typeof prompt !== 'string' || !prompt.trim()) {
-    res.status(400).json({ error: 'imageBase64 e prompt são obrigatórios.' });
-    return;
-  }
+app.get('/api/auth/me', (req, res) => {
+  const user = currentUser(req);
+  res.json({ user: user && isAllowed(user.email) ? user : null });
+});
 
+app.post('/api/auth/google', async (req, res) => {
   try {
-    const toBlob = (dataUrl) => {
-      const base64 = dataUrl.replace(/^data:image\/\w+;base64,/, '');
-      return new Blob([Buffer.from(base64, 'base64')], { type: 'image/png' });
-    };
-
-    const form = new FormData();
-    form.append('model', 'gpt-image-1');
-    form.append('image', toBlob(imageBase64), 'photo.png');
-    if (typeof maskBase64 === 'string') {
-      form.append('mask', toBlob(maskBase64), 'mask.png');
-    }
-    form.append('prompt', prompt);
-    form.append('size', '1024x1024');
-    form.append('quality', 'medium');
-    form.append('n', '1');
-
-    const openaiRes = await fetch('https://api.openai.com/v1/images/edits', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${OPENAI_API_KEY}` },
-      body: form,
-    });
-
-    const data = await openaiRes.json();
-    if (!openaiRes.ok) {
-      console.error('[openai] error', data);
-      res.status(502).json({ error: data.error?.message || 'Falha ao gerar a transformação.' });
+    const user = await verifyGoogleCredential(req.body?.credential);
+    if (!isAllowed(user.email)) {
+      res.status(403).json({ error: `A conta ${user.email} não tem acesso a este aplicativo.` });
       return;
     }
-
-    const b64 = data.data?.[0]?.b64_json;
-    if (!b64) {
-      res.status(502).json({ error: 'Resposta inesperada da IA.' });
-      return;
-    }
-    res.json({ imageBase64: `data:image/png;base64,${b64}` });
+    setSession(req, res, user);
+    console.log(`[auth] login ${user.email}`);
+    res.json({ user });
   } catch (err) {
-    console.error('[transform] error', err);
-    res.status(500).json({ error: 'Erro interno ao processar a imagem.' });
+    res.status(err.status || 500).json({ error: err.message || 'Falha no login.' });
   }
 });
+
+// Login por redirecionamento (usado quando o app está instalado na tela
+// inicial do celular, onde a janelinha/pop-up do Google não funciona bem).
+app.post('/api/auth/google/redirect', express.urlencoded({ extended: false, limit: '16kb' }), async (req, res) => {
+  const fail = (msg) => res.redirect(303, `/?login_error=${encodeURIComponent(msg)}`);
+  const cookieToken = /(?:^|;\s*)g_csrf_token=([^;]+)/.exec(req.headers.cookie || '')?.[1];
+  if (!cookieToken || cookieToken !== req.body?.g_csrf_token) {
+    fail('Não foi possível confirmar o login. Tente de novo.');
+    return;
+  }
+  try {
+    const user = await verifyGoogleCredential(req.body?.credential);
+    if (!isAllowed(user.email)) {
+      fail(`A conta ${user.email} não tem acesso a este aplicativo.`);
+      return;
+    }
+    setSession(req, res, user);
+    console.log(`[auth] login ${user.email} (redirect)`);
+    res.redirect(303, '/');
+  } catch (err) {
+    fail(err.message || 'Falha no login.');
+  }
+});
+
+app.post('/api/auth/demo', (req, res) => {
+  if (!demoLogin()) {
+    res.status(404).json({ error: 'Modo de teste desativado.' });
+    return;
+  }
+  const user = { email: 'teste@beautyandself.app', name: 'Modo teste' };
+  setSession(req, res, user);
+  res.json({ user });
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  clearSession(req, res);
+  res.json({ ok: true });
+});
+
+const IMAGE_PREFIX = /^data:image\/(jpeg|png|webp);base64,/;
+
+app.post('/api/generate', requireAuth, async (req, res) => {
+  const { image, aspectRatio, cutId, colorId } = req.body ?? {};
+
+  if (typeof image !== 'string' || !IMAGE_PREFIX.test(image)) {
+    res.status(400).json({ error: 'Foto inválida. Tire ou escolha a foto de novo.' });
+    return;
+  }
+  const ratio = typeof aspectRatio === 'string' && /^(\d{1,2}):(\d{1,2})$/.exec(aspectRatio);
+  if (!ratio || Number(ratio[1]) < 1 || Number(ratio[2]) < 1) {
+    res.status(400).json({ error: 'Proporção da foto inválida.' });
+    return;
+  }
+  const prompt = buildPrompt({
+    cutId: typeof cutId === 'string' ? cutId : undefined,
+    colorId: typeof colorId === 'string' ? colorId : undefined,
+  });
+  if (!prompt) {
+    res.status(400).json({ error: 'Escolha um corte e/ou uma cor do catálogo.' });
+    return;
+  }
+
+  const email = req.user.email;
+  const limited = checkLimit(email);
+  if (limited) {
+    res.status(429).json({ error: limited });
+    return;
+  }
+
+  // Se a pessoa cancelar / fechar a tela, paramos de esperar a IA.
+  const abort = new AbortController();
+  res.on('close', () => {
+    if (!res.writableEnded) abort.abort();
+  });
+
+  const started = Date.now();
+  startJob(email);
+  let ok = false;
+  try {
+    const result = await editImage({ prompt, image, aspectRatio, signal: abort.signal });
+    ok = true;
+    res.json({ image: result });
+  } catch (err) {
+    if (abort.signal.aborted) return;
+    const status = err instanceof AiError ? err.status : 500;
+    if (!(err instanceof AiError)) console.error('[generate] erro inesperado', err);
+    res.status(status).json({ error: err instanceof AiError ? err.message : 'Erro interno ao gerar a imagem.' });
+  } finally {
+    finishJob(email, ok);
+    console.log(
+      JSON.stringify({
+        evt: 'generate',
+        user: email,
+        cutId: cutId || null,
+        colorId: colorId || null,
+        ok,
+        ms: Date.now() - started,
+      }),
+    );
+  }
+});
+
+app.use('/api', (_req, res) => {
+  res.status(404).json({ error: 'Rota não encontrada.' });
+});
+
+// Em produção, o mesmo servidor entrega o aplicativo (pasta dist/).
+if (existsSync(DIST)) {
+  app.use(
+    express.static(DIST, {
+      index: false,
+      setHeaders(res, path) {
+        if (path.includes('/assets/')) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        else res.setHeader('Cache-Control', 'no-cache');
+      },
+    }),
+  );
+  app.get('/{*path}', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
+    res.sendFile('index.html', { root: DIST });
+  });
+}
 
 app.listen(PORT, () => {
-  console.log(`Your Beauty AI server rodando em http://localhost:${PORT}`);
+  console.log(`Beauty and self rodando em http://localhost:${PORT}`);
+  console.log(
+    `  IA: ${aiReady() ? `conectada (${modelName()})` : 'NÃO conectada (defina FAL_KEY)'} · ` +
+      `catálogo: ${cutPrompts.size} cortes, ${colorPrompts.size} cores · ` +
+      `login Google: ${process.env.GOOGLE_CLIENT_ID ? 'sim' : 'não'}${demoLogin() ? ' · modo de teste: LIGADO' : ''}`,
+  );
 });
