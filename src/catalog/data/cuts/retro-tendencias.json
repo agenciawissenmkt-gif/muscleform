@@ -1,0 +1,212 @@
+[
+  {
+    "id": "corte-rachel",
+    "name": "Corte Rachel (Anos 90)",
+    "aka": ["The Rachel", "Corte da Rachel de Friends", "Corte Jennifer Aniston", "Rachel Green", "Repicado anos 90", "Rachel haircut"],
+    "description": "O famoso repicado dos anos 90: na altura dos ombros, com volume e balanço.",
+    "look": { "length": 0.42, "volume": 0.7, "layers": 0.85, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-hime",
+    "name": "Hime Cut",
+    "aka": ["Corte princesa japonês", "Hime katto", "Corte Hime", "Liso japonês com franja", "Princess cut", "Franja japonesa"],
+    "description": "Longo e liso, com franja reta e as mechas da frente cortadas retinhas.",
+    "look": { "length": 0.8, "volume": 0.3, "layers": 0.3, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "ondas-gisele",
+    "name": "Ondas Praianas (Gisele)",
+    "aka": ["Ondas Gisele Bündchen", "Cabelo da Gisele", "Beach waves", "Ondas de praia", "Ondas soltas longas", "Ondas Gisele Bundchen"],
+    "description": "Cabelo longo com ondas grandes e soltinhas, cheio de volume e movimento.",
+    "look": { "length": 0.78, "volume": 0.7, "layers": 0.6, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "coque-clean-girl",
+    "name": "Coque Clean Girl",
+    "aka": ["Slick back bun", "Coque liso puxado", "Coque baixo polido", "Clean girl", "Coque bailarina baixo", "Sleek bun"],
+    "description": "Cabelo todo puxado para trás, bem lisinho, preso num coque baixo.",
+    "look": { "length": 0.6, "volume": 0.1, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "ondas-hollywood",
+    "name": "Ondas Hollywood (Anos 40)",
+    "aka": ["Ondas glamour", "Hollywood waves", "Ondas retrô de cinema", "Veronica Lake", "Ondas de diva", "Old Hollywood"],
+    "description": "Ondas grandes e brilhantes de lado, como as estrelas do cinema antigo.",
+    "look": { "length": 0.5, "volume": 0.6, "layers": 0.35, "fringe": "side", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "corte-farrah",
+    "name": "Corte Farrah (Anos 70)",
+    "aka": ["Farrah Fawcett", "Cabelo de Pantera", "As Panteras", "Feathered anos 70", "70s feathered hair", "Corte Farrah Fawcett"],
+    "description": "Bem volumoso, com franja e laterais viradas para trás como asas.",
+    "look": { "length": 0.5, "volume": 0.9, "layers": 0.85, "fringe": "curtain", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "corte-lady-di",
+    "name": "Curto Lady Di",
+    "aka": ["Corte Lady Di", "Princesa Diana", "Princess Diana haircut", "Lady Diana", "Curto com topete de lado"],
+    "description": "Curtinho e elegante, com a frente penteada de lado e volume no alto.",
+    "look": { "length": 0.15, "volume": 0.55, "layers": 0.7, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "permanente-anos-80",
+    "name": "Permanente Anos 80",
+    "aka": ["Perm anos 80", "Cabelo permanente", "80s perm", "Cachos de permanente", "Cabelo armado anos 80", "Permanente cacheado"],
+    "description": "Muitos cachinhos firmes e um volume enorme, bem anos 80.",
+    "look": { "length": 0.55, "volume": 0.95, "layers": 0.6, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "pin-up-franja-bettie",
+    "name": "Pin-up com Franja (Bettie)",
+    "aka": ["Bettie bangs", "Franja Bettie Page", "Franja pin-up", "Corte pin-up", "Rockabilly", "Franja curtinha retrô"],
+    "description": "Franja curtinha arredondada e pontas enroladas, estilo pin-up anos 50.",
+    "look": { "length": 0.45, "volume": 0.5, "layers": 0.3, "fringe": "micro", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "estilo-wandinha",
+    "name": "Estilo Wandinha",
+    "aka": ["Wandinha", "Wandinha Addams", "Wednesday", "Wednesday Addams", "Duas tranças com franja", "Tranças da Wandinha"],
+    "description": "Franjinha curta, risca no meio e duas tranças, igual à Wandinha.",
+    "look": { "length": 0.6, "volume": 0.15, "layers": 0.1, "fringe": "micro", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "rabo-de-cavalo-alto",
+    "name": "Rabo de Cavalo Alto",
+    "aka": ["High ponytail", "Rabo de cavalo puxado", "Rabo alto liso", "Sleek ponytail", "Rabo de cavalo da Ariana", "Ariana Grande ponytail"],
+    "description": "Cabelo puxado bem lisinho e preso no alto da cabeça num rabo longo.",
+    "look": { "length": 0.75, "volume": 0.35, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "camadas-s-curl-coreanas",
+    "name": "Camadas S-Curl Coreanas",
+    "aka": ["S-curl", "Korean S-curl", "Build perm", "Ondas coreanas", "Corte coreano com ondas", "Camadas coreanas onduladas"],
+    "description": "Camadas leves com ondas suaves em S e franjinha fininha, estilo coreano.",
+    "look": { "length": 0.6, "volume": 0.55, "layers": 0.65, "fringe": "wispy", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "hippie-perm-coreano",
+    "name": "Hippie Perm Coreano",
+    "aka": ["Hippie perm", "Korean hippie perm", "Permanente hippie", "Permanente coreano", "Ondinhas coreanas"],
+    "description": "Ondinhas miúdas da raiz às pontas, com muito volume e jeitinho boho.",
+    "look": { "length": 0.55, "volume": 0.85, "layers": 0.4, "fringe": "wispy", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "corte-meg-ryan",
+    "name": "Shag Meg Ryan (Anos 90)",
+    "aka": ["Meg Ryan", "Shag bagunçado", "Shag baguncado", "Messy shag", "Corte bagunçadinho", "Shag curto anos 90"],
+    "description": "Curtinho, bem repicado e despenteado de propósito. Leve e divertido.",
+    "look": { "length": 0.3, "volume": 0.6, "layers": 0.9, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "cachos-marilyn",
+    "name": "Cachos Marilyn (Anos 50)",
+    "aka": ["Marilyn Monroe", "Cabelo da Marilyn", "Cachos anos 50", "Cachos de diva", "Pin curls", "Cachos retrô curtos"],
+    "description": "Curtinho, com cachos grandes e fofos, cheio de glamour dos anos 50.",
+    "look": { "length": 0.27, "volume": 0.75, "layers": 0.6, "fringe": "side", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "bob-amelie",
+    "name": "Bob Amélie Poulain",
+    "aka": ["Amélie", "Corte Amélie", "Amelie Poulain", "Chanel com franjinha curta", "Bob com franja curtinha"],
+    "description": "Chanel arredondado com franjinha bem curtinha, fofo e delicado.",
+    "look": { "length": 0.28, "volume": 0.45, "layers": 0.15, "fringe": "micro", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "bob-cleopatra",
+    "name": "Chanel Cleópatra",
+    "aka": ["Corte Cleópatra", "Cleopatra bob", "Bob egípcio", "Egyptian bob", "Cleopatra", "Chanel reto com franja pesada"],
+    "description": "Reto, pesado e bem liso, com franja grossa. Um visual forte e marcante.",
+    "look": { "length": 0.4, "volume": 0.35, "layers": 0.0, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "pixie-twiggy",
+    "name": "Pixie Twiggy (Anos 60)",
+    "aka": ["Twiggy", "Corte Twiggy", "Joãozinho anos 60", "Joaozinho anos 60", "Pixie anos 60", "Mod pixie"],
+    "description": "Joãozinho bem lisinho, com a franja penteada de lado. Charme anos 60.",
+    "look": { "length": 0.1, "volume": 0.2, "layers": 0.3, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "bob-louise-brooks",
+    "name": "Bob Melindrosa (Anos 20)",
+    "aka": ["Louise Brooks", "Bob Louise Brooks", "Flapper bob", "Corte melindrosa", "Bob anos 20", "Chanel anos 20"],
+    "description": "Chanel curtinho e liso, com franja reta e pontas para a frente.",
+    "look": { "length": 0.22, "volume": 0.25, "layers": 0.05, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "finger-waves-anos-20",
+    "name": "Ondas Anos 20 (Finger Waves)",
+    "aka": ["Finger waves", "Ondas Marcel", "Ondas retrô marcadas", "Ondas d'água", "Ondas Gatsby", "Ondas coladas"],
+    "description": "Chanel com ondas marcadas e brilhantes, rentes à cabeça. Puro anos 20.",
+    "look": { "length": 0.28, "volume": 0.25, "layers": 0.15, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "victory-rolls",
+    "name": "Victory Rolls (Anos 40)",
+    "aka": ["Penteado anos 40", "Rolinhos pin-up", "Rolos retrô", "Penteado rockabilly", "Victory rolls pin-up"],
+    "description": "Dois rolinhos no alto da cabeça e cachos soltos atrás. Charme anos 40.",
+    "look": { "length": 0.42, "volume": 0.6, "layers": 0.3, "fringe": "none", "texture": "wavy", "style": "updo" }
+  },
+  {
+    "id": "colmeia-beehive",
+    "name": "Colmeia (Beehive)",
+    "aka": ["Beehive", "Penteado colmeia", "Coque colmeia", "Penteado anos 60", "Coque alto volumoso", "Amy Winehouse"],
+    "description": "Penteado alto e bem armado no topo da cabeça, famoso nos anos 60.",
+    "look": { "length": 0.55, "volume": 0.95, "layers": 0.2, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "bufante-anos-60",
+    "name": "Bufante Anos 60",
+    "aka": ["Bouffant", "Bouffant flip", "Flip anos 60", "Bufante com pontas viradas", "Pontas viradas retrô", "Jackie Kennedy"],
+    "description": "Volume no alto da cabeça e pontas viradinhas para fora, bem anos 60.",
+    "look": { "length": 0.35, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "bob-assimetrico-rihanna",
+    "name": "Bob Assimétrico Rihanna",
+    "aka": ["Rihanna", "Rihanna bob", "Bob assimétrico raspado", "Bob assimetrico", "Bob com lado raspado", "Asymmetric bob"],
+    "description": "Um lado bem curtinho e o outro mais longo, com franja de lado. Ousado!",
+    "look": { "length": 0.25, "volume": 0.3, "layers": 0.4, "fringe": "side", "texture": "straight", "style": "shaved" }
+  },
+  {
+    "id": "scene-hair",
+    "name": "Scene Hair (Anos 2000)",
+    "aka": ["Scene", "Cabelo scene", "Corte scene", "Scene queen", "Emo scene", "Cabelo emo armado"],
+    "description": "Topo bem armado, muitas camadas e franja longa de lado. Bem anos 2000.",
+    "look": { "length": 0.5, "volume": 0.85, "layers": 0.9, "fringe": "side", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "corte-pajem",
+    "name": "Corte Pajem",
+    "aka": ["Pajem", "Pageboy", "Page boy", "Chanel pajem", "Bob pajem", "Chanel com pontas para dentro"],
+    "description": "Chanel arredondado com franja e pontas viradas para dentro. Clássico.",
+    "look": { "length": 0.35, "volume": 0.4, "layers": 0.15, "fringe": "full", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "wedge-anos-70",
+    "name": "Wedge Anos 70",
+    "aka": ["Dorothy Hamill", "Wedge cut", "Corte wedge", "Corte cunha", "Curto arredondado anos 70"],
+    "description": "Curtinho e arredondado, com franja e volume atrás. Clássico dos anos 70.",
+    "look": { "length": 0.18, "volume": 0.6, "layers": 0.65, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "frisado-crimped",
+    "name": "Frisado (Crimped)",
+    "aka": ["Crimped hair", "Cabelo frisado", "Frisado anos 80", "Frisado anos 2000", "Cabelo de frisadeira", "Prancha de frisar"],
+    "description": "Cabelo todo em zigue-zague miudinho, com muito volume. Retrô e divertido.",
+    "look": { "length": 0.7, "volume": 0.85, "layers": 0.3, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "franja-armada-anos-80",
+    "name": "Franja Armada Anos 80",
+    "aka": ["Big hair anos 80", "80s big hair", "Franja alta", "Franja de laquê", "Cabelão anos 80", "Claw bangs"],
+    "description": "Franja alta e armada com laquê e cabelo bem volumoso. Anos 80 puro!",
+    "look": { "length": 0.55, "volume": 0.9, "layers": 0.7, "fringe": "full", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "space-buns-meio-preso",
+    "name": "Space Buns (Coquinhos)",
+    "aka": ["Space buns", "Dois coques", "Coquinhos", "Meio preso com dois coques", "Coquinho duplo", "Penteado dois coquinhos"],
+    "description": "Dois coquinhos no alto da cabeça e o resto do cabelo solto.",
+    "look": { "length": 0.6, "volume": 0.45, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "updo" }
+  }
+]

@@ -1,0 +1,479 @@
+[
+  {
+    "id": "loiro-platinado",
+    "name": "Loiro Platinado",
+    "aka": [
+      "Platinado",
+      "Loiro platina",
+      "Loiro branco",
+      "Platinum blonde",
+      "12.11",
+      "12.0"
+    ],
+    "description": "O loiro mais clarinho de todos, quase branco, iluminado e marcante.",
+    "swatch": [
+      "#E6E1D6",
+      "#EFECE4",
+      "#F7F5EF"
+    ]
+  },
+  {
+    "id": "loiro-perola",
+    "name": "Loiro Pérola",
+    "aka": [
+      "Loiro perolado",
+      "Perolado",
+      "Loiro perola",
+      "Pearl blonde",
+      "10.12",
+      "10.21"
+    ],
+    "description": "Loiro claro com brilho perolado, entre o frio e o rosado, bem delicado.",
+    "swatch": [
+      "#D6CCC3",
+      "#E4DCD4",
+      "#EFE9E3"
+    ]
+  },
+  {
+    "id": "loiro-gelo",
+    "name": "Loiro Gelo",
+    "aka": [
+      "Loiro gelado",
+      "Loiro ice",
+      "Loiro frio",
+      "Ice blonde",
+      "Icy blonde",
+      "10.1"
+    ],
+    "description": "Loiro bem clarinho e frio, com reflexo gelado e nada amarelado.",
+    "swatch": [
+      "#D3D4CF",
+      "#E1E3E0",
+      "#EDEFEE"
+    ]
+  },
+  {
+    "id": "loiro-mel",
+    "name": "Loiro Mel",
+    "aka": [
+      "Mel",
+      "Loiro mel dourado",
+      "Mel dourado",
+      "Honey blonde",
+      "8.3",
+      "7.3"
+    ],
+    "description": "Loiro quentinho cor de mel, dourado e natural, que ilumina o rosto.",
+    "swatch": [
+      "#9A6B33",
+      "#B98544",
+      "#D1A35E"
+    ]
+  },
+  {
+    "id": "loiro-dourado",
+    "name": "Loiro Dourado",
+    "aka": [
+      "Dourado",
+      "Loiro ouro",
+      "Loiro sol",
+      "Golden blonde",
+      "9.3",
+      "9.33"
+    ],
+    "description": "Loiro solar e dourado, alegre e cheio de luz, como fio de ouro.",
+    "swatch": [
+      "#B88A45",
+      "#D2A65C",
+      "#E4C27B"
+    ]
+  },
+  {
+    "id": "loiro-bege",
+    "name": "Loiro Bege",
+    "aka": [
+      "Bege",
+      "Loiro bege claro",
+      "Loiro neutro",
+      "Beige blonde",
+      "9.13",
+      "9.31"
+    ],
+    "description": "Loiro neutro e suave, nem frio nem quente, elegante e natural.",
+    "swatch": [
+      "#B7A182",
+      "#C9B597",
+      "#D8C7AC"
+    ]
+  },
+  {
+    "id": "loiro-champagne",
+    "name": "Loiro Champagne",
+    "aka": [
+      "Loiro champanhe",
+      "Champagne",
+      "Loiro bege perolado",
+      "Champagne blonde",
+      "10.23"
+    ],
+    "description": "Loiro claro e luminoso, entre o bege e o perolado, cor de champanhe.",
+    "swatch": [
+      "#CDB893",
+      "#DCCBA8",
+      "#E8DCC1"
+    ]
+  },
+  {
+    "id": "loiro-escuro",
+    "name": "Loiro Escuro",
+    "aka": [
+      "Loiro escuro natural",
+      "Louro escuro",
+      "Dark blonde",
+      "6.0",
+      "6"
+    ],
+    "description": "Loiro mais fechado e natural, quase castanho claro, fácil de manter.",
+    "swatch": [
+      "#5E4630",
+      "#6E5339",
+      "#7D6044"
+    ]
+  },
+  {
+    "id": "loiro-claro",
+    "name": "Loiro Claro",
+    "aka": [
+      "Loiro claro natural",
+      "Louro claro",
+      "Light blonde",
+      "8.0",
+      "8"
+    ],
+    "description": "Loiro claro e natural, luminoso sem ser exagerado.",
+    "swatch": [
+      "#9C7F58",
+      "#AE9168",
+      "#C0A47B"
+    ]
+  },
+  {
+    "id": "loiro-medio",
+    "name": "Loiro Médio",
+    "aka": [
+      "Loiro médio natural",
+      "Loiro medio",
+      "Louro médio",
+      "Loiro natural",
+      "Medium blonde",
+      "7.0"
+    ],
+    "description": "Loiro natural do dia a dia, nem claro nem escuro, bem equilibrado.",
+    "swatch": [
+      "#7A5E40",
+      "#8C6D4B",
+      "#9D7D58"
+    ]
+  },
+  {
+    "id": "loiro-claro-acinzentado",
+    "name": "Loiro Claro Acinzentado",
+    "aka": [
+      "Loiro acinzentado claro",
+      "Loiro cinza claro",
+      "Loiro acinzentado",
+      "Light ash blonde",
+      "Ash blonde",
+      "8.1"
+    ],
+    "description": "Loiro claro e frio, puxado para o cinza, sem nenhum tom amarelado.",
+    "swatch": [
+      "#8E8370",
+      "#A09683",
+      "#B3AA98"
+    ]
+  },
+  {
+    "id": "loiro-caramelo-claro",
+    "name": "Loiro Caramelo Claro",
+    "aka": [
+      "Loiro caramelo",
+      "Caramelo claro",
+      "Light caramel blonde",
+      "Caramel blonde",
+      "7.34",
+      "8.34"
+    ],
+    "description": "Loiro quente cor de caramelo, dourado e aconchegante.",
+    "swatch": [
+      "#8A5A2B",
+      "#A8733C",
+      "#C38F55"
+    ]
+  },
+  {
+    "id": "loiro-manteiga",
+    "name": "Loiro Manteiga",
+    "aka": [
+      "Loiro amanteigado",
+      "Butter blonde",
+      "Buttery blonde",
+      "Butter",
+      "9.03",
+      "9.32"
+    ],
+    "description": "Loiro cremoso e dourado suave, macio como manteiga, super natural.",
+    "swatch": [
+      "#C6A161",
+      "#D7B776",
+      "#E6CC93"
+    ]
+  },
+  {
+    "id": "loiro-areia",
+    "name": "Loiro Areia",
+    "aka": [
+      "Loiro areia dourada",
+      "Loiro camurça",
+      "Sand blonde",
+      "Sandy blonde",
+      "Suede blonde",
+      "8.13"
+    ],
+    "description": "Loiro suave cor de areia da praia, natural e sem contraste forte.",
+    "swatch": [
+      "#A08A6B",
+      "#B39E7E",
+      "#C5B293"
+    ]
+  },
+  {
+    "id": "loiro-baunilha",
+    "name": "Loiro Baunilha",
+    "aka": [
+      "Loiro marfim",
+      "Loiro creme",
+      "Loiro chantilly",
+      "Vanilla blonde",
+      "10.03",
+      "10.31"
+    ],
+    "description": "Loiro bem clarinho e cremoso, quentinho como sorvete de baunilha.",
+    "swatch": [
+      "#DCC9A3",
+      "#E7D8B8",
+      "#F1E7CF"
+    ]
+  },
+  {
+    "id": "loiro-clarissimo",
+    "name": "Loiro Claríssimo",
+    "aka": [
+      "Loiro clarissimo",
+      "Loiro claríssimo natural",
+      "Louro claríssimo",
+      "Very light blonde",
+      "9.0",
+      "9"
+    ],
+    "description": "Loiro bem clarinho e natural, luminoso, sem puxar para o frio.",
+    "swatch": [
+      "#B9A07A",
+      "#C9B18C",
+      "#D8C3A0"
+    ]
+  },
+  {
+    "id": "loiro-escandinavo",
+    "name": "Loiro Escandinavo",
+    "aka": [
+      "Loiro sueco",
+      "Loiro nórdico",
+      "Loiro nordico",
+      "Scandinavian blonde",
+      "Swedish blonde",
+      "Nordic blonde"
+    ],
+    "description": "Loiro bem clarinho e natural, com raiz suave, como o das nórdicas.",
+    "swatch": [
+      "#BFB39C",
+      "#D8CFBD",
+      "#EAE4D6"
+    ]
+  },
+  {
+    "id": "loiro-bronde",
+    "name": "Bronde",
+    "aka": [
+      "Loiro bronde",
+      "Castanho loiro",
+      "Morena com loiro",
+      "Brunette blonde",
+      "Brown blonde",
+      "Brond"
+    ],
+    "description": "Mistura de castanho com loiro, o meio-termo perfeito entre os dois.",
+    "swatch": [
+      "#5A3F2A",
+      "#8A6A48",
+      "#B8986C"
+    ]
+  },
+  {
+    "id": "loiro-escuro-acinzentado",
+    "name": "Loiro Escuro Acinzentado",
+    "aka": [
+      "Loiro cinza escuro",
+      "Loiro acinzentado escuro",
+      "Loiro médio acinzentado",
+      "Dark ash blonde",
+      "6.1",
+      "7.1"
+    ],
+    "description": "Loiro mais fechado e frio, com fundo acinzentado e esfumado.",
+    "swatch": [
+      "#5B5246",
+      "#6B6256",
+      "#7D7568"
+    ]
+  },
+  {
+    "id": "loiro-extra-claro",
+    "name": "Loiro Extra Claro",
+    "aka": [
+      "Loiro extraclaro",
+      "Loiro ultra claro",
+      "Loiro claríssimo especial",
+      "Extra light blonde",
+      "Lightest blonde",
+      "10.0"
+    ],
+    "description": "Loiro clarinho que quase chega ao platinado, mas com cara de natural.",
+    "swatch": [
+      "#CDBA98",
+      "#DBCBAD",
+      "#E7DCC4"
+    ]
+  },
+  {
+    "id": "loiro-escuro-dourado",
+    "name": "Loiro Escuro Dourado",
+    "aka": [
+      "Louro escuro dourado",
+      "Loiro dourado escuro",
+      "Dark golden blonde",
+      "6.3",
+      "6.33"
+    ],
+    "description": "Loiro fechado com reflexo dourado quentinho, natural e brilhante.",
+    "swatch": [
+      "#6A4A26",
+      "#7E5A30",
+      "#93703F"
+    ]
+  },
+  {
+    "id": "loiro-nude",
+    "name": "Loiro Nude",
+    "aka": [
+      "Loiro bege rosado",
+      "Loiro rosado suave",
+      "Loiro neutro rosado",
+      "Nude blonde",
+      "Rosy beige blonde",
+      "9.12"
+    ],
+    "description": "Loiro bege bem suave com fundinho rosado, discreto e delicado.",
+    "swatch": [
+      "#BFA08C",
+      "#CDB09D",
+      "#DBC2B1"
+    ]
+  },
+  {
+    "id": "loiro-ouro-rose",
+    "name": "Loiro Ouro Rosé",
+    "aka": [
+      "Ouro rosé",
+      "Loiro rosé",
+      "Loiro rose gold",
+      "Rose gold",
+      "Rose gold blonde"
+    ],
+    "description": "Loiro dourado com toque rosado, romântico e cheio de brilho.",
+    "swatch": [
+      "#C49580",
+      "#D6AD97",
+      "#E5C3B1"
+    ]
+  },
+  {
+    "id": "loiro-trigo",
+    "name": "Loiro Trigo",
+    "aka": [
+      "Cor de trigo",
+      "Loiro trigo dourado",
+      "Wheat blonde",
+      "Golden beige blonde",
+      "8.32"
+    ],
+    "description": "Loiro cor de trigo, dourado e bege, com cara de quem pegou sol.",
+    "swatch": [
+      "#A1814F",
+      "#B79663",
+      "#CBAC7A"
+    ]
+  },
+  {
+    "id": "loiro-sujo",
+    "name": "Dirty Blonde",
+    "aka": [
+      "Loiro sujo",
+      "Dirty blond",
+      "Loiro escuro mesclado",
+      "Loiro mesclado",
+      "Loiro com fundo escuro"
+    ],
+    "description": "Loiro com fios mais escuros misturados, natural e sem cara de tinta.",
+    "swatch": [
+      "#6E5638",
+      "#8D734F",
+      "#A88E68"
+    ]
+  },
+  {
+    "id": "loiro-cogumelo",
+    "name": "Loiro Cogumelo",
+    "aka": [
+      "Mushroom blonde",
+      "Loiro taupe",
+      "Loiro cogumelo acinzentado",
+      "Mushroom brown blonde",
+      "7.12"
+    ],
+    "description": "Loiro esfumado entre bege e cinza, com toque terroso e sofisticado.",
+    "swatch": [
+      "#6E6155",
+      "#857767",
+      "#9C8F7E"
+    ]
+  },
+  {
+    "id": "loiro-lilas",
+    "name": "Loiro Lilás",
+    "aka": [
+      "Loiro lilas",
+      "Loiro lavanda",
+      "Loiro perolado lilás",
+      "Lilac blonde",
+      "Lavender blonde"
+    ],
+    "description": "Loiro clarinho com um toque lilás bem suave, delicado e moderno.",
+    "swatch": [
+      "#CBBFD0",
+      "#DBD0DF",
+      "#EAE2EC"
+    ]
+  }
+]
