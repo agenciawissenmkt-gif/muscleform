@@ -292,5 +292,61 @@
     "aka": ["Triangle box braids", "Box braids triângulo", "Triangle braids", "Tranças com divisão em triângulo", "Box braids triangulo"],
     "description": "Box braids com divisões em triângulo na cabeça. Detalhe moderno.",
     "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "tranca-cascata",
+    "name": "Trança Cascata",
+    "aka": ["Waterfall braid", "Trança cachoeira", "Cascata", "Trança cascata dupla", "Trança queda d'água", "Tranca cascata"],
+    "description": "Trança fininha que contorna a cabeça e deixa mechas caindo soltas.",
+    "look": { "length": 0.65, "volume": 0.4, "layers": 0.3, "fringe": "none", "texture": "wavy", "style": "braids" }
+  },
+  {
+    "id": "tranca-lateral",
+    "name": "Trança Lateral",
+    "aka": ["Side braid", "Trança de lado", "Trança no ombro", "Trança lateral solta", "Messy side braid", "Tranca lateral"],
+    "description": "Uma trança só, soltinha e caída sobre um ombro. Simples e romântica.",
+    "look": { "length": 0.65, "volume": 0.4, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "braids" }
+  },
+  {
+    "id": "trancas-de-la",
+    "name": "Tranças de Lã (Yarn Braids)",
+    "aka": ["Yarn braids", "Genie locs", "Lã brasileira", "Brazilian wool", "Tranças com lã", "Trancas de la"],
+    "description": "Tranças leves feitas com fios de lã, com acabamento fosco e uniforme.",
+    "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "locs-freeform",
+    "name": "Locs Freeform",
+    "aka": ["Freeform locs", "Dread freeform", "Freeform dreads", "Locs livres", "Locs orgânicos", "Dreads livres"],
+    "description": "Dreads que se formam livremente, de tamanhos variados, naturais e únicos.",
+    "look": { "length": 0.65, "volume": 0.65, "layers": 0.2, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "bob-locs",
+    "name": "Bob Locs",
+    "aka": ["Locs curtos", "Faux locs bob", "Bob faux locs", "Locs chanel", "Dread curto chanel", "Short locs bob"],
+    "description": "Locs curtinhos na altura do queixo, em formato de chanel. Leves e modernos.",
+    "look": { "length": 0.3, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "locs" }
+  },
+  {
+    "id": "moicano-trancado",
+    "name": "Moicano Trançado",
+    "aka": ["Braided mohawk", "Moicano de tranças", "Moicano com nagô", "Cornrow mohawk", "Moicano nagô", "Moicano trancado"],
+    "description": "Nagôs nas laterais subindo para o centro e formando um moicano de tranças.",
+    "look": { "length": 0.6, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "box-braids-com-franja",
+    "name": "Box Braids com Franja",
+    "aka": ["Box braids with bangs", "Tranças com franja", "Franja de tranças", "Braids with bangs", "Knotless com franja", "Trancas com franja"],
+    "description": "Box braids com uma franjinha de tranças na testa. Charmosa e diferente.",
+    "look": { "length": 0.55, "volume": 0.5, "layers": 0.15, "fringe": "full", "texture": "coily", "style": "braids" }
+  },
+  {
+    "id": "bantu-knot-out",
+    "name": "Bantu Knot Out",
+    "aka": ["Bantu knot-out", "Knot out", "Cachos de bantu knots", "Finalização bantu", "Cachos de coquinho", "Bantu out"],
+    "description": "Cachos soltos e brilhantes, que aparecem ao desfazer os coquinhos bantu.",
+    "look": { "length": 0.35, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "curly", "style": "loose" }
   }
 ]

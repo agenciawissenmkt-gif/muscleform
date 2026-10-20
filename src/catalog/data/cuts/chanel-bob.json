@@ -787,5 +787,26 @@
       "texture": "straight",
       "style": "loose"
     }
+  },
+  {
+    "id": "bob-shaggy",
+    "name": "Bob Shaggy",
+    "aka": [
+      "Shaggy bob",
+      "Shag bob",
+      "Chanel shaggy",
+      "Cowboy bob",
+      "Cowgirl bob",
+      "Bob shag com franja"
+    ],
+    "description": "Chanel cheio de camadas desfiadas e franja leve. Despojado e com volume.",
+    "look": {
+      "length": 0.32,
+      "volume": 0.65,
+      "layers": 0.85,
+      "fringe": "curtain",
+      "texture": "wavy",
+      "style": "loose"
+    }
   }
 ]

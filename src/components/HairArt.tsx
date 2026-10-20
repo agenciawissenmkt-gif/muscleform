@@ -214,7 +214,7 @@ function HairArtImpl({ look, className = '' }: { look: HairLook; className?: str
         {!shaved && <Fringe look={look} />}
 
         {/* fios (detalhe) */}
-        {!shaved && !braided && look.length > 0.2 && (
+        {!shaved && !braided && !curly && look.length > 0.2 && (
           <g stroke="var(--color-plum-300)" strokeOpacity="0.55" strokeWidth="0.9" fill="none" strokeLinecap="round">
             <path d={`M44 60 C 41 ${(60 + sil.bottom) / 2}, 43 ${sil.bottom - 6}, 40 ${sil.bottom - 3}`} />
             <path d={`M76 60 C 79 ${(60 + sil.bottom) / 2}, 77 ${sil.bottom - 6}, 80 ${sil.bottom - 3}`} />

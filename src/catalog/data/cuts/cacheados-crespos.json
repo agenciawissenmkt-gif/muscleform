@@ -278,5 +278,33 @@
     "aka": ["Moicano sem raspar", "Moicano crespo preso", "Afro hawk", "Fro hawk", "Fauxhawk afro"],
     "description": "Moicano afro sem raspar: laterais presas e volume alto no centro.",
     "look": { "length": 0.4, "volume": 0.8, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "updo" }
+  },
+  {
+    "id": "silk-press",
+    "name": "Silk Press",
+    "aka": ["Escova no crespo", "Crespo pranchado", "Prancha no cabelo crespo", "Liso sedoso", "Pressed natural hair", "Silk press crespo"],
+    "description": "Crespo ou cacheado escovado e pranchado: liso, leve, solto e sedoso.",
+    "look": { "length": 0.55, "volume": 0.35, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "finger-coils-dedoliss",
+    "name": "Dedoliss (Finger Coils)",
+    "aka": ["Finger coils", "Dedoliss", "Técnica dedoliss", "Cachos de dedo", "Molinhas no dedo", "Tecnica dedoliss"],
+    "description": "Cada mechinha enrolada no dedo, formando molinhas certinhas e brilhantes.",
+    "look": { "length": 0.2, "volume": 0.6, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "cachos-flexi-rod",
+    "name": "Cachos de Flexi Rod",
+    "aka": ["Flexi rod", "Flexi rod set", "Perm rod set", "Rod set", "Cachos de rolinho", "Cachos de papelote"],
+    "description": "Cachos redondinhos e uniformes, feitos com rolinhos, com muito brilho.",
+    "look": { "length": 0.4, "volume": 0.75, "layers": 0.3, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "meio-puff",
+    "name": "Meio Preso com Puff",
+    "aka": ["Half up puff", "Puff meio preso", "Meio preso crespo", "Meio preso cacheado", "Half up afro puff", "Meio puff"],
+    "description": "A parte de cima presa num pompom fofinho e o resto do crespo solto.",
+    "look": { "length": 0.4, "volume": 0.85, "layers": 0.3, "fringe": "none", "texture": "coily", "style": "updo" }
   }
 ]

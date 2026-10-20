@@ -222,5 +222,19 @@
     "aka": ["Finger waves", "Finger wave pixie", "Pixie anos 20", "Ondas retrô", "Ondas vintage", "Ondas marcadas"],
     "description": "Curtinho com ondas marcadas e brilhantes, no estilo dos anos 20.",
     "look": { "length": 0.12, "volume": 0.2, "layers": 0.3, "fringe": "side", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "wolf-cut-curto",
+    "name": "Wolf Cut Curto",
+    "aka": ["Short wolf cut", "Wolf cut curtinho", "Micro wolf cut", "Corte lobo curto", "Wolf curto", "Wolf cut no queixo"],
+    "description": "Wolf cut na altura do queixo: topo cheio de camadas e nuca mais longa.",
+    "look": { "length": 0.27, "volume": 0.7, "layers": 0.95, "fringe": "curtain", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "curto-com-permanente",
+    "name": "Curto com Permanente",
+    "aka": ["Permanente curto", "Cachinhos curtos", "Curto cacheado de permanente", "Curto com bobs", "Short perm", "Roller set curto"],
+    "description": "Curtinho com cachinhos macios e volume, feitos com permanente ou bobs.",
+    "look": { "length": 0.18, "volume": 0.75, "layers": 0.6, "fringe": "none", "texture": "curly", "style": "loose" }
   }
 ]

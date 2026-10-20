@@ -173,5 +173,75 @@
     "aka": ["Space buns", "Dois coques", "Coquinhos", "Meio preso com dois coques", "Coquinho duplo", "Penteado dois coquinhos"],
     "description": "Dois coquinhos no alto da cabeça e o resto do cabelo solto.",
     "look": { "length": 0.6, "volume": 0.45, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "coque-baguncado",
+    "name": "Coque Bagunçado",
+    "aka": ["Messy bun", "Coque despojado", "Coque alto bagunçado", "Coque soltinho", "Coque desarrumado", "Coque baguncado"],
+    "description": "Coque alto e soltinho, com alguns fios caindo. Prático e descontraído.",
+    "look": { "length": 0.15, "volume": 0.55, "layers": 0.2, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "coque-banana",
+    "name": "Coque Banana",
+    "aka": ["French twist", "Coque francês", "Coque torcido", "Coque banana clássico", "Chignon banana", "Coque frances"],
+    "description": "Cabelo torcido para cima na parte de trás, formando um rolo elegante.",
+    "look": { "length": 0.15, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "meio-preso",
+    "name": "Meio Preso",
+    "aka": ["Half up half down", "Semi preso", "Meio preso com volume", "Meio preso clássico", "Meio preso de festa", "Half up"],
+    "description": "A parte de cima presa atrás, com volume, e o resto do cabelo solto.",
+    "look": { "length": 0.7, "volume": 0.55, "layers": 0.4, "fringe": "none", "texture": "wavy", "style": "updo" }
+  },
+  {
+    "id": "meio-coque",
+    "name": "Meio Preso com Coque",
+    "aka": ["Half bun", "Half up bun", "Meio coque", "Coque samurai", "Top knot meio preso", "Meio preso coque alto"],
+    "description": "Um coquinho no alto da cabeça e o resto do cabelo solto. Moderno!",
+    "look": { "length": 0.65, "volume": 0.5, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "rabo-de-cavalo-baixo",
+    "name": "Rabo de Cavalo Baixo",
+    "aka": ["Low ponytail", "Rabo baixo", "Rabo de cavalo na nuca", "Sleek low ponytail", "Rabo baixo liso", "Rabo de cavalo elegante"],
+    "description": "Cabelo puxado bem liso, com risca no meio, preso na nuca. Elegante.",
+    "look": { "length": 0.7, "volume": 0.15, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "rabo-de-cavalo-bolha",
+    "name": "Rabo de Cavalo Bolha",
+    "aka": ["Bubble ponytail", "Rabo bolha", "Bubble braid", "Trança bolha", "Rabo de cavalo com bolinhas", "Rabo de bolhas"],
+    "description": "Rabo de cavalo dividido em várias bolinhas fofas, do alto até as pontas.",
+    "look": { "length": 0.7, "volume": 0.45, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "maria-chiquinha",
+    "name": "Maria Chiquinha",
+    "aka": ["Pigtails", "Dois rabinhos", "Marias-chiquinhas", "Rabo duplo", "Maria chiquinha alta", "Two ponytails"],
+    "description": "Risca no meio e dois rabinhos, um de cada lado. Divertido e alegre.",
+    "look": { "length": 0.6, "volume": 0.4, "layers": 0.2, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "coque-bailarina-alto",
+    "name": "Coque Bailarina Alto",
+    "aka": ["Ballerina bun", "Top knot", "Coque de bailarina", "Coque alto liso", "Coque rosquinha", "Sleek high bun"],
+    "description": "Coque alto, redondo e bem lisinho no topo da cabeça, como de bailarina.",
+    "look": { "length": 0.15, "volume": 0.35, "layers": 0.1, "fringe": "none", "texture": "straight", "style": "updo" }
+  },
+  {
+    "id": "coque-baixo-romantico",
+    "name": "Coque Baixo Romântico",
+    "aka": ["Coque de noiva", "Chignon baixo", "Low chignon", "Coque romântico", "Coque de madrinha", "Coque romantico"],
+    "description": "Coque baixo e soltinho na nuca, com fios soltos na frente. Ideal para noivas.",
+    "look": { "length": 0.15, "volume": 0.5, "layers": 0.3, "fringe": "none", "texture": "wavy", "style": "updo" }
+  },
+  {
+    "id": "corte-cinco-pontas",
+    "name": "Corte Cinco Pontas (Sassoon)",
+    "aka": ["Five point cut", "Vidal Sassoon", "Corte Sassoon", "Bob Sassoon", "Bob geométrico anos 60", "Mary Quant"],
+    "description": "Chanel geométrico dos anos 60, com franja e nuca em pontas marcadas.",
+    "look": { "length": 0.2, "volume": 0.3, "layers": 0.15, "fringe": "full", "texture": "straight", "style": "loose" }
   }
 ]

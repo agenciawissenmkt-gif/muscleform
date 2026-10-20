@@ -194,5 +194,19 @@
     "aka": ["Corte polvo", "Polvo", "Octopus haircut", "Camadas polvo", "Octopus cut longo"],
     "description": "Volume redondo em cima e pontas compridas e fininhas embaixo.",
     "look": { "length": 0.62, "volume": 0.65, "layers": 0.9, "fringe": "wispy", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "cachos-de-babyliss",
+    "name": "Cachos de Babyliss",
+    "aka": ["Babyliss", "Cachos modelados", "Escova com babyliss", "Cachos de festa", "Cachos de modelador", "Curling iron curls"],
+    "description": "Cabelo longo com cachos modelados, brilhantes e soltinhos, para festas.",
+    "look": { "length": 0.75, "volume": 0.7, "layers": 0.5, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "liso-espelhado-longo",
+    "name": "Liso Espelhado Longo",
+    "aka": ["Glass hair longo", "Progressiva longa", "Liso escorrido", "Liso de chapinha", "Cabelo liso comprido", "Long sleek straight"],
+    "description": "Cabelo longo bem liso, brilhante e alinhado, como depois da progressiva.",
+    "look": { "length": 0.8, "volume": 0.2, "layers": 0.15, "fringe": "none", "texture": "straight", "style": "loose" }
   }
 ]
