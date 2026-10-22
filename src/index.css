@@ -34,6 +34,11 @@
 }
 
 @layer base {
+  /* Só tema claro: o navegador não deve escurecer o app sozinho (Android, Samsung Internet) */
+  :root {
+    color-scheme: only light;
+  }
+
   html,
   body,
   #root {
