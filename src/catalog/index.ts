@@ -23,6 +23,8 @@ export interface Haircut {
   description: string;
   look: HairLook;
   category: string;
+  /** foto da modelo com este corte (src/assets/model/cuts/<id>.jpg), se existir */
+  photo?: string;
 }
 
 export interface HairColor {
@@ -68,6 +70,9 @@ type RawColor = Omit<HairColor, 'kind' | 'category'>;
 
 const cutFiles = import.meta.glob<RawCut[]>('./data/cuts/*.json', { eager: true, import: 'default' });
 const colorFiles = import.meta.glob<RawColor[]>('./data/colors/*.json', { eager: true, import: 'default' });
+// Fotos da modelo: basta colocar <id-do-corte>.jpg na pasta que o cartão passa a usar a foto
+const cutPhotos = import.meta.glob<string>('../assets/model/cuts/*.jpg', { eager: true, import: 'default' });
+const photoById = new Map(Object.entries(cutPhotos).map(([path, url]) => [path.split('/').pop()!.replace(/\.jpg$/, ''), url]));
 
 function keyOf(path: string) {
   return path
@@ -99,6 +104,7 @@ export const cutCategories: Category<Haircut>[] = build(cutFiles, CUT_CATEGORIES
   aka: raw.aka ?? [],
   kind: 'cut',
   category,
+  photo: photoById.get((raw as RawCut).id),
 }));
 
 export const colorCategories: Category<HairColor>[] = build(colorFiles, COLOR_CATEGORIES, (raw, category) => ({

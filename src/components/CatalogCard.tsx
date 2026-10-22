@@ -30,7 +30,15 @@ function CatalogCardImpl({
           selected ? 'bg-gradient-to-b from-orchid-400/25 to-plum-100' : 'bg-gradient-to-b from-plum-50 to-plum-100'
         }`}
       >
-        {item.kind === 'cut' ? (
+        {item.kind === 'cut' && item.photo ? (
+          <img
+            src={item.photo}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-[1.03]"
+          />
+        ) : item.kind === 'cut' ? (
           <HairArt look={item.look} className="absolute bottom-[-5.4%] left-[3.7%] h-[108%] w-[92.6%]" />
         ) : (
           <ColorLock
