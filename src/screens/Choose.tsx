@@ -1,4 +1,4 @@
-import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   colorCategories,
   cutCategories,
@@ -53,11 +53,21 @@ export default function Choose({
   const barRef = useRef<HTMLDivElement>(null);
   // Altura real da barra fixa do celular: o fim da lista nunca fica escondido atrás dela.
   const [barHeight, setBarHeight] = useState(180);
+  // Teclado aberto na pesquisa: a barra de baixo sai da frente dos resultados
+  const [typing, setTyping] = useState(false);
+  // A barra só volta depois do toque que fechou o teclado (senão ela "rouba" o toque num cartão)
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const el = barRef.current;
-    if (!el || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => setBarHeight(el.offsetHeight));
+    if (!el) return;
+    const measure = () => el.offsetHeight && setBarHeight(el.offsetHeight);
+    if (typeof ResizeObserver === 'undefined') {
+      // iPhone com iOS < 13.4: mede de novo ao girar a tela e a cada mudança na tela
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -171,6 +181,12 @@ export default function Choose({
   );
   // No celular: só uma linha discreta com o que foi escolhido (sem caixas).
   const chosen = [mode !== 'color' && cut?.name, mode !== 'cut' && color?.name].filter(Boolean).join(' + ');
+  // Sem ResizeObserver (iOS < 13.4): mede a barra quando o conteúdo dela muda
+  useLayoutEffect(() => {
+    if (typeof ResizeObserver === 'undefined' && barRef.current?.offsetHeight) {
+      setBarHeight(barRef.current.offsetHeight);
+    }
+  }, [error, soon, chosen]);
 
   return (
     <>
@@ -228,9 +244,7 @@ export default function Choose({
                 aria-checked={mode === m.key}
                 onClick={() => setMode(m.key)}
                 className={`flex min-h-16 flex-col items-center justify-center gap-1 rounded-[20px] px-1 text-[0.95rem] font-extrabold transition sm:flex-row sm:gap-2 ${
-                  mode === m.key
-                    ? 'brand-gradient text-white shadow-[var(--shadow-soft)]'
-                    : 'text-plum-800 hover:bg-white/70'
+                  mode === m.key ? 'brand-gradient text-white shadow-soft' : 'text-plum-800 hover:bg-white/70'
                 }`}
               >
                 <Icon name={m.icon} size={22} />
@@ -280,7 +294,7 @@ export default function Choose({
                 e.preventDefault();
                 searchRef.current?.blur();
               }}
-              className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-[var(--shadow-soft)] ring-2 ring-plum-100 focus-within:ring-plum-400"
+              className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-soft ring-2 ring-plum-100 focus-within:ring-plum-400"
             >
               <Icon name="search" className="shrink-0 text-plum-500" />
               <input
@@ -288,10 +302,17 @@ export default function Choose({
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => {
+                  clearTimeout(typingTimer.current);
+                  setTyping(true);
+                }}
+                onBlur={() => {
+                  typingTimer.current = setTimeout(() => setTyping(false), 300);
+                }}
                 placeholder={activeTab === 'cut' ? 'Pesquisar corte… ex.: chanel' : 'Pesquisar cor… ex.: loiro mel'}
                 aria-label={activeTab === 'cut' ? 'Pesquisar corte' : 'Pesquisar cor'}
                 enterKeyHint="search"
-                className="min-w-0 flex-1 bg-transparent text-[1.05rem] font-semibold text-plum-950 placeholder:font-medium placeholder:text-ink-soft/70 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+                className="min-w-0 flex-1 appearance-none bg-transparent text-[1.05rem] font-semibold text-plum-950 placeholder:font-medium placeholder:text-ink-soft/70 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
               />
               {query && (
                 <button
@@ -342,7 +363,7 @@ export default function Choose({
       {/* Barra fixa no celular (fora do <main> animado para ficar presa à tela) */}
       <div
         ref={barRef}
-        className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-plum-100 bg-white/95 px-4 pt-3 shadow-[0_-12px_30px_-18px_rgb(76_29_149/0.5)] backdrop-blur-md lg:hidden"
+        className={`safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-plum-100 bg-white/95 px-4 pt-3 shadow-[0_-12px_30px_-18px_rgb(76_29_149/0.5)] backdrop-blur-md lg:hidden ${typing ? 'hidden' : ''}`}
       >
         <div className="mx-auto max-w-xl">
           {error && <ErrorNote message={error} />}

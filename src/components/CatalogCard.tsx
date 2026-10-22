@@ -19,7 +19,7 @@ function CatalogCardImpl({
       aria-pressed={selected}
       className={`group relative flex flex-col overflow-hidden rounded-3xl bg-white text-left transition active:scale-[0.97] ${
         selected
-          ? 'shadow-[var(--shadow-lift)] ring-[3px] ring-orchid-500'
+          ? 'shadow-lift ring-[3px] ring-orchid-500'
           : 'shadow-[0_4px_16px_-10px_rgb(76_29_149/0.4)] ring-1 ring-plum-100 hover:ring-plum-300'
       }`}
     >

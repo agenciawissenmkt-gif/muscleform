@@ -14,16 +14,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Beauty and self" />
     <meta name="description" content="Beauty and self — veja como fica um novo corte ou uma nova cor de cabelo antes de fazer, com IA, preservando o seu rosto." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
     <title>Beauty and self</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <noscript>
+        <p style="padding: 24px; font: 17px sans-serif; text-align: center">
+          Este navegador não consegue abrir o Beauty and self. Abra o link no Chrome, Safari, Samsung Internet ou
+          Firefox atualizado.
+        </p>
+      </noscript>
+    </div>
+    <script>
+      // Se o app não abrir (navegador muito antigo ou internet falhou), explica o que fazer
+      setTimeout(function () {
+        var r = document.getElementById('root');
+        if (r && !window.__bsStarted) {
+          r.innerHTML =
+            '<p style="padding:24px;font:17px sans-serif;text-align:center;color:#24123f">' +
+            'O Beauty and self está demorando para abrir. Verifique a internet e toque em atualizar. ' +
+            'Se não abrir, use o Chrome, Safari, Samsung Internet ou Firefox atualizado.</p>';
+        }
+      }, 20000);
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BeforeAfter from '../components/BeforeAfter';
 import { Flower } from '../components/Flowers';
+import InAppNotice from '../components/InAppNotice';
 import { Button, Icon } from '../components/ui';
 import {
   canShareFiles,
@@ -11,7 +12,10 @@ import {
   shareFile,
   type Photo,
 } from '../lib/image';
+import { detectInApp } from '../lib/inapp';
 import type { Selection } from './Choose';
+
+type Format = 'jpg' | 'png';
 
 type View = 'after' | 'before' | 'compare';
 
@@ -37,6 +41,29 @@ export default function Result({
     .join(' + ');
   const [platform] = useState(detectPlatform);
   const [canShare] = useState(canShareFiles);
+  // Dentro do Instagram/Facebook/TikTok no Android não há como baixar arquivos
+  const [inApp] = useState(detectInApp);
+  const cannotSave = !!inApp && !canShare;
+
+  // Os arquivos ficam prontos já ao abrir a tela: no iPhone a janela de
+  // compartilhar só abre se for chamada logo depois do toque.
+  const files = useRef<Partial<Record<Format, Blob>>>({});
+  useEffect(() => {
+    let alive = true;
+    files.current = {};
+    const prepare = (format: Format) =>
+      convertImage(image, format).then((b) => {
+        if (alive) files.current[format] = b;
+      });
+    prepare('jpg')
+      .then(() => (alive ? prepare('png') : undefined))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [image]);
+  const getFile = async (format: Format) =>
+    files.current[format] ?? (files.current[format] = await convertImage(image, format));
 
   async function run(key: string, fn: () => Promise<string | null>) {
     setBusy(key);
@@ -56,12 +83,14 @@ export default function Result({
   // - computador: download normal.
   const useShareSheet = platform === 'ios' && canShare;
 
-  const save = (format: 'jpg' | 'png' = 'jpg') =>
+  const save = (format: Format = 'jpg') =>
     run(format === 'png' ? 'png' : 'save', async () => {
-      const blob = await convertImage(image, format);
+      // (sem "await" antes do compartilhar quando o arquivo já está pronto)
+      const blob = files.current[format] ?? (await getFile(format));
       const name = fileName(label, format);
       if (useShareSheet) {
         const r = await shareFile(blob, name);
+        if (r === 'retry') return 'Toque de novo para abrir as opções de salvar.';
         if (r !== 'unsupported') return null;
       }
       downloadBlob(blob, name);
@@ -72,7 +101,9 @@ export default function Result({
 
   const send = () =>
     run('send', async () => {
-      const r = await shareFile(await convertImage(image, 'jpg'), fileName(label, 'jpg'));
+      const blob = files.current.jpg ?? (await getFile('jpg'));
+      const r = await shareFile(blob, fileName(label, 'jpg'));
+      if (r === 'retry') return 'Toque de novo em Enviar para abrir as opções.';
       return r === 'unsupported'
         ? 'Este aparelho não permite enviar direto. Salve a imagem e envie pela galeria.'
         : null;
@@ -88,7 +119,7 @@ export default function Result({
           {label && <p className="mt-0.5 truncate pl-9 font-bold text-plum-600">{label}</p>}
         </div>
 
-        <div className="mx-auto max-w-[min(100%,calc((100dvh-260px)*0.75))] overflow-hidden rounded-[28px] bg-plum-100 shadow-[var(--shadow-lift)] ring-1 ring-plum-200 lg:max-w-[min(100%,calc((100dvh-140px)*0.75))]">
+        <div className="mx-auto max-w-[min(100%,calc((100dvh-260px)*0.75))] overflow-hidden rounded-[28px] bg-plum-100 shadow-lift ring-1 ring-plum-200 lg:max-w-[min(100%,calc((100dvh-140px)*0.75))]">
           {view === 'compare' ? (
             <BeforeAfter before={photo.dataUrl} after={image} ratio={photo.aspectRatio} />
           ) : (
@@ -141,22 +172,34 @@ export default function Result({
         )}
 
         <div className="flex flex-col gap-3 lg:mt-4">
-          <Button size="xl" icon="download" onClick={() => save('jpg')} disabled={!!busy}>
-            {busy === 'save' ? 'Preparando…' : platform === 'desktop' ? 'Baixar imagem' : 'Salvar na galeria'}
-          </Button>
+          {cannotSave ? (
+            <>
+              <p className="flex items-start gap-2 rounded-2xl bg-plum-50 px-4 py-3 font-bold text-plum-900 ring-1 ring-plum-200">
+                <Icon name="camera" size={22} className="mt-0.5 shrink-0 text-plum-600" />
+                Para guardar agora, tire um print da tela.
+              </p>
+              <InAppNotice inApp={inApp} reason="Salvar a imagem no aparelho não funciona" />
+            </>
+          ) : (
+            <Button size="xl" icon="download" onClick={() => save('jpg')} disabled={!!busy}>
+              {busy === 'save' ? 'Preparando…' : platform === 'desktop' ? 'Baixar imagem' : 'Salvar na galeria'}
+            </Button>
+          )}
           {platform !== 'desktop' && canShare && (
             <Button variant="secondary" icon="share" onClick={send} disabled={!!busy}>
               {busy === 'send' ? 'Preparando…' : 'Enviar (WhatsApp…)'}
             </Button>
           )}
-          <div className="grid grid-cols-2 gap-3">
-            <Button variant="ghost" icon="download" size="md" onClick={() => save('jpg')} disabled={!!busy}>
-              Baixar JPG
-            </Button>
-            <Button variant="ghost" icon="download" size="md" onClick={() => save('png')} disabled={!!busy}>
-              Baixar PNG
-            </Button>
-          </div>
+          {!cannotSave && (
+            <div className="grid grid-cols-2 gap-3">
+              <Button variant="ghost" icon="download" size="md" onClick={() => save('jpg')} disabled={!!busy}>
+                Baixar JPG
+              </Button>
+              <Button variant="ghost" icon="download" size="md" onClick={() => save('png')} disabled={!!busy}>
+                Baixar PNG
+              </Button>
+            </div>
+          )}
           {useShareSheet && (
             <p className="px-1 text-sm text-ink-soft">
               Dica: no iPhone, toque em <b>Salvar Imagem</b> para guardar no app Fotos.

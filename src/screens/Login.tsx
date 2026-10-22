@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { FloralCorner, Flower } from '../components/Flowers';
+import InAppNotice from '../components/InAppNotice';
 import Logo from '../components/Logo';
 import { Button, Icon, Spinner } from '../components/ui';
 import { api, type AppConfig, type User } from '../lib/api';
+import { detectPlatform } from '../lib/image';
+import { detectInApp } from '../lib/inapp';
 
 declare global {
   interface Window {
@@ -56,57 +59,81 @@ export default function Login({
     return msg;
   });
   const [busy, setBusy] = useState(false);
+  // Dentro do Instagram, WhatsApp etc. o Google bloqueia o login
+  const [inApp] = useState(detectInApp);
   const onLoginRef = useRef(onLogin);
   onLoginRef.current = onLogin;
 
   useEffect(() => {
-    if (!config.googleClientId) return;
+    if (!config.googleClientId || inApp) return;
     let cancelled = false;
+    let check: ReturnType<typeof setTimeout> | undefined;
+    const failed = () =>
+      !cancelled &&
+      setError(
+        'O botão do Google não abriu neste navegador. Atualize o navegador ou abra o link no Chrome ou no Safari.',
+      );
     loadGoogleScript()
       .then(() => {
-        if (cancelled || !btnRef.current || !window.google) return;
-        // App instalado na tela inicial: o pop-up do Google não funciona bem,
-        // então usamos o login por redirecionamento.
+        if (cancelled || !btnRef.current) return;
+        if (!window.google?.accounts?.id) return failed();
+        // iPhone/iPad e app instalado na tela inicial: o pop-up do Google não
+        // funciona bem (o Google pede o login por redirecionamento no iOS).
         const standalone =
           window.matchMedia('(display-mode: standalone)').matches ||
           (navigator as Navigator & { standalone?: boolean }).standalone === true;
-        window.google.accounts.id.initialize({
-          client_id: config.googleClientId,
-          ux_mode: standalone ? 'redirect' : 'popup',
-          login_uri: `${window.location.origin}/api/auth/google/redirect`,
-          auto_select: false,
-          cancel_on_tap_outside: true,
-          callback: async (resp: { credential?: string }) => {
-            if (!resp.credential) return;
-            setBusy(true);
-            setError(null);
-            try {
-              const { user } = await api.loginGoogle(resp.credential);
-              onLoginRef.current(user);
-            } catch (err) {
-              setError((err as Error).message);
-            } finally {
-              setBusy(false);
-            }
-          },
-        });
-        const width = Math.min(360, btnRef.current.clientWidth || 320);
-        window.google.accounts.id.renderButton(btnRef.current, {
-          type: 'standard',
-          theme: 'outline',
-          size: 'large',
-          shape: 'pill',
-          text: 'continue_with',
-          logo_alignment: 'left',
-          locale: 'pt-BR',
-          width,
-        });
+        try {
+          initGoogle(standalone || detectPlatform() === 'ios' ? 'redirect' : 'popup');
+        } catch {
+          return failed();
+        }
+        // Navegador antigo: o script carrega, mas o botão não aparece
+        check = setTimeout(() => {
+          if (btnRef.current && !btnRef.current.querySelector('iframe, [role="button"], div[aria-labelledby]'))
+            failed();
+        }, 8000);
       })
       .catch((err: Error) => !cancelled && setError(err.message));
+
+    function initGoogle(uxMode: 'redirect' | 'popup') {
+      const gsi = window.google!.accounts.id;
+      gsi.initialize({
+        client_id: config.googleClientId,
+        ux_mode: uxMode,
+        login_uri: `${window.location.origin}/api/auth/google/redirect`,
+        auto_select: false,
+        cancel_on_tap_outside: true,
+        callback: async (resp: { credential?: string }) => {
+          if (!resp.credential) return;
+          setBusy(true);
+          setError(null);
+          try {
+            const { user } = await api.loginGoogle(resp.credential);
+            onLoginRef.current(user);
+          } catch (err) {
+            setError((err as Error).message);
+          } finally {
+            setBusy(false);
+          }
+        },
+      });
+      const width = Math.min(360, btnRef.current!.clientWidth || 320);
+      gsi.renderButton(btnRef.current!, {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        shape: 'pill',
+        text: 'continue_with',
+        logo_alignment: 'left',
+        locale: 'pt-BR',
+        width,
+      });
+    }
     return () => {
       cancelled = true;
+      clearTimeout(check);
     };
-  }, [config.googleClientId]);
+  }, [config.googleClientId, inApp]);
 
   async function demo() {
     setBusy(true);
@@ -124,10 +151,7 @@ export default function Login({
   return (
     <main className="app-bg relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 py-12">
       <FloralCorner className="pointer-events-none absolute -left-10 -top-8 w-52 opacity-90 sm:w-72" />
-      <FloralCorner
-        flip
-        className="pointer-events-none absolute -bottom-10 -right-8 w-56 rotate-180 opacity-90 sm:w-80"
-      />
+      <FloralCorner className="pointer-events-none absolute -bottom-10 -right-8 w-56 -scale-y-100 opacity-90 sm:w-80" />
 
       <div className="screen-in relative z-10 flex w-full max-w-md flex-col items-center text-center">
         <Logo size="lg" />
@@ -144,7 +168,7 @@ export default function Login({
           ].map((b) => (
             <li
               key={b.text}
-              className="flex items-center gap-3 rounded-2xl bg-white/80 px-4 py-3 shadow-[var(--shadow-soft)] ring-1 ring-plum-100"
+              className="flex items-center gap-3 rounded-2xl bg-white/80 px-4 py-3 shadow-soft ring-1 ring-plum-100"
             >
               <span className="flex size-10 items-center justify-center rounded-xl bg-plum-100 text-plum-700">
                 <Icon name={b.icon} size={22} />
@@ -163,7 +187,9 @@ export default function Login({
               {notice}
             </p>
           )}
-          {config.googleClientId ? (
+          {config.googleClientId && inApp ? (
+            <InAppNotice inApp={inApp} reason="O login do Google não funciona" />
+          ) : config.googleClientId ? (
             <>
               <p className="text-sm font-bold uppercase tracking-wider text-plum-700">Entre com sua conta Google</p>
               <div ref={btnRef} className="flex min-h-12 w-full max-w-[360px] justify-center" />

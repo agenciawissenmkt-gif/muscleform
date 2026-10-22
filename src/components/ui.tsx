@@ -18,7 +18,9 @@ type IconName =
   | 'sun'
   | 'face'
   | 'lock'
-  | 'alert';
+  | 'alert'
+  | 'link'
+  | 'external';
 
 const PATHS: Record<IconName, ReactNode> = {
   camera: (
@@ -118,6 +120,18 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M12 10v4.2M12 17h.01" />
     </>
   ),
+  link: (
+    <>
+      <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" />
+      <path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+    </>
+  ),
+  external: (
+    <>
+      <path d="M14 4h6v6M20 4l-9 9" />
+      <path d="M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10" />
+    </>
+  ),
 };
 
 export function Icon({ name, size = 24, ...rest }: { name: IconName; size?: number } & SVGProps<SVGSVGElement>) {
@@ -143,9 +157,9 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'light';
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'brand-gradient text-white shadow-[var(--shadow-lift)] hover:brightness-110 active:brightness-95 disabled:shadow-none disabled:hover:brightness-100',
+    'brand-gradient text-white shadow-lift hover:brightness-110 active:brightness-95 disabled:shadow-none disabled:hover:brightness-100',
   secondary:
-    'bg-white text-plum-800 ring-2 ring-plum-200 shadow-[var(--shadow-soft)] hover:ring-plum-400 active:bg-plum-50 disabled:opacity-50',
+    'bg-white text-plum-800 ring-2 ring-plum-200 shadow-soft hover:ring-plum-400 active:bg-plum-50 disabled:opacity-50',
   ghost: 'bg-transparent text-plum-700 hover:bg-plum-100 active:bg-plum-200 disabled:opacity-50',
   light:
     'bg-white/15 text-white ring-1 ring-white/40 backdrop-blur hover:bg-white/25 active:bg-white/30 disabled:opacity-50',

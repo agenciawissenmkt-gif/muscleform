@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Icon, IconButton, Spinner } from '../components/ui';
 import { drawToPhoto, photoFromFile, type Photo } from '../lib/image';
+import { detectInApp } from '../lib/inapp';
 
 type Facing = 'user' | 'environment';
 
@@ -10,8 +11,12 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
   const fileRef = useRef<HTMLInputElement>(null);
   const nativeRef = useRef<HTMLInputElement>(null);
   const [facing, setFacing] = useState<Facing>('user');
-  const [status, setStatus] = useState<'starting' | 'live' | 'error'>('starting');
+  // paused: o navegador não deixou o vídeo começar sozinho (precisa de um toque)
+  const [status, setStatus] = useState<'starting' | 'live' | 'paused' | 'error'>('starting');
   const [errorMsg, setErrorMsg] = useState('');
+  // A câmera está demorando (ex.: a pessoa não respondeu ao pedido de permissão)
+  const [slow, setSlow] = useState(false);
+  const [inApp] = useState(detectInApp);
   const [shot, setShot] = useState<Photo | null>(null);
   const [flash, setFlash] = useState(false);
   const [hasTwoCameras, setHasTwoCameras] = useState(true);
@@ -19,6 +24,8 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
   const [fileError, setFileError] = useState<string | null>(null);
   // Hora da última foto: ignora toques duplos que cairiam nos botões seguintes.
   const shotAt = useRef(0);
+  // Retoma o vídeo com um toque, quando o navegador não deixou começar sozinho
+  const resumeRef = useRef<() => void>(() => undefined);
 
   const stop = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
@@ -27,59 +34,130 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
 
   useEffect(() => {
     let cancelled = false;
+    const slowTimer = setTimeout(() => !cancelled && setSlow(true), 7000);
+
+    function fail(message: string) {
+      if (cancelled) return;
+      stop();
+      setErrorMsg(message);
+      setStatus('error');
+    }
+
+    async function open() {
+      const constraints = {
+        audio: false,
+        video: { facingMode: { ideal: facing }, width: { ideal: 1920 }, height: { ideal: 1440 } },
+      };
+      try {
+        return await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (err) {
+        // Muitos Androids demoram a soltar a câmera anterior (ex.: ao virar): tenta mais uma vez
+        const name = (err as DOMException)?.name;
+        if (name !== 'NotReadableError' && name !== 'AbortError' && name !== 'TrackStartError') throw err;
+        await new Promise((r) => setTimeout(r, 500));
+        return navigator.mediaDevices.getUserMedia(constraints);
+      }
+    }
+
     async function start() {
       setStatus('starting');
+      setSlow(false);
       stop();
-      if (!navigator.mediaDevices?.getUserMedia) {
-        setErrorMsg(
+      if (typeof navigator.mediaDevices?.getUserMedia !== 'function') {
+        return fail(
           'Este navegador não deixa abrir a câmera aqui. Use o botão abaixo para tirar a foto pelo aparelho.',
         );
-        setStatus('error');
-        return;
       }
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: false,
-          video: { facingMode: { ideal: facing }, width: { ideal: 1920 }, height: { ideal: 1440 } },
-        });
+        const stream = await open();
         if (cancelled) {
           stream.getTracks().forEach((t) => t.stop());
           return;
         }
         streamRef.current = stream;
+        // Câmera desligada pelo sistema (ex.: o app foi para segundo plano): reabre
+        stream.getVideoTracks().forEach((t) => {
+          t.onended = () => !cancelled && streamRef.current === stream && setRetry((n) => n + 1);
+        });
         const video = videoRef.current;
-        if (video) {
-          video.srcObject = stream;
-          await video.play().catch(() => undefined);
-        }
+        if (!video) return;
+        video.srcObject = stream;
+        const playing = await video.play().then(
+          () => true,
+          () => false,
+        );
         if (cancelled) return;
-        setStatus('live');
+        if (!playing) {
+          setStatus('paused');
+          return;
+        }
+        await showWhenReady(video);
         navigator.mediaDevices
           .enumerateDevices()
           .then((d) => !cancelled && setHasTwoCameras(d.filter((x) => x.kind === 'videoinput').length > 1))
           .catch(() => undefined);
       } catch (err) {
-        if (cancelled) return;
         const name = (err as DOMException)?.name;
-        setErrorMsg(
+        if (name === 'NotAllowedError' && inApp) {
+          return fail(
+            `${inApp.app ? `O ${inApp.app}` : 'Este aplicativo'} não deixa abrir a câmera aqui. Toque em "Tirar foto pelo aparelho", escolha da galeria ou abra o link no navegador.`,
+          );
+        }
+        fail(
           name === 'NotAllowedError'
             ? 'A câmera está bloqueada. Libere a câmera nos ajustes do navegador e toque em "Tentar de novo" — ou use os botões abaixo.'
             : 'Não consegui abrir a câmera. Toque em "Tentar de novo", tire a foto pelo aparelho ou escolha da galeria.',
         );
-        setStatus('error');
       }
     }
+
+    /** Só mostra "ao vivo" quando a imagem chega de verdade (alguns aparelhos ficam pretos). */
+    async function showWhenReady(video: HTMLVideoElement) {
+      const ok =
+        video.videoWidth > 0 ||
+        (await new Promise<boolean>((resolve) => {
+          const t = setTimeout(() => resolve(video.videoWidth > 0), 5000);
+          video.addEventListener(
+            'loadeddata',
+            () => {
+              clearTimeout(t);
+              resolve(video.videoWidth > 0);
+            },
+            { once: true },
+          );
+        }));
+      if (cancelled) return;
+      if (ok) setStatus('live');
+      else fail('A câmera não mostrou imagem neste aparelho. Use "Tirar foto pelo aparelho" ou a galeria.');
+    }
+    resumeRef.current = () => {
+      const video = videoRef.current;
+      if (!video) return;
+      setStatus('starting');
+      video.play().then(
+        () => showWhenReady(video),
+        () => fail('Não consegui mostrar a câmera. Toque em "Tirar foto pelo aparelho" ou escolha da galeria.'),
+      );
+    };
+
     if (!shot) start();
     return () => {
       cancelled = true;
+      clearTimeout(slowTimer);
     };
-  }, [facing, shot, stop, retry]);
+  }, [facing, shot, stop, retry, inApp]);
 
   useEffect(() => stop, [stop]);
 
   function capture() {
     const video = videoRef.current;
-    if (!video || !video.videoWidth) return;
+    if (!video) return;
+    if (!video.videoWidth) {
+      stop();
+      setErrorMsg('A câmera parou de mostrar imagem. Toque em "Tentar de novo" ou use os botões abaixo.');
+      setStatus('error');
+      return;
+    }
     const photo = drawToPhoto(video, video.videoWidth, video.videoHeight, { mirror: facing === 'user', ratio: [3, 4] });
     shotAt.current = Date.now();
     setFlash(true);
@@ -110,7 +188,7 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
   }
 
   const frame =
-    'relative mx-auto aspect-[3/4] w-full max-w-[min(100vw,calc((100dvh-220px)*0.75))] overflow-hidden bg-plum-950 sm:rounded-[28px]';
+    'ratio-box mx-auto w-full max-w-[min(100vw,calc((100dvh-220px)*0.75))] overflow-hidden bg-plum-950 sm:rounded-[28px]';
 
   return (
     <main className="fixed inset-0 z-40 flex flex-col bg-plum-950 text-white">
@@ -169,16 +247,33 @@ export default function Camera({ onClose, onPhoto }: { onClose: () => void; onPh
                 </svg>
               )}
               {status === 'starting' && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
                   <Spinner className="border-white/30 border-t-white" />
                   <p className="font-semibold">Abrindo a câmera…</p>
+                  {slow && (
+                    <>
+                      <p className="text-sm leading-relaxed text-plum-200">
+                        Se apareceu um pedido para usar a câmera, toque em <b>Permitir</b>. Está demorando? Use:
+                      </p>
+                      <Button variant="light" icon="camera" onClick={() => nativeRef.current?.click()}>
+                        Tirar foto pelo aparelho
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
+              {status === 'paused' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+                  <Button size="xl" icon="camera" onClick={() => resumeRef.current()}>
+                    Toque para ver a câmera
+                  </Button>
                 </div>
               )}
               {status === 'error' && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
                   <Icon name="camera" size={44} className="text-plum-300" />
                   <p className="text-base font-semibold leading-relaxed">{errorMsg}</p>
-                  {typeof navigator.mediaDevices?.getUserMedia === 'function' && (
+                  {typeof navigator.mediaDevices?.getUserMedia === 'function' && !inApp && (
                     <Button icon="refresh" onClick={() => setRetry((n) => n + 1)}>
                       Tentar de novo
                     </Button>

@@ -87,8 +87,8 @@ export default function Generating({ photo, mode, onCancel }: { photo: string; m
 
         <div className="screen-in relative my-auto flex w-full max-w-sm flex-col items-center py-6 text-center">
           <div className="relative w-[clamp(7rem,calc((100dvh-27rem)*0.75),16rem)]">
-            <div className="relative aspect-[3/4] overflow-hidden rounded-[32px] ring-4 ring-white/40 shadow-[0_30px_60px_-20px_rgb(26_9_51/0.7)]">
-              <img src={photo} alt="" className="absolute inset-0 size-full object-cover blur-[1.5px] saturate-75" />
+            <div className="ratio-box overflow-hidden rounded-[32px] ring-4 ring-white/40 shadow-[0_30px_60px_-20px_rgb(26_9_51/0.7)]">
+              <img src={photo} alt="" className="absolute inset-0 size-full object-cover blur-[1.5px] saturate-[.75]" />
               <div className="absolute inset-0 bg-plum-900/30" />
               <div className="shimmer absolute inset-0" />
               <div className="scan-line absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-orchid-400/45 to-transparent" />
@@ -98,7 +98,7 @@ export default function Generating({ photo, mode, onCancel }: { photo: string; m
             </div>
           </div>
 
-          <h1 className="mt-14 text-[1.7rem] font-extrabold leading-tight [@media(max-height:640px)]:mt-10 [@media(max-height:640px)]:text-2xl">
+          <h1 className="mt-14 text-[1.7rem] font-extrabold leading-tight [@media(max-height:640px)]:mt-10 [@media(max-height:640px)]:text-2xl [@media(max-height:640px)]:leading-tight">
             Criando seu novo visual
           </h1>
           <p key={index} className="fade-swap mt-2 min-h-14 text-lg font-semibold text-plum-100" aria-live="polite">

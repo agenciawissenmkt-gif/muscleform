@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type CSSProperties } from 'react';
 
 /** Comparador "antes e depois": arraste a barra (ou use as setas do teclado). */
 export default function BeforeAfter({ before, after, ratio }: { before: string; after: string; ratio: string }) {
@@ -15,8 +15,8 @@ export default function BeforeAfter({ before, after, ratio }: { before: string; 
   return (
     <div
       ref={box}
-      className="relative w-full touch-pan-y select-none overflow-hidden"
-      style={{ aspectRatio: ratio.replace(':', ' / ') }}
+      className="ratio-box w-full touch-pan-y select-none overflow-hidden"
+      style={{ '--ratio': ratio.replace(':', ' / ') } as CSSProperties}
       // Arrastar para os lados move a barra; deslizar para cima/baixo rola a página.
       onPointerDown={(e) => {
         dragging.current = true;
@@ -58,7 +58,7 @@ export default function BeforeAfter({ before, after, ratio }: { before: string; 
           if (e.key === 'ArrowLeft') setPos((p) => Math.max(0, p - 5));
           if (e.key === 'ArrowRight') setPos((p) => Math.min(100, p + 5));
         }}
-        className="absolute top-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-plum-700 shadow-[var(--shadow-lift)] ring-4 ring-orchid-400/60"
+        className="absolute top-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-plum-700 shadow-lift ring-4 ring-orchid-400/60"
         style={{ left: `${pos}%` }}
       >
         <svg

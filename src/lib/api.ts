@@ -50,5 +50,10 @@ export const api = {
   loginDemo: () => request<{ user: User }>('/api/auth/demo', { method: 'POST', body: '{}' }),
   logout: () => request<{ ok: true }>('/api/auth/logout', { method: 'POST', body: '{}' }),
   generate: (body: { image: string; aspectRatio: string; cutId?: string; colorId?: string }, signal?: AbortSignal) =>
-    request<{ image: string }>('/api/generate', { method: 'POST', body: JSON.stringify(body), signal }),
+    request<{ image: string }>('/api/generate', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      // Navegador antigo usa um "AbortController" simplificado (lib/compat.ts): não vai para o fetch
+      signal: typeof AbortSignal !== 'undefined' && signal instanceof AbortSignal ? signal : undefined,
+    }),
 };

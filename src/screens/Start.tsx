@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import { FloralCorner, Flower } from '../components/Flowers';
+import InAppNotice from '../components/InAppNotice';
 import { Button, Icon, Spinner } from '../components/ui';
 import type { User } from '../lib/api';
 import { photoFromFile, type Photo } from '../lib/image';
+import { detectInApp } from '../lib/inapp';
 
 export default function Start({
   user,
@@ -18,6 +20,7 @@ export default function Start({
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [inApp] = useState(detectInApp);
   const firstName = user.name.split(' ')[0] || 'olá';
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -43,7 +46,7 @@ export default function Start({
 
       <section className="relative z-10 order-1 lg:order-none lg:col-start-1 lg:row-start-1 lg:self-end">
         <p className="text-lg font-bold text-plum-600">Olá, {firstName}!</p>
-        <h1 className="mt-1 text-[2rem] font-extrabold leading-tight text-plum-950 sm:text-5xl">
+        <h1 className="mt-1 text-[2rem] font-extrabold leading-tight text-plum-950 sm:text-5xl sm:leading-tight">
           Vamos descobrir o seu <span className="font-display italic text-gradient">novo visual</span>?
         </h1>
       </section>
@@ -77,7 +80,9 @@ export default function Start({
           </p>
         )}
 
-        <div className="rounded-[28px] bg-white p-5 shadow-[var(--shadow-lift)] ring-1 ring-plum-100">
+        {inApp && <InAppNotice inApp={inApp} reason="A câmera e o salvar imagem costumam não funcionar" className="" />}
+
+        <div className="rounded-[28px] bg-white p-5 shadow-lift ring-1 ring-plum-100">
           <Button size="xl" icon="camera" onClick={onCamera} className="w-full">
             Tirar foto
           </Button>

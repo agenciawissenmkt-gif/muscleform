@@ -59,19 +59,99 @@ export function drawToPhoto(
   const canvas = document.createElement('canvas');
   canvas.width = outW;
   canvas.height = outH;
-  const ctx = canvas.getContext('2d')!;
+  const ctx = context2d(canvas);
   ctx.imageSmoothingQuality = 'high';
   if (options.mirror) {
     ctx.translate(outW, 0);
     ctx.scale(-1, 1);
   }
   ctx.drawImage(source, sx, sy, cropW, cropH, 0, 0, outW, outH);
-  return {
-    dataUrl: canvas.toDataURL('image/jpeg', 0.9),
-    width: outW,
-    height: outH,
-    aspectRatio: `${rw}:${rh}`,
-  };
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+  release(canvas);
+  return { dataUrl, width: outW, height: outH, aspectRatio: `${rw}:${rh}` };
+}
+
+function context2d(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Não consegui preparar a imagem. Feche outras abas do navegador e tente de novo.');
+  return ctx;
+}
+
+/** Libera a memória do canvas na hora (iPhones antigos travam se acumular). */
+function release(canvas: HTMLCanvasElement) {
+  canvas.width = 1;
+  canvas.height = 1;
+}
+
+/** Navegadores atuais já desviram a foto sozinhos (dado EXIF); os antigos não. */
+function browserRotatesExif(): boolean {
+  try {
+    return typeof CSS !== 'undefined' && CSS.supports('image-orientation', 'from-image');
+  } catch {
+    return false;
+  }
+}
+
+/** Orientação EXIF (1 a 8) gravada pela câmera no começo do JPEG; 1 = normal. */
+function readOrientation(file: Blob): Promise<number> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onerror = () => resolve(1);
+    reader.onload = () => {
+      try {
+        const view = new DataView(reader.result as ArrayBuffer);
+        if (view.getUint16(0) !== 0xffd8) return resolve(1);
+        let offset = 2;
+        while (offset + 4 < view.byteLength) {
+          const marker = view.getUint16(offset);
+          if (marker === 0xffe1 && view.getUint32(offset + 4) === 0x45786966) {
+            const tiff = offset + 10;
+            const little = view.getUint16(tiff) === 0x4949;
+            const ifd = tiff + view.getUint32(tiff + 4, little);
+            const count = view.getUint16(ifd, little);
+            for (let i = 0; i < count; i++) {
+              const entry = ifd + 2 + i * 12;
+              if (view.getUint16(entry, little) === 0x0112) return resolve(view.getUint16(entry + 8, little));
+            }
+            return resolve(1);
+          }
+          if ((marker & 0xff00) !== 0xff00) break;
+          offset += 2 + view.getUint16(offset + 2);
+        }
+      } catch {
+        // arquivo fora do padrão: usa como está
+      }
+      resolve(1);
+    };
+    reader.readAsArrayBuffer(file.slice(0, 128 * 1024));
+  });
+}
+
+/** Desvira a foto conforme a orientação EXIF (já reduzindo o tamanho). */
+function uprightCanvas(img: HTMLImageElement, orientation: number): HTMLCanvasElement {
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+  const scale = Math.min(1, 2048 / Math.max(w, h));
+  const swap = orientation >= 5;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round((swap ? h : w) * scale);
+  canvas.height = Math.round((swap ? w : h) * scale);
+  const ctx = context2d(canvas);
+  ctx.scale(scale, scale);
+  const m = (
+    {
+      2: [-1, 0, 0, 1, w, 0],
+      3: [-1, 0, 0, -1, w, h],
+      4: [1, 0, 0, -1, 0, h],
+      5: [0, 1, 1, 0, 0, 0],
+      6: [0, 1, -1, 0, h, 0],
+      7: [0, -1, -1, 0, h, w],
+      8: [0, -1, 1, 0, 0, w],
+    } as Record<number, [number, number, number, number, number, number]>
+  )[orientation];
+  if (m) ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+  ctx.drawImage(img, 0, 0);
+  return canvas;
 }
 
 export function loadImage(src: string): Promise<HTMLImageElement> {
@@ -86,14 +166,31 @@ export function loadImage(src: string): Promise<HTMLImageElement> {
 
 /** Foto escolhida da galeria / arquivos do aparelho. */
 export async function photoFromFile(file: File): Promise<Photo> {
-  if (!file.type.startsWith('image/') && !/\.(heic|heif)$/i.test(file.name)) {
+  const heic = /heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name);
+  // (alguns Androids mandam a foto sem tipo: deixa o navegador tentar abrir)
+  if (file.type && !file.type.startsWith('image/') && !heic) {
     throw new Error('Escolha um arquivo de imagem (foto).');
   }
   const url = URL.createObjectURL(file);
   try {
-    const img = await loadImage(url);
+    const [img, orientation] = await Promise.all([
+      loadImage(url),
+      browserRotatesExif() ? Promise.resolve(1) : readOrientation(file),
+    ]);
+    if (orientation > 1) {
+      const upright = uprightCanvas(img, orientation);
+      const photo = drawToPhoto(upright, upright.width, upright.height);
+      release(upright);
+      return photo;
+    }
     return drawToPhoto(img, img.naturalWidth, img.naturalHeight);
-  } catch {
+  } catch (err) {
+    if (heic) {
+      throw new Error(
+        'Fotos no formato HEIC não abrem neste navegador. Tire a foto pela câmera do app ou escolha uma foto JPG.',
+      );
+    }
+    if ((err as Error).message.startsWith('Não consegui preparar')) throw err;
     throw new Error('Não consegui abrir essa foto. Tente outra ou tire uma foto pela câmera.');
   } finally {
     URL.revokeObjectURL(url);
@@ -114,14 +211,22 @@ export async function convertImage(dataUrl: string, format: 'jpg' | 'png'): Prom
   const canvas = document.createElement('canvas');
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
-  const ctx = canvas.getContext('2d')!;
+  const ctx = context2d(canvas);
   if (format === 'jpg') {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   ctx.drawImage(img, 0, 0);
   return new Promise((resolve, reject) =>
-    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Falha ao converter a imagem.'))), wanted, 0.95),
+    canvas.toBlob(
+      (b) => {
+        release(canvas);
+        if (b) resolve(b);
+        else reject(new Error('Falha ao converter a imagem.'));
+      },
+      wanted,
+      0.95,
+    ),
   );
 }
 
@@ -133,7 +238,7 @@ export function fileName(label: string, ext: 'jpg' | 'png'): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 60);
-  const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '');
+  const stamp = new Date().toISOString().slice(0, 16).replace(/\D/g, '');
   return `beauty-and-self-${slug || 'visual'}-${stamp}.${ext}`;
 }
 
@@ -145,7 +250,8 @@ export function downloadBlob(blob: Blob, name: string) {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  // Safari pergunta "Baixar?" antes: dá tempo para a pessoa responder
+  setTimeout(() => URL.revokeObjectURL(url), 40000);
 }
 
 export type Platform = 'ios' | 'android' | 'desktop';
@@ -174,7 +280,7 @@ export function canShareFiles(): boolean {
  * Abre a folha de compartilhamento do sistema com a imagem (WhatsApp etc.;
  * no iPhone também tem "Salvar Imagem", que guarda no app Fotos).
  */
-export async function shareFile(blob: Blob, name: string): Promise<'shared' | 'cancelled' | 'unsupported'> {
+export async function shareFile(blob: Blob, name: string): Promise<'shared' | 'cancelled' | 'retry' | 'unsupported'> {
   const file = new File([blob], name, { type: blob.type });
   const nav = navigator as ShareNavigator;
   if (!nav.canShare?.({ files: [file] })) return 'unsupported';
@@ -182,6 +288,8 @@ export async function shareFile(blob: Blob, name: string): Promise<'shared' | 'c
     await nav.share({ files: [file], title: 'Meu novo visual — Beauty and self' });
     return 'shared';
   } catch (err) {
-    return (err as DOMException)?.name === 'AbortError' ? 'cancelled' : 'unsupported';
+    const n = (err as DOMException)?.name;
+    // NotAllowedError: o sistema achou que demorou demais depois do toque
+    return n === 'AbortError' ? 'cancelled' : n === 'NotAllowedError' ? 'retry' : 'unsupported';
   }
 }

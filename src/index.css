@@ -1,48 +1,50 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
 
-@theme {
-  --font-display: 'Playfair Display', 'Georgia', serif;
-  --font-sans: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
-
-  /* Roxo intenso — a cor da marca */
-  --color-plum-950: #1a0933;
-  --color-plum-900: #2e1065;
-  --color-plum-800: #4c1d95;
-  --color-plum-700: #5b21b6;
-  --color-plum-600: #6d28d9;
-  --color-plum-500: #7c3aed;
-  --color-plum-400: #a78bfa;
-  --color-plum-300: #c4b5fd;
-  --color-plum-200: #ddd6fe;
-  --color-plum-100: #ede9fe;
-  --color-plum-50: #f6f2ff;
-
-  /* Orquídea e pétalas — detalhes florais */
-  --color-orchid-600: #a21caf;
-  --color-orchid-500: #c026d3;
-  --color-orchid-400: #e879f9;
-  --color-blossom-300: #f9a8d4;
-  --color-blossom-200: #fbcfe8;
-  --color-pollen: #f6c86b;
-
-  --color-ink: #24123f;
-  --color-ink-soft: #5b4a78;
-  --color-paper: #fcfaff;
-
-  --shadow-soft: 0 10px 30px -12px rgb(76 29 149 / 0.35);
-  --shadow-lift: 0 18px 40px -16px rgb(76 29 149 / 0.55);
+/* Espaçamento "gap" em flex para iPhone/iPad antigos (iOS < 14.5): o
+   src/lib/compat.ts marca os itens e aqui o espaço vira margem. Fica antes
+   das classes utilitárias para uma margem própria (ex.: ml-auto) prevalecer. */
+[data-fg-gap~='l'] {
+  margin-left: var(--fg-l);
 }
+[data-fg-gap~='t'] {
+  margin-top: var(--fg-t);
+}
+[data-fg-gap~='r'] {
+  margin-right: var(--fg-r);
+}
+[data-fg-gap~='b'] {
+  margin-bottom: var(--fg-b);
+}
+
+@tailwind utilities;
+
+/* Cores, fontes e sombras da marca ficam em tailwind.config.js
+   (lá elas também viram variáveis CSS, como var(--color-plum-800)). */
 
 @layer base {
   /* Só tema claro: o navegador não deve escurecer o app sozinho (Android, Samsung Internet) */
   :root {
     color-scheme: only light;
   }
+  /* Samsung Internet / Mi Browser: só deixam de escurecer a página quando ela
+     "responde" ao modo escuro — e a resposta é continuar clara */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: only light;
+    }
+  }
 
   html,
   body,
   #root {
     min-height: 100%;
+  }
+
+  /* iPhone deitado: o conteúdo não fica embaixo do recorte da câmera */
+  #root {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   html {
@@ -66,7 +68,8 @@
     font: inherit;
   }
 
-  button {
+  button,
+  button:disabled {
     cursor: pointer;
     touch-action: manipulation;
   }
@@ -112,6 +115,25 @@
 
 .safe-bottom {
   padding-bottom: max(env(safe-area-inset-bottom), 12px);
+}
+
+/* Caixa com proporção fixa (foto 3:4 etc.). Safari < 15 e Chrome < 88 não têm
+   aspect-ratio: lá a altura vem de um "calço" com padding (mesmo resultado). */
+.ratio-box {
+  position: relative;
+  aspect-ratio: var(--ratio, 3 / 4);
+}
+@supports not (aspect-ratio: 1 / 1) {
+  .ratio-box::before {
+    content: '';
+    float: left;
+    padding-top: calc(100% / (var(--ratio, 3 / 4)));
+  }
+  .ratio-box::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
 }
 
 /* Listas longas: o navegador só desenha o que está na tela (app leve) */

@@ -61,7 +61,7 @@ export default function Header({
             )}
           </button>
           {open && (
-            <div className="pop-in absolute right-0 top-14 w-64 rounded-2xl bg-white p-2 shadow-[var(--shadow-lift)] ring-1 ring-plum-100">
+            <div className="pop-in absolute right-0 top-14 w-64 rounded-2xl bg-white p-2 shadow-lift ring-1 ring-plum-100">
               <div className="px-3 py-2">
                 <p className="truncate font-extrabold text-plum-900">{user.name}</p>
                 <p className="truncate text-sm text-ink-soft">{user.email}</p>
