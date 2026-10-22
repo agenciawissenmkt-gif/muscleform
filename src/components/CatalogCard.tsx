@@ -30,7 +30,7 @@ function CatalogCardImpl({
           selected ? 'bg-gradient-to-b from-orchid-400/25 to-plum-100' : 'bg-gradient-to-b from-plum-50 to-plum-100'
         }`}
       >
-        {item.kind === 'cut' && item.photo ? (
+        {item.photo ? (
           <img
             src={item.photo}
             alt=""
@@ -42,6 +42,12 @@ function CatalogCardImpl({
           <HairArt look={item.look} className="absolute bottom-[-5.4%] left-[3.7%] h-[108%] w-[92.6%]" />
         ) : (
           <ColorSwatch swatch={item.swatch} className="absolute inset-0 h-full w-full" />
+        )}
+        {/* Amostra exata da cor (raiz → pontas) */}
+        {item.kind === 'color' && item.photo && (
+          <span className="absolute bottom-2 left-2 block size-8 overflow-hidden rounded-full shadow-md ring-2 ring-white">
+            <ColorSwatch swatch={item.swatch} className="h-full w-full" />
+          </span>
         )}
         {selected && (
           <span className="pop-in absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-orchid-500 text-white shadow-lg">
