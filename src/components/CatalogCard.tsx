@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import type { CatalogItem } from '../catalog';
-import { ColorLock, HairArt } from './HairArt';
+import { ColorSwatch, HairArt } from './HairArt';
 import { Icon } from './ui';
 
 function CatalogCardImpl({
@@ -41,10 +41,7 @@ function CatalogCardImpl({
         ) : item.kind === 'cut' ? (
           <HairArt look={item.look} className="absolute bottom-[-5.4%] left-[3.7%] h-[108%] w-[92.6%]" />
         ) : (
-          <ColorLock
-            swatch={item.swatch}
-            className="absolute left-[21.3%] top-[9%] h-[82%] w-[57.4%] drop-shadow-[0_8px_10px_rgb(46_16_101/0.25)] transition group-hover:rotate-3"
-          />
+          <ColorSwatch swatch={item.swatch} className="absolute inset-0 h-full w-full" />
         )}
         {selected && (
           <span className="pop-in absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-orchid-500 text-white shadow-lg">

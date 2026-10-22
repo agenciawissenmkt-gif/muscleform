@@ -288,3 +288,46 @@ export const ColorLock = memo(function ColorLock({ swatch, className = '' }: { s
     </svg>
   );
 });
+
+/**
+ * Amostra de cor ocupando o quadro todo (raiz → pontas, de cima para baixo),
+ * com fios finos e um brilho suave para parecer cabelo sem mudar o tom.
+ */
+export const ColorSwatch = memo(function ColorSwatch({
+  swatch,
+  className = '',
+}: {
+  swatch: string[];
+  className?: string;
+}) {
+  const id = useId();
+  const stops = swatch.length ? swatch : ['#5b3a24', '#8a5a3c'];
+  const strands = Array.from({ length: 28 }, (_, i) => {
+    const x = 2 + i * 3.6;
+    const bend = (i % 5) - 2;
+    return `M${x} -2 C ${x + bend * 1.5} 30, ${x - bend} 70, ${x + bend * 0.8} 102`;
+  });
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className={className} aria-hidden="true">
+      <defs>
+        <linearGradient id={`c${id}`} x1="0" y1="0" x2="0" y2="1">
+          {stops.map((c, i) => (
+            <stop key={i} offset={stops.length === 1 ? 0 : i / (stops.length - 1)} stopColor={c} />
+          ))}
+        </linearGradient>
+        <linearGradient id={`s${id}`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0.25" stopColor="#fff" stopOpacity="0" />
+          <stop offset="0.45" stopColor="#fff" stopOpacity="0.22" />
+          <stop offset="0.6" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect width="100" height="100" fill={`url(#c${id})`} />
+      <g fill="none" strokeWidth="0.35" strokeLinecap="round">
+        {strands.map((d, i) => (
+          <path key={i} d={d} stroke={i % 3 === 0 ? '#000' : '#fff'} strokeOpacity={i % 3 === 0 ? 0.1 : 0.14} />
+        ))}
+      </g>
+      <rect width="100" height="100" fill={`url(#s${id})`} />
+    </svg>
+  );
+});
