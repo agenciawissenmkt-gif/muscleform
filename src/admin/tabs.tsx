@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Button } from '../components/ui';
+import { Button, Icon } from '../components/ui';
 import { postJson } from '../lib/api';
-import { Card, Loading, useAdminData } from './shared';
+import { Card, Loading, PageTitle, useAdminData } from './shared';
+import { CountUp, Podium } from './charts';
 import {
   ACTION_LABEL,
   colorName,
@@ -60,76 +61,133 @@ export function RankingsTab() {
     `/api/admin/rankings?days=${days}${tenant ? `&tenant=${tenant}` : ''}`,
   );
 
+  const sel = 'adm-card min-h-11 rounded-2xl px-3 font-bold text-plum-900 ring-1 ring-plum-100';
   return (
-    <div className="grid grid-cols-1 gap-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-extrabold text-plum-950">Rankings</h1>
-          <p className="text-ink-soft">O que os salões mais estão usando.</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <select
-            value={tenant}
-            onChange={(e) => setTenant(e.target.value)}
-            className="min-h-11 rounded-xl bg-white px-3 font-bold text-plum-900 ring-1 ring-plum-200"
-          >
-            <option value="">Todos os salões</option>
-            {(tenants.data || []).map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
-            className="min-h-11 rounded-xl bg-white px-3 font-bold text-plum-900 ring-1 ring-plum-200"
-          >
-            <option value={7}>Últimos 7 dias</option>
-            <option value={30}>Últimos 30 dias</option>
-            <option value={90}>Últimos 90 dias</option>
-            <option value={365}>Último ano</option>
-          </select>
-        </div>
-      </div>
+    <div className="grid grid-cols-1 gap-6">
+      <PageTitle
+        title="Grand Prix"
+        subtitle="Os campeões de uso: cortes, cores, combinações e salões."
+        right={
+          <div className="flex flex-wrap gap-2">
+            <select value={tenant} onChange={(e) => setTenant(e.target.value)} className={sel}>
+              <option value="">Todos os salões</option>
+              {(tenants.data || []).map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+            <select value={days} onChange={(e) => setDays(Number(e.target.value))} className={sel}>
+              <option value={7}>Últimos 7 dias</option>
+              <option value={30}>Últimos 30 dias</option>
+              <option value={90}>Últimos 90 dias</option>
+              <option value={365}>Último ano</option>
+            </select>
+          </div>
+        }
+      />
       {loading && !data ? (
         <Loading />
       ) : error || !data ? (
         <Loading error={error} onRetry={reload} />
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-3">
-            {(['cut', 'color', 'both'] as const).map((m) => (
-              <div key={m} className="rounded-3xl bg-white p-4 text-center shadow-soft ring-1 ring-plum-100">
-                <p className="text-xs font-extrabold uppercase tracking-wider text-ink-soft">{MODE_LABEL[m]}</p>
-                <p className="text-2xl font-extrabold text-plum-900">{int(data.modes[m] || 0)}</p>
+          <section className="adm-hero adm-rise relative overflow-hidden rounded-[32px] p-6 text-white sm:p-8">
+            <div className="adm-glow pointer-events-none absolute -left-16 -top-16 size-64 rounded-full bg-orchid-400/40 blur-3xl" />
+            <div className="relative flex items-center gap-3">
+              <span className="flex size-12 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/30">
+                <Icon name="trophy" size={26} />
+              </span>
+              <div>
+                <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-plum-200">Pódio dos cortes</p>
+                <h2 className="text-2xl font-extrabold">Os mais pedidos pelas clientes</h2>
+              </div>
+            </div>
+            <div className="relative mt-6 rounded-[28px] bg-white/95 px-3 pb-4 pt-6 text-plum-950">
+              {data.cuts.length === 0 ? (
+                <p className="py-10 text-center font-bold text-ink-soft">Sem dados no período.</p>
+              ) : (
+                <Podium
+                  items={data.cuts.slice(0, 3).map((c) => ({ label: cutName(c.id), n: c.n, photo: cutPhoto(c.id) }))}
+                />
+              )}
+            </div>
+          </section>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {(['cut', 'color', 'both'] as const).map((m, i) => (
+              <div
+                key={m}
+                className="adm-card adm-rise flex items-center gap-4 rounded-[24px] p-4 ring-1 ring-plum-100"
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <span className="brand-gradient flex size-12 items-center justify-center rounded-2xl text-white shadow-lg">
+                  <Icon name={m === 'cut' ? 'scissors' : m === 'color' ? 'palette' : 'sparkles'} size={22} />
+                </span>
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-wider text-ink-soft">
+                    Só {MODE_LABEL[m].toLowerCase()}
+                  </p>
+                  <p className="text-2xl font-extrabold text-plum-950">
+                    <CountUp value={data.modes[m] || 0} format={int} />
+                  </p>
+                </div>
               </div>
             ))}
           </div>
-          <div className="grid gap-5 lg:grid-cols-2">
-            <Card title="Cortes mais usados">
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <Card title="Pódio das cores" subtitle="As cores mais usadas" delay={80}>
+              {data.colors.length === 0 ? (
+                <p className="text-ink-soft">Sem dados no período.</p>
+              ) : (
+                <Podium
+                  items={data.colors
+                    .slice(0, 3)
+                    .map((c) => ({ label: colorName(c.id), n: c.n, photo: colorPhoto(c.id) }))}
+                />
+              )}
+            </Card>
+            {!tenant ? (
+              <Card title="Pódio dos salões" subtitle="Quem mais gerou imagens" delay={120}>
+                {data.tenants.length === 0 ? (
+                  <p className="text-ink-soft">Sem dados no período.</p>
+                ) : (
+                  <Podium items={data.tenants.slice(0, 3).map((t) => ({ label: t.name, n: t.n }))} />
+                )}
+              </Card>
+            ) : (
+              <Card title="Combinações (corte + cor)" delay={120}>
+                <RankList
+                  items={data.combos.map((c) => ({
+                    key: `${c.cut}|${c.color}`,
+                    label: `${cutName(c.cut)} + ${colorName(c.color)}`,
+                    n: c.n,
+                    photo: cutPhoto(c.cut),
+                  }))}
+                />
+              </Card>
+            )}
+            <Card title="Classificação completa · cortes" delay={160}>
               <RankList
                 items={data.cuts.map((c) => ({ key: c.id, label: cutName(c.id), n: c.n, photo: cutPhoto(c.id) }))}
               />
             </Card>
-            <Card title="Cores mais usadas">
+            <Card title="Classificação completa · cores" delay={200}>
               <RankList
                 items={data.colors.map((c) => ({ key: c.id, label: colorName(c.id), n: c.n, photo: colorPhoto(c.id) }))}
               />
             </Card>
-            <Card title="Combinações mais usadas (corte + cor)">
-              <RankList
-                items={data.combos.map((c) => ({
-                  key: `${c.cut}|${c.color}`,
-                  label: `${cutName(c.cut)} + ${colorName(c.color)}`,
-                  n: c.n,
-                  photo: cutPhoto(c.cut),
-                }))}
-              />
-            </Card>
             {!tenant && (
-              <Card title="Salões que mais usam">
-                <RankList items={data.tenants.map((t) => ({ key: t.id, label: t.name, n: t.n }))} />
+              <Card title="Combinações mais usadas (corte + cor)" className="lg:col-span-2" delay={240}>
+                <RankList
+                  items={data.combos.map((c) => ({
+                    key: `${c.cut}|${c.color}`,
+                    label: `${cutName(c.cut)} + ${colorName(c.color)}`,
+                    n: c.n,
+                    photo: cutPhoto(c.cut),
+                  }))}
+                />
               </Card>
             )}
           </div>
@@ -159,11 +217,8 @@ export function ErrorsTab() {
   if (loading && !data) return <Loading />;
   if (error || !data) return <Loading error={error} onRetry={reload} />;
   return (
-    <div className="grid grid-cols-1 gap-5">
-      <div>
-        <h1 className="text-2xl font-extrabold text-plum-950">Falhas na geração</h1>
-        <p className="text-ink-soft">Imagens que a IA não conseguiu gerar (não contam no plano do cliente).</p>
-      </div>
+    <div className="grid grid-cols-1 gap-6">
+      <PageTitle title="Falhas" subtitle="Imagens que a IA não conseguiu gerar (não contam no plano do cliente)." />
       <Card title="Motivos mais comuns (30 dias)">
         {data.by_message.length === 0 ? (
           <p className="text-ink-soft">Nenhuma falha. 🎉</p>
@@ -231,12 +286,9 @@ export function AuditTab() {
   if (loading && !data) return <Loading />;
   if (error || !data) return <Loading error={error} onRetry={reload} />;
   return (
-    <div className="grid grid-cols-1 gap-5">
-      <div>
-        <h1 className="text-2xl font-extrabold text-plum-950">Registro de atividades</h1>
-        <p className="text-ink-soft">Quem fez o quê no painel, e quem tentou entrar no app.</p>
-      </div>
-      <div className="grid gap-5 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6">
+      <PageTitle title="Registro" subtitle="Quem fez o quê no painel, e quem tentou entrar no app." />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card title="Ações no painel">
           {data.actions.length === 0 ? (
             <p className="text-ink-soft">Nenhuma ação ainda.</p>
@@ -306,7 +358,7 @@ export function SettingsTab() {
 
   return (
     <div className="grid max-w-2xl grid-cols-1 gap-5">
-      <h1 className="text-2xl font-extrabold text-plum-950">Ajustes</h1>
+      <PageTitle title="Ajustes" subtitle="Custos usados nos cálculos de margem e a demonstração grátis." />
       <Card>
         <form onSubmit={save} className="grid gap-4">
           <label className="font-bold text-plum-900">

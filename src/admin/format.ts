@@ -21,6 +21,8 @@ export interface Tenant {
   created_at: string;
   updated_at: string;
   used_month: number;
+  used_total?: number;
+  last_image_at?: string | null;
   emails: { email: string; role: string; last_login_at: string | null }[];
 }
 

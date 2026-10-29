@@ -48,16 +48,49 @@ export function Loading({ error, onRetry }: { error?: string | null; onRetry?: (
   );
 }
 
-export function Card({ title, children, right }: { title?: string; children: ReactNode; right?: ReactNode }) {
+export function Card({
+  title,
+  subtitle,
+  children,
+  right,
+  className = '',
+  delay = 0,
+}: {
+  title?: string;
+  subtitle?: string;
+  children: ReactNode;
+  right?: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   return (
-    <section className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-plum-100">
+    <section
+      className={`adm-card adm-rise min-w-0 rounded-[28px] p-5 ring-1 ring-plum-100 sm:p-6 ${className}`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
       {(title || right) && (
-        <div className="mb-4 flex items-center justify-between gap-3">
-          {title && <h2 className="text-lg font-extrabold text-plum-950">{title}</h2>}
+        <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            {title && <h2 className="text-lg font-extrabold text-plum-950">{title}</h2>}
+            {subtitle && <p className="text-sm text-ink-soft">{subtitle}</p>}
+          </div>
           {right}
         </div>
       )}
       {children}
     </section>
+  );
+}
+
+/** Título das páginas do painel */
+export function PageTitle({ title, subtitle, right }: { title: string; subtitle?: string; right?: ReactNode }) {
+  return (
+    <div className="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-plum-950">{title}</h1>
+        {subtitle && <p className="mt-1 text-ink-soft">{subtitle}</p>}
+      </div>
+      {right}
+    </div>
   );
 }
