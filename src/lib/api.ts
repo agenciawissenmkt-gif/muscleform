@@ -5,18 +5,35 @@ export interface User {
 }
 
 export interface AppConfig {
-  googleClientId: string | null;
-  demoLogin: boolean;
+  /** endereço do Supabase (login com Google) — null quando não configurado */
+  supabaseUrl: string | null;
+  googleLogin: boolean;
+  demo: boolean;
   aiReady: boolean;
+}
+
+/** O que a pessoa conectada pode usar */
+export type Account =
+  | { kind: 'salon'; salon: string; status: string; limit: number; used: number; isAdmin: boolean }
+  | { kind: 'demo'; limit: number; used: number }
+  | { kind: 'admin'; isAdmin: true };
+
+export interface Me {
+  user: User | null;
+  account?: Account;
+  /** aviso para mostrar na tela de entrada (ex.: conta não liberada) */
+  notice?: string;
 }
 
 export type Mode = 'cut' | 'color' | 'both';
 
 export class ApiError extends Error {
   status: number;
-  constructor(message: string, status: number) {
+  code?: string;
+  constructor(message: string, status: number, code?: string) {
     super(message);
     this.status = status;
+    this.code = code;
   }
 }
 
@@ -37,17 +54,22 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     throw new ApiError(
       (data && typeof data.error === 'string' && data.error) || `O servidor respondeu com erro (${res.status}).`,
       res.status,
+      data && typeof data.code === 'string' ? data.code : undefined,
     );
   }
   return data as T;
 }
 
+export const getJson = <T>(path: string) => request<T>(path);
+export const postJson = <T>(path: string, body: unknown) =>
+  request<T>(path, { method: 'POST', body: JSON.stringify(body ?? {}) });
+
 export const api = {
   config: () => request<AppConfig>('/api/config'),
-  me: () => request<{ user: User | null }>('/api/auth/me'),
-  loginGoogle: (credential: string) =>
-    request<{ user: User }>('/api/auth/google', { method: 'POST', body: JSON.stringify({ credential }) }),
-  loginDemo: () => request<{ user: User }>('/api/auth/demo', { method: 'POST', body: '{}' }),
+  me: () => request<Me>('/api/auth/me'),
+  loginGoogle: (accessToken: string) =>
+    request<Me>('/api/auth/google', { method: 'POST', body: JSON.stringify({ accessToken }) }),
+  loginDemo: () => request<Me>('/api/auth/demo', { method: 'POST', body: '{}' }),
   logout: () => request<{ ok: true }>('/api/auth/logout', { method: 'POST', body: '{}' }),
   generate: (body: { image: string; aspectRatio: string; cutId?: string; colorId?: string }, signal?: AbortSignal) =>
     request<{ image: string }>('/api/generate', {

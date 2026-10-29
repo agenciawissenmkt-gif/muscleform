@@ -1,44 +1,42 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { FloralCorner, Flower } from '../components/Flowers';
 import InAppNotice from '../components/InAppNotice';
 import Logo from '../components/Logo';
 import { Button, Icon, Spinner } from '../components/ui';
-import { api, type AppConfig, type User } from '../lib/api';
-import { detectPlatform } from '../lib/image';
+import { api, type AppConfig, type Me } from '../lib/api';
+import { startGoogleLogin } from '../lib/googleLogin';
 import { detectInApp } from '../lib/inapp';
 
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (opts: Record<string, unknown>) => void;
-          renderButton: (el: HTMLElement, opts: Record<string, unknown>) => void;
-          disableAutoSelect: () => void;
-        };
-      };
-    };
-  }
-}
-
-let gsiPromise: Promise<void> | null = null;
-
-/** Carrega só o botão "Entrar com Google" (Google Identity Services). */
-function loadGoogleScript(): Promise<void> {
-  if (window.google?.accounts?.id) return Promise.resolve();
-  gsiPromise ??= new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://accounts.google.com/gsi/client';
-    s.async = true;
-    s.defer = true;
-    s.onload = () => resolve();
-    s.onerror = () => {
-      gsiPromise = null;
-      reject(new Error('Não consegui carregar o login do Google. Verifique a internet.'));
-    };
-    document.head.appendChild(s);
-  });
-  return gsiPromise;
+/** Botão "Entrar com Google" no padrão visual do Google. */
+export function GoogleButton({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="flex min-h-14 w-full max-w-[360px] items-center justify-center gap-3 rounded-2xl bg-white px-6 text-[1.05rem] font-extrabold text-[#1f1f1f] shadow-soft ring-1 ring-[#dadce0] transition hover:bg-[#f8f9fa] active:scale-[0.98] disabled:opacity-60"
+    >
+      <svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          fill="#EA4335"
+          d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+        />
+        <path
+          fill="#4285F4"
+          d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+        />
+        <path
+          fill="#FBBC05"
+          d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+        />
+        <path
+          fill="#34A853"
+          d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+        />
+      </svg>
+      Entrar com Google
+    </button>
+  );
 }
 
 export default function Login({
@@ -47,105 +45,31 @@ export default function Login({
   notice,
 }: {
   config: AppConfig;
-  onLogin: (u: User) => void;
+  onLogin: (me: Me) => void;
   notice?: string | null;
 }) {
-  const btnRef = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState<string | null>(() => {
-    // Erro vindo do login por redirecionamento (?login_error=...)
-    const params = new URLSearchParams(window.location.search);
-    const msg = params.get('login_error');
-    if (msg) window.history.replaceState(window.history.state, '', window.location.pathname);
-    return msg;
-  });
+  const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   // Dentro do Instagram, WhatsApp etc. o Google bloqueia o login
   const [inApp] = useState(detectInApp);
-  const onLoginRef = useRef(onLogin);
-  onLoginRef.current = onLogin;
-
-  useEffect(() => {
-    if (!config.googleClientId || inApp) return;
-    let cancelled = false;
-    let check: ReturnType<typeof setTimeout> | undefined;
-    const failed = () =>
-      !cancelled &&
-      setError(
-        'O botão do Google não abriu neste navegador. Atualize o navegador ou abra o link no Chrome ou no Safari.',
-      );
-    loadGoogleScript()
-      .then(() => {
-        if (cancelled || !btnRef.current) return;
-        if (!window.google?.accounts?.id) return failed();
-        // iPhone/iPad e app instalado na tela inicial: o pop-up do Google não
-        // funciona bem (o Google pede o login por redirecionamento no iOS).
-        const standalone =
-          window.matchMedia('(display-mode: standalone)').matches ||
-          (navigator as Navigator & { standalone?: boolean }).standalone === true;
-        try {
-          initGoogle(standalone || detectPlatform() === 'ios' ? 'redirect' : 'popup');
-        } catch {
-          return failed();
-        }
-        // Navegador antigo: o script carrega, mas o botão não aparece
-        check = setTimeout(() => {
-          if (btnRef.current && !btnRef.current.querySelector('iframe, [role="button"], div[aria-labelledby]'))
-            failed();
-        }, 8000);
-      })
-      .catch((err: Error) => !cancelled && setError(err.message));
-
-    function initGoogle(uxMode: 'redirect' | 'popup') {
-      const gsi = window.google!.accounts.id;
-      gsi.initialize({
-        client_id: config.googleClientId,
-        ux_mode: uxMode,
-        login_uri: `${window.location.origin}/api/auth/google/redirect`,
-        auto_select: false,
-        cancel_on_tap_outside: true,
-        callback: async (resp: { credential?: string }) => {
-          if (!resp.credential) return;
-          setBusy(true);
-          setError(null);
-          try {
-            const { user } = await api.loginGoogle(resp.credential);
-            onLoginRef.current(user);
-          } catch (err) {
-            setError((err as Error).message);
-          } finally {
-            setBusy(false);
-          }
-        },
-      });
-      const width = Math.min(360, btnRef.current!.clientWidth || 320);
-      gsi.renderButton(btnRef.current!, {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        shape: 'pill',
-        text: 'continue_with',
-        logo_alignment: 'left',
-        locale: 'pt-BR',
-        width,
-      });
-    }
-    return () => {
-      cancelled = true;
-      clearTimeout(check);
-    };
-  }, [config.googleClientId, inApp]);
+  const google = config.googleLogin && config.supabaseUrl;
 
   async function demo() {
     setBusy(true);
     setError(null);
     try {
-      const { user } = await api.loginDemo();
-      onLogin(user);
+      onLogin(await api.loginDemo());
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setBusy(false);
     }
+  }
+
+  function login() {
+    if (!config.supabaseUrl) return;
+    setBusy(true);
+    startGoogleLogin(config.supabaseUrl, '/');
   }
 
   return (
@@ -187,30 +111,29 @@ export default function Login({
               {notice}
             </p>
           )}
-          {config.googleClientId && inApp ? (
+          {google && inApp ? (
             <InAppNotice inApp={inApp} reason="O login do Google não funciona" />
-          ) : config.googleClientId ? (
+          ) : google ? (
             <>
-              <p className="text-sm font-bold uppercase tracking-wider text-plum-700">Entre com sua conta Google</p>
-              <div ref={btnRef} className="flex min-h-12 w-full max-w-[360px] justify-center" />
+              <p className="text-sm font-bold uppercase tracking-wider text-plum-700">Já é cliente? Entre aqui</p>
+              <GoogleButton onClick={login} disabled={busy} />
             </>
-          ) : (
-            !config.demoLogin && (
-              <p className="rounded-2xl bg-white px-4 py-3 text-sm text-ink-soft ring-1 ring-plum-200">
-                O login com Google ainda não foi configurado no servidor (falta <b>GOOGLE_CLIENT_ID</b>).
-              </p>
-            )
-          )}
-          {config.demoLogin && (
-            <Button
-              variant={config.googleClientId ? 'ghost' : 'primary'}
-              icon="sparkles"
-              onClick={demo}
-              disabled={busy}
-              className="w-full max-w-[360px]"
-            >
-              Entrar em modo de teste
-            </Button>
+          ) : null}
+          {config.demo && (
+            <>
+              {google && (
+                <p className="mt-3 text-sm font-bold uppercase tracking-wider text-plum-700">Ainda não é cliente?</p>
+              )}
+              <Button
+                variant={google ? 'secondary' : 'primary'}
+                icon="sparkles"
+                onClick={demo}
+                disabled={busy}
+                className="w-full max-w-[360px]"
+              >
+                Veja a demonstração
+              </Button>
+            </>
           )}
           {busy && <Spinner className="mt-1" />}
           {error && (

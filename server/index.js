@@ -4,11 +4,11 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import app from './app.js';
 import { aiReady, modelName } from './ai.js';
+import { dbReady } from './db.js';
 import { colorPrompts, cutPrompts } from './prompts.js';
 
 const PORT = Number(process.env.PORT) || 8787;
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
-const demoLogin = () => process.env.DEMO_LOGIN === 'true';
 
 // Em produção, o mesmo servidor entrega o aplicativo (pasta dist/).
 if (existsSync(DIST)) {
@@ -32,6 +32,6 @@ app.listen(PORT, () => {
   console.log(
     `  IA: ${aiReady() ? `conectada (${modelName()})` : 'NÃO conectada (defina FAL_KEY)'} · ` +
       `catálogo: ${cutPrompts.size} cortes, ${colorPrompts.size} cores · ` +
-      `login Google: ${process.env.GOOGLE_CLIENT_ID ? 'sim' : 'não'}${demoLogin() ? ' · modo de teste: LIGADO' : ''}`,
+      `banco/login Google: ${dbReady() ? 'sim' : 'NÃO (defina SUPABASE_URL, SUPABASE_ANON_KEY e BS_SECRET)'}`,
   );
 });

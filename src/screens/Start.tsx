@@ -2,17 +2,20 @@ import { useRef, useState } from 'react';
 import { FloralCorner, Flower } from '../components/Flowers';
 import InAppNotice from '../components/InAppNotice';
 import { Button, Icon, Spinner } from '../components/ui';
-import type { User } from '../lib/api';
+import type { Account, User } from '../lib/api';
 import { photoFromFile, type Photo } from '../lib/image';
 import { detectInApp } from '../lib/inapp';
+import { PANEL_URL } from '../lib/role';
 
 export default function Start({
   user,
+  account,
   aiReady,
   onCamera,
   onPhoto,
 }: {
   user: User;
+  account: Account | null;
   aiReady: boolean;
   onCamera: () => void;
   onPhoto: (p: Photo) => void;
@@ -73,6 +76,30 @@ export default function Start({
       </section>
 
       <section className="relative z-10 order-2 flex flex-col gap-4 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
+        {account?.kind === 'demo' && (
+          <p role="status" className="flex gap-2 rounded-2xl bg-plum-50 px-4 py-3 text-sm font-bold text-plum-800">
+            <Icon name="sparkles" size={20} className="shrink-0" />
+            {account.used >= account.limit
+              ? `Você já usou as ${account.limit} imagens da demonstração. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`
+              : `Demonstração: você pode criar ${account.limit - account.used} ${account.limit - account.used === 1 ? 'imagem' : 'imagens'} para conhecer o app.`}
+          </p>
+        )}
+        {account?.kind === 'admin' && (
+          <a
+            href={PANEL_URL}
+            className="flex items-center gap-2 rounded-2xl bg-plum-50 px-4 py-3 text-sm font-bold text-plum-800 ring-1 ring-plum-200"
+          >
+            <Icon name="sparkles" size={20} className="shrink-0" />
+            Você entrou como administrador. Para gerar imagens aqui, cadastre seu e-mail em um salão. Abrir o painel
+            empresarial →
+          </a>
+        )}
+        {account?.kind === 'salon' && account.used >= account.limit && (
+          <p role="status" className="flex gap-2 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
+            <Icon name="alert" size={20} className="shrink-0" />O limite do plano deste mês ({account.limit} imagens)
+            foi atingido. Fale com a nossa equipe para ampliar.
+          </p>
+        )}
         {!aiReady && (
           <p role="status" className="flex gap-2 rounded-2xl bg-plum-50 px-4 py-3 text-sm font-bold text-plum-800">
             <Icon name="sparkles" size={20} className="shrink-0" />

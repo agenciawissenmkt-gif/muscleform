@@ -3,7 +3,8 @@ import { Flower } from './components/Flowers';
 import { HairArtDefs } from './components/HairArt';
 import Header from './components/Header';
 import { Button } from './components/ui';
-import { api, ApiError, type AppConfig, type User } from './lib/api';
+import { api, ApiError, type Account, type AppConfig, type Me, type User } from './lib/api';
+import { takeGoogleResult } from './lib/googleLogin';
 import type { Photo } from './lib/image';
 import Camera from './screens/Camera';
 import Choose, { type Selection } from './screens/Choose';
@@ -24,6 +25,9 @@ export default function App() {
   const [config, setConfig] = useState<AppConfig | null>(null);
   const [bootError, setBootError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [account, setAccount] = useState<Account | null>(null);
+  // Aviso na tela de entrada (conta não liberada, login cancelado…)
+  const [loginNotice, setLoginNotice] = useState<string | null>(null);
   const [screen, setScreen] = useState<Screen>('start');
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [selection, setSelection] = useState<Selection>({ mode: 'cut', cut: null, color: null });
@@ -38,9 +42,20 @@ export default function App() {
   const boot = useCallback(async () => {
     setBootError(null);
     try {
-      const [cfg, me] = await Promise.all([api.config(), api.me().catch(() => null)]);
+      // Voltando da tela do Google: confere o login no servidor
+      const google = takeGoogleResult();
+      let me: Me | null = null;
+      if (google?.accessToken) {
+        me = await api.loginGoogle(google.accessToken).catch((err: Error) => {
+          setLoginNotice(err.message);
+          return null;
+        });
+      } else if (google?.error) {
+        setLoginNotice(google.error);
+      }
+      const [cfg, current] = await Promise.all([api.config(), me ? Promise.resolve(me) : api.me().catch(() => null)]);
       setConfig(cfg);
-      setUser(me?.user ?? null);
+      applyMe(current);
     } catch (err) {
       setBootError((err as Error).message);
     }
@@ -49,6 +64,12 @@ export default function App() {
   useEffect(() => {
     boot();
   }, [boot]);
+
+  function applyMe(me: Me | null) {
+    setUser(me?.user ?? null);
+    setAccount(me?.account ?? null);
+    if (me?.notice) setLoginNotice(me.notice);
+  }
 
   // Navegação com o botão "voltar" do celular / navegador.
   const go = useCallback((next: Screen, opts: { replace?: boolean } = {}) => {
@@ -103,6 +124,7 @@ export default function App() {
       );
       if (controller.signal.aborted) return;
       abortRef.current = null;
+      setAccount((a) => (a && 'used' in a ? { ...a, used: a.used + 1 } : a));
       setResult({ image, selection: used });
       go('result', { replace: true });
     } catch (err) {
@@ -113,9 +135,20 @@ export default function App() {
         // e pede para entrar de novo.
         window.history.replaceState({ screen: 'choose' }, '');
         setScreen('choose');
-        setError('Sua sessão expirou. Entre de novo e toque em "Ver meu novo visual".');
+        setError('Sua sessão expirou. Entre de novo e toque em "Veja sua beleza".');
         setUser(null);
         return;
+      }
+      if (err instanceof ApiError && err.status === 403) {
+        // Acesso bloqueado / removido no painel: volta para a entrada com o aviso
+        setLoginNotice(err.message);
+        setUser(null);
+        setAccount(null);
+        go('start', { replace: true });
+        return;
+      }
+      if (err instanceof ApiError && (err.code === 'quota' || err.code === 'demo_used')) {
+        setAccount((a) => (a && 'limit' in a ? { ...a, used: a.limit } : a));
       }
       setError((err as Error).message);
       window.history.back();
@@ -130,8 +163,9 @@ export default function App() {
 
   async function logout() {
     await api.logout().catch(() => undefined);
-    window.google?.accounts.id.disableAutoSelect();
     setUser(null);
+    setAccount(null);
+    setLoginNotice(null);
     setPhoto(null);
     setResult(null);
     go('start', { replace: true });
@@ -159,11 +193,12 @@ export default function App() {
     return (
       <Login
         config={config}
-        onLogin={(u) => {
-          setUser(u);
+        onLogin={(me) => {
+          setLoginNotice(null);
+          applyMe(me);
           window.scrollTo(0, 0);
         }}
-        notice={photo ? error : null}
+        notice={loginNotice ?? (photo ? error : null)}
       />
     );
   }
@@ -176,6 +211,7 @@ export default function App() {
       {showHeader && (
         <Header
           user={user}
+          account={account}
           onLogout={logout}
           onBack={screen === 'start' ? undefined : () => window.history.back()}
           backLabel={screen === 'result' ? 'Voltar para a escolha' : 'Voltar'}
@@ -185,6 +221,7 @@ export default function App() {
       {screen === 'start' && (
         <Start
           user={user}
+          account={account}
           aiReady={config.aiReady}
           onCamera={() => go('camera')}
           onPhoto={(p) => acceptPhoto(p, false)}
