@@ -1,5 +1,5 @@
 import { Icon } from '../components/ui';
-import { Bars3D, CountUp, Ring3D, Sparkline } from './charts';
+import { Bars3D, CountUp, Sparkline } from './charts';
 import { brl, int, monthLabel, pct, STATUS, type Overview, type Tenant } from './format';
 import { Card, Loading, useAdminData } from './shared';
 
@@ -67,7 +67,6 @@ export function OverviewTab({ onOpenTenants, userName }: { onOpenTenants: () => 
 
   const costBrl = o.ai_cost_month_usd * o.usd_brl;
   const margin = o.mrr_brl - costBrl;
-  const usage = o.quota_month ? o.images_month / o.quota_month : 0;
   const days = last30(o.daily);
   const monthName = new Date(o.month_start).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   const top = (tenants.data || [])
@@ -82,7 +81,7 @@ export function OverviewTab({ onOpenTenants, userName }: { onOpenTenants: () => 
       {/* Destaque do mês */}
       <section className="adm-hero adm-rise relative overflow-hidden rounded-[32px] p-6 text-white shadow-[0_30px_60px_-30px_rgb(46_16_101/0.8)] sm:p-8">
         <div className="adm-glow pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-orchid-400/40 blur-3xl" />
-        <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_auto]">
+        <div className="relative">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-plum-200">
               Olá, {userName.split(' ')[0]} · {monthName}
@@ -113,15 +112,6 @@ export function OverviewTab({ onOpenTenants, userName }: { onOpenTenants: () => 
                 </div>
               ))}
             </div>
-          </div>
-          <div className="rounded-[28px] bg-white p-4 text-plum-950 shadow-2xl">
-            <Ring3D
-              value={usage}
-              size={190}
-              label="Uso dos planos"
-              sub={`${int(o.images_month)} de ${int(o.quota_month)}`}
-              danger={usage > 0.95}
-            />
           </div>
         </div>
       </section>
