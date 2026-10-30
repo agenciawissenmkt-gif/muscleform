@@ -5,6 +5,7 @@ import { Card, Loading, PageTitle, useAdminData } from './shared';
 import { CountUp, Podium } from './charts';
 import {
   ACTION_LABEL,
+  brl,
   colorName,
   colorPhoto,
   cutName,
@@ -333,12 +334,20 @@ export function AuditTab() {
 
 export function SettingsTab() {
   const { data, error, loading, reload } = useAdminData<Overview>('/api/admin/overview');
-  const [f, setF] = useState<{ cost: string; fx: string; demo: string } | null>(null);
+  const [f, setF] = useState<{ cost: string; fx: string; demo: string; demoIp: string; demoCap: string } | null>(
+    null,
+  );
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   if (loading && !data) return <Loading />;
   if (error || !data) return <Loading error={error} onRetry={reload} />;
-  const v = f ?? { cost: String(data.cost_per_image_usd), fx: String(data.usd_brl), demo: String(data.demo_limit) };
+  const v = f ?? {
+    cost: String(data.cost_per_image_usd),
+    fx: String(data.usd_brl),
+    demo: String(data.demo_limit),
+    demoIp: String(data.demo_ip_daily),
+    demoCap: String(data.demo_daily_cap),
+  };
   const input = 'mt-1 min-h-12 w-full rounded-xl bg-plum-50/60 px-3 font-semibold text-plum-950 ring-1 ring-plum-200';
 
   async function save(e: React.FormEvent) {
@@ -346,7 +355,13 @@ export function SettingsTab() {
     setBusy(true);
     setMsg(null);
     try {
-      await postJson('/api/admin/settings', { cost_per_image_usd: v.cost, usd_brl: v.fx, demo_limit: v.demo });
+      await postJson('/api/admin/settings', {
+        cost_per_image_usd: v.cost,
+        usd_brl: v.fx,
+        demo_limit: v.demo,
+        demo_ip_daily: v.demoIp,
+        demo_daily_cap: v.demoCap,
+      });
       setMsg({ ok: true, text: 'Ajustes salvos.' });
       reload();
     } catch (err) {
@@ -385,7 +400,7 @@ export function SettingsTab() {
             />
           </label>
           <label className="font-bold text-plum-900">
-            Imagens grátis na demonstração (por pessoa)
+            Imagens grátis na demonstração (por aparelho)
             <input
               type="number"
               min={0}
@@ -394,6 +409,37 @@ export function SettingsTab() {
               onChange={(e) => setF({ ...v, demo: e.target.value })}
               className={input}
             />
+          </label>
+          <label className="font-bold text-plum-900">
+            Demonstração por internet (imagens a cada 24 h)
+            <input
+              type="number"
+              min={0}
+              max={1000}
+              value={v.demoIp}
+              onChange={(e) => setF({ ...v, demoIp: e.target.value })}
+              className={input}
+            />
+            <span className="mt-1 block text-sm font-semibold text-ink-soft">
+              No 4G e em wi-fi de empresa, muitas pessoas usam a mesma internet. Por isso este número é maior que o
+              de cada aparelho.
+            </span>
+          </label>
+          <label className="font-bold text-plum-900">
+            Teto da demonstração por dia (todas as pessoas)
+            <input
+              type="number"
+              min={0}
+              max={100000}
+              value={v.demoCap}
+              onChange={(e) => setF({ ...v, demoCap: e.target.value })}
+              className={input}
+            />
+            <span className="mt-1 block text-sm font-semibold text-ink-soft">
+              Hoje: {data.demo_images_today} de {data.demo_daily_cap} imagens · custo máximo por dia ≈{' '}
+              {brl(Number(v.demoCap || 0) * data.cost_per_image_usd * data.usd_brl)}. Ao chegar no teto, a
+              demonstração pausa até a meia-noite.
+            </span>
           </label>
           {msg && (
             <p

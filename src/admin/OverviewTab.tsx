@@ -143,7 +143,7 @@ export function OverviewTab({ onOpenTenants, userName }: { onOpenTenants: () => 
           format={int}
           tone="green"
           delay={200}
-          hint={`${o.demo_limit} imagens grátis por pessoa`}
+          hint={`${o.demo_limit} grátis por aparelho · hoje ${int(o.demo_images_today)} de ${int(o.demo_daily_cap)}`}
         />
         <Kpi
           icon="alert"

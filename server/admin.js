@@ -143,6 +143,8 @@ router.post(
     const cost = n(req.body?.cost_per_image_usd);
     const fx = n(req.body?.usd_brl);
     const demo = n(req.body?.demo_limit);
+    const demoIp = n(req.body?.demo_ip_daily);
+    const demoCap = n(req.body?.demo_daily_cap);
     if ((cost != null && (cost < 0 || cost > 10)) || (fx != null && (fx <= 0 || fx > 100))) {
       res.status(400).json({ error: 'Valores inválidos.' });
       return;
@@ -152,6 +154,8 @@ router.post(
       p_cost_usd: cost,
       p_usd_brl: fx,
       p_demo_limit: demo == null ? null : Math.round(demo),
+      p_demo_ip_daily: demoIp == null ? null : Math.round(demoIp),
+      p_demo_daily_cap: demoCap == null ? null : Math.round(demoCap),
     });
     res.json({ ok: true });
   }),

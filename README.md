@@ -95,7 +95,7 @@ O projeto também está pronto para a Vercel (`vercel.json` + `api/index.js`). O
 
 Diferenças em relação à VPS:
 - Cada envio pode ter no máximo 4,5 MB. O app já reduz a foto, então fica bem abaixo disso.
-- Os limites de uso por conta (`LIMIT_PER_HOUR` / `LIMIT_PER_DAY`) ficam na memória de cada instância da função. Na Vercel eles são aproximados.
+- As funções rodam em São Paulo (`gru1`, no `vercel.json`), perto do banco do Supabase.
 
 ---
 
@@ -128,7 +128,7 @@ Outros comandos:
   3. Rode `npm run check`.
 - **Regras gerais da IA** (preservar rosto e fundo, realismo): `server/prompts.js`.
 - **Trocar de modelo de IA no futuro:** adicione o modelo em `server/ai.js` (objeto `MODELS`) e mude `AI_MODEL`. O app não precisa mudar.
-- **Limites de uso por conta:** `LIMIT_PER_HOUR` e `LIMIT_PER_DAY`. Contam as imagens geradas e as canceladas no meio; falhas da IA não contam.
+- **Limites contra abuso:** ficam no banco (tabela `app.config`): `limit_per_hour` (60) e `limit_per_day` (400) por conta, `parallel_per_account` (3 imagens ao mesmo tempo). Contam as imagens geradas e as canceladas no meio; falhas da IA não contam. A demonstração (por aparelho, por internet e o teto diário) se ajusta no painel, em **Ajustes**.
 - **Cores e visual:** tokens no topo de `src/index.css` (roxos, orquídea e pétalas).
 
 ---

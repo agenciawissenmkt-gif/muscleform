@@ -30,6 +30,9 @@ export interface Overview {
   cost_per_image_usd: number;
   usd_brl: number;
   demo_limit: number;
+  demo_ip_daily: number;
+  demo_daily_cap: number;
+  demo_images_today: number;
   month_start: string;
   tenants_total: number;
   tenants_active: number;

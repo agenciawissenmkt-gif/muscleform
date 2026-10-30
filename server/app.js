@@ -5,7 +5,6 @@ import express from 'express';
 import { AiError, aiReady, editImage, modelName } from './ai.js';
 import { clearSession, currentSession, newDemoId, setSession } from './auth.js';
 import { DbError, dbReady, ipHash, rpc, supabaseUrl, verifySupabaseToken } from './db.js';
-import { checkLimit, finishJob, startJob } from './limits.js';
 import { buildPrompt, colorPrompts, cutPrompts } from './prompts.js';
 import adminRoutes from './admin.js';
 
@@ -204,11 +203,13 @@ async function reserve(req, session, mode, cutId, colorId) {
       p_cut: cutId || '',
       p_color: colorId || '',
     });
-    if (!r.ok) return { status: 402, error: demoUsedMessage(r.limit), code: r.code };
-    return { id: r.id };
+    if (r.ok) return { id: r.id };
+    if (RATE_MESSAGES[r.code]) return { status: 429, code: r.code, error: RATE_MESSAGES[r.code](r.limit) };
+    return { status: 402, error: demoUsedMessage(r.limit), code: r.code };
   }
   const r = await rpc('bs_gen_begin', { p_email: session.email, p_mode: mode, p_cut: cutId || '', p_color: colorId || '' });
   if (r.ok) return { id: r.id };
+  if (RATE_MESSAGES[r.code]) return { status: 429, code: r.code, error: RATE_MESSAGES[r.code](r.limit) };
   if (r.code === 'quota') {
     return {
       status: 402,
@@ -219,6 +220,16 @@ async function reserve(req, session, mode, cutId, colorId) {
   if (r.code === 'not_allowed') return { status: 403, code: r.code, error: MESSAGES.not_allowed(session.email) };
   return { status: 403, code: r.code, error: MESSAGES[r.code] || MESSAGES.blocked };
 }
+
+// Limites contra abuso: conferidos no banco junto com a reserva, então valem
+// para todas as cópias do servidor ao mesmo tempo (na Vercel podem ser várias).
+const RATE_MESSAGES = {
+  busy: () => 'Aguarde a imagem anterior terminar.',
+  rate_hour: (n) => `Limite de ${n} imagens por hora atingido. Tente de novo mais tarde.`,
+  rate_day: (n) => `Limite de ${n} imagens por dia atingido. Tente de novo amanhã.`,
+  demo_ip: () => 'Muitas demonstrações feitas nesta internet hoje. Tente de novo amanhã ou fale com a nossa equipe.',
+  demo_busy: () => 'A demonstração está com muita procura hoje. Tente de novo amanhã ou fale com a nossa equipe.',
+};
 
 const demoUsedMessage = (limit) =>
   `Você já usou as ${limit} imagens da demonstração. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`;
@@ -258,14 +269,6 @@ app.post('/api/generate', async (req, res) => {
   }
   const mode = cut && color ? 'both' : cut ? 'cut' : 'color';
 
-  // Proteção contra cliques repetidos / abuso (por conta ou aparelho)
-  const who = session.kind === 'demo' ? `demo:${session.demoId}` : session.email;
-  const limited = checkLimit(who);
-  if (limited) {
-    res.status(429).json({ error: limited });
-    return;
-  }
-
   let reservation;
   try {
     reservation = await reserve(req, session, mode, cut, color);
@@ -285,7 +288,6 @@ app.post('/api/generate', async (req, res) => {
   });
 
   const started = Date.now();
-  startJob(who);
   let ok = false;
   let failure = null;
   try {
@@ -302,7 +304,6 @@ app.post('/api/generate', async (req, res) => {
     const ms = Date.now() - started;
     // Cancelado no meio também conta: o pedido já chegou à IA e pode ser cobrado.
     const status = ok ? 'ok' : abort.signal.aborted ? 'canceled' : 'error';
-    finishJob(who, ok || abort.signal.aborted);
     await finish(reservation.id, status, ok ? null : failure, ms);
     console.log(JSON.stringify({ evt: 'generate', who: session.kind, cutId: cut || null, colorId: color || null, status, ms }));
   }
