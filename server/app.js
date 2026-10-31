@@ -75,7 +75,7 @@ const MESSAGES = {
 
 // Demonstração sem banco (ex.: rodando no computador sem Supabase): conta na memória
 const demoMemory = new Map();
-const DEMO_LIMIT_FALLBACK = 2;
+const DEMO_LIMIT_FALLBACK = 10;
 
 async function demoStatus(req, demoId) {
   if (!dbReady()) return { limit: DEMO_LIMIT_FALLBACK, used: Math.min(demoMemory.get(demoId) || 0, DEMO_LIMIT_FALLBACK) };
@@ -232,7 +232,7 @@ const RATE_MESSAGES = {
 };
 
 const demoUsedMessage = (limit) =>
-  `Você já usou as ${limit} imagens da demonstração. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`;
+  `Você já usou as ${limit} imagens da demonstração deste mês. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`;
 
 async function finish(id, status, error, ms) {
   if (!id || !dbReady()) return;

@@ -80,8 +80,8 @@ export default function Start({
           <p role="status" className="flex gap-2 rounded-2xl bg-plum-50 px-4 py-3 text-sm font-bold text-plum-800">
             <Icon name="sparkles" size={20} className="shrink-0" />
             {account.used >= account.limit
-              ? `Você já usou as ${account.limit} imagens da demonstração. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`
-              : `Demonstração: você pode criar ${account.limit - account.used} ${account.limit - account.used === 1 ? 'imagem' : 'imagens'} para conhecer o app.`}
+              ? `Você já usou as ${account.limit} imagens da demonstração deste mês. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`
+              : `Demonstração: você pode criar ${account.limit - account.used} ${account.limit - account.used === 1 ? 'imagem' : 'imagens'} este mês para conhecer o app.`}
           </p>
         )}
         {account?.kind === 'admin' && (

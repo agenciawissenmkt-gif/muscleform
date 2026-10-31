@@ -11,7 +11,7 @@ export function UsageBadge({ account }: { account: Account | null }) {
   const low = left <= Math.max(2, Math.round(account.limit * 0.1));
   return (
     <span
-      title={account.kind === 'demo' ? 'Imagens da demonstração' : 'Imagens do plano neste mês'}
+      title={account.kind === 'demo' ? 'Imagens da demonstração neste mês' : 'Imagens do plano neste mês'}
       className={`hidden shrink-0 rounded-full px-3 py-1.5 text-sm font-extrabold min-[400px]:inline-block ${
         low ? 'bg-red-50 text-red-700' : 'bg-plum-100 text-plum-800'
       }`}

@@ -400,7 +400,7 @@ export function SettingsTab() {
             />
           </label>
           <label className="font-bold text-plum-900">
-            Imagens grátis na demonstração (por aparelho)
+            Imagens grátis na demonstração (por aparelho, a cada mês)
             <input
               type="number"
               min={0}

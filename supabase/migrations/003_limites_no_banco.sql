@@ -1,14 +1,18 @@
 -- Limites contra abuso guardados no banco (valem para todas as cópias do
 -- servidor na Vercel, não só para a que recebeu o pedido) e demonstração mais
--- justa: conta por aparelho, com tolerância por internet (IP) e teto diário.
+-- justa: 10 imagens por aparelho por mês, com tolerância por internet (IP) e
+-- teto diário.
 
 insert into app.config (key, value) values
   ('limit_per_hour', '60'),        -- imagens por hora, por conta Google
   ('limit_per_day', '400'),        -- imagens por dia, por conta Google
   ('parallel_per_account', '3'),   -- imagens sendo geradas ao mesmo tempo, por conta
-  ('demo_ip_daily', '10'),         -- imagens de demonstração por internet (IP) a cada 24 h
+  ('demo_ip_daily', '30'),         -- imagens de demonstração por internet (IP) a cada 24 h
   ('demo_daily_cap', '200')        -- teto de imagens de demonstração por dia, somando todo mundo
 on conflict (key) do nothing;
+
+-- Demonstração: 10 imagens por aparelho a cada mês (antes eram 2 no total)
+update app.config set value = '10', updated_at = now(), updated_by = 'migração 003' where key = 'demo_limit';
 
 create index if not exists generations_email_created_idx on app.generations (email, created_at) where email is not null;
 create index if not exists generations_demo_created_idx on app.generations (created_at) where demo_id is not null;
@@ -69,13 +73,13 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id, 'limit', v_tenant.monthly_limit, 'used', v_used + 1);
 end $$;
 
--- Demonstração: até N imagens por aparelho; uma internet (IP) pode ter várias
+-- Demonstração: até N imagens por aparelho no mês; uma internet (IP) pode ter várias
 -- pessoas (4G, wi-fi de empresa), então ela tem um limite maior, por dia; e um
 -- teto diário somando todo mundo protege o custo se a demonstração viralizar.
 create or replace function public.bs_demo_begin(p_secret text, p_demo_id text, p_ip_hash text, p_mode text, p_cut text, p_color text)
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare
-  v_limit int := app.cfg_int('demo_limit', 2);
+  v_limit int := app.cfg_int('demo_limit', 10);
   v_device int;
   v_running int;
   v_id bigint;
@@ -86,11 +90,12 @@ begin
   select count(*),
          count(*) filter (where status = 'pending' and created_at > now() - interval '4 minutes')
     into v_device, v_running
-    from app.generations where demo_id = p_demo_id and status in ('ok', 'pending', 'canceled');
+    from app.generations where demo_id = p_demo_id and status in ('ok', 'pending', 'canceled')
+     and created_at >= app.month_start();
   if v_device >= v_limit then return jsonb_build_object('ok', false, 'code', 'demo_used', 'limit', v_limit); end if;
   if v_running > 0 then return jsonb_build_object('ok', false, 'code', 'busy'); end if;
   if (select count(*) from app.generations where demo_id is not null and ip_hash = p_ip_hash
-        and status in ('ok', 'pending', 'canceled') and created_at > now() - interval '1 day') >= app.cfg_int('demo_ip_daily', 10) then
+        and status in ('ok', 'pending', 'canceled') and created_at > now() - interval '1 day') >= app.cfg_int('demo_ip_daily', 30) then
     return jsonb_build_object('ok', false, 'code', 'demo_ip');
   end if;
   if (select count(*) from app.generations where demo_id is not null
@@ -105,11 +110,11 @@ end $$;
 
 create or replace function public.bs_demo_status(p_secret text, p_demo_id text, p_ip_hash text)
 returns jsonb language plpgsql security definer set search_path = '' as $$
-declare v_limit int := app.cfg_int('demo_limit', 2); v_used int;
+declare v_limit int := app.cfg_int('demo_limit', 10); v_used int;
 begin
   perform app.check_secret(p_secret);
   select count(*)::int into v_used from app.generations
-   where demo_id = p_demo_id and status in ('ok', 'pending', 'canceled');
+   where demo_id = p_demo_id and status in ('ok', 'pending', 'canceled') and created_at >= app.month_start();
   return jsonb_build_object('limit', v_limit, 'used', least(v_used, v_limit));
 end $$;
 
@@ -125,8 +130,8 @@ begin
   perform app.require_admin(p_secret, p_actor);
   select jsonb_build_object(
     'cost_per_image_usd', v_cost, 'usd_brl', v_fx, 'month_start', v_month,
-    'demo_limit', app.cfg_int('demo_limit', 2),
-    'demo_ip_daily', app.cfg_int('demo_ip_daily', 10),
+    'demo_limit', app.cfg_int('demo_limit', 10),
+    'demo_ip_daily', app.cfg_int('demo_ip_daily', 30),
     'demo_daily_cap', app.cfg_int('demo_daily_cap', 200),
     'tenants_total', (select count(*) from app.tenants where status <> 'deleted'),
     'tenants_active', (select count(*) from app.tenants t where app.effective_status(t) = 'active'),
