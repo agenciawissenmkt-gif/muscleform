@@ -5,7 +5,7 @@
 //   node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v
 //   node marketing/video-anuncio/render.mjs --format v --stills 1,4.5  -> PNGs para revisão
 //
-// Opções: --page video.html  --name beauty-and-self  --fps 30  --crf 18  --audio out/trilha.wav
+// Opções: --page video.html  --name beauty-and-self  --fps 30  --crf 18  --audio out/trilha-indecisao.wav
 //         --out <arquivo>  --from 0 --to 22
 //         --frames png  (captura sem perdas; padrão jpeg q96, ~4x mais rápido)
 import { createRequire } from 'node:module';

@@ -10,17 +10,30 @@ salões), cada um sobre uma dor diferente, em 9:16 (Reels, Stories, TikTok, Shor
 | 2. **Expectativa x Realidade** | "Quero igual a essa! 😍" (foto da internet) | `beauty-and-self-expectativa-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-audio.mp4`, `-16x9-sem-audio.mp4`, `capa-expectativa-*.jpg` |
 | 3. **Só as pontinhas** | medo de mudar, anos com o mesmo cabelo | `beauty-and-self-coragem-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-audio.mp4`, `-16x9-sem-audio.mp4`, `capa-coragem-*.jpg` |
 
-H.264 + AAC, 30 fps, áudio em −14 LUFS (padrão de Instagram/YouTube). As mensagens funcionam
-também **sem som**: toda a história está escrita na tela.
+H.264 + AAC, 30 fps, áudio em −14 LUFS com pico abaixo de −1 dBTP (padrão de Instagram/YouTube).
+As mensagens funcionam também **sem som**: toda a história está escrita na tela.
 
 ## Música
 
-- **Vídeo 1:** trilha pop leve, original (`audio.py`).
-- **Vídeos 2 e 3:** trilha original no clima soul/gospel (80 BPM, piano elétrico, órgão, palmas,
-  coral), composta e sintetizada em `audio_soul.py`. Não copia melodia nem trecho de nenhuma
-  música e pode ser usada em anúncio pago.
-- **Versões `-sem-audio`:** sem música e sem efeitos (áudio mudo), para colocar a música direto no
-  editor do Instagram/TikTok ou na Biblioteca de áudio do YouTube Studio.
+Músicas eletrônicas prontas, de produtores profissionais, da biblioteca da
+[Mixkit](https://mixkit.co/free-stock-music/tag/fashion/). Só música, sem efeitos sonoros. Cada
+uma foi cortada no tempo do vídeo: o drop cai quando o app aparece e a música termina no logo.
+
+| Vídeo | Música | Estilo | Como foi editada |
+| --- | --- | --- | --- |
+| 1. Indecisão | "Life is a Dream", Michael Ramir C. | nu-disco / house, 120 BPM | introdução abafada durante a dúvida; drop em 7 s (câmera do app); o acorde final da música entra em 19 s, junto com o nome Beauty and self |
+| 2. Expectativa x Realidade | "Swish Swed", Arulo | tech house, 120 BPM | subida de 0 a 6 s; drop em 6 s (app); último compasso da música a partir de 18 s, que para em 20 s junto com o botão |
+| 3. Só as pontinhas | "Can't Get You Off My Mind", Michael Ramir C. | future bass, acelerada de 150 para 160 BPM sem mudar o tom | silêncio antes do drop em "…porque tem medo de mudar"; drop em 6 s; os looks trocam na batida; os 2 últimos compassos da música no logo |
+
+**Licença:** [Mixkit Stock Music Free License](https://mixkit.co/license/#musicFree). Uso grátis e
+sem crédito obrigatório em posts de redes sociais, **anúncios online** (Instagram, Facebook, TikTok)
+e YouTube. Não cobre TV aberta, rádio, CD/DVD e games, e a música não pode ser registrada em
+Content ID nem distribuída sozinha (por isso os MP3 originais não ficam no repositório). Se o
+YouTube mostrar alguma reivindicação, a Mixkit pede para mandar os dados para team@mixkit.co. Para
+passar na TV do salão, use a versão `-sem-audio`.
+
+**Versões `-sem-audio`:** áudio mudo, para colocar outra música direto no editor do
+Instagram/TikTok ou na Biblioteca de áudio do YouTube Studio.
 
 > Músicas comerciais (por exemplo, "Lose Control", de Teddy Swims) não podem entrar no arquivo do
 > anúncio sem licença: a Meta recusa anúncios com música protegida e o YouTube bloqueia ou
@@ -74,20 +87,21 @@ WhatsApp." → mosaico "Ela se diverte… e se encanta com o trabalho do seu sal
 
 ## Como editar e renderizar de novo
 
-Requisitos: Node 18+ com Playwright (Chromium), Python 3 com numpy + Pillow, ffmpeg.
+Requisitos: Node 18+ com Playwright (Chromium), Python 3 com numpy + Pillow, ffmpeg (com
+rubberband e soxr, como nas versões comuns).
 
 ```bash
-# looks da cliente (opcional) e trilhas
+# looks da cliente (opcional)
 python3 marketing/video-anuncio/build_looks.py
-python3 marketing/video-anuncio/audio.py                 # vídeo 1 -> out/trilha.wav
-python3 marketing/video-anuncio/audio_soul.py expectativa  # vídeo 2 -> out/trilha-expectativa.wav + out/efeitos-expectativa.wav
-python3 marketing/video-anuncio/audio_soul.py coragem      # vídeo 3
 
-# vídeo 1
-node marketing/video-anuncio/render.mjs --format v --audio marketing/video-anuncio/out/trilha.wav
-# vídeos 2 e 3 (troque v por h para 16:9)
-node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v --audio marketing/video-anuncio/out/trilha-expectativa.wav
-node marketing/video-anuncio/render.mjs --page video-coragem.html --name beauty-and-self-coragem --format v --audio marketing/video-anuncio/out/trilha-coragem.wav
+# vídeos (troque v por h para 16:9)
+node marketing/video-anuncio/render.mjs --format v
+node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v
+node marketing/video-anuncio/render.mjs --page video-coragem.html --name beauty-and-self-coragem --format v
+
+# trilhas: baixa as músicas da Mixkit (out/musica/), corta no tempo de cada vídeo, deixa em
+# −14 LUFS (out/trilha-<video>.wav) e troca o áudio dos MP4 de out/
+python3 marketing/video-anuncio/trilha_eletronica.py --mux
 
 # versão sem áudio (troque o nome do arquivo)
 ffmpeg -i marketing/video-anuncio/out/beauty-and-self-coragem-9x16.mp4 -f lavfi -i anullsrc=r=48000:cl=stereo \
