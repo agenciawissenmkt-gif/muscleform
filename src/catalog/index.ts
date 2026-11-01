@@ -52,6 +52,7 @@ const CUT_CATEGORIES: [key: string, label: string][] = [
   ['curtos', 'Curtos'],
   ['medios', 'Médios'],
   ['longos', 'Longos'],
+  ['mega-hair', 'Mega hair e alongamentos'],
   ['franjas', 'Com franja'],
   ['cacheados-crespos', 'Cacheados e crespos'],
   ['trancas-locs', 'Tranças, locs e twists'],

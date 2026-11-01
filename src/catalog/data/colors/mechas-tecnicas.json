@@ -707,9 +707,10 @@
   },
   {
     "id": "dip-dye-vermelho",
-    "name": "Dip Dye Vermelho",
+    "name": "Pontas Vermelhas",
     "aka": [
       "Dip dye",
+      "Dip dye vermelho",
       "Pontas vermelhas",
       "Pontas coloridas",
       "Pontas pintadas",
@@ -718,7 +719,129 @@
     "description": "Só as pontas pintadas de vermelho vivo, com a divisão bem marcada.",
     "swatch": [
       "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
       "#B0122A"
+    ]
+  },
+  {
+    "id": "pontas-loiras",
+    "name": "Pontas Loiras",
+    "aka": [
+      "Dip dye loiro",
+      "Pontas pintadas de loiro",
+      "Pontas clareadas",
+      "Blonde dip dye"
+    ],
+    "description": "Só as pontas clareadas em loiro dourado, com a divisão bem marcada.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#E2C48E"
+    ]
+  },
+  {
+    "id": "pontas-platinadas",
+    "name": "Pontas Platinadas",
+    "aka": [
+      "Dip dye platinado",
+      "Pontas brancas",
+      "Pontas pintadas de platinado",
+      "Platinum dip dye"
+    ],
+    "description": "Só as pontas em loiro platinado gelado, contrastando com a raiz escura.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#ECEAE4"
+    ]
+  },
+  {
+    "id": "pontas-rosa",
+    "name": "Pontas Rosa",
+    "aka": [
+      "Dip dye rosa",
+      "Pontas pintadas de rosa",
+      "Pontas cor-de-rosa",
+      "Pink dip dye"
+    ],
+    "description": "Só as pontas pintadas de rosa vivo, com a divisão bem marcada.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#E86FA6"
+    ]
+  },
+  {
+    "id": "pontas-azuis",
+    "name": "Pontas Azuis",
+    "aka": [
+      "Dip dye azul",
+      "Pontas pintadas de azul",
+      "Pontas azul",
+      "Blue dip dye"
+    ],
+    "description": "Só as pontas pintadas de azul intenso, com a divisão bem marcada.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#2F5FD0"
+    ]
+  },
+  {
+    "id": "pontas-roxas",
+    "name": "Pontas Roxas",
+    "aka": [
+      "Dip dye roxo",
+      "Pontas pintadas de roxo",
+      "Pontas violeta",
+      "Purple dip dye"
+    ],
+    "description": "Só as pontas pintadas de roxo vibrante, com a divisão bem marcada.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#6B2FA8"
+    ]
+  },
+  {
+    "id": "pontas-cobre",
+    "name": "Pontas Cobre",
+    "aka": [
+      "Dip dye cobre",
+      "Pontas pintadas de cobre",
+      "Pontas ruivas",
+      "Pontas acobreadas",
+      "Copper dip dye"
+    ],
+    "description": "Só as pontas em cobre alaranjado, quente e brilhante.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#C2602A"
+    ]
+  },
+  {
+    "id": "pontas-lilas",
+    "name": "Pontas Lilás",
+    "aka": [
+      "Dip dye lilás",
+      "Pontas lavanda",
+      "Pontas pintadas de lilás",
+      "Lilac dip dye"
+    ],
+    "description": "Só as pontas em lilás pastel, delicado e moderno.",
+    "swatch": [
+      "#3A2A20",
+      "#3A2A20",
+      "#3A2A20",
+      "#C3A6E0"
     ]
   },
   {

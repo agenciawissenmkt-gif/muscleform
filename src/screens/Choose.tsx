@@ -11,8 +11,9 @@ import { CatalogCard } from '../components/CatalogCard';
 import { Flower } from '../components/Flowers';
 import { Button, Icon } from '../components/ui';
 import type { Mode } from '../lib/api';
+import { LENGTH_FILTERS, lengthClass, TEXTURE_FILTERS, type LengthClass } from '../lib/hairFilters';
 import type { Photo } from '../lib/image';
-import { searchCatalog } from '../lib/search';
+import { NAME_MATCH, searchScored } from '../lib/search';
 
 const MODES: { key: Mode; label: string; icon: 'scissors' | 'palette' | 'sparkles' }[] = [
   { key: 'cut', label: 'Corte', icon: 'scissors' },
@@ -74,14 +75,47 @@ export default function Choose({
 
   const activeTab: 'cut' | 'color' = mode === 'both' ? tab : mode;
 
+  // Ao trocar de aba a pesquisa começa vazia, a não ser que a troca venha do aviso
+  // "parece ser uma cor / um corte": aí o que foi digitado vai junto.
+  const carryQuery = useRef<string | null>(null);
   useEffect(() => {
-    setQuery('');
+    setQuery(carryQuery.current ?? '');
+    carryQuery.current = null;
   }, [activeTab]);
 
+  // Filtros rápidos (só na aba de cortes): comprimento e tipo de cabelo
+  const [lengthFilter, setLengthFilter] = useState<LengthClass | null>(null);
+  const [textureFilter, setTextureFilter] = useState<Haircut['look']['texture'] | null>(null);
+  const filtering = activeTab === 'cut' && (lengthFilter !== null || textureFilter !== null);
+  const passes = useCallback(
+    (item: CatalogItem) =>
+      item.kind !== 'cut' ||
+      ((!lengthFilter || lengthClass(item.look.length) === lengthFilter) &&
+        (!textureFilter || item.look.texture === textureFilter)),
+    [lengthFilter, textureFilter],
+  );
+
   const categories = (activeTab === 'cut' ? cutCategories : colorCategories) as Category<CatalogItem>[];
-  const results = useMemo(() => searchCatalog(categories, deferredQuery), [categories, deferredQuery]);
+  const scored = useMemo(() => searchScored(categories, deferredQuery), [categories, deferredQuery]);
+  const results = useMemo(
+    () => scored.map((s) => s.item).filter((item) => !filtering || passes(item)),
+    [scored, filtering, passes],
+  );
   const searching = deferredQuery.trim().length > 0;
   const total = useMemo(() => categories.reduce((n, c) => n + c.items.length, 0), [categories]);
+  const shownCategories = useMemo(
+    () => (filtering ? categories.map((c) => ({ ...c, items: c.items.filter(passes) })) : categories),
+    [categories, filtering, passes],
+  );
+  const shownTotal = useMemo(() => shownCategories.reduce((n, c) => n + c.items.length, 0), [shownCategories]);
+
+  // Digitou uma cor na aba de cortes (ou um corte na de cores)? O app oferece trocar.
+  const otherTab = activeTab === 'cut' ? 'color' : 'cut';
+  const wrongTab = useMemo(() => {
+    if (!searching || (scored[0]?.score ?? 0) >= NAME_MATCH) return false;
+    const other = (otherTab === 'cut' ? cutCategories : colorCategories) as Category<CatalogItem>[];
+    return (searchScored(other, deferredQuery)[0]?.score ?? 0) >= NAME_MATCH;
+  }, [searching, scored, otherTab, deferredQuery]);
 
   const ready = mode === 'cut' ? !!cut : mode === 'color' ? !!color : !!cut && !!color;
   const missing =
@@ -104,6 +138,27 @@ export default function Choose({
   function setMode(m: Mode) {
     onChange({ ...selection, mode: m });
     setTab(m === 'color' ? 'color' : m === 'both' && cut && !color ? 'color' : 'cut');
+  }
+
+  function goToOtherTab() {
+    carryQuery.current = query;
+    if (mode === 'both') setTab(otherTab);
+    else if (mode === 'cut') setMode(cut ? 'both' : 'color');
+    else setMode(color ? 'both' : 'cut');
+  }
+
+  // "Curto, Cacheado": mostrado junto da contagem (no celular os botões rolam para o lado)
+  const activeFilters = [
+    LENGTH_FILTERS.find(([key]) => key === lengthFilter)?.[1],
+    TEXTURE_FILTERS.find(([key]) => key === textureFilter)?.[1],
+  ]
+    .filter(Boolean)
+    .join(', ');
+  const withFilters = (text: string) => (filtering ? `${text} · ${activeFilters}` : text);
+
+  function clearFilters() {
+    setLengthFilter(null);
+    setTextureFilter(null);
   }
 
   const selectedId = activeTab === 'cut' ? cut?.id : color?.id;
@@ -325,36 +380,98 @@ export default function Choose({
                 </button>
               )}
             </form>
+            {activeTab === 'cut' && (
+              <div
+                role="group"
+                aria-label="Filtrar cortes"
+                className="mt-2 flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] lg:flex-wrap [&::-webkit-scrollbar]:hidden"
+              >
+                {LENGTH_FILTERS.map(([key, label]) => (
+                  <FilterChip
+                    key={key}
+                    label={label}
+                    active={lengthFilter === key}
+                    onClick={() => {
+                      setLengthFilter(lengthFilter === key ? null : key);
+                      scrollToList();
+                    }}
+                  />
+                ))}
+                <span aria-hidden="true" className="my-1 w-px shrink-0 bg-plum-200" />
+                {TEXTURE_FILTERS.map(([key, label]) => (
+                  <FilterChip
+                    key={key}
+                    label={label}
+                    active={textureFilter === key}
+                    onClick={() => {
+                      setTextureFilter(textureFilter === key ? null : key);
+                      scrollToList();
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mt-2">
+            {wrongTab && (
+              <div
+                role="status"
+                className="mb-3 mt-2 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-plum-50 px-4 py-3 ring-1 ring-plum-200"
+              >
+                <span className="min-w-0 font-bold text-plum-900">
+                  “{deferredQuery.trim()}” parece ser {activeTab === 'cut' ? 'uma cor' : 'um corte'}.
+                </span>
+                <Button
+                  size="md"
+                  variant="secondary"
+                  icon={activeTab === 'cut' ? 'palette' : 'scissors'}
+                  onClick={goToOtherTab}
+                >
+                  {activeTab === 'cut' ? 'Ver nas cores' : 'Ver nos cortes'}
+                </Button>
+              </div>
+            )}
             {total === 0 ? (
               <Empty text="O catálogo ainda está sendo carregado." />
             ) : searching ? (
               results.length ? (
                 <>
-                  <p className="mb-3 mt-2 text-sm font-bold text-ink-soft">
-                    {results.length} {results.length === 1 ? 'resultado' : 'resultados'}
-                  </p>
+                  <ListInfo
+                    text={withFilters(`${results.length} ${results.length === 1 ? 'resultado' : 'resultados'}`)}
+                    onClear={filtering ? clearFilters : undefined}
+                  />
                   <Grid items={results} selectedId={selectedId} onSelect={onSelect} />
                 </>
+              ) : filtering && scored.length ? (
+                <FilteredEmpty onClear={clearFilters} />
               ) : (
                 <Empty
                   text={`Não encontrei "${deferredQuery}". Tente outro nome, por exemplo: ${activeTab === 'cut' ? 'chanel, franja, cacheado' : 'loiro, ruivo, mechas'}.`}
                 />
               )
+            ) : filtering && shownTotal === 0 ? (
+              <FilteredEmpty onClear={clearFilters} />
             ) : (
-              categories.map((cat) =>
-                cat.items.length ? (
-                  <section key={cat.key} className="lazy-section mt-4">
-                    <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold text-plum-900">
-                      <Flower size={20} /> {cat.label}
-                      <span className="text-sm font-bold text-ink-soft">({cat.items.length})</span>
-                    </h2>
-                    <Grid items={cat.items} selectedId={selectedId} onSelect={onSelect} />
-                  </section>
-                ) : null,
-              )
+              <>
+                {filtering && (
+                  <ListInfo
+                    text={withFilters(`${shownTotal} ${shownTotal === 1 ? 'corte' : 'cortes'}`)}
+                    onClear={clearFilters}
+                  />
+                )}
+                {shownCategories.map((cat) =>
+                  cat.items.length ? (
+                    <section key={cat.key} className="lazy-section mt-4">
+                      <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold text-plum-900">
+                        <Flower size={20} /> {cat.label}
+                        <span className="text-sm font-bold text-ink-soft">({cat.items.length})</span>
+                      </h2>
+                      <Grid items={cat.items} selectedId={selectedId} onSelect={onSelect} />
+                    </section>
+                  ) : null,
+                )}
+              </>
             )}
           </div>
         </section>
@@ -443,6 +560,53 @@ function ErrorNote({ message }: { message: string }) {
     >
       <Icon name="alert" size={20} className="shrink-0" /> {message}
     </p>
+  );
+}
+
+function FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className={`flex min-h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-[0.95rem] font-bold transition ${
+        active
+          ? 'brand-gradient text-white shadow-soft'
+          : 'bg-white text-plum-800 ring-1 ring-plum-200 hover:bg-plum-50'
+      }`}
+    >
+      {active && <Icon name="check" size={16} strokeWidth={3} />}
+      {label}
+    </button>
+  );
+}
+
+function ListInfo({ text, onClear }: { text: string; onClear?: () => void }) {
+  return (
+    <p className="mb-3 mt-2 flex items-center justify-between gap-3 text-sm font-bold text-ink-soft">
+      <span>{text}</span>
+      {onClear && (
+        <button
+          type="button"
+          onClick={onClear}
+          className="font-extrabold text-plum-700 underline-offset-2 hover:underline"
+        >
+          Limpar filtros
+        </button>
+      )}
+    </p>
+  );
+}
+
+function FilteredEmpty({ onClear }: { onClear: () => void }) {
+  return (
+    <div className="mt-6 flex flex-col items-center gap-3 rounded-3xl bg-white px-6 py-10 text-center ring-1 ring-plum-100">
+      <Flower size={44} />
+      <p className="max-w-sm font-semibold text-ink-soft">Nenhum corte com esses filtros.</p>
+      <Button size="md" variant="secondary" icon="close" onClick={onClear}>
+        Limpar filtros
+      </Button>
+    </div>
   );
 }
 

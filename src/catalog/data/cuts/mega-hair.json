@@ -1,0 +1,65 @@
+[
+  {
+    "id": "mega-hair-liso-longo",
+    "name": "Mega Hair Liso Longo",
+    "aka": ["Mega hair", "Megahair", "Mega", "Alongamento", "Mega hair liso", "Alongamento liso", "Aplique", "Extensão de cabelo", "Hair extensions"],
+    "description": "Alongamento liso até o meio das costas, cheio e com acabamento natural.",
+    "look": { "length": 0.85, "volume": 0.6, "layers": 0.3, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-ondulado",
+    "name": "Mega Hair Ondulado",
+    "aka": ["Mega hair ondulado", "Alongamento ondulado", "Mega hair com ondas", "Wavy hair extensions"],
+    "description": "Alongamento longo com ondas soltas de praia, leve e com movimento.",
+    "look": { "length": 0.85, "volume": 0.7, "layers": 0.45, "fringe": "none", "texture": "wavy", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-cacheado",
+    "name": "Mega Hair Cacheado",
+    "aka": ["Mega hair cacheado", "Alongamento cacheado", "Mega hair de cachos", "Curly hair extensions"],
+    "description": "Alongamento com cachos longos e definidos, que se misturam aos fios naturais.",
+    "look": { "length": 0.82, "volume": 0.8, "layers": 0.5, "fringe": "none", "texture": "curly", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-crespo",
+    "name": "Mega Hair Crespo",
+    "aka": ["Mega hair crespo", "Alongamento crespo", "Mega hair afro", "Kinky curly extensions"],
+    "description": "Alongamento crespo longo e volumoso, com textura afro natural.",
+    "look": { "length": 0.75, "volume": 0.95, "layers": 0.4, "fringe": "none", "texture": "coily", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-ate-a-cintura",
+    "name": "Mega Hair até a Cintura",
+    "aka": ["Mega hair na cintura", "Mega hair extra longo", "Alongamento até a cintura", "Waist length extensions"],
+    "description": "Comprimento máximo: cabelo liso e cheio até a cintura.",
+    "look": { "length": 0.96, "volume": 0.55, "layers": 0.25, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-volume",
+    "name": "Mega Hair Volume (Preenchimento)",
+    "aka": ["Preenchimento", "Mega hair de volume", "Volume com mega hair", "Mega hair para cabelo fino", "Volume extensions"],
+    "description": "Mais volume e densidade sem mudar muito o comprimento, para cabelo fino ou ralo.",
+    "look": { "length": 0.65, "volume": 0.85, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-em-camadas",
+    "name": "Mega Hair em Camadas",
+    "aka": ["Mega hair repicado", "Alongamento em camadas", "Mega hair com camadas", "Layered hair extensions"],
+    "description": "Alongamento longo com camadas que emolduram o rosto e dão movimento.",
+    "look": { "length": 0.85, "volume": 0.65, "layers": 0.75, "fringe": "none", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "mega-hair-com-franja-cortina",
+    "name": "Mega Hair com Franja Cortina",
+    "aka": ["Mega hair com franja", "Alongamento com franja", "Hair extensions with curtain bangs"],
+    "description": "Alongamento longo com franja aberta no meio, moderna e leve.",
+    "look": { "length": 0.85, "volume": 0.6, "layers": 0.5, "fringe": "curtain", "texture": "straight", "style": "loose" }
+  },
+  {
+    "id": "alongamento-abaixo-dos-ombros",
+    "name": "Alongamento Abaixo dos Ombros",
+    "aka": ["Alongamento médio", "Mega hair médio", "Alongamento curto", "Mega hair para cabelo curto", "Shoulder length extensions"],
+    "description": "Para quem tem cabelo curto: alongamento até um pouco abaixo dos ombros.",
+    "look": { "length": 0.55, "volume": 0.6, "layers": 0.4, "fringe": "none", "texture": "straight", "style": "loose" }
+  }
+]

@@ -1,4 +1,5 @@
 import type { CatalogItem, Category } from '../catalog';
+import { lengthClass } from './hairFilters';
 
 /** "Chanel de Bico" -> "chanel de bico"; "Loiro Pérola" -> "loiro perola". */
 export function normalize(text: string): string {
@@ -34,11 +35,23 @@ const SYNONYMS: Record<string, string> = {
   channel: 'chanel',
   alisado: 'liso',
   cinzo: 'acinzentado',
+  megahair: 'mego', // "mega" vira "mego" no stem
 };
 
 // Palavras que não mudam o "tipo" do item: "Loiro Médio" é o loiro básico,
 // "Cacheado 3A Definido" é um cacheado natural.
-const BASIC = new Set(['natural', 'medio', 'classico', 'tradicional', 'simple', 'basico', 'normal', 'definido', 'cut', 'hair']);
+const BASIC = new Set([
+  'natural',
+  'medio',
+  'classico',
+  'tradicional',
+  'simple',
+  'basico',
+  'normal',
+  'definido',
+  'cut',
+  'hair',
+]);
 const isBasic = (w: Word) => BASIC.has(w.stem) || /^[1-4][a-c]$/.test(w.raw); // tipos de cacho: 2A, 3B, 4C…
 const STOP = new Set(['de', 'da', 'do', 'das', 'dos', 'com', 'e', 'para', 'no', 'na', 'nos', 'nas', 'em', 'o', 'a']);
 
@@ -71,7 +84,7 @@ const phrase = (ws: Word[]) => ws.map((w) => w.stem).join(' ');
 function tags(item: CatalogItem): string {
   if (item.kind !== 'cut') return '';
   const { length, texture, fringe, style } = item.look;
-  const t = [length < 0.33 ? 'curto' : length >= 0.62 ? 'longo' : 'medio'];
+  const t: string[] = [lengthClass(length)];
   t.push({ straight: 'liso', wavy: 'ondulado', curly: 'cacheado', coily: 'crespo' }[texture]);
   if (fringe !== 'none') t.push('franja');
   if (style === 'braids') t.push('tranca trancado');
@@ -119,7 +132,10 @@ const hits = (q: Word, t: Word) => t.raw.startsWith(q.raw) || t.stem.startsWith(
  * palavra no meio do nome ("Balayage Loiro") e por fim os que só citam a
  * palavra nos apelidos ou na descrição. Empates seguem a ordem do catálogo,
  * que já vem dos mais pedidos para os menos. */
-export function searchCatalog<T extends CatalogItem>(categories: Category<T>[], query: string): T[] {
+export function searchScored<T extends CatalogItem>(
+  categories: Category<T>[],
+  query: string,
+): { item: T; score: number }[] {
   const q = words(query)
     .filter((w, _i, all) => all.length === 1 || !STOP.has(w.raw))
     .map((w) => ({ ...w, stem: SYNONYMS[w.stem] ?? SYNONYMS[w.raw] ?? w.stem }));
@@ -148,5 +164,12 @@ export function searchCatalog<T extends CatalogItem>(categories: Category<T>[], 
     }
     scored.push({ item: e.item, order: e.order, score });
   }
-  return scored.sort((a, b) => b.score - a.score || a.order - b.order).map((s) => s.item);
+  return scored.sort((a, b) => b.score - a.score || a.order - b.order).map(({ item, score }) => ({ item, score }));
+}
+
+/** Pontuação a partir da qual o nome do item começa com o que foi digitado. */
+export const NAME_MATCH = 600;
+
+export function searchCatalog<T extends CatalogItem>(categories: Category<T>[], query: string): T[] {
+  return searchScored(categories, query).map((s) => s.item);
 }
