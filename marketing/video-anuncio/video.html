@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your Beauty — Anúncio</title>
+<style>
+  @font-face { font-family: 'Playfair Display'; src: url('assets/fonts/PlayfairDisplay.ttf') format('truetype'); font-weight: 400 900; font-style: normal; }
+  @font-face { font-family: 'Playfair Display'; src: url('assets/fonts/PlayfairDisplay-Italic.ttf') format('truetype'); font-weight: 400 900; font-style: italic; }
+  @font-face { font-family: 'Plus Jakarta Sans'; src: url('assets/fonts/PlusJakartaSans.ttf') format('truetype'); font-weight: 200 800; font-style: normal; }
+
+  :root {
+    --blush-50: #fdf6f4; --blush-100: #f9e8e6; --blush-200: #f2d1cd;
+    --rose-400: #e0a5a8; --rose-500: #cf838a; --rose-600: #b4636d;
+    --gold-400: #cba86a; --gold-500: #b8935a;
+    --ink-900: #201a19; --ink-800: #322926; --ink-600: #5a4d49;
+    --cream-50: #fffaf5;
+    --display: 'Playfair Display', Georgia, serif;
+    --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  html, body { margin: 0; padding: 0; background: #111; }
+  #stage { position: relative; overflow: hidden; background: var(--cream-50); font-family: var(--sans); color: var(--ink-900); }
+  .abs { position: absolute; left: 0; top: 0; }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+
+  /* background */
+  .blob { position: absolute; border-radius: 50%; }
+  #grain { position: absolute; inset: -200px; opacity: .07; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .42  0 0 0 1 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"); }
+
+  /* text */
+  .head { position: absolute; font-family: var(--display); font-weight: 600; line-height: 1.12; letter-spacing: -0.01em; color: var(--ink-900); }
+  .head .w { display: inline-block; white-space: pre; will-change: transform, opacity, filter; }
+  .head em, .accent { font-style: italic; font-weight: 500; }
+  .grad { background: linear-gradient(100deg, #c7727c 0%, #cf838a 30%, #b8935a 70%, #cba86a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }
+  .label { position: absolute; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: .22em; color: var(--rose-600); }
+
+  /* hero (the client's face card -> phone camera view) */
+  #hero { position: absolute; overflow: hidden; background: #cfcac6; }
+  .look { position: absolute; }
+  .look img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .look .shine { position: absolute; inset: 0; mix-blend-mode: screen; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+
+  /* speech bubbles */
+  .bubble { position: absolute; background: #fff; color: var(--ink-900); border-radius: 44px; font-family: var(--sans); font-weight: 600; white-space: nowrap;
+    box-shadow: 0 24px 60px -18px rgba(90, 40, 45, .35), 0 2px 6px rgba(90, 40, 45, .08); transform-origin: 20% 100%; }
+  .bubble .tail { position: absolute; width: 44px; height: 44px; background: #fff; transform: rotate(45deg); border-radius: 6px; }
+  .bubble .txt { position: relative; }
+  .dots { position: absolute; display: flex; gap: 12px; align-items: center; }
+  .dots i { display: block; width: 16px; height: 16px; border-radius: 50%; background: var(--rose-500); }
+
+  .thumb { position: absolute; border-radius: 50%; overflow: hidden; border: 6px solid #fff; box-shadow: 0 20px 44px -14px rgba(80, 35, 40, .45); background: #ccc; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+  .qbadge { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-400), var(--gold-400)); color: #fff; font-family: var(--display); font-weight: 700; font-size: 34px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 18px -6px rgba(120, 60, 60, .5); }
+  .qchip { position: absolute; background: var(--ink-900); color: var(--cream-50); font-family: var(--sans); font-weight: 800; border-radius: 999px; white-space: nowrap; box-shadow: 0 24px 50px -16px rgba(30, 15, 15, .55); }
+
+  /* phone */
+  #phone { position: absolute; width: 410px; height: 864px; transform-origin: 0 0; border-radius: 64px; background: #0c0a0a;
+    box-shadow: 0 0 0 2.5px #8f8580, 0 0 0 5px #2b2523, 0 60px 120px -30px rgba(60, 25, 30, .55), 0 30px 60px -30px rgba(60, 25, 30, .4); }
+  #screen { position: absolute; left: 10px; top: 10px; width: 390px; height: 844px; border-radius: 54px; overflow: hidden; background: var(--ink-900); color: var(--cream-50); font-family: var(--sans); }
+  .island { position: absolute; left: 135px; top: 11px; width: 120px; height: 34px; border-radius: 20px; background: #000; }
+  .status { position: absolute; top: 15px; font-size: 15px; font-weight: 600; }
+  .hbtn { position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, .1); display: flex; align-items: center; justify-content: center; }
+  .search { position: absolute; left: 16px; width: 358px; height: 40px; border-radius: 999px; background: rgba(255, 255, 255, .1); display: flex; align-items: center; gap: 8px; padding: 0 16px; box-sizing: border-box; font-size: 13px; color: rgba(255, 250, 245, .4); }
+  .tab { position: absolute; height: 28px; border-radius: 999px; font-size: 12px; font-weight: 600; display: flex; align-items: center; padding: 0 14px; box-sizing: border-box; }
+  .tab small { font-size: 10px; font-weight: 400; opacity: .6; margin-left: 4px; }
+  .sw { position: absolute; width: 71.6px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .sw .dot { width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 0 0 2px var(--ink-900), 0 0 0 4px rgba(255, 255, 255, .2); }
+  .sw span { max-width: 58px; font-size: 9.5px; line-height: 1.2; color: rgba(255, 250, 245, .75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cut { position: absolute; width: 175px; height: 42px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, .1); box-sizing: border-box; padding: 6px 12px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+  .cut b { font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .cut i { font-style: normal; font-size: 9px; text-transform: uppercase; letter-spacing: .05em; color: rgba(255, 250, 245, .5); }
+  #camOverlay { position: absolute; transform-origin: 0 0; }
+  .chip { position: absolute; left: 12px; border-radius: 999px; background: rgba(0, 0, 0, .42); padding: 4px 12px; font-size: 11px; font-weight: 500; color: var(--cream-50); white-space: nowrap; }
+  .shutter { position: absolute; width: 64px; height: 64px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, .3), 0 12px 24px rgba(0, 0, 0, .35); display: flex; align-items: center; justify-content: center; }
+  .shutter i { display: block; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-400), var(--gold-400)); }
+
+  #finger { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: rgba(255, 255, 255, .78); border: 3px solid #fff; box-shadow: 0 10px 26px rgba(30, 10, 10, .35); }
+  #ripple { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; border: 4px solid #fff; box-sizing: border-box; }
+
+  /* mosaic */
+  .tile { position: absolute; overflow: hidden; background: #ccc; box-shadow: 0 26px 50px -22px rgba(80, 35, 40, .45); }
+  .tile img { position: absolute; display: block; }
+  .tile .tlabel, #heroLabel { position: absolute; z-index: 3; left: 14px; bottom: 14px; background: rgba(255, 250, 245, .9); color: var(--ink-900); font-weight: 700; border-radius: 999px; white-space: nowrap; }
+  #heart { position: absolute; z-index: 10; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-500), var(--gold-400)); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 34px -10px rgba(180, 99, 109, .7); }
+
+  /* before / after */
+  #ba { position: absolute; overflow: hidden; background: #ccc; box-shadow: 0 40px 90px -30px rgba(80, 35, 40, .5); }
+  #ba img { position: absolute; display: block; }
+  #baAfter { position: absolute; inset: 0; }
+  #baLine { position: absolute; top: 0; bottom: 0; width: 5px; margin-left: -2.5px; background: #fff; box-shadow: 0 0 24px rgba(255, 255, 255, .9); }
+  #baKnob { position: absolute; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: #fff; box-shadow: 0 12px 30px rgba(40, 15, 15, .35); display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .balabel { position: absolute; bottom: 26px; padding: 10px 22px; border-radius: 999px; font-weight: 700; font-size: 26px; letter-spacing: .02em; }
+  #baTint { position: absolute; inset: 0; background: linear-gradient(135deg, var(--rose-400), var(--gold-400)); }
+
+  /* end card */
+  #logoSvg { position: absolute; overflow: visible; }
+  #word { position: absolute; line-height: 1; font-family: var(--display); font-weight: 600; letter-spacing: -0.015em; white-space: nowrap; color: var(--ink-900); }
+  #word .c { display: inline-block; }
+  #cta { position: absolute; border-radius: 999px; background: var(--ink-900); color: var(--cream-50); font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 14px; white-space: nowrap; box-shadow: 0 20px 40px -16px rgba(32, 26, 25, .6); }
+
+  .spark { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; }
+  #leak { position: absolute; mix-blend-mode: screen; }
+  #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(40, 20, 20, .28) 100%); }
+  #cool { position: absolute; inset: 0; background: #8d939c; mix-blend-mode: color; }
+  #coolDim { position: absolute; inset: 0; background: #5f646b; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="bgLayer">
+    <div class="blob" id="blob1"></div>
+    <div class="blob" id="blob2"></div>
+    <div class="blob" id="blob3"></div>
+  </div>
+  <div class="layer" id="coolLayer"><div id="cool"></div><div id="coolDim"></div></div>
+  <div id="phone">
+    <div id="screen">
+      <div class="island"></div>
+      <div class="status" style="left:34px">9:41</div>
+      <div class="status" style="right:30px; display:flex; gap:6px; align-items:center">
+        <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#fff"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#fff"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#fff"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#fff"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="#fff" opacity=".5"/><rect x="2.5" y="2.5" width="16" height="7" rx="2" fill="#fff"/><rect x="24" y="4" width="1.6" height="4" rx=".8" fill="#fff" opacity=".5"/></svg>
+      </div>
+      <div id="phHeader">
+        <div class="hbtn" style="left:16px; top:67px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#fffaf5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="position:absolute; left:0; width:390px; top:67px; text-align:center">
+          <div style="font-size:14px; font-weight:600; line-height:20px">Experimentar</div>
+          <div style="font-size:11px; color:rgba(255,250,245,.6); line-height:16px">Rosto intacto, só o cabelo muda</div>
+        </div>
+        <div class="hbtn" style="left:338px; top:67px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 8a6 6 0 0 1 10-4.5M20 16a6 6 0 0 1-10 4.5M4 8V4M4 8h4M20 16v4M20 16h-4" stroke="#fffaf5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div id="phPicker">
+        <div class="search" style="top:602px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="11" cy="11" r="7" stroke="rgba(255,250,245,.6)" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="rgba(255,250,245,.6)" stroke-width="2" stroke-linecap="round"/></svg>
+          <span id="phSearchTxt">Buscar cor (ex: loiro, rosa, 7.3)...</span>
+        </div>
+        <div class="tab" id="tabCores" style="left:16px; top:652px">cores<small>118</small></div>
+        <div class="tab" id="tabCortes" style="left:106px; top:652px">cortes<small>58</small></div>
+        <div id="gridCores"></div>
+        <div id="gridCortes"></div>
+      </div>
+    </div>
+  </div>
+  <div class="layer" id="tilesLayer"></div>
+  <div id="hero"></div>
+  <div id="camOverlay">
+    <div class="chip" id="chipColor" style="top:12px"></div>
+    <div class="chip" id="chipCut" style="top:12px"></div>
+    <div class="shutter" id="shutter"><i></i></div>
+  </div>
+  <div class="layer" id="thumbLayer"></div>
+  <div class="layer" id="chipLayer"></div>
+  <div id="ba">
+    <img id="baBefore" alt="" />
+    <div id="baAfter"><img id="baAfterImg" alt="" /></div>
+    <div id="baTint"></div>
+    <div id="baLine"></div>
+    <div id="baKnob">
+      <svg width="16" height="26" viewBox="0 0 16 26"><path d="M12 3L3 13l9 10" fill="none" stroke="#b4636d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="16" height="26" viewBox="0 0 16 26"><path d="M4 3l9 10-9 10" fill="none" stroke="#b4636d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="balabel" id="labAntes" style="background:rgba(32,26,25,.55); color:#fffaf5">Antes</div>
+    <div class="balabel" id="labDepois" style="background:rgba(255,250,245,.92); color:#b4636d">Depois</div>
+  </div>
+  <div id="heart"><svg width="50" height="46" viewBox="0 0 24 22"><path d="M12 21s-8.5-5.3-10.6-10.1C-.2 7.3 2 3 6.1 3c2.4 0 4.2 1.4 5.9 3.6C13.7 4.4 15.5 3 17.9 3 22 3 24.2 7.3 22.6 10.9 20.5 15.7 12 21 12 21z" fill="#fff"/></svg></div>
+  <div class="bubble" id="bubble1"><div class="tail"></div><div class="dots"><i></i><i></i><i></i></div><div class="txt">Não sei o que eu quero… 😅</div></div>
+  <div class="bubble" id="bubble2"><div class="tail"></div><div class="txt">É esse! 😍</div></div>
+  <div id="logoGlow" style="position:absolute; border-radius:50%; background:radial-gradient(circle, rgba(224,165,168,.55) 0%, rgba(203,168,106,.22) 40%, rgba(255,250,245,0) 70%);"></div>
+  <svg id="logoSvg" viewBox="0 0 48 48">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cf838a"/><stop offset="1" stop-color="#cba86a"/></linearGradient>
+    </defs>
+    <circle id="logoCircle" cx="24" cy="24" r="24" fill="url(#lg)"/>
+    <path id="logoP1" d="M14 34c0-8 2-12 2-16 0-5.5 4-9 8-9s8 3.5 8 9c0 4 2 8 2 16" stroke="#fffaf5" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <path id="logoP2" d="M17 33c0-6.5 1.4-10 1.4-13.5 0-4 2.6-6.8 5.6-6.8s5.6 2.8 5.6 6.8c0 3.5 1.4 7 1.4 13.5" stroke="#fffaf5" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+  </svg>
+  <div id="word"></div>
+  <div id="cta"><span>Experimente no seu salão</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fffaf5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="layer" id="textLayer"></div>
+  <div id="finger"></div>
+  <div id="ripple"></div>
+  <div class="layer" id="sparkLayer"></div>
+  <div class="layer" style="overflow:hidden"><div id="leak"></div></div>
+  <div id="vignette"></div>
+  <div class="layer" style="overflow:hidden"><div id="grain"></div></div>
+</div>
+
+<script>
+/* ------------------------------------------------------------------ */
+/*  Your Beauty — anúncio (timeline determinística: window.seek(t))    */
+/* ------------------------------------------------------------------ */
+const FMT = (new URLSearchParams(location.search).get('format') || 'v').startsWith('h') ? 'h' : 'v';
+const V = FMT === 'v';
+const W = V ? 1080 : 1920, H = V ? 1920 : 1080;
+const DURATION = 22.0;
+const $ = (id) => document.getElementById(id);
+const stage = $('stage');
+stage.style.width = W + 'px';
+stage.style.height = H + 'px';
+
+/* ---------- math / easing ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  lin: (x) => x,
+  outCubic: (x) => 1 - Math.pow(1 - x, 3),
+  inCubic: (x) => x * x * x,
+  inOutCubic: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
+  outQuart: (x) => 1 - Math.pow(1 - x, 4),
+  outExpo: (x) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+  inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+  outBack: (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+  outBackSoft: (x) => { const c1 = 0.9, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+};
+const ease = (t, a, b, fn = E.outCubic) => fn(prog(t, a, b));
+/* in/out envelope: 0 -> 1 during [a, a+din], 1 -> 0 during [b, b+dout] */
+const env = (t, a, din, b, dout, fin = E.outCubic, fout = E.inCubic) => {
+  if (t < a || t > b + dout) return 0;
+  if (t < a + din) return fin(prog(t, a, a + din));
+  if (t > b) return 1 - fout(prog(t, b, b + dout));
+  return 1;
+};
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+const lerpRect = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k), r: lerp(a.r ?? 0, b.r ?? 0, k) });
+function place(el, r) { el.style.left = r.x + 'px'; el.style.top = r.y + 'px'; el.style.width = r.w + 'px'; el.style.height = r.h + 'px'; if (r.r !== undefined) el.style.borderRadius = r.r + 'px'; }
+function show(el, o) { el.style.opacity = o; el.style.visibility = o <= 0.001 ? 'hidden' : 'visible'; }
+function fade(el, o) { el.style.opacity = o; }
+function disp(el, on) { el.style.display = on ? '' : 'none'; }
+/* object-fit: cover for a square source with a focus point and zoom */
+function cover(w, h, fx = 0.5, fy = 0.45, zoom = 1) {
+  const side = Math.max(w, h) * zoom;
+  return { x: clamp(w / 2 - fx * side, w - side, 0), y: clamp(h / 2 - fy * side, h - side, 0), w: side, h: side };
+}
+
+/* ---------- assets ---------- */
+const LOOKS = ['natural', 'cobre', 'mel', 'vinho', 'rosa', 'caramelo', 'chocolate', 'ondulado', 'wolf', 'camadas'];
+const lookSrc = (id) => `assets/looks/${id}.jpg`;
+const maskSrc = (id) => `assets/looks/${id}-mask.png`;
+
+/* ---------- layout per format ---------- */
+const PH_S = V ? 1.5 : 1.16;                                  // phone scale
+const PH = V ? { x: (W - 410 * 1.5) / 2, y: 545 } : { x: 1300 - (410 * 1.16) / 2, y: (H - 864 * 1.16) / 2 };
+const phoneToStage = (vx, vy) => ({ x: PH.x + (10 + vx) * PH_S, y: PH.y + (10 + vy) * PH_S });
+const CAM = (() => { const p = phoneToStage(16, 119); return { x: p.x, y: p.y, w: 358 * PH_S, h: 471 * PH_S, r: 32 * PH_S }; })();
+const LAY = V ? {
+  card: { x: 130, y: 600, w: 820, h: 1025, r: 56 },
+  ba: { x: 110, y: 560, w: 860, h: 1075, r: 56 },
+  logo: { cx: 540, cy: 735, r: 118 },
+  thumbs: { cx: 540, cy: 1112, rx: 455, ry: 560, size: 180 },
+  tile: { w: 292, h: 365, gap: 20, cols: 3, x0: (W - (3 * 292 + 2 * 20)) / 2, y0: 560, r: 30 },
+  tileLooks: ['natural', 'cobre', 'ondulado', 'mel', 'wolf', 'vinho', 'camadas', 'rosa', 'caramelo'],
+} : {
+  card: { x: 980, y: 140, w: 640, h: 800, r: 48 },
+  ba: { x: 980, y: 140, w: 640, h: 800, r: 48 },
+  logo: { cx: 960, cy: 300, r: 100 },
+  thumbs: { cx: 1300, cy: 540, rx: 380, ry: 430, size: 150 },
+  tile: { w: 280, h: 350, gap: 22, cols: 5, x0: (W - (5 * 280 + 4 * 22)) / 2, y0: 262, r: 26 },
+  tileLooks: ['natural', 'cobre', 'ondulado', 'mel', 'chocolate', 'camadas', 'rosa', 'wolf', 'vinho', 'caramelo'],
+};
+const TILE_LABEL = { natural: 'Hoje', cobre: 'Cobre 7.4', ondulado: 'Ondulado Longo', mel: 'Loiro Dourado', wolf: 'Wolf Cut', vinho: 'Vinho', camadas: 'Camadas Longas', rosa: 'Rosa Pastel', caramelo: 'Caramelo', chocolate: 'Chocolate' };
+const tileRect = (i) => { const T = LAY.tile; const c = i % T.cols, r = Math.floor(i / T.cols); return { x: T.x0 + c * (T.w + T.gap), y: T.y0 + r * (T.h + T.gap), w: T.w, h: T.h, r: T.r }; };
+
+/* ---------- background ---------- */
+function setupBg() {
+  const b1 = $('blob1'), b2 = $('blob2'), b3 = $('blob3');
+  const S = Math.max(W, H);
+  b1.style.width = b1.style.height = S * 0.9 + 'px';
+  b1.style.background = 'radial-gradient(circle, rgba(224,165,168,.55) 0%, rgba(224,165,168,0) 65%)';
+  b2.style.width = b2.style.height = S * 0.8 + 'px';
+  b2.style.background = 'radial-gradient(circle, rgba(203,168,106,.42) 0%, rgba(203,168,106,0) 65%)';
+  b3.style.width = b3.style.height = S * 0.7 + 'px';
+  b3.style.background = 'radial-gradient(circle, rgba(242,209,205,.9) 0%, rgba(242,209,205,0) 65%)';
+}
+function bgFrame(t) {
+  const S = Math.max(W, H);
+  const p = (el, x, y) => { el.style.transform = `translate(${x - parseFloat(el.style.width) / 2}px, ${y - parseFloat(el.style.height) / 2}px)`; };
+  p($('blob1'), W * (0.15 + 0.08 * Math.sin(t * 0.35)), H * (0.2 + 0.05 * Math.cos(t * 0.3)));
+  p($('blob2'), W * (0.9 + 0.06 * Math.cos(t * 0.28)), H * (0.75 + 0.06 * Math.sin(t * 0.33)));
+  p($('blob3'), W * (0.55 + 0.1 * Math.sin(t * 0.2 + 1)), H * (0.5 + 0.08 * Math.cos(t * 0.25)));
+  // pain grading: cool + slightly dim background between "arrepender" and the turn
+  const cool = env(t, 4.45, 0.5, 5.75, 0.7, E.inOutSine, E.inOutSine);
+  show($('cool'), cool * 0.9); show($('coolDim'), cool * 0.1);
+  const r = rng(Math.floor(t * 30) + 7);
+  $('grain').style.transform = `translate(${Math.floor(r() * 200)}px, ${Math.floor(r() * 200)}px)`;
+  show($('vignette'), 0.55 + 0.45 * cool);
+}
+
+/* ---------- headlines ---------- */
+const TEXTS = [];
+function addHead({ id, html, tin, tout, x, y, w, size, align = 'left', stagger = 0.06, groups = null, label = null, color = null }) {
+  const el = document.createElement('div');
+  el.className = 'head';
+  el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.width = w + 'px';
+  el.style.fontSize = size + 'px'; el.style.textAlign = align;
+  if (color) el.style.color = color;
+  // split into words, keeping <em>/<span class> wrappers per word
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  const words = [];
+  const walk = (node, cls, isEm) => {
+    node.childNodes.forEach((n) => {
+      if (n.nodeType === 3) {
+        n.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { el.appendChild(document.createTextNode(' ')); return; }
+          const s = document.createElement('span'); s.className = 'w' + (cls ? ' ' + cls : '');
+          if (isEm) s.style.fontStyle = 'italic';
+          s.textContent = part; el.appendChild(s); words.push(s);
+        });
+      } else if (n.nodeName === 'BR') { el.appendChild(document.createElement('br')); }
+      else { walk(n, (cls ? cls + ' ' : '') + (n.className || ''), isEm || n.nodeName === 'EM'); }
+    });
+  };
+  walk(tmp, '', false);
+  $('textLayer').appendChild(el);
+  let lab = null;
+  if (label) {
+    lab = document.createElement('div'); lab.className = 'label';
+    lab.textContent = label.text; lab.style.fontSize = label.size + 'px';
+    lab.style.left = x + 'px'; lab.style.width = w + 'px'; lab.style.textAlign = align; lab.style.top = (y - label.size * 1.9) + 'px';
+    $('textLayer').appendChild(lab);
+  }
+  TEXTS.push({ id, el, words, tin, tout, stagger, groups, lab });
+}
+function headsFrame(t) {
+  for (const T of TEXTS) {
+    const visible = t >= T.tin - 0.01 && t <= T.tout + 0.32;
+    T.el.style.visibility = visible ? 'visible' : 'hidden';
+    if (T.lab) T.lab.style.visibility = visible ? 'visible' : 'hidden';
+    if (!visible) continue;
+    const out = ease(t, T.tout, T.tout + 0.3, E.inCubic);
+    T.words.forEach((w, i) => {
+      const start = T.groups ? T.tin + T.groups[i] : T.tin + i * T.stagger;
+      const k = ease(t, start, start + 0.55, E.outExpo);
+      const o = k * (1 - out);
+      const y = (1 - k) * 46 - out * 24;
+      const blur = (1 - k) * 10 + out * 8;
+      w.style.opacity = o;
+      w.style.transform = `translateY(${y}px)`;
+      w.style.filter = blur > 0.05 ? `blur(${blur}px)` : 'none';
+    });
+    if (T.lab) {
+      const k = ease(t, T.tin - 0.1, T.tin + 0.5, E.outCubic);
+      T.lab.style.opacity = k * (1 - out);
+      T.lab.style.letterSpacing = (0.22 + (1 - k) * 0.25) + 'em';
+    }
+  }
+}
+function setupTexts() {
+  const headV = (o) => ({ x: 70, w: W - 140, align: 'center', size: 84, ...o });
+  const headH = (o) => ({ x: 130, w: 810, align: 'left', size: 84, ...o });
+  const P = V ? headV : headH;
+  addHead({ id: 't1', html: 'Ela senta na cadeira<br>e diz:', tin: -0.3, tout: 2.85, ...P(V ? { y: 300 } : { y: 228 }) });
+  addHead({ id: 't3', html: 'E se eu me<br><em>arrepender?</em>', tin: 4.5, tout: 5.2, ...P(V ? { y: 300 } : { y: 390, size: 96 }) });
+  addHead({ id: 't4', html: 'E se ela pudesse<br><span class="grad accent">ver antes?</span>', tin: 5.56, tout: 6.66, ...P(V ? { y: 300 } : { y: 380, size: 92 }) });
+  addHead({ id: 't5', html: 'Só o cabelo<br><span class="grad accent">muda.</span>', tin: 7.02, tout: 9.5,
+    label: { text: 'Ao vivo, na câmera', size: V ? 30 : 26 }, ...P(V ? { y: 300, size: 80 } : { y: 400, size: 96 }) });
+  if (V) {
+    addHead({ id: 't6a', html: 'Ela testa.', tin: 9.86, tout: 10.5, x: 70, w: W - 140, align: 'center', size: 104, y: 318 });
+    addHead({ id: 't6b', html: 'Compara.', tin: 10.84, tout: 11.5, x: 70, w: W - 140, align: 'center', size: 104, y: 318 });
+    addHead({ id: 't6c', html: '<span class="grad accent">Se vê.</span>', tin: 11.84, tout: 12.72, x: 70, w: W - 140, align: 'center', size: 120, y: 306 });
+  } else {
+    addHead({ id: 't6', html: 'Ela testa.<br>Compara.<br><span class="grad accent">Se vê.</span>', tin: 9.86, tout: 12.72, groups: [0, 0, 0.98, 1.98, 1.98], x: 130, w: 810, align: 'left', size: 100, y: 330 });
+  }
+  if (V) {
+    addHead({ id: 't7', html: 'Enquanto espera,<br>ela se diverte…', tin: 13.08, tout: 13.98, x: 70, w: W - 140, align: 'center', size: 80, y: 300 });
+    addHead({ id: 't8', html: '…e se encanta com o<br><span class="grad accent">trabalho do seu salão.</span>', tin: 14.32, tout: 15.3, x: 40, w: W - 80, align: 'center', size: 72, y: 305 });
+  } else {
+    addHead({ id: 't7', html: 'Enquanto espera, ela se diverte…', tin: 13.08, tout: 13.98, x: 100, w: W - 200, align: 'center', size: 70, y: 110 });
+    addHead({ id: 't8', html: '…e se encanta com o <span class="grad accent">trabalho do seu salão.</span>', tin: 14.32, tout: 15.3, x: 60, w: W - 120, align: 'center', size: 66, y: 112 });
+  }
+  addHead({ id: 't9', html: 'Ela decide sem medo.<br><span class="grad accent">Você acerta de primeira.</span>', tin: V ? 15.64 : 15.92, tout: 18.38,
+    groups: [0, 0, 0, 0, 0.75, 0.75, 0.75, 0.75], ...P(V ? { y: 300, size: 74, x: 40, w: W - 80 } : { y: 430, size: 68, x: 120, w: 840 }) });
+  // end card tagline & sub (word animation, positioned around the logo)
+  if (V) {
+    addHead({ id: 'tag', html: '<span class="grad accent">Veja antes de mudar.</span>', tin: 19.75, tout: 99, x: 40, w: W - 80, align: 'center', size: 74, y: 1048 });
+    addHead({ id: 'sub', html: 'O provador virtual de cabelo<br>do seu salão de beleza', tin: 20.15, tout: 99, x: 90, w: W - 180, align: 'center', size: 36, y: 1160, stagger: 0.03, color: '#5a4d49' });
+  } else {
+    addHead({ id: 'tag', html: '<span class="grad accent">Veja antes de mudar.</span>', tin: 19.75, tout: 99, x: 200, w: W - 400, align: 'center', size: 70, y: 560 });
+    addHead({ id: 'sub', html: 'O provador virtual de cabelo do seu salão de beleza', tin: 20.15, tout: 99, x: 200, w: W - 400, align: 'center', size: 34, y: 668, stagger: 0.03, color: '#5a4d49' });
+  }
+  TEXTS.filter((T) => T.id === 'sub').forEach((T) => { T.el.style.fontFamily = 'var(--sans)'; T.el.style.fontWeight = 500; T.el.style.lineHeight = 1.35; T.el.style.letterSpacing = '0'; });
+}
+
+/* ---------- hero (face card / camera view) ---------- */
+const heroLooks = {};
+function setupHero() {
+  const hero = $('hero');
+  for (const id of LOOKS) {
+    const wrap = document.createElement('div'); wrap.className = 'look';
+    const img = document.createElement('img'); img.src = lookSrc(id); img.alt = '';
+    const shine = document.createElement('div'); shine.className = 'shine';
+    shine.style.webkitMaskImage = shine.style.maskImage = `url(${maskSrc(id)})`;
+    wrap.appendChild(img); wrap.appendChild(shine); hero.appendChild(wrap);
+    heroLooks[id] = { wrap, img, shine };
+  }
+  const lab = document.createElement('div'); lab.id = 'heroLabel'; lab.textContent = TILE_LABEL.wolf;
+  lab.style.fontSize = (V ? 20 : 19) + 'px'; lab.style.padding = V ? '7px 15px' : '6px 14px';
+  hero.appendChild(lab);
+}
+/* look changes on the hero (camera) */
+const LOOK_CHANGES = [
+  { t: 7.55, to: 'cobre', d: 0.62 },
+  { t: 8.55, to: 'mel', d: 0.62 },
+  { t: 9.55, to: 'rosa', d: 0.62 },
+  { t: 11.05, to: 'ondulado', d: 0.7 },
+  { t: 12.05, to: 'wolf', d: 0.7 },
+];
+function heroLookAt(t) {
+  let base = 'natural', next = null, p = 0;
+  for (const c of LOOK_CHANGES) {
+    if (t >= c.t + c.d) base = c.to;
+    else if (t >= c.t) { next = c.to; p = (t - c.t) / c.d; break; }
+  }
+  return { base, next, p };
+}
+function heroRectAt(t) {
+  const card = LAY.card;
+  if (t < 6.0) return { ...card };
+  if (t < 6.85) return lerpRect(card, CAM, ease(t, 6.0, 6.85, E.inOutCubic));
+  if (t < 12.85) return { ...CAM };
+  const wolfIdx = LAY.tileLooks.indexOf('wolf');
+  const tr = tileRect(wolfIdx);
+  return lerpRect(CAM, tr, ease(t, 12.85, 13.55, E.inOutCubic));
+}
+function heroFrame(t) {
+  const hero = $('hero');
+  const vis = t < 15.75;
+  if (!vis) { hero.style.visibility = 'hidden'; return; }
+  hero.style.visibility = 'visible';
+  const r = heroRectAt(t);
+  place(hero, r);
+  // entrance
+  const enter = 1;
+  // exit with the other tiles when the chosen look expands
+  const leave = ease(t, 15.35, 15.75, E.inCubic);
+  hero.style.opacity = enter * (1 - leave);
+  const sc = (1.035 - 0.035 * ease(t, 0, 0.9, E.outCubic)) * (1 - 0.06 * leave);
+  hero.style.transform = `scale(${sc})`;
+  const shadowK = t < 6.85 ? 1 : 0.6;
+  hero.style.boxShadow = `0 ${40 * shadowK}px ${90 * shadowK}px -30px rgba(80,35,40,${0.5 * shadowK})`;
+  // grade: grayscale during the "regret" beat
+  const g = env(t, 4.45, 0.55, 5.8, 0.6, E.inOutSine, E.inOutSine);
+  hero.style.filter = g > 0.002 ? `grayscale(${g * 0.85}) brightness(${1 - 0.07 * g}) contrast(${1 + 0.06 * g})` : 'none';
+  // slow push-in during the hook; zoom out to normal as it becomes the camera
+  let zoom = 1 + 0.07 * ease(t, 0, 5.9, E.inOutSine);
+  zoom = lerp(zoom, 1, ease(t, 6.0, 6.85, E.inOutCubic));
+  const { base, next, p } = heroLookAt(t);
+  fade($('heroLabel'), ease(t, 13.45, 13.85, E.outCubic));
+  const cv = cover(r.w, r.h, 0.5, 0.46, zoom);
+  for (const id of LOOKS) {
+    const L = heroLooks[id];
+    if (id !== base && id !== next) { L.wrap.style.display = 'none'; continue; }
+    L.wrap.style.display = 'block';
+    place(L.wrap, cv);
+    L.wrap.style.zIndex = id === next ? 2 : 1;
+    if (id === next) {
+      const k = E.inOutSine(clamp(p));
+      const F = 9;
+      const a = lerp(-F - 2, 102, k);
+      const m = `linear-gradient(180deg, #000 0%, #000 ${a}%, transparent ${a + F}%)`;
+      L.wrap.style.webkitMaskImage = L.wrap.style.maskImage = m;
+      const band = `linear-gradient(180deg, rgba(255,240,224,0) ${a - 3}%, rgba(255,232,206,.75) ${a + F * 0.5}%, rgba(255,240,224,0) ${a + F + 1}%)`;
+      L.shine.style.background = band;
+      L.shine.style.opacity = Math.sin(Math.PI * clamp(p)) * 0.7;
+    } else {
+      L.wrap.style.webkitMaskImage = L.wrap.style.maskImage = 'none';
+      L.shine.style.opacity = 0;
+    }
+  }
+}
+
+/* ---------- speech bubbles ---------- */
+function setupBubbles() {
+  const b1 = $('bubble1');
+  const fs1 = V ? 44 : 38;
+  b1.style.fontSize = fs1 + 'px';
+  b1.style.padding = V ? '30px 46px' : '26px 40px';
+  const tail1 = b1.querySelector('.tail');
+  const dots = b1.querySelector('.dots');
+  if (V) { b1.style.left = '300px'; b1.style.top = '640px'; tail1.style.left = '60px'; tail1.style.bottom = '-14px'; b1.style.transformOrigin = '15% 110%'; }
+  else { b1.style.left = '560px'; b1.style.top = '470px'; tail1.style.right = '-14px'; tail1.style.top = '34px'; b1.style.transformOrigin = '100% 50%'; }
+  dots.style.left = '50%'; dots.style.top = '50%';
+  const b2 = $('bubble2');
+  b2.style.fontSize = (V ? 54 : 46) + 'px';
+  b2.style.padding = V ? '30px 48px' : '26px 42px';
+  const tail2 = b2.querySelector('.tail');
+  if (V) { b2.style.left = '590px'; b2.style.top = '484px'; tail2.style.left = '70px'; tail2.style.bottom = '-14px'; b2.style.transformOrigin = '20% 110%'; }
+  else { b2.style.left = '1480px'; b2.style.top = '96px'; tail2.style.left = '60px'; tail2.style.bottom = '-14px'; b2.style.transformOrigin = '20% 110%'; }
+}
+function bubblesFrame(t) {
+  const b1 = $('bubble1');
+  const k1 = env(t, 0.85, 0.5, 2.95, 0.3, E.outBackSoft, E.inCubic);
+  show(b1, clamp(k1 * 1.4));
+  b1.style.transform = `scale(${0.4 + 0.6 * k1}) translateY(${(1 - k1) * 20}px)`;
+  const typing = t < 1.55;
+  const dots = b1.querySelector('.dots'); const txt = b1.querySelector('.txt');
+  dots.style.opacity = typing ? 1 : 0;
+  dots.style.transform = 'translate(-50%,-50%)';
+  dots.querySelectorAll('i').forEach((d, i) => { d.style.transform = `translateY(${-8 * Math.max(0, Math.sin((t * 9) - i * 0.9))}px)`; });
+  const tk = ease(t, 1.55, 1.85, E.outCubic);
+  txt.style.opacity = tk; txt.style.transform = `translateY(${(1 - tk) * 10}px)`;
+  const b2 = $('bubble2');
+  const k2 = env(t, 17.1, 0.5, 18.3, 0.3, E.outBack, E.inCubic);
+  show(b2, clamp(k2 * 1.4));
+  b2.style.transform = `scale(${0.3 + 0.7 * k2}) rotate(${(1 - k2) * -8}deg)`;
+}
+
+/* ---------- thought thumbnails + question chips (the doubt) ---------- */
+const THUMBS = [
+  { look: 'cobre', a: 200 }, { look: 'ondulado', a: 160 }, { look: 'mel', a: 125 },
+  { look: 'wolf', a: 55 }, { look: 'rosa', a: 20 }, { look: 'camadas', a: -20 },
+];
+const thumbEls = [];
+function setupThumbs() {
+  const S = LAY.thumbs.size;
+  THUMBS.forEach((th, i) => {
+    const el = document.createElement('div'); el.className = 'thumb';
+    el.style.width = el.style.height = S + 'px';
+    const img = document.createElement('img'); img.src = lookSrc(th.look); img.alt = '';
+    el.appendChild(img);
+    const q = document.createElement('div'); q.className = 'qbadge'; q.textContent = '?';
+    q.style.right = '-10px'; q.style.top = '-10px';
+    const wrap = document.createElement('div'); wrap.style.position = 'absolute'; wrap.style.width = wrap.style.height = S + 'px';
+    wrap.appendChild(el); wrap.appendChild(q);
+    $('thumbLayer').appendChild(wrap);
+    thumbEls.push({ wrap, q });
+  });
+}
+function thumbsFrame(t) {
+  const T = LAY.thumbs, S = T.size;
+  thumbEls.forEach((th, i) => {
+    const tin = 1.6 + i * 0.16;
+    const k = ease(t, tin, tin + 0.5, E.outBack);
+    // swirl faster during the confusion beat, then fly outward and vanish
+    const swirl = 8 * Math.sin(t * 0.8 + i) + 70 * E.inCubic(prog(t, 3.0, 4.6)) * (i % 2 ? 1 : -1) * (t - 3.0 > 0 ? (t - 3.0) : 0) / 1.6;
+    const fly = ease(t, 4.35, 4.95, E.inCubic);
+    const ang = (THUMBS[i].a + swirl) * Math.PI / 180;
+    const rx = T.rx * (1 + 0.35 * fly), ry = T.ry * (1 + 0.35 * fly);
+    const x = clamp(T.cx + rx * Math.cos(ang) - S / 2, 14, W - S - 14);
+    const y = T.cy + ry * Math.sin(ang) - S / 2 + 10 * Math.sin(t * 1.7 + i * 1.3);
+    const o = clamp(k * 1.3) * (1 - fly);
+    show(th.wrap, o);
+    th.wrap.style.transform = `translate(${x}px, ${y}px) scale(${Math.max(0, k) * (1 - 0.3 * fly)}) rotate(${(1 - k) * 25}deg)`;
+    th.wrap.style.filter = fly > 0.02 ? `blur(${fly * 10}px)` : 'none';
+    th.q.style.transform = `scale(${ease(t, tin + 0.25, tin + 0.6, E.outBack)})`;
+  });
+}
+const QCHIPS = V ? [
+  { txt: 'Corte?', x: 92, y: 760, rot: -6, t: 3.0 },
+  { txt: 'Cor?', x: 700, y: 1000, rot: 5, t: 3.5 },
+  { txt: 'Franja?', x: 150, y: 1360, rot: -3, t: 4.0 },
+] : [
+  { txt: 'Corte?', x: 820, y: 210, rot: -6, t: 3.0 },
+  { txt: 'Cor?', x: 1540, y: 500, rot: 5, t: 3.5 },
+  { txt: 'Franja?', x: 860, y: 760, rot: -3, t: 4.0 },
+];
+const qchipEls = [];
+function setupChips() {
+  QCHIPS.forEach((q) => {
+    const el = document.createElement('div'); el.className = 'qchip'; el.textContent = q.txt;
+    el.style.fontSize = (V ? 60 : 50) + 'px'; el.style.padding = V ? '22px 44px' : '18px 36px';
+    el.style.left = q.x + 'px'; el.style.top = q.y + 'px';
+    $('chipLayer').appendChild(el); qchipEls.push(el);
+  });
+}
+function chipsFrame(t) {
+  QCHIPS.forEach((q, i) => {
+    const el = qchipEls[i];
+    const k = env(t, q.t, 0.42, 4.38, 0.3, E.outBack, E.inCubic);
+    show(el, clamp(k * 1.5));
+    const wob = Math.sin((t - q.t) * 14) * Math.exp(-(t - q.t) * 4) * 6;
+    el.style.transform = `scale(${0.2 + 0.8 * k}) rotate(${q.rot + wob}deg)`;
+  });
+}
+
+/* ---------- phone ---------- */
+const SWATCHES = [
+  { name: 'Castanho Claro', sw: ['#7b674c', '#9f7f56'] },
+  { name: 'Loiro Médio Dourado', sw: ['#c5a863', '#d7bc7f'], look: 'mel' },
+  { name: 'Loiro Médio Cobre', sw: ['#cf8859', '#dea178'], look: 'cobre' },
+  { name: 'Vinho', sw: ['#4B121F', '#752033'] },
+  { name: 'Rosa Pastel', sw: ['#F0B8C6', '#F7D3DC'], look: 'rosa' },
+  { name: 'Loiro Muito Claro Champagne', sw: ['#d2cbbc', '#e6e1d5'] },
+  { name: 'Cinza Prata', sw: ['#B9BCC2', '#D6D8DC'] },
+  { name: 'Balayage Loiro', sw: ['#5B3A24', '#D9B36C'] },
+  { name: 'Morena Iluminada', sw: ['#5B3A24', '#9C7248'] },
+  { name: 'Lilás', sw: ['#C9B3E0', '#DDCBEE'] },
+];
+const CUTS = [
+  { name: 'Chanel Longo', len: 'medio' }, { name: 'Ondulado Longo', len: 'longo', look: 'ondulado' },
+  { name: 'Wolf Cut', len: 'medio', look: 'wolf' }, { name: 'Camadas Longas', len: 'longo' },
+  { name: 'Pixie Cut', len: 'curto' }, { name: 'Crespo Natural', len: 'longo' },
+];
+const swEls = [], cutEls = [];
+const swCenter = (i) => ({ x: 16 + 35.8 * (2 * (i % 5) + 1), y: 716 + Math.floor(i / 5) * 74 });
+const cutCenter = (i) => ({ x: i % 2 ? 286.5 : 103.5, y: 713 + Math.floor(i / 2) * 50 });
+function setupPhone() {
+  const ph = $('phone');
+  ph.style.left = PH.x + 'px'; ph.style.top = PH.y + 'px';
+  const gc = $('gridCores');
+  SWATCHES.forEach((s, i) => {
+    const el = document.createElement('div'); el.className = 'sw';
+    const c = swCenter(i);
+    el.style.left = (c.x - 35.8) + 'px'; el.style.top = (c.y - 24) + 'px';
+    const dot = document.createElement('div'); dot.className = 'dot'; dot.style.background = `linear-gradient(135deg, ${s.sw.join(', ')})`;
+    const nm = document.createElement('span'); nm.textContent = s.name;
+    el.appendChild(dot); el.appendChild(nm); gc.appendChild(el); swEls.push({ el, dot });
+  });
+  const gk = $('gridCortes');
+  CUTS.forEach((c, i) => {
+    const el = document.createElement('div'); el.className = 'cut';
+    const p = cutCenter(i);
+    el.style.left = (p.x - 87.5) + 'px'; el.style.top = (p.y - 21) + 'px';
+    el.innerHTML = `<b>✨ ${c.name}</b><i>${c.len}</i>`;
+    gk.appendChild(el); cutEls.push(el);
+  });
+  const co = $('camOverlay');
+  co.style.width = 358 + 'px'; co.style.height = 471 + 'px';
+  const sh = $('shutter'); sh.style.left = (358 / 2 - 32) + 'px'; sh.style.top = (471 - 16 - 64) + 'px';
+}
+/* finger taps (virtual phone coords) */
+const TAPS = [
+  { t: 7.5, kind: 'sw', i: 2 },
+  { t: 8.5, kind: 'sw', i: 1 },
+  { t: 9.5, kind: 'sw', i: 4 },
+  { t: 10.5, kind: 'tab', i: 1 },
+  { t: 11.0, kind: 'cut', i: 1 },
+  { t: 12.0, kind: 'cut', i: 2 },
+];
+const tapPos = (tp) => tp.kind === 'sw' ? swCenter(tp.i) : tp.kind === 'cut' ? cutCenter(tp.i) : { x: tp.i ? 150 : 58, y: 666 };
+function phoneFrame(t) {
+  const ph = $('phone');
+  const k = ease(t, 6.32, 6.98, E.outCubic);
+  const out = ease(t, 12.85, 13.18, E.inCubic);
+  const o = k * (1 - out);
+  show(ph, o);
+  ph.style.transform = `scale(${PH_S * (1.04 - 0.04 * k) * (1 - 0.06 * out)})`;
+  ph.style.transformOrigin = '0 0';
+  // keep scaling around the camera center
+  const cx = CAM.x + CAM.w / 2, cy = CAM.y + CAM.h / 2;
+  const s = (1.04 - 0.04 * k) * (1 - 0.06 * out);
+  ph.style.left = (cx - (cx - PH.x) * s) + 'px'; ph.style.top = (cy - (cy - PH.y) * s) + 'px';
+  ph.style.transform = `scale(${PH_S * s})`;
+  // UI pieces slide in
+  const hk = ease(t, 6.55, 7.05, E.outCubic), pk = ease(t, 6.65, 7.2, E.outCubic);
+  $('phHeader').style.opacity = hk; $('phHeader').style.transform = `translateY(${(1 - hk) * -14}px)`;
+  $('phPicker').style.opacity = pk; $('phPicker').style.transform = `translateY(${(1 - pk) * 30}px)`;
+  // selection state
+  const tabCortes = t >= 10.55;
+  const tc = $('tabCores'), tk = $('tabCortes');
+  tc.style.background = tabCortes ? 'rgba(255,255,255,.1)' : '#fff'; tc.style.color = tabCortes ? 'rgba(255,250,245,.7)' : 'var(--ink-900)';
+  tk.style.background = tabCortes ? '#fff' : 'rgba(255,255,255,.1)'; tk.style.color = tabCortes ? 'var(--ink-900)' : 'rgba(255,250,245,.7)';
+  $('gridCores').style.display = tabCortes ? 'none' : 'block';
+  $('gridCortes').style.display = tabCortes ? 'block' : 'none';
+  $('phSearchTxt').textContent = tabCortes ? 'Buscar corte (ex: pixie, longo)...' : 'Buscar cor (ex: loiro, rosa, 7.3)...';
+  let selSw = -1, selCut = -1;
+  for (const tp of TAPS) if (t >= tp.t + 0.05) { if (tp.kind === 'sw') selSw = tp.i; if (tp.kind === 'cut') selCut = tp.i; }
+  swEls.forEach((s, i) => {
+    const on = i === selSw;
+    s.dot.style.boxShadow = on ? '0 0 0 2px var(--ink-900), 0 0 0 4px var(--rose-400)' : '0 0 0 2px var(--ink-900), 0 0 0 4px rgba(255,255,255,.2)';
+    s.dot.style.transform = on ? 'scale(1.1)' : 'scale(1)';
+  });
+  cutEls.forEach((c, i) => { const on = i === selCut; c.style.borderColor = on ? 'var(--rose-400)' : 'rgba(255,255,255,.1)'; c.style.background = on ? 'rgba(255,255,255,.1)' : 'transparent'; });
+  // camera overlay (chips + shutter) follows the hero rect
+  const co = $('camOverlay');
+  const r = heroRectAt(t);
+  co.style.left = r.x + 'px'; co.style.top = r.y + 'px';
+  co.style.transform = `scale(${r.w / 358})`;
+  const coK = ease(t, 6.85, 7.2, E.outCubic) * (1 - ease(t, 12.8, 13.05, E.inCubic));
+  show(co, coK);
+  const chipC = $('chipColor'), chipK = $('chipCut');
+  const colorLook = selSw >= 0 && !tabCortes ? SWATCHES[selSw].name : null;
+  chipC.textContent = colorLook ? `● Cor ao vivo: ${colorLook}` : '';
+  fade(chipC, colorLook ? 1 : 0);
+  chipK.textContent = selCut >= 0 ? `✨ Cabelo real: ${CUTS[selCut].name}` : '';
+  fade(chipK, selCut >= 0 ? 1 : 0);
+  // finger
+  const f = $('finger'), rp = $('ripple');
+  const fin = ease(t, 7.0, 7.35, E.outCubic) * (1 - ease(t, 12.3, 12.6, E.inCubic));
+  show(f, fin * 0.95);
+  // position: travel between taps
+  let pos = phoneToStage(300, 900), pressed = 0;
+  const first = phoneToStage(tapPos(TAPS[0]).x, tapPos(TAPS[0]).y);
+  if (t < TAPS[0].t) {
+    const k2 = ease(t, 7.0, TAPS[0].t - 0.05, E.inOutCubic);
+    pos = { x: lerp(first.x + 160, first.x, k2), y: lerp(first.y + 260, first.y, k2) };
+  } else {
+    for (let i = 0; i < TAPS.length; i++) {
+      const a = TAPS[i], b = TAPS[i + 1];
+      const pa = tapPos(a), sa = phoneToStage(pa.x, pa.y);
+      if (!b) { const k3 = ease(t, a.t + 0.15, a.t + 0.6, E.inOutCubic); pos = { x: sa.x + 140 * k3, y: sa.y + 220 * k3 }; break; }
+      if (t < b.t) {
+        const pb = tapPos(b), sb = phoneToStage(pb.x, pb.y);
+        const k3 = ease(t, a.t + 0.12, b.t - 0.06, E.inOutCubic);
+        const arc = Math.sin(Math.PI * k3) * -40;
+        pos = { x: lerp(sa.x, sb.x, k3), y: lerp(sa.y, sb.y, k3) + arc };
+        break;
+      }
+    }
+  }
+  for (const tp of TAPS) { const d = t - tp.t; if (d > -0.08 && d < 0.18) pressed = Math.max(pressed, 1 - Math.abs(d - 0.02) / 0.12); }
+  f.style.left = pos.x + 'px'; f.style.top = pos.y + 'px';
+  f.style.transform = `scale(${1 - 0.18 * clamp(pressed)})`;
+  // ripple
+  let rk = -1, rpos = null;
+  for (const tp of TAPS) { const d = t - tp.t; if (d >= 0 && d < 0.5) { rk = d / 0.5; const p = tapPos(tp); rpos = phoneToStage(p.x, p.y); } }
+  if (rk >= 0) { show(rp, (1 - rk) * 0.9 * fin); rp.style.left = rpos.x + 'px'; rp.style.top = rpos.y + 'px'; rp.style.transform = `scale(${1 + 1.6 * E.outCubic(rk)})`; }
+  else show(rp, 0);
+}
+
+/* ---------- mosaic ---------- */
+const tileEls = [];
+function setupTiles() {
+  LAY.tileLooks.forEach((look, i) => {
+    const el = document.createElement('div'); el.className = 'tile';
+    const img = document.createElement('img'); img.src = lookSrc(look); img.alt = '';
+    const lab = document.createElement('div'); lab.className = 'tlabel'; lab.textContent = TILE_LABEL[look];
+    lab.style.fontSize = (V ? 20 : 19) + 'px'; lab.style.padding = V ? '7px 15px' : '6px 14px';
+    el.appendChild(img); el.appendChild(lab);
+    $('tilesLayer').appendChild(el);
+    tileEls.push({ el, img, lab, look });
+  });
+}
+function tilesFrame(t) {
+  const center = { x: CAM.x + CAM.w / 2, y: CAM.y + CAM.h / 2 };
+  const chosen = LAY.tileLooks.indexOf('cobre');
+  tileEls.forEach((T, i) => {
+    if (t < 12.9 || t > 16.2) { T.el.style.visibility = 'hidden'; return; }
+    if (T.look === 'wolf') { T.el.style.visibility = 'hidden'; return; } // the hero lands here
+    T.el.style.visibility = 'visible';
+    const tr = tileRect(i);
+    const d = Math.hypot(tr.x + tr.w / 2 - center.x, tr.y + tr.h / 2 - center.y);
+    const tin = 12.95 + d / 2600;
+    const k = ease(t, tin, tin + 0.7, E.outBackSoft);
+    const rr = rng(i * 99 + 3);
+    const rot0 = (rr() - 0.5) * 24;
+    let x = lerp(center.x - tr.w / 2, tr.x, k), y = lerp(center.y - tr.h / 2, tr.y, k);
+    const fl = ease(t, tin + 0.6, tin + 1.2, E.inOutSine);
+    y += Math.sin(t * 1.6 + i) * 5 * fl;
+    let w = tr.w, h = tr.h, rad = tr.r;
+    let sc = lerp(0.35, 1, clamp(k)), rot = rot0 * (1 - clamp(k)), o = clamp(k * 2);
+    let z = 'auto';
+    if (i === chosen) {
+      const pick = ease(t, 14.9, 15.2, E.outBack);
+      sc *= 1 + 0.06 * pick * (1 - ease(t, 15.45, 15.6));
+      const ex = ease(t, 15.45, 16.0, E.inOutCubic);
+      const r = lerpRect({ x, y, w, h, r: rad }, LAY.ba, ex);
+      x = r.x; y = r.y; w = r.w; h = r.h; rad = r.r; if (t > 14.85) z = 5;
+      T.el.style.boxShadow = pick > 0 ? `0 0 0 ${6 * pick * (1 - ex)}px #e0a5a8, 0 30px 70px -20px rgba(180,99,109,${0.55 * pick})` : '';
+      T.lab.style.opacity = 1 - ex;
+      if (t >= 16.0) T.el.style.visibility = 'hidden';
+    } else {
+      const fade = ease(t, 15.3, 15.75, E.inCubic);
+      o *= 1 - fade; sc *= 1 - 0.08 * fade;
+      T.el.style.filter = fade > 0.01 ? `blur(${6 * fade}px)` : 'none';
+    }
+    T.el.style.zIndex = z;
+    place(T.el, { x, y, w, h, r: rad });
+    T.el.style.opacity = o;
+    T.el.style.transform = `scale(${sc}) rotate(${rot}deg)`;
+    const cv = cover(w, h, 0.5, 0.46, 1);
+    place(T.img, cv);
+  });
+  // heart on the chosen tile
+  const hEl = $('heart');
+  const hk = env(t, 14.95, 0.45, 15.42, 0.2, E.outBack, E.inCubic);
+  show(hEl, clamp(hk * 1.5));
+  const ct = tileRect(chosen);
+  hEl.style.left = (ct.x + ct.w - 16) + 'px'; hEl.style.top = (ct.y + 16) + 'px';
+  hEl.style.transform = `scale(${0.2 + 0.8 * hk}) rotate(${(1 - hk) * -20}deg)`;
+}
+
+/* ---------- before / after ---------- */
+function setupBA() {
+  $('baBefore').src = lookSrc('natural');
+  $('baAfterImg').src = lookSrc('cobre');
+  $('labAntes').style.left = '26px';
+  $('labDepois').style.right = '26px';
+}
+function baFrame(t) {
+  const ba = $('ba');
+  if (t < 15.99 || t > 19.3) { disp(ba, false); return; }
+  disp(ba, true); ba.style.opacity = 1;
+  // morph into the logo circle at the end
+  const m = ease(t, 18.5, 19.1, E.inOutCubic);
+  const Lg = LAY.logo;
+  const circ = { x: Lg.cx - Lg.r, y: Lg.cy - Lg.r, w: Lg.r * 2, h: Lg.r * 2, r: Lg.r };
+  const r = lerpRect(LAY.ba, circ, m);
+  place(ba, r);
+  const cvB = cover(r.w, r.h, 0.5, 0.46, 1);
+  place($('baBefore'), cvB); place($('baAfterImg'), cvB);
+  // divider position (percent from the left): left = antes, right = depois
+  let D = 0;
+  if (t < 16.15) D = 0;
+  else if (t < 16.95) D = lerp(0, 80, ease(t, 16.15, 16.95, E.inOutCubic));
+  else if (t < 17.6) D = lerp(80, 30, ease(t, 16.95, 17.6, E.inOutCubic));
+  else D = lerp(30, 52, ease(t, 17.6, 18.2, E.inOutCubic));
+  $('baAfter').style.clipPath = `inset(0 0 0 ${D}%)`;
+  const ui = ease(t, 16.05, 16.3, E.outCubic) * (1 - ease(t, 18.35, 18.55, E.inCubic));
+  const line = $('baLine'), knob = $('baKnob');
+  line.style.left = D + '%'; fade(line, ui);
+  knob.style.left = D + '%'; knob.style.top = '52%'; fade(knob, ui);
+  knob.style.transform = `scale(${0.6 + 0.4 * ui})`;
+  const lk = ease(t, 16.25, 16.6, E.outCubic) * (1 - ease(t, 18.35, 18.55, E.inCubic));
+  fade($('labAntes'), lk * clamp((D - 8) / 10)); fade($('labDepois'), lk * clamp((92 - D) / 10));
+  $('labAntes').style.transform = `translateY(${(1 - lk) * 12}px)`; $('labDepois').style.transform = `translateY(${(1 - lk) * 12}px)`;
+  fade($('baTint'), ease(t, 18.65, 19.0, E.inOutSine));
+  ba.style.boxShadow = `0 ${40 * (1 - m) + 18 * m}px ${90 * (1 - m) + 40 * m}px -30px rgba(80,35,40,${0.5 - 0.2 * m})`;
+}
+
+/* ---------- end card ---------- */
+function setupEnd() {
+  const Lg = LAY.logo;
+  const svg = $('logoSvg');
+  svg.style.left = (Lg.cx - Lg.r) + 'px'; svg.style.top = (Lg.cy - Lg.r) + 'px';
+  svg.setAttribute('width', Lg.r * 2); svg.setAttribute('height', Lg.r * 2);
+  const word = $('word');
+  word.style.fontSize = (V ? 120 : 112) + 'px';
+  'Your Beauty'.split('').forEach((ch) => { const s = document.createElement('span'); s.className = 'c'; s.textContent = ch === ' ' ? ' ' : ch; word.appendChild(s); });
+  word.style.left = '0px'; word.style.width = W + 'px'; word.style.textAlign = 'center';
+  word.style.top = (V ? Lg.cy + Lg.r + 44 : Lg.cy + Lg.r + 36) + 'px';
+  const cta = $('cta');
+  cta.style.fontSize = (V ? 34 : 30) + 'px';
+  cta.style.padding = V ? '26px 50px' : '22px 44px';
+  cta.style.top = (V ? 1306 : 790) + 'px';
+  for (const p of ['logoP1', 'logoP2']) { const el = $(p); const L = el.getTotalLength(); el.style.strokeDasharray = L; el.dataset.len = L; }
+}
+function endFrame(t) {
+  const Lg0 = LAY.logo, glow = $('logoGlow');
+  const gk = ease(t, 18.9, 19.8, E.outCubic);
+  const gs = Lg0.r * 4.2 * (1 + 0.04 * Math.sin(t * 2.1));
+  place(glow, { x: Lg0.cx - gs / 2, y: Lg0.cy - gs / 2, w: gs, h: gs });
+  show(glow, gk * 0.9);
+  const svg = $('logoSvg');
+  const on = t >= 18.95;
+  svg.style.visibility = on ? 'visible' : 'hidden';
+  if (on) {
+    const k = ease(t, 18.95, 19.25, E.outCubic);
+    $('logoCircle').style.opacity = k;
+    for (const [p, a] of [['logoP1', 19.05], ['logoP2', 19.25]]) {
+      const el = $(p); const L = +el.dataset.len;
+      el.style.strokeDashoffset = L * (1 - ease(t, a, a + 0.8, E.inOutCubic));
+    }
+    const breathe = 1 + 0.015 * Math.sin((t - 19) * 2.2) * ease(t, 19.8, 20.5);
+    svg.style.transform = `scale(${breathe})`;
+  }
+  const word = $('word');
+  word.style.visibility = t >= 19.1 ? 'visible' : 'hidden';
+  [...word.children].forEach((c, i) => {
+    const a = 19.15 + i * 0.04;
+    const k = ease(t, a, a + 0.6, E.outExpo);
+    c.style.opacity = k; c.style.transform = `translateY(${(1 - k) * 50}px)`;
+    c.style.filter = k < 0.98 ? `blur(${(1 - k) * 10}px)` : 'none';
+  });
+  // shimmer sweep across the wordmark (per character tint)
+  const sh = prog(t, 20.85, 21.75);
+  const chars = [...word.children];
+  const n = chars.length;
+  chars.forEach((c, i) => {
+    const pos = lerp(-0.3, 1.3, E.inOutSine(sh));
+    const f = sh > 0 && sh < 1 ? Math.exp(-Math.pow((i / (n - 1) - pos) / 0.14, 2)) : 0;
+    const r = Math.round(lerp(32, 207, f)), g = Math.round(lerp(26, 131, f)), b = Math.round(lerp(25, 138, f));
+    c.style.color = `rgb(${r},${g},${b})`;
+  });
+  const cta = $('cta');
+  const ck = ease(t, 20.45, 20.95, E.outBack);
+  show(cta, clamp(ck * 1.5));
+  cta.style.left = (W / 2) + 'px';
+  cta.style.transform = `translateX(-50%) scale(${0.6 + 0.4 * ck})`;
+}
+
+/* ---------- sparkles ---------- */
+const SPARK_POOL = [];
+const SPARK_SVG = `<svg viewBox="0 0 40 40" width="40" height="40"><path d="M20 0 C21.5 13 27 18.5 40 20 C27 21.5 21.5 27 20 40 C18.5 27 13 21.5 0 20 C13 18.5 18.5 13 20 0Z" fill="FILL"/></svg>`;
+function setupSparks() {
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div'); el.className = 'spark';
+    el.innerHTML = SPARK_SVG.replace('FILL', i % 3 === 0 ? '#ffffff' : i % 3 === 1 ? '#f3d7a6' : '#f6c9cc');
+    $('sparkLayer').appendChild(el); SPARK_POOL.push(el);
+  }
+}
+function sparkBursts() {
+  const B = [];
+  const cam = CAM;
+  B.push({ t: 6.35, x: cam.x - 40, y: cam.y - 40, w: cam.w + 80, h: cam.h + 80, n: 10, seed: 1, edge: true });
+  LOOK_CHANGES.forEach((c, i) => B.push({ t: c.t + 0.15, x: cam.x + cam.w * 0.12, y: cam.y + cam.h * 0.05, w: cam.w * 0.76, h: cam.h * 0.6, n: 7, seed: 10 + i }));
+  const ct = tileRect(LAY.tileLooks.indexOf('cobre'));
+  B.push({ t: 14.98, x: ct.x - 30, y: ct.y - 30, w: ct.w + 60, h: ct.h + 60, n: 9, seed: 30, edge: true });
+  const b2 = $('bubble2');
+  B.push({ t: 17.15, x: parseFloat(b2.style.left) - 40, y: parseFloat(b2.style.top) - 50, w: 420, h: 220, n: 9, seed: 40 });
+  const Lg = LAY.logo;
+  B.push({ t: 19.1, x: Lg.cx - Lg.r * 2.6, y: Lg.cy - Lg.r * 1.6, w: Lg.r * 5.2, h: Lg.r * 3.2, n: 14, seed: 50, edge: true });
+  B.push({ t: 20.3, x: Lg.cx - Lg.r * 2.8, y: Lg.cy - Lg.r * 1.5, w: Lg.r * 5.6, h: Lg.r * 3.0, n: 10, seed: 60, edge: true });
+  B.push({ t: 21.2, x: Lg.cx - Lg.r * 2.8, y: Lg.cy - Lg.r * 1.5, w: Lg.r * 5.6, h: Lg.r * 3.0, n: 8, seed: 70, edge: true });
+  return B;
+}
+let BURSTS = [];
+function sparksFrame(t) {
+  let used = 0;
+  for (const b of BURSTS) {
+    if (t < b.t - 0.01 || t > b.t + 1.6) continue;
+    const r = rng(b.seed * 7919);
+    for (let i = 0; i < b.n && used < SPARK_POOL.length; i++) {
+      let px = r(), py = r();
+      if (b.edge) { const side = Math.floor(r() * 4); if (side === 0) py = r() * 0.15; else if (side === 1) py = 0.85 + r() * 0.15; else if (side === 2) px = r() * 0.12; else px = 0.88 + r() * 0.12; }
+      const delay = r() * 0.6, life = 0.6 + r() * 0.5, size = 0.5 + r() * 0.9, spin = (r() - 0.5) * 180;
+      const lt = (t - b.t - delay) / life;
+      if (lt < 0 || lt > 1) continue;
+      const el = SPARK_POOL[used++];
+      const s = Math.sin(Math.PI * lt) * size;
+      el.style.visibility = 'visible'; el.style.opacity = Math.min(1, Math.sin(Math.PI * lt) * 1.4);
+      el.style.left = (b.x + px * b.w) + 'px'; el.style.top = (b.y + py * b.h - lt * 20) + 'px';
+      el.style.transform = `scale(${s}) rotate(${spin * lt}deg)`;
+    }
+  }
+  for (let i = used; i < SPARK_POOL.length; i++) SPARK_POOL[i].style.visibility = 'hidden';
+}
+
+/* ---------- light leaks ---------- */
+const LEAKS = [{ t: 5.85, d: 1.1 }, { t: 12.8, d: 0.9 }, { t: 15.4, d: 0.85 }, { t: 18.45, d: 1.0 }];
+function leakFrame(t) {
+  const el = $('leak');
+  const S = Math.max(W, H) * 1.6;
+  el.style.width = S + 'px'; el.style.height = S * 0.5 + 'px';
+  let on = null;
+  for (const L of LEAKS) if (t >= L.t && t <= L.t + L.d) on = L;
+  if (!on) { el.style.visibility = 'hidden'; return; }
+  const k = (t - on.t) / on.d;
+  el.style.visibility = 'visible';
+  el.style.background = 'linear-gradient(90deg, rgba(255,214,190,0) 0%, rgba(255,196,178,.55) 35%, rgba(255,232,196,.75) 50%, rgba(240,190,160,.45) 65%, rgba(255,214,190,0) 100%)';
+  el.style.opacity = Math.sin(Math.PI * k) * 0.5;
+  const x = lerp(-S * 0.75, W - S * 0.2, E.inOutSine(k));
+  el.style.transform = `translate(${x}px, ${H / 2 - S * 0.25}px) rotate(-24deg)`;
+  el.style.filter = 'blur(30px)';
+}
+
+/* ---------- main ---------- */
+function seek(t) {
+  t = clamp(t, 0, DURATION);
+  bgFrame(t);
+  headsFrame(t);
+  heroFrame(t);
+  bubblesFrame(t);
+  thumbsFrame(t);
+  chipsFrame(t);
+  phoneFrame(t);
+  tilesFrame(t);
+  baFrame(t);
+  endFrame(t);
+  sparksFrame(t);
+  leakFrame(t);
+}
+async function init() {
+  setupBg(); setupTexts(); setupHero(); setupBubbles(); setupThumbs(); setupChips(); setupPhone(); setupTiles(); setupBA(); setupEnd(); setupSparks();
+  BURSTS = sparkBursts();
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((im) => (im.complete && im.naturalWidth ? Promise.resolve() : im.decode().catch(() => {}))));
+  // preload hair masks used by the shine layer
+  await Promise.all(LOOKS.map((id) => new Promise((res) => { const im = new Image(); im.onload = im.onerror = res; im.src = maskSrc(id); })));
+  seek(0);
+  window.__ready = true;
+}
+window.seek = seek;
+window.DURATION = DURATION;
+window.FORMAT = { W, H, FMT };
+init();
+
+/* preview mode: open video.html?play=1 (or &format=h) to watch it live in a browser */
+if (new URLSearchParams(location.search).get('play')) {
+  const t0 = performance.now();
+  const loop = () => { if (window.__ready) seek(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>

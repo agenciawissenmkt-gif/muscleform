@@ -1,0 +1,3 @@
+out/stills/
+out/*.wav
+__pycache__/
