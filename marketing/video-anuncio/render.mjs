@@ -1,10 +1,12 @@
-// Renderiza video.html quadro a quadro (Playwright + ffmpeg).
+// Renderiza um vídeo (página HTML) quadro a quadro (Playwright + ffmpeg).
 //
 //   node marketing/video-anuncio/render.mjs --format v                 -> out/beauty-and-self-9x16.mp4
 //   node marketing/video-anuncio/render.mjs --format h                 -> out/beauty-and-self-16x9.mp4
+//   node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v
 //   node marketing/video-anuncio/render.mjs --format v --stills 1,4.5  -> PNGs para revisão
 //
-// Opções: --fps 30  --audio out/trilha.wav  --out <arquivo>  --from 0 --to 22
+// Opções: --page video.html  --name beauty-and-self  --fps 30  --crf 18  --audio out/trilha.wav
+//         --out <arquivo>  --from 0 --to 22
 //         --frames png  (captura sem perdas; padrão jpeg q96, ~4x mais rápido)
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
@@ -26,6 +28,9 @@ const fps = Number(args.fps || 30);
 const W = format === 'v' ? 1080 : 1920;
 const H = format === 'v' ? 1920 : 1080;
 const FRAME_TYPE = args.frames === 'png' ? 'png' : 'jpeg';
+const PAGE = args.page || 'video.html';
+const NAME = args.name || 'beauty-and-self';
+const CRF = String(args.crf || 18);
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.wav': 'audio/wav' };
 function serve(root) {
@@ -52,7 +57,7 @@ const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 page.on('console', (m) => { if (m.type() === 'error') console.error('[page]', m.text()); });
 page.on('pageerror', (e) => console.error('[page error]', e.message));
-await page.goto(`http://127.0.0.1:${port}/video.html?format=${format}`);
+await page.goto(`http://127.0.0.1:${port}/${PAGE}?format=${format}`);
 await page.waitForFunction(() => window.__ready === true, null, { timeout: 30000 });
 const stageBox = { x: 0, y: 0, width: W, height: H };
 
@@ -62,7 +67,7 @@ if (args.stills) {
   for (const s of String(args.stills).split(',')) {
     const t = Number(s);
     await page.evaluate((tt) => window.seek(tt), t);
-    const file = path.join(outDir, `${format}-${t.toFixed(2)}.png`);
+    const file = path.join(outDir, `${PAGE === 'video.html' ? '' : PAGE.replace(/\.html$/, '') + '-'}${format}-${t.toFixed(2)}.png`);
     await page.screenshot({ path: file, clip: stageBox });
     console.log('still', file);
   }
@@ -70,14 +75,14 @@ if (args.stills) {
   const duration = await page.evaluate(() => window.DURATION);
   const from = Number(args.from || 0);
   const to = Math.min(Number(args.to || duration), duration);
-  const out = path.resolve(args.out || path.join(HERE, 'out', `beauty-and-self-${format === 'v' ? '9x16' : '16x9'}.mp4`));
+  const out = path.resolve(args.out || path.join(HERE, 'out', `${NAME}-${format === 'v' ? '9x16' : '16x9'}.mp4`));
   await mkdir(path.dirname(out), { recursive: true });
   const audio = args.audio ? path.resolve(args.audio) : null;
   const ff = [
     '-y', '-hide_banner', '-loglevel', 'error',
     '-f', 'image2pipe', '-framerate', String(fps), '-c:v', FRAME_TYPE === 'jpeg' ? 'mjpeg' : 'png', '-i', '-',
     ...(audio && existsSync(audio) ? ['-ss', String(from), '-t', String(to - from), '-i', audio] : []),
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-profile:v', 'high',
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', CRF, '-pix_fmt', 'yuv420p', '-profile:v', 'high',
     '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709',
     '-r', String(fps), '-movflags', '+faststart',
     ...(audio && existsSync(audio) ? ['-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-shortest'] : []),

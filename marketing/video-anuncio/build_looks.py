@@ -115,13 +115,14 @@ LOOKS = {
     'rosa': ('chanel-longo', 'rosa'),
     'chocolate': ('chanel-longo', 'chocolate'),
     'ondulado': ('ondulado-longo', None),
+    'wolf': ('wolf-cut', None),
     # corte + cor juntos (o Beauty and self faz os dois de uma vez)
     'ondulado-cobre': ('ondulado-longo', 'cobre'),
     'wolf-mel': ('wolf-cut', 'mel'),
     'camadas-caramelo': ('long-layers', 'caramelo'),
 }
 # Máscaras de cabelo só para os looks que recebem o brilho da revelação no vídeo.
-MASKS = {'natural', 'ondulado-cobre'}
+MASKS = {'natural', 'ondulado-cobre', 'wolf', 'mel', 'cobre', 'rosa', 'vinho'}
 
 
 def main():
