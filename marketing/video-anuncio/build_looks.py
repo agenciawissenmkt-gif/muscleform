@@ -113,12 +113,15 @@ LOOKS = {
     'mel': ('chanel-longo', 'mel'),
     'vinho': ('chanel-longo', 'vinho'),
     'rosa': ('chanel-longo', 'rosa'),
-    'caramelo': ('chanel-longo', 'caramelo'),
     'chocolate': ('chanel-longo', 'chocolate'),
     'ondulado': ('ondulado-longo', None),
-    'wolf': ('wolf-cut', None),
-    'camadas': ('long-layers', None),
+    # corte + cor juntos (o Beauty and self faz os dois de uma vez)
+    'ondulado-cobre': ('ondulado-longo', 'cobre'),
+    'wolf-mel': ('wolf-cut', 'mel'),
+    'camadas-caramelo': ('long-layers', 'caramelo'),
 }
+# Máscaras de cabelo só para os looks que recebem o brilho da revelação no vídeo.
+MASKS = {'natural', 'ondulado-cobre'}
 
 
 def main():
@@ -130,6 +133,9 @@ def main():
         rgb, mask = cache[cut]
         img = recolor(rgb, mask, color) if color else rgb
         fimg(img).save(os.path.join(OUT, f'{look}.jpg'), quality=93)
+        if look not in MASKS:
+            print('look', look)
+            continue
         m = (np.clip(mask, 0, 1) * 255).astype(np.uint8)
         white = np.full((W, W), 255, np.uint8)
         Image.fromarray(np.dstack([white, white, white, m])).resize((512, 512), Image.LANCZOS).save(

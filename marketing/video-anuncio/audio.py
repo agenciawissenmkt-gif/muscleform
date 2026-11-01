@@ -370,35 +370,61 @@ for i, n_ in enumerate(['C6', 'E6', 'G6', 'B6', 'D7']):
     put(send, s, 19.05 + i * 0.09, gain=0.2)
 
 # ----------------------------------------------------------------- sound effects
+def shutter(amp=1.0):
+    """Camera shutter: two crisp mechanical clicks."""
+    d = 0.16
+    t = tvec(d)
+    sig = np.zeros(len(t))
+    for off, a in ((0.0, 1.0), (0.055, 0.7)):
+        m = t >= off
+        burst = rng.standard_normal(len(t)) * np.where(m, np.exp(-(t - off) / 0.006), 0)
+        sig += a * fft_filter(burst, lo=1800, hi=9000)
+        sig += a * 0.4 * np.where(m, np.sin(2 * np.pi * 900 * (t - off)) * np.exp(-(t - off) / 0.01), 0)
+    return sig * 0.6 * amp
+
+
+# hook: bubble, typing, reference photos, questions
 put(sfx, whoosh(0.8, 300, 2200, amp=0.6, seed=2), 0.0, gain=0.6)
-put(sfx, pop(700, 380, amp=0.8), 0.86, gain=0.5)                     # bubble
-for i in range(6):                                                    # typing dots
+put(sfx, pop(700, 380, amp=0.8), 0.86, gain=0.5)
+for i in range(6):
     put(sfx, tap(amp=0.35), 0.95 + i * 0.1, pan=-0.2, gain=0.35)
-for i in range(6):                                                    # thought thumbnails
+for i in range(6):
     put(sfx, pop(620 + 90 * i, 330 + 40 * i, amp=0.7), 1.6 + i * 0.16, pan=-0.6 + 0.24 * i, gain=0.5)
-for i, t0 in enumerate([3.0, 3.5, 4.0]):                              # Corte? Cor? Franja?
+for i, t0 in enumerate([3.0, 3.5, 4.0]):
     put(sfx, pop(520 - 40 * i, 220, amp=1.0, dur=0.16), t0, pan=[-0.4, 0.4, -0.2][i], gain=0.75)
     put(sfx, tap(amp=0.7), t0, gain=0.4)
-put(sfx, whoosh(0.7, 2600, 400, amp=0.7, seed=3, up_down=False), 4.38, gain=0.5)  # thumbs fly away
-put(sfx, whoosh(1.0, 700, 4000, amp=0.8, seed=4), 5.85, gain=0.45)  # light leak
-for t0 in [7.5, 8.5, 9.5, 10.5, 11.0, 12.0]:                          # finger taps
+put(sfx, whoosh(0.7, 2600, 400, amp=0.7, seed=3, up_down=False), 4.38, gain=0.5)
+put(sfx, whoosh(1.0, 700, 4000, amp=0.8, seed=4), 5.85, gain=0.45)
+# the app: photo, choices, generating, result
+put(sfx, shutter(), 6.93, gain=0.8)
+for t0 in [7.5, 8.0, 8.5, 9.0, 9.5, 12.75]:
     put(sfx, tap(amp=0.9), t0, pan=0.1, gain=0.55)
-for i, t0 in enumerate([7.55, 8.55, 9.55, 11.05, 12.05]):            # hair transforms
-    shimmer(t0, base=84 + [0, 2, 4, 0, 2][i], amp=0.75)
-    put(sfx, whoosh(0.55, 1500, 6000, amp=0.5, seed=20 + i), t0, gain=0.35)
-put(sfx, whoosh(0.8, 400, 3000, amp=0.9, seed=5), 12.8, gain=0.55)  # phone -> mosaic
-for i in range(9):                                                    # tiles landing
-    put(sfx, pop(560 + 50 * (i % 4), 300, amp=0.55), 13.0 + i * 0.055, pan=-0.6 + 0.15 * i, gain=0.4)
-put(sfx, bell(nm('E6'), d=1.6, amp=0.9), 14.95, gain=0.35)           # heart
-put(sfx, bell(nm('B6'), d=1.4, amp=0.6), 15.02, gain=0.25)
-put(sfx, whoosh(0.7, 500, 3500, amp=0.9, seed=6), 15.4, gain=0.5)   # zoom into the chosen look
-for t0, d in [(16.15, 0.8), (16.95, 0.65), (17.6, 0.6)]:              # before/after slider
+for t0 in [8.02, 9.02]:
+    put(sfx, pop(980, 640, amp=0.8, dur=0.1), t0, pan=0.15, gain=0.45)
+for t0 in [7.6, 12.25]:
+    put(sfx, whoosh(0.35, 1200, 3200, amp=0.35, seed=int(t0 * 10)), t0, gain=0.35)
+shimmer(9.62, base=79, amp=0.45, notes=(0, 7, 12, 16, 19), gap=0.09)
+put(sfx, riser(1.3, amp=0.35), 9.9, gain=0.3)
+shimmer(11.2, base=84, amp=1.0)
+for i, n_ in enumerate(['C6', 'E6', 'G6']):
+    put(sfx, bell(nm(n_), d=1.6, amp=0.7), 11.22 + i * 0.03, pan=-0.3 + 0.3 * i, gain=0.3)
+put(sfx, whoosh(0.55, 1500, 6000, amp=0.5, seed=21), 11.18, gain=0.35)
+put(sfx, whoosh(0.32, 800, 5000, amp=0.5, seed=22, up_down=False), 12.8, gain=0.35)
+# mosaic, choice, before/after, logo
+put(sfx, whoosh(0.8, 400, 3000, amp=0.9, seed=5), 13.35, gain=0.55)
+for i in range(9):
+    put(sfx, pop(560 + 50 * (i % 4), 300, amp=0.55), 13.78 + i * 0.05, pan=-0.6 + 0.15 * i, gain=0.4)
+put(sfx, bell(nm('E6'), d=1.6, amp=0.9), 15.08, gain=0.35)
+put(sfx, bell(nm('B6'), d=1.4, amp=0.6), 15.15, gain=0.25)
+put(sfx, whoosh(0.7, 500, 3500, amp=0.9, seed=6), 15.55, gain=0.5)
+for t0, d in [(16.2, 0.75), (16.95, 0.65), (17.6, 0.6)]:
     put(sfx, whoosh(d, 900, 2400, amp=0.45, seed=int(t0 * 10)), t0, gain=0.4)
-put(sfx, pop(880, 520, amp=0.9), 17.1, gain=0.5)                      # "É esse!"
+put(sfx, pop(880, 520, amp=0.9), 17.1, gain=0.5)
 shimmer(17.12, base=86, amp=0.9)
-put(sfx, whoosh(0.7, 600, 3000, amp=0.8, seed=8), 18.45, gain=0.45)  # morph to logo
-put(sfx, pop(640, 360, amp=0.7), 20.45, gain=0.4)                     # CTA
-shimmer(20.85, base=91, amp=0.45, notes=(0, 7, 12, 19), gap=0.08)    # wordmark shimmer
+put(sfx, whoosh(0.7, 600, 3000, amp=0.8, seed=8), 18.45, gain=0.45)
+shimmer(19.0, base=91, amp=0.5, notes=(0, 4, 7, 12, 16), gap=0.07)
+put(sfx, pop(640, 360, amp=0.7), 20.45, gain=0.4)
+shimmer(20.85, base=91, amp=0.45, notes=(0, 7, 12, 19), gap=0.08)
 
 # ----------------------------------------------------------------- reverb + master
 def reverb_ir(rt60=1.9, pre=0.02, seed=3):

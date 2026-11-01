@@ -1,7 +1,7 @@
 // Renderiza video.html quadro a quadro (Playwright + ffmpeg).
 //
-//   node marketing/video-anuncio/render.mjs --format v                 -> out/your-beauty-9x16.mp4
-//   node marketing/video-anuncio/render.mjs --format h                 -> out/your-beauty-16x9.mp4
+//   node marketing/video-anuncio/render.mjs --format v                 -> out/beauty-and-self-9x16.mp4
+//   node marketing/video-anuncio/render.mjs --format h                 -> out/beauty-and-self-16x9.mp4
 //   node marketing/video-anuncio/render.mjs --format v --stills 1,4.5  -> PNGs para revisão
 //
 // Opções: --fps 30  --audio out/trilha.wav  --out <arquivo>  --from 0 --to 22
@@ -70,7 +70,7 @@ if (args.stills) {
   const duration = await page.evaluate(() => window.DURATION);
   const from = Number(args.from || 0);
   const to = Math.min(Number(args.to || duration), duration);
-  const out = path.resolve(args.out || path.join(HERE, 'out', `your-beauty-${format === 'v' ? '9x16' : '16x9'}.mp4`));
+  const out = path.resolve(args.out || path.join(HERE, 'out', `beauty-and-self-${format === 'v' ? '9x16' : '16x9'}.mp4`));
   await mkdir(path.dirname(out), { recursive: true });
   const audio = args.audio ? path.resolve(args.audio) : null;
   const ff = [
