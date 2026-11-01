@@ -9,7 +9,7 @@
   {
     "id": "franja-reta",
     "name": "Franja Reta",
-    "aka": ["Blunt bangs", "Franja reta longa", "Franja tradicional", "Franja cheia", "Full bangs", "Cabelo longo com franja reta"],
+    "aka": ["Franja", "Blunt bangs", "Franja reta longa", "Franja tradicional", "Franja cheia", "Full bangs", "Cabelo longo com franja reta"],
     "description": "Franjinha retinha na altura da sobrancelha, com cabelo comprido.",
     "look": { "length": 0.7, "volume": 0.4, "layers": 0.2, "fringe": "full", "texture": "straight", "style": "loose" }
   },

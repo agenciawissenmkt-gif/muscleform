@@ -58,7 +58,7 @@
   {
     "id": "cacheado-3b-definido",
     "name": "Cacheado 3B Definido",
-    "aka": ["Cachos em espiral", "Cachos médios", "Springy curls 3B", "Crochet braids cacheado", "Cabelo de crochê", "Crochet curls"],
+    "aka": ["Cacheado", "Cacheado natural", "Cachos em espiral", "Cachos médios", "Springy curls 3B", "Crochet braids cacheado", "Cabelo de crochê", "Crochet curls"],
     "description": "Cachos médios em espiral, cheios de balanço e muito bem definidos.",
     "look": { "length": 0.5, "volume": 0.7, "layers": 0.55, "fringe": "none", "texture": "curly", "style": "loose" }
   },

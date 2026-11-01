@@ -79,7 +79,7 @@
   {
     "id": "medio-liso-escovado",
     "name": "Médio Liso Escovado",
-    "aka": ["Liso espelhado", "Liso polido", "Escova lisa", "Progressiva", "Glass hair", "Sleek straight"],
+    "aka": ["Liso", "Cabelo liso", "Liso espelhado", "Liso polido", "Escova lisa", "Progressiva", "Glass hair", "Sleek straight"],
     "description": "Cabelo médio bem lisinho, brilhante e alinhado, como depois da escova.",
     "look": { "length": 0.55, "volume": 0.3, "layers": 0.25, "fringe": "none", "texture": "straight", "style": "loose" }
   },

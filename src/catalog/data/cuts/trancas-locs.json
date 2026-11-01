@@ -2,7 +2,7 @@
   {
     "id": "box-braids",
     "name": "Box Braids",
-    "aka": ["Tranças box", "Box braid", "Tranças afro soltas", "Tranças com jumbo", "Tranças médias", "Trancas box"],
+    "aka": ["Tranças", "Tranças box", "Box braid", "Tranças afro soltas", "Tranças com jumbo", "Tranças médias", "Trancas box"],
     "description": "As tranças soltinhas mais pedidas: médias, bem feitas e até o meio das costas.",
     "look": { "length": 0.75, "volume": 0.5, "layers": 0.1, "fringe": "none", "texture": "coily", "style": "braids" }
   },

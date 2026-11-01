@@ -53,7 +53,7 @@ const brlFmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BR
 const intFmt = new Intl.NumberFormat('pt-BR');
 
 export const brl = (v: number) => brlFmt.format(Number(v) || 0);
-export const int = (v: number) => intFmt.format(Number(v) || 0);
+export const int = (v: number) => intFmt.format(Math.round(Number(v) || 0));
 export const pct = (v: number) => `${Math.round((Number(v) || 0) * 100)}%`;
 
 export function date(v: string | null | undefined, withTime = false) {
