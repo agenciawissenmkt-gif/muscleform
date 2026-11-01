@@ -6,9 +6,9 @@ salões), cada um sobre uma dor diferente, em 9:16 (Reels, Stories, TikTok, Shor
 
 | Vídeo | Dor | Arquivos em `out/` |
 | --- | --- | --- |
-| 1. **Indecisão** | "Não sei o que eu quero… 😅" | `beauty-and-self-9x16.mp4`, `beauty-and-self-16x9.mp4`, `capa-9x16.jpg`, `capa-16x9.jpg` |
-| 2. **Expectativa x Realidade** | "Quero igual a essa! 😍" (foto da internet) | `beauty-and-self-expectativa-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-musica.mp4`, `capa-expectativa-*.jpg` |
-| 3. **Só as pontinhas** | medo de mudar, anos com o mesmo cabelo | `beauty-and-self-coragem-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-musica.mp4`, `capa-coragem-*.jpg` |
+| 1. **Indecisão** | "Não sei o que eu quero… 😅" | `beauty-and-self-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-audio.mp4`, `-16x9-sem-audio.mp4`, `capa-9x16.jpg`, `capa-16x9.jpg` |
+| 2. **Expectativa x Realidade** | "Quero igual a essa! 😍" (foto da internet) | `beauty-and-self-expectativa-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-audio.mp4`, `-16x9-sem-audio.mp4`, `capa-expectativa-*.jpg` |
+| 3. **Só as pontinhas** | medo de mudar, anos com o mesmo cabelo | `beauty-and-self-coragem-9x16.mp4`, `-16x9.mp4`, `-9x16-sem-audio.mp4`, `-16x9-sem-audio.mp4`, `capa-coragem-*.jpg` |
 
 H.264 + AAC, 30 fps, áudio em −14 LUFS (padrão de Instagram/YouTube). As mensagens funcionam
 também **sem som**: toda a história está escrita na tela.
@@ -19,14 +19,15 @@ também **sem som**: toda a história está escrita na tela.
 - **Vídeos 2 e 3:** trilha original no clima soul/gospel (80 BPM, piano elétrico, órgão, palmas,
   coral), composta e sintetizada em `audio_soul.py`. Não copia melodia nem trecho de nenhuma
   música e pode ser usada em anúncio pago.
-- **Versões `-sem-musica`:** têm só os efeitos sonoros, para você escolher uma música no editor do
-  Instagram/TikTok.
+- **Versões `-sem-audio`:** sem música e sem efeitos (áudio mudo), para colocar a música direto no
+  editor do Instagram/TikTok ou na Biblioteca de áudio do YouTube Studio.
 
 > Músicas comerciais (por exemplo, "Lose Control", de Teddy Swims) não podem entrar no arquivo do
 > anúncio sem licença: a Meta recusa anúncios com música protegida e o YouTube bloqueia ou
 > silencia o vídeo. Em **post orgânico**, se a música aparecer na biblioteca do Instagram para a
-> sua conta, dá para adicioná-la por lá sobre a versão `-sem-musica`. Contas comerciais costumam
-> ter só a biblioteca livre de direitos, e post impulsionado precisa de música livre de direitos.
+> sua conta, dá para adicioná-la por lá sobre a versão `-sem-audio` (Reels → Áudio → pesquise a
+> música → escolha o trecho). Contas comerciais costumam ter só a biblioteca livre de direitos, e
+> post impulsionado precisa de música livre de direitos.
 
 ## Roteiros
 
@@ -87,6 +88,10 @@ node marketing/video-anuncio/render.mjs --format v --audio marketing/video-anunc
 # vídeos 2 e 3 (troque v por h para 16:9)
 node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v --audio marketing/video-anuncio/out/trilha-expectativa.wav
 node marketing/video-anuncio/render.mjs --page video-coragem.html --name beauty-and-self-coragem --format v --audio marketing/video-anuncio/out/trilha-coragem.wav
+
+# versão sem áudio (troque o nome do arquivo)
+ffmpeg -i marketing/video-anuncio/out/beauty-and-self-coragem-9x16.mp4 -f lavfi -i anullsrc=r=48000:cl=stereo \
+  -map 0:v -map 1:a -c:v copy -c:a aac -shortest marketing/video-anuncio/out/beauty-and-self-coragem-9x16-sem-audio.mp4
 
 # quadros soltos para revisão
 node marketing/video-anuncio/render.mjs --page video-coragem.html --format v --stills 1,10.5,16
