@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beauty and self — Expectativa x Realidade</title>
+<link rel="stylesheet" href="assets/engine/shared.css" />
+<style>
+  #refCard { position: absolute; overflow: hidden; background: #ccc; box-shadow: 0 30px 70px -26px rgb(46 16 101 / .45); }
+  #refCard img { position: absolute; display: block; }
+  #refPost { position: absolute; left: 0; right: 0; bottom: 0; height: 26%; background: linear-gradient(180deg, transparent, rgb(26 9 51 / .55)); display: flex; align-items: flex-end; justify-content: space-between; box-sizing: border-box; }
+  #refPost .lk { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 900; text-shadow: 0 2px 8px rgb(0 0 0 / .4); }
+  #hero { position: absolute; overflow: hidden; background: #cfcac6; }
+  #qmark { position: absolute; font-family: var(--display); font-style: italic; font-weight: 700; color: #fff; text-align: center; text-shadow: 0 10px 40px rgb(46 16 101 / .6); }
+  #heroDiv { position: absolute; overflow: hidden; pointer-events: none; }
+  #heroDiv .ln { position: absolute; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: #fff; box-shadow: 0 0 16px rgba(255,255,255,.9); }
+  #heroDiv .kb { position: absolute; border-radius: 50%; background: #fff; box-shadow: 0 8px 20px rgb(26 9 51 / .35); display: flex; align-items: center; justify-content: center; }
+  #review { position: absolute; background: #fff; border-radius: 28px; box-shadow: 0 30px 60px -24px rgb(46 16 101 / .45); display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; transform-origin: 50% 50%; }
+  #review .rv-t { font-weight: 850; color: var(--plum-950); white-space: nowrap; }
+  #eq { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 20px 44px -12px rgb(124 58 237 / .7), 0 0 0 8px #fff; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="bgLayer"><div class="blob" id="blob1"></div><div class="blob" id="blob2"></div><div class="blob" id="blob3"></div><div class="corner" id="corner1"></div><div class="corner" id="corner2"></div></div>
+  <div class="layer" id="coolLayer"><div id="cool"></div><div id="coolDim"></div></div>
+  <div id="phone"><div id="screen"></div></div>
+  <div id="refCard"><img id="refImg" alt="" /><div id="refPost"><span class="lk" id="refLikes"></span><span id="refSave"></span></div></div>
+  <div id="hero"></div>
+  <div id="qmark">?</div>
+  <div id="camContour"></div>
+  <div id="genOverlay"><div class="tint"></div><div class="shim"></div><div class="scan"></div></div>
+  <svg id="bloom" viewBox="0 0 120 120" style="position:absolute;filter:drop-shadow(0 10px 20px rgb(26 9 51 / .45))"></svg>
+  <div id="heroDiv"><div class="ln"></div><div class="kb"></div></div>
+  <div class="pill" id="labExp"></div>
+  <div class="pill" id="labReal"></div>
+  <div id="review"></div>
+  <div id="eq">=</div>
+  <div id="ba">
+    <img id="baBefore" alt="" /><div id="baAfter"><img id="baAfterImg" alt="" /></div>
+    <div id="baTint"></div><svg id="baFlower" viewBox="0 0 64 64"></svg><div id="baLine"></div>
+    <div id="baKnob"></div>
+    <div class="balabel" id="labAntes" style="background:rgb(46 16 101 / .62); color:#fff">Antes</div>
+    <div class="balabel" id="labDepois" style="background:rgba(255,255,255,.94); color:#6d28d9">Depois</div>
+  </div>
+  <div class="bubble" id="bubble1"><div class="tail"></div><div class="dots"><i></i><i></i><i></i></div><div class="txt">Quero igual a essa! 😍</div></div>
+  <div id="word"></div><div id="tagline"></div><div id="sub"></div>
+  <div id="cta" class="brand"><span>Experimente no seu salão</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="layer" id="textLayer"></div>
+  <div id="finger"></div><div id="ripple"></div>
+  <div class="layer" id="sparkLayer"></div>
+  <div class="layer" id="petalLayer"></div>
+  <div class="layer" style="overflow:hidden"><div id="leak"></div></div>
+  <div id="vignette"></div>
+  <div class="layer" style="overflow:hidden"><div id="grain"></div></div>
+</div>
+<script src="assets/engine/shared.js"></script>
+<script>
+/* ------------------------------------------------------------------ */
+/*  Vídeo 2 — "Expectativa x Realidade" (21 s, 80 BPM: compassos de 3 s) */
+/*  0 gancho · 3 dor · 6 app · 9 IA · 12 comparar · 15 "=" · 18 final   */
+/* ------------------------------------------------------------------ */
+const DURATION = 21.0;
+const LAY = V ? {
+  avatar: { x: 96, y: 1300, w: 140, h: 140, r: 70 },
+  chatImg: { x: 270, y: 640, w: 600, h: 600, r: 36 },
+  left: { x: 70, y: 640, w: 455, h: 569, r: 40 },
+  right: { x: 555, y: 640, w: 455, h: 569, r: 40 },
+  review: { x: 130, y: 1290, w: 820, h: 150 },
+  eq: { cx: 540, cy: 924, s: 130 },
+  logo: { cx: 540, cy: 720, s: 236 },
+} : {
+  avatar: { x: 980, y: 840, w: 130, h: 130, r: 65 },
+  chatImg: { x: 1140, y: 150, w: 560, h: 560, r: 34 },
+  left: { x: 990, y: 190, w: 400, h: 500, r: 36 },
+  right: { x: 1430, y: 190, w: 400, h: 500, r: 36 },
+  review: { x: 1000, y: 742, w: 820, h: 140 },
+  eq: { cx: 1410, cy: 440, s: 120 },
+  logo: { cx: 960, cy: 270, s: 196 },
+};
+const T_MORPH = 18.0;   // last card becomes the app icon
+
+/* ---------- texts ---------- */
+function setupTexts() {
+  addHead({ id: 't1', html: 'Ela chega com uma<br>foto da internet:', tin: -0.3, tout: 2.75, ...HQ({ y: 300 }, { y: 300 }) });
+  addHead({ id: 't2', html: `Mas o rosto<br>é ${AI('outro…')}`, tin: 3.05, tout: 4.0, ...HQ({ y: 300, size: 84 }, { y: 380, size: 92 }) });
+  addHead({ id: 't3', html: `E se não<br>${AI('ficar igual?')}`, tin: 4.32, tout: 5.15, ...HQ({ y: 300, size: 84 }, { y: 380, size: 92 }) });
+  addHead({ id: 't4', html: `E se ela visse<br>${A('no rosto dela?')}`, tin: 5.48, tout: 6.5, ...HQ({ y: 300, size: 84 }, { y: 380, size: 92 }) });
+  addHead({ id: 'c1', html: `Ela pesquisa o<br>corte ${A('da foto…')}`, tin: 6.85, tout: 8.85, ...HQ({ y: 300, size: 84 }, { y: 400, size: 92 }) });
+  addHead({ id: 'c2', html: `Em ${A('segundos…')}`, tin: 9.18, tout: 10.2, ...HQ({ y: 330, size: 96 }, { y: 450, size: 104 }) });
+  addHead({ id: 'c3', html: `…e vê como fica<br>${A('no rosto dela.')}`, tin: 10.55, tout: 13.2, ...HQ({ y: 300, size: 84 }, { y: 400, size: 92 }) });
+  addHead({ id: 't5', html: `Agora, expectativa<br>e realidade ${A('combinam.')}`, tin: 14.15, tout: 16.1, ...HQ({ y: 300, size: 74, x: 30, w: W - 60 }, { y: 370, size: 72 }) });
+  addHead({ id: 't6', html: `Menos retrabalho.<br>${A('Mais elogios.')}`, tin: 16.45, tout: 17.85, groups: [0, 0, 0.6, 0.6], ...HQ({ y: 300, size: 80 }, { y: 380, size: 86 }) });
+}
+
+/* ---------- the reference photo ("expectativa") ---------- */
+function setupRef() {
+  $('refImg').src = cat('cut-wolf-cut-medio');
+  const fs = V ? 30 : 26;
+  $('refLikes').innerHTML = `${ic('heart', fs * 1.3, '#fff', 0).replace('fill="none"', 'fill="#fff"')}12,4 mil`;
+  $('refLikes').style.fontSize = fs + 'px';
+  $('refSave').innerHTML = ic('bookmark', fs * 1.3, '#fff', 0).replace('fill="none"', 'fill="#fff"');
+  $('refPost').style.padding = V ? '0 28px 24px' : '0 24px 20px';
+  for (const [id, txt, light] of [['labExp', 'Expectativa', true], ['labReal', 'Realidade', false]]) {
+    const el = $(id);
+    el.style.fontSize = (V ? 30 : 26) + 'px'; el.style.padding = V ? '12px 26px' : '10px 22px';
+    el.style.letterSpacing = '.08em'; el.style.textTransform = 'uppercase';
+    el.style.background = light ? '#fff' : 'var(--plum-900)'; el.style.color = light ? 'var(--plum-700)' : '#fff';
+    el.style.boxShadow = 'var(--shadow-soft)';
+    el.innerHTML = `<span>${txt}</span><span class="st"></span>`;
+  }
+  const rv = $('review'); place(rv, LAY.review);
+  rv.style.padding = V ? '0 40px' : '0 36px'; rv.style.gap = V ? '10px' : '8px';
+  const eq = $('eq'); place(eq, { x: LAY.eq.cx - LAY.eq.s / 2, y: LAY.eq.cy - LAY.eq.s / 2, w: LAY.eq.s, h: LAY.eq.s });
+  eq.className = 'brand'; eq.style.fontSize = LAY.eq.s * 0.72 + 'px'; eq.style.lineHeight = 1;
+  eq.style.position = 'absolute'; eq.style.borderRadius = '50%'; eq.style.display = 'flex'; eq.style.alignItems = 'center'; eq.style.justifyContent = 'center';
+  eq.style.color = '#fff'; eq.style.fontWeight = 900; eq.style.boxShadow = '0 20px 44px -12px rgb(124 58 237 / .7), 0 0 0 8px #fff';
+}
+function refRectAt(t) {
+  if (t < 2.9) return { ...LAY.chatImg };
+  if (t < 3.5) return lerpRect(LAY.chatImg, LAY.left, ease(t, 2.9, 3.5, E.inOutCubic));
+  if (t < 13.4) return { ...LAY.left };
+  return { ...LAY.left };
+}
+function refFrame(t) {
+  const el = $('refCard');
+  const vis = (t < 6.0) || (t >= 13.4 && t < 18.15);
+  disp(el, vis);
+  if (vis) cardFrame(t, el);
+  labelsFrame(t);
+}
+function cardFrame(t, el) {
+  const r = refRectAt(t);
+  place(el, r);
+  let o = ease(t, 0.2, 0.55), s = lerp(0.86, 1, ease(t, 0.2, 0.6, E.outBack)), rot = 0;
+  if (t >= 5.55 && t < 6.0) { const k = ease(t, 5.55, 6.0, E.inCubic); o = 1 - k; s = 1 - 0.1 * k; }
+  if (t >= 13.4) { const k = ease(t, 13.45, 14.05, E.outCubic); o = k * (1 - ease(t, 17.8, 18.1)); s = lerp(0.85, 1, k); rot = (1 - k) * -10; }
+  el.style.opacity = o;
+  el.style.transform = `scale(${s}) rotate(${rot}deg)`;
+  place($('refImg'), cover(r.w, r.h, 0.5, 0.4, 1));
+  fade($('refPost'), 1 - ease(t, 2.85, 3.2));
+}
+function labelsFrame(t) {
+  // labels above the two cards
+  const lab = (id, card, tin, tout, txtFn) => {
+    const el2 = $(id);
+    const k = env(t, tin, 0.35, tout, 0.25, E.outBack, E.inCubic);
+    show(el2, clamp(k * 1.4));
+    el2.style.left = (card.x + card.w / 2) + 'px'; el2.style.top = (card.y - (V ? 62 : 54)) + 'px';
+    el2.style.transform = `translateX(-50%) scale(${0.6 + 0.4 * k})`;
+    if (txtFn) el2.querySelector('.st').innerHTML = txtFn();
+  };
+  const labWin = (a, b) => (t >= a && t <= b + 0.3);
+  if (labWin(3.3, 5.55)) { lab('labExp', LAY.left, 3.3, 5.55); lab('labReal', LAY.right, 3.42, 5.55, () => '?'); }
+  else if (labWin(14.0, 17.75)) {
+    lab('labExp', LAY.left, 14.0, 17.75);
+    lab('labReal', LAY.right, 14.12, 17.75, () => (t >= 15.0 ? ic('check', V ? 30 : 26, '#fff', 3.2) : '?'));
+  } else { show($('labExp'), 0); show($('labReal'), 0); }
+  // review card: 1 star in the doubt, flips to 5 stars in the payoff
+  const rv = $('review');
+  const fs = V ? 36 : 32, ss = V ? 40 : 34;
+  let k = 0, rotX = 0, five = false;
+  if (t >= 4.35 && t < 5.9) { k = env(t, 4.35, 0.4, 5.5, 0.35, E.outBack, E.inCubic); }
+  else if (t >= 15.45 && t < 18.1) {
+    k = env(t, 15.45, 0.35, 17.75, 0.3, E.outBack, E.inCubic);
+    const f = prog(t, 15.85, 16.25);
+    five = f >= 0.5;
+    rotX = f < 0.5 ? f * 180 : (f - 1) * 180;
+  }
+  show(rv, clamp(k * 1.4));
+  const shake = t < 6 ? Math.sin((t - 4.35) * 30) * Math.exp(-(t - 4.35) * 5) * 8 : 0;
+  rv.style.transform = `perspective(900px) rotateX(${rotX}deg) scale(${0.7 + 0.3 * k}) translateX(${shake}px)`;
+  const html = five
+    ? `${starsHTML(5, ss)}<span class="rv-t" style="font-size:${fs}px">“Ficou perfeito! Igualzinho à foto 😍”</span>`
+    : `${starsHTML(1, ss)}<span class="rv-t" style="font-size:${fs}px">“Não ficou como eu queria…”</span>`;
+  if (rv.dataset.state !== String(five)) { rv.innerHTML = html; rv.dataset.state = String(five); }
+  // equal sign between expectation and reality
+  const eq = $('eq'), ek = env(t, 15.0, 0.45, 17.75, 0.25, E.outBack, E.inCubic);
+  show(eq, clamp(ek * 1.5));
+  eq.style.transform = `scale(${0.2 + 0.8 * ek}) rotate(${(1 - ek) * -90}deg)`;
+}
+
+/* ---------- hero: the client ---------- */
+let heroLooks = null;
+const RS = PR(16, 201, 358, 477, 28);
+const HERO_KEYS = [
+  [0, LAY.avatar], [2.9, LAY.avatar], [3.5, LAY.right], [5.9, LAY.right], [6.6, R.camf], [6.8, R.camf], [7.2, R.thumb], [9.05, R.thumb],
+];
+function heroRectAt(t) {
+  if (t < 9.05) return pathAt(t, HERO_KEYS);
+  if (t < 10.45) { const k = ease(t, 9.06, 9.36, E.outCubic); return { ...R.gen, y: R.gen.y + (1 - k) * 14 * PH_S }; }
+  if (t < 10.85) return lerpRect(R.gen, RS, ease(t, 10.45, 10.85, E.inOutCubic));
+  if (t < 13.4) return { ...RS };
+  if (t < 14.05) return lerpRect(RS, LAY.right, ease(t, 13.4, 14.05, E.inOutCubic));
+  return { ...LAY.right };
+}
+const SPLIT = (t) => (t < 12.05 ? 100 : t < 12.6 ? lerp(100, 34, ease(t, 12.05, 12.6, E.inOutCubic)) : lerp(34, 62, ease(t, 12.6, 13.15, E.inOutCubic)));
+function heroFrame(t) {
+  const hero = $('hero');
+  if (t >= 17.95) { disp(hero, false); show($('heroDiv'), 0); show($('qmark'), 0); return; }
+  disp(hero, true);
+  const r = heroRectAt(t);
+  place(hero, r);
+  hero.style.opacity = t >= 9.0 && t < 9.4 ? (t < 9.06 ? 0 : ease(t, 9.06, 9.36)) : (t < 0.5 ? ease(t, 0.0, 0.3) : 1);
+  hero.style.transform = `scale(${t < 0.5 ? lerp(0.7, 1, ease(t, 0, 0.45, E.outBack)) : 1})`;
+  // clip under the app header / inside the phone screen
+  let clip = 'none';
+  if (t >= 6.7 && t < 13.4) {
+    const header = (t >= 7.0 && t < 9.05) || (t >= 10.45 && t < 13.4);
+    const top = Math.max(0, (header ? HEADER_BOTTOM : SCREEN_TOP) - r.y), bottom = Math.max(0, r.y + r.h - SCREEN_BOTTOM);
+    if (top || bottom) clip = `inset(${top}px 0px ${bottom}px 0px)`;
+  }
+  hero.style.clipPath = clip;
+  let shadow = '0 30px 70px -26px rgb(46 16 101 / .45)';
+  if (t < 2.9) shadow = '0 0 0 6px #fff, 0 16px 34px -10px rgb(46 16 101 / .45)';
+  else if (t >= 6.6 && t < 7.15) shadow = 'none';
+  else if (t >= 7.15 && t < 9.05) shadow = `0 0 0 ${2 * PH_S}px #ddd6fe`;
+  else if (t >= 9.05 && t < 10.5) shadow = `0 0 0 ${4 * PH_S}px rgba(255,255,255,.4), 0 30px 60px -20px rgb(26 9 51 / .7)`;
+  else if (t >= 10.5 && t < 13.5) shadow = `0 0 0 ${PH_S}px #ddd6fe, 0 18px 40px -16px rgb(76 29 149 / .55)`;
+  hero.style.boxShadow = shadow;
+  const g = env(t, 3.45, 0.5, 5.6, 0.5, E.inOutSine, E.inOutSine);
+  const bl = env(t, 9.1, 0.3, 10.4, 0.3, E.inOutSine, E.inOutSine);
+  const f = [];
+  if (g > 0.002) f.push(`grayscale(${g * 0.85}) brightness(${1 - 0.07 * g})`);
+  if (bl > 0.002) f.push(`blur(${1.5 * PH_S * bl}px) saturate(${1 - 0.25 * bl})`);
+  hero.style.filter = f.length ? f.join(' ') : 'none';
+  // looks: natural -> wolf (reveal), compare split, then wolf
+  let st;
+  if (t >= 12.0 && t < 13.35) st = { base: 'natural', next: 'wolf', split: SPLIT(t) };
+  else if (t >= 13.35) st = { base: 'wolf' };
+  else st = lookAt(t, 'natural', [{ t: 10.9, to: 'wolf', d: 0.62 }]);
+  drawLooks(heroLooks, r, { ...st, zoom: 1 + 0.05 * ease(t, 3.5, 5.9, E.inOutSine) * (1 - ease(t, 5.9, 6.6)), fy: 0.46 });
+  // compare divider inside the phone
+  const hd = $('heroDiv');
+  const dk = env(t, 12.0, 0.15, 13.2, 0.15);
+  if (dk > 0.001) {
+    place(hd, { x: r.x, y: r.y, w: r.w, h: r.h });
+    show(hd, dk);
+    const D = SPLIT(t);
+    hd.querySelector('.ln').style.left = D + '%';
+    const kb = hd.querySelector('.kb'), ks = 44 * PH_S;
+    kb.style.width = kb.style.height = ks + 'px'; kb.style.left = `calc(${D}% - ${ks / 2}px)`; kb.style.top = (r.h * 0.55 - ks / 2) + 'px';
+    kb.innerHTML = `<svg width="${ks * 0.5}" height="${ks * 0.5}" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg>`;
+  } else show(hd, 0);
+  // question mark over her hair during the doubt
+  const q = $('qmark'), qk = env(t, 3.55, 0.35, 5.55, 0.3, E.outBack, E.inCubic);
+  show(q, clamp(qk * 1.3));
+  q.style.fontSize = (V ? 300 : 260) + 'px';
+  q.style.left = r.x + 'px'; q.style.width = r.w + 'px'; q.style.top = (r.y + r.h * 0.02) + 'px';
+  q.style.transform = `scale(${(0.5 + 0.5 * qk) * (1 + 0.04 * Math.sin(t * 6))})`;
+  photoOverlays(t, r, [6.45, 6.75], [9.15, 10.4]);
+}
+
+/* ---------- chat bubble ---------- */
+function setupBubble() {
+  const b = $('bubble1'), tl = b.querySelector('.tail');
+  b.style.fontSize = (V ? 46 : 40) + 'px';
+  b.style.padding = V ? '30px 46px' : '26px 40px';
+  if (V) { b.style.left = '270px'; b.style.top = '1296px'; } else { b.style.left = '1140px'; b.style.top = '748px'; }
+  tl.style.left = '-14px'; tl.style.bottom = '22px';
+  b.style.transformOrigin = '0% 80%';
+}
+function bubbleFrame(t) {
+  const b = $('bubble1');
+  const k = env(t, 0.8, 0.45, 2.7, 0.3, E.outBackSoft, E.inCubic);
+  show(b, clamp(k * 1.4));
+  b.style.transform = `scale(${0.4 + 0.6 * k})`;
+  const dots = b.querySelector('.dots'), txt = b.querySelector('.txt');
+  dots.style.opacity = t < 1.4 ? 1 : 0; dots.style.transform = 'translate(-50%,-50%)';
+  dots.querySelectorAll('i').forEach((d, i) => { d.style.transform = `translateY(${-8 * Math.max(0, Math.sin(t * 9 - i * 0.9))}px)`; });
+  const tk = ease(t, 1.4, 1.7); txt.style.opacity = tk; txt.style.transform = `translateY(${(1 - tk) * 10}px)`;
+}
+
+/* ---------- phone ---------- */
+const DEFAULT_CARDS = [
+  { id: 'cut-chanel-classico', nm: 'Chanel Clássico', ds: 'O chanel de sempre: reto, na altura do queixo, elegante.' },
+  { id: 'cut-chanel-de-bico', nm: 'Chanel de Bico', ds: 'Mais curtinho atrás e mais comprido na frente.' },
+];
+const RESULT_CARDS = [
+  { id: 'cut-wolf-cut-medio', nm: 'Wolf Cut', ds: 'Muitas camadas, volume no topo e pontas mais compridas.' },
+  { id: 'cut-wolf-cut-curto', nm: 'Wolf Cut Curto', ds: 'Wolf cut na altura do queixo, topo cheio de camadas.' },
+];
+const GRID_TOP = 448;
+function setupPhone() {
+  $('screen').innerHTML = `${statusHTML()}${cameraScreenHTML()}
+  <div class="scr" id="scrChoose" style="background:var(--paper)">
+    <div class="ab" style="left:16px;top:127px;width:80px;height:107px;border-radius:16px;background:var(--plum-100)"></div>
+    <div class="ab" style="left:108px;top:136px;font-size:19.5px;font-weight:850;color:var(--plum-950)">O que vamos mudar?</div>
+    <div class="ab" style="left:106px;top:166px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:var(--plum-700)">${ic('camera', 20, '#5b21b6')}Trocar foto</div>
+    <div class="modes"><div class="mode" id="modeCut" style="left:6px">${ic('scissors', 22)}Corte</div><div class="mode" id="modeColor" style="left:124px">${ic('palette', 22)}Cor</div><div class="mode" id="modeBoth" style="left:242px">${ic('sparkles', 22)}Corte + Cor</div></div>
+    <div class="search" id="chSearchBox" style="top:342px">${ic('search', 24, '#7c3aed')}<span id="chSearch"></span><span id="chCaret" style="width:2px;height:24px;background:#7c3aed;margin-left:-10px"></span></div>
+    <div class="cathead" id="chHead" style="top:412px">Chanel e Bob <small>(40)</small></div>
+    <div class="listinfo" id="chInfo" style="top:416px">2 resultados</div>
+    <div id="gridA">${DEFAULT_CARDS.map((c, i) => { const p = cardPos(i, GRID_TOP); return cardHTML(c, p.x, p.y); }).join('')}</div>
+    <div id="gridB">${RESULT_CARDS.map((c, i) => { const p = cardPos(i, GRID_TOP); return cardHTML(c, p.x, p.y); }).join('')}</div>
+    ${headerHTML()}
+    <div class="bar"><div id="chChosen" style="height:32px;padding-top:12px;text-align:center;font-size:15.5px;font-weight:800;color:var(--plum-700);white-space:nowrap;box-sizing:border-box"></div>
+      <div class="btn" id="chBtn" style="position:relative;left:16px;height:64px;margin:4px 0 12px;font-size:19px">${ic('sparkles', 26)}<span id="chBtnTxt" data-missing="Escolha um corte"></span></div></div>
+  </div>
+  ${generatingScreenHTML()}${resultScreenHTML()}`;
+  setupGenerating();
+  $('resLabel').textContent = 'Wolf Cut';
+  const ph = $('phone'); ph.style.left = PH.x + 'px'; ph.style.top = PH.y + 'px';
+}
+const TAPS = [{ t: 6.75, x: 195, y: 711 }, { t: 7.5, x: 195, y: 370 }, { t: 8.25, x: 102.5, y: 532 }, { t: 9.0, x: 195, y: 800 }, { t: 11.9, x: 296, y: 724 }];
+const SCREENS = [['scrCam', 5.7, 7.1], ['scrChoose', 6.95, 9.05], ['scrGen', 9.0, 10.48], ['scrRes', 10.42, 99]];
+function phoneSceneFrame(t) {
+  const on = phoneFrame(t, 5.7, 13.35);
+  if (on <= 0.001) { show($('finger'), 0); show($('ripple'), 0); show($('bloom'), 0); return; }
+  screensFrame(t, SCREENS);
+  const dark = t < 7.05 || (t >= 9.0 && t < 10.45);
+  $('stTime').style.color = $('stIcons').style.color = dark ? '#fff' : '#1a0933';
+  $('camShutter').style.transform = `scale(${1 - 0.1 * env(t, 6.7, 0.05, 6.78, 0.1)})`;
+  $('camFlash').style.opacity = env(t, 6.75, 0.04, 6.8, 0.25) * 0.95;
+  // choose: search "wolf"
+  setMode($('modeCut'), true); setMode($('modeColor'), false); setMode($('modeBoth'), false);
+  const focused = t >= 7.52;
+  const typed = 'wolf'.slice(0, clamp(Math.floor((t - 7.6) / 0.13) + 1, 0, 4));
+  const s = $('chSearch');
+  s.textContent = focused && typed ? typed : 'Pesquisar corte… ex.: chanel';
+  s.style.color = focused && typed ? 'var(--plum-950)' : 'rgb(91 74 120 / .7)';
+  $('chCaret').style.opacity = focused && t < 8.6 && Math.floor(t * 3) % 2 === 0 ? 1 : 0;
+  $('chSearchBox').style.boxShadow = focused && t < 8.6 ? '0 0 0 2px #a78bfa, var(--shadow-soft)' : '0 0 0 2px var(--plum-100), var(--shadow-soft)';
+  const rk = ease(t, 8.1, 8.28);
+  $('gridA').style.opacity = 1 - rk; $('gridB').style.opacity = rk;
+  $('gridA').style.display = rk >= 1 ? 'none' : 'block'; $('gridB').style.display = rk <= 0 ? 'none' : 'block';
+  $('chHead').style.opacity = 1 - rk; $('chInfo').style.opacity = rk;
+  const picked = t >= 8.27;
+  setCard($('gridB').querySelector('.card'), picked, t, 8.27);
+  $('chChosen').innerHTML = picked ? `${ic('check', 16, '#5b21b6', 3).replace('display:block', 'display:inline-block;vertical-align:-2px;margin-right:4px')}Wolf Cut` : '';
+  $('chChosen').style.display = picked ? 'block' : 'none';
+  setGenerateButton($('chBtn'), $('chBtnTxt'), picked, t, 9.0);
+  generatingFrame(t, 9.0, 10.48, ['Desenhando o novo corte fio a fio…', 'Ajustando o comprimento e as camadas…'], 9.75, on);
+  // result: toggles
+  const cmp = t >= 11.92;
+  for (const [id, active] of [['tgAfter', !cmp], ['tgBefore', false], ['tgCompare', cmp]]) {
+    const el = $(id);
+    el.style.background = active ? '#fff' : 'transparent'; el.style.color = active ? 'var(--plum-900)' : 'var(--plum-700)';
+    el.style.boxShadow = active ? '0 1px 3px rgb(0 0 0 / .12)' : 'none';
+  }
+  const vis = ease(t, 6.3, 6.6) * (1 - ease(t, 12.95, 13.2)) * (1 - env(t, 9.04, 0.12, 10.35, 0.2));
+  fingerFrame(t, TAPS, vis, (tt) => tt >= 9.06 && tt < 9.5);
+}
+
+/* ---------- main ---------- */
+const BURSTS = [
+  { t: 10.95, x: RS.x + RS.w * 0.1, y: RS.y + RS.h * 0.05, w: RS.w * 0.8, h: RS.h * 0.75, n: 14, seed: 11 },
+  { t: 15.0, x: LAY.eq.cx - 220, y: LAY.eq.cy - 220, w: 440, h: 440, n: 14, seed: 21, edge: true },
+  { t: 15.95, x: LAY.review.x, y: LAY.review.y - 40, w: LAY.review.w, h: LAY.review.h + 80, n: 10, seed: 31, edge: true },
+  { t: 18.1, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 14, seed: 50, edge: true },
+  { t: 19.3, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 10, seed: 60, edge: true },
+  { t: 20.2, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 8, seed: 70, edge: true },
+];
+const LEAKS = [{ t: 5.6, d: 1.0 }, { t: 13.3, d: 0.9 }, { t: 17.85, d: 1.0 }];
+function seekFrame(t) {
+  bgFrame(t, env(t, 3.4, 0.5, 5.65, 0.6, E.inOutSine, E.inOutSine), 1 - ease(t, 5.6, 6.2) * (1 - ease(t, 17.8, 18.4)));
+  headsFrame(t);
+  refFrame(t);
+  heroFrame(t);
+  bubbleFrame(t);
+  phoneSceneFrame(t);
+  baFrame(t, { t0: 17.95, rect: LAY.right, logo: LAY.logo, tMorph: T_MORPH, divider: null });
+  endFrame(t, T_MORPH + 0.5);
+  sparksFrame(t, BURSTS, T_MORPH);
+  leakFrame(t, LEAKS);
+}
+boot(DURATION, () => {
+  setupBg(); setupTexts(); setupRef(); setupBubble(); setupPhone(); setupSparks();
+  heroLooks = makeLooks($('hero'), ['natural', 'wolf']);
+  setupBA('wolf', 'wolf');
+  setupEnd(LAY.logo, 'Veja antes de <span class="grad" style="font-family:var(--display);font-style:italic;font-weight:600">cortar.</span>');
+}, seekFrame, ['natural', 'wolf']);
+</script>
+</body>
+</html>

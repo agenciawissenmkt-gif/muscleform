@@ -1,0 +1,5 @@
+out/stills/
+out/*.wav
+out/musica/
+out/com-musica-propria/
+__pycache__/

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beauty and self — Só as pontinhas</title>
+<link rel="stylesheet" href="assets/engine/shared.css" />
+<style>
+  #hero { position: absolute; overflow: hidden; background: #cfcac6; }
+  .pola { position: absolute; background: #fff; box-shadow: 0 26px 60px -24px rgb(46 16 101 / .45); box-sizing: border-box; }
+  .pola .pp { position: absolute; overflow: hidden; background: #ccc; }
+  .pola .pp img { position: absolute; display: block; }
+  .pola .yr { position: absolute; font-family: var(--sans); font-weight: 900; color: #fff; background: rgb(46 16 101 / .78); border-radius: 999px; letter-spacing: .04em; }
+  #yearPill { position: absolute; }
+  #strike { position: absolute; text-align: center; }
+  #strike .l1 { position: relative; display: inline-block; font-family: var(--sans); font-weight: 850; color: var(--plum-950); white-space: nowrap; }
+  #strike .bar { position: absolute; left: -2%; top: 52%; height: 0.12em; border-radius: 99px; background: var(--brand); transform-origin: 0 50%; }
+  #strike .l2 { display: block; font-family: var(--display); font-style: italic; font-weight: 700; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="bgLayer"><div class="blob" id="blob1"></div><div class="blob" id="blob2"></div><div class="blob" id="blob3"></div><div class="corner" id="corner1"></div><div class="corner" id="corner2"></div></div>
+  <div class="layer" id="coolLayer"><div id="cool"></div><div id="coolDim"></div></div>
+  <div class="layer" id="polaLayer"></div>
+  <div id="phone"><div id="screen"></div></div>
+  <div id="hero"></div>
+  <div class="pill" id="yearPill"></div>
+  <div id="camContour"></div>
+  <div id="genOverlay"><div class="tint"></div><div class="shim"></div><div class="scan"></div></div>
+  <svg id="bloom" viewBox="0 0 120 120" style="position:absolute;filter:drop-shadow(0 10px 20px rgb(26 9 51 / .45))"></svg>
+  <div class="layer" id="chipLayer"></div>
+  <div id="ba">
+    <img id="baBefore" alt="" /><div id="baAfter"><img id="baAfterImg" alt="" /></div>
+    <div id="baTint"></div><svg id="baFlower" viewBox="0 0 64 64"></svg><div id="baLine"></div>
+    <div id="baKnob">
+      <svg width="16" height="26" viewBox="0 0 16 26"><path d="M12 3L3 13l9 10" fill="none" stroke="#6d28d9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="16" height="26" viewBox="0 0 16 26"><path d="M4 3l9 10-9 10" fill="none" stroke="#6d28d9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="balabel" id="labAntes" style="background:rgb(46 16 101 / .62); color:#fff">Antes</div>
+    <div class="balabel" id="labDepois" style="background:rgba(255,255,255,.94); color:#6d28d9">Depois</div>
+  </div>
+  <div class="bubble" id="bubble1"><div class="tail"></div><div class="dots"><i></i><i></i><i></i></div><div class="txt">Só as pontinhas, tá? 😬</div></div>
+  <div class="bubble" id="bubble2"><div class="tail"></div><div class="txt">Amei! 😍</div></div>
+  <div id="strike"><span class="l1">“Só as pontinhas”<span class="bar"></span></span><span class="l2 grad">Faz tudo! <span style="color:#000;-webkit-text-fill-color:#000">🔥</span></span></div>
+  <div id="word"></div><div id="tagline"></div><div id="sub"></div>
+  <div id="cta" class="brand"><span>Experimente no seu salão</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="layer" id="textLayer"></div>
+  <div id="finger"></div><div id="ripple"></div>
+  <div class="layer" id="sparkLayer"></div>
+  <div class="layer" id="petalLayer"></div>
+  <div class="layer" style="overflow:hidden"><div id="leak"></div></div>
+  <div id="vignette"></div>
+  <div class="layer" style="overflow:hidden"><div id="grain"></div></div>
+</div>
+<script src="assets/engine/shared.js"></script>
+<script>
+/* ------------------------------------------------------------------ */
+/*  Vídeo 3 — "Só as pontinhas" (21 s, 80 BPM: compassos de 3 s)        */
+/*  0 gancho · 3 anos iguais · 6 app · 9 testes · 12 o seu · 15 antes/  */
+/*  depois "Faz tudo!" · 18 final                                       */
+/* ------------------------------------------------------------------ */
+const DURATION = 21.0;
+const LAY = V ? {
+  card: { x: 130, y: 600, w: 820, h: 1025, r: 56 },
+  stack: { x: 280, y: 790, w: 520, h: 650, r: 30 },
+  ba: { x: 110, y: 560, w: 860, h: 1075, r: 56 },
+  logo: { cx: 540, cy: 720, s: 236 },
+  pola: { w: 470, h: 590, pad: 18, cx: 540, cy: 1080, offs: [[-300, 30, -12, 'l'], [0, -235, 3, 'l'], [300, -30, 11, 'r']] },
+} : {
+  card: { x: 980, y: 140, w: 640, h: 800, r: 48 },
+  stack: { x: 1090, y: 300, w: 420, h: 525, r: 26 },
+  ba: { x: 980, y: 140, w: 640, h: 800, r: 48 },
+  logo: { cx: 960, cy: 270, s: 196 },
+  pola: { w: 380, h: 480, pad: 15, cx: 1300, cy: 560, offs: [[-300, 20, -12, 'l'], [0, -150, 3, 'l'], [300, -10, 11, 'r']] },
+};
+const T_MORPH = 18.0;
+const RS = PR(16, 201, 358, 477, 28);
+
+/* ---------- texts ---------- */
+function setupTexts() {
+  addHead({ id: 't1', html: 'Toda semana alguém<br>senta e diz:', tin: -0.3, tout: 2.75, ...HQ({ y: 300 }, { y: 228 }) });
+  addHead({ id: 't2', html: `Há anos com o<br>${AI('mesmo cabelo…')}`, tin: 3.05, tout: 4.05, ...HQ({ y: 300, size: 84 }, { y: 360, size: 92 }) });
+  addHead({ id: 't3', html: `…porque tem<br>${AI('medo de mudar.')}`, tin: 4.37, tout: 5.15, ...HQ({ y: 300, size: 84 }, { y: 360, size: 92 }) });
+  addHead({ id: 't4', html: `E se ela testasse<br>${A('sem compromisso?')}`, tin: 5.48, tout: 6.5, ...HQ({ y: 300, size: 80 }, { y: 370, size: 84 }) });
+  addHead({ id: 'c1', html: `Ela testa<br>${A('sem medo…')}`, tin: 6.85, tout: 9.45, ...HQ({ y: 300, size: 88 }, { y: 400, size: 96 }) });
+  addHead({ id: 'c3', html: `…até achar<br>${A('o seu.')}`, tin: 12.75, tout: 14.55, ...HQ({ y: 300, size: 92 }, { y: 400, size: 100 }) });
+  addHead({ id: 't6', html: `Mais coragem pra ela.<br>${A('Mais serviço pro salão.')}`, tin: 16.45, tout: 17.85, groups: [0, 0, 0, 0, 0.6, 0.6, 0.6, 0.6], ...HQ({ y: 300, size: 70, x: 30, w: W - 60 }, { y: 410, size: 68 }) });
+}
+
+/* ---------- the same hair, year after year ---------- */
+const YEARS = ['2019', '2021', '2023'];
+const polaEls = [];
+function setupPolaroids() {
+  const P0 = LAY.pola;
+  YEARS.forEach((yr, i) => {
+    const el = document.createElement('div'); el.className = 'pola';
+    el.style.width = P0.w + 'px'; el.style.height = P0.h + 'px';
+    const pw = P0.w - P0.pad * 2, ph = (P0.h - P0.pad) * 0.8;
+    const side = P0.offs[i][3] === 'r' ? `right:${P0.pad + 14}px` : `left:${P0.pad + 14}px`;
+    el.innerHTML = `<div class="pp" style="left:${P0.pad}px;top:${P0.pad}px;width:${pw}px;height:${ph}px"><img src="${lookSrc('natural')}" alt=""></div><div class="yr" style="top:${P0.pad + 14}px;${side};font-size:${V ? 30 : 25}px;padding:${V ? '8px 18px' : '6px 14px'}">${yr}</div>`;
+    const img = el.querySelector('img'); const cv = cover(pw, ph, 0.5, 0.45, 1); place(img, cv);
+    $('polaLayer').appendChild(el); polaEls.push(el);
+  });
+  const yp = $('yearPill');
+  yp.style.fontSize = (V ? 34 : 28) + 'px'; yp.style.padding = V ? '12px 28px' : '10px 22px';
+  yp.className = 'pill brand'; yp.style.color = '#fff'; yp.style.boxShadow = 'var(--shadow-lift)';
+  yp.textContent = 'Hoje';
+}
+function polaroidsFrame(t) {
+  const P0 = LAY.pola;
+  polaEls.forEach((el, i) => {
+    const tin = 3.12 + i * 0.25;
+    const k = ease(t, tin, tin + 0.45, E.outBack);
+    const out = ease(t, 5.55, 6.0, E.inCubic);
+    const [dx, dy, rot] = P0.offs[i];
+    show(el, clamp(k * 1.5) * (1 - out));
+    el.style.left = (P0.cx + dx - P0.w / 2) + 'px'; el.style.top = (P0.cy + dy - P0.h / 2) + 'px';
+    el.style.transform = `rotate(${rot * k}deg) scale(${(0.6 + 0.4 * k) * (1 - 0.1 * out)})`;
+    const g = env(t, 4.3, 0.5, 5.6, 0.4, E.inOutSine, E.inOutSine);
+    el.style.filter = g > 0.002 ? `grayscale(${g * 0.85})` : 'none';
+  });
+  const yp = $('yearPill'), r = LAY.stack;
+  const yk = env(t, 3.9, 0.35, 5.5, 0.3, E.outBack, E.inCubic);
+  show(yp, clamp(yk * 1.4));
+  yp.style.left = (r.x + r.w / 2) + 'px'; yp.style.top = (r.y + r.h - (V ? 34 : 28)) + 'px';
+  yp.style.transform = `translateX(-50%) scale(${0.5 + 0.5 * yk})`;
+}
+
+/* ---------- hero: the client ---------- */
+let heroLooks = null;
+const HERO_KEYS = [[0, LAY.card], [3.0, LAY.card], [3.5, LAY.stack], [5.9, LAY.stack], [6.6, R.camf], [6.8, R.camf], [7.2, R.thumb], [8.98, R.thumb]];
+const RESULTS = [
+  { t: 9.85, to: 'mel', d: 0.45, label: 'Loiro Mel' },
+  { t: 10.5, to: 'cobre', d: 0.42, label: 'Ruivo Acobreado' },
+  { t: 11.25, to: 'rosa', d: 0.42, label: 'Rosa Pastel' },
+  { t: 12.0, to: 'vinho', d: 0.42, label: 'Vinho' },
+  { t: 12.75, to: 'ondulado-cobre', d: 0.62, label: 'Mega Hair Ondulado + Ruivo Acobreado' },
+];
+function heroRectAt(t) {
+  if (t < 8.98) return pathAt(t, HERO_KEYS);
+  if (t < 9.7) { const k = ease(t, 9.04, 9.3, E.outCubic); return { ...R.gen, y: R.gen.y + (1 - k) * 14 * PH_S }; }
+  if (t < 9.98) return lerpRect(R.gen, RS, ease(t, 9.7, 9.98, E.inOutCubic));
+  if (t < 14.55) return { ...RS };
+  return lerpRect(RS, LAY.ba, ease(t, 14.55, 15.1, E.inOutCubic));
+}
+function heroFrame(t) {
+  const hero = $('hero');
+  if (t >= 15.1) { disp(hero, false); show($('camContour'), 0); show($('genOverlay'), 0); return; }
+  disp(hero, true);
+  const r = heroRectAt(t);
+  place(hero, r);
+  hero.style.opacity = t >= 8.95 && t < 9.32 ? (t < 9.04 ? 0 : ease(t, 9.04, 9.3)) : 1;
+  hero.style.transform = `scale(${1.035 - 0.035 * ease(t, 0, 0.9)})`;
+  let clip = 'none';
+  if (t >= 6.7 && t < 14.55) {
+    const header = (t >= 7.0 && t < 8.98) || (t >= 9.72 && t < 14.55);
+    const top = Math.max(0, (header ? HEADER_BOTTOM : SCREEN_TOP) - r.y), bottom = Math.max(0, r.y + r.h - SCREEN_BOTTOM);
+    if (top || bottom) clip = `inset(${top}px 0px ${bottom}px 0px)`;
+  }
+  hero.style.clipPath = clip;
+  let shadow = '0 40px 90px -30px rgb(46 16 101 / .5)';
+  if (t >= 3.3 && t < 5.9) shadow = `0 0 0 ${V ? 18 : 15}px #fff, 0 30px 60px -20px rgb(46 16 101 / .45)`;
+  else if (t >= 6.6 && t < 7.15) shadow = 'none';
+  else if (t >= 7.15 && t < 8.98) shadow = `0 0 0 ${2 * PH_S}px #ddd6fe`;
+  else if (t >= 8.98 && t < 9.75) shadow = `0 0 0 ${4 * PH_S}px rgba(255,255,255,.4), 0 30px 60px -20px rgb(26 9 51 / .7)`;
+  else if (t >= 9.75 && t < 14.6) shadow = `0 0 0 ${PH_S}px #ddd6fe, 0 18px 40px -16px rgb(76 29 149 / .55)`;
+  hero.style.boxShadow = shadow;
+  const g = env(t, 4.3, 0.5, 5.6, 0.5, E.inOutSine, E.inOutSine);
+  const bl = env(t, 9.06, 0.2, 9.6, 0.2, E.inOutSine, E.inOutSine);
+  const f = [];
+  if (g > 0.002) f.push(`grayscale(${g * 0.85}) brightness(${1 - 0.07 * g})`);
+  if (bl > 0.002) f.push(`blur(${1.5 * PH_S * bl}px) saturate(${1 - 0.25 * bl})`);
+  hero.style.filter = f.length ? f.join(' ') : 'none';
+  let zoom = 1 + 0.05 * ease(t, 0, 3.0, E.inOutSine) * (1 - ease(t, 3.0, 3.5));
+  const st = lookAt(t, 'natural', RESULTS);
+  drawLooks(heroLooks, r, { ...st, zoom, fy: 0.46 });
+  photoOverlays(t, r, [6.45, 6.75], [9.08, 9.62]);
+}
+
+/* ---------- bubbles ---------- */
+function setupBubbles() {
+  const b1 = $('bubble1'), t1 = b1.querySelector('.tail');
+  b1.style.fontSize = (V ? 46 : 40) + 'px'; b1.style.padding = V ? '30px 46px' : '26px 40px';
+  if (V) { b1.style.left = '250px'; b1.style.top = '640px'; t1.style.left = '60px'; t1.style.bottom = '-14px'; b1.style.transformOrigin = '15% 110%'; }
+  else { b1.style.left = '520px'; b1.style.top = '470px'; t1.style.right = '-14px'; t1.style.top = '34px'; b1.style.transformOrigin = '100% 50%'; }
+  const b2 = $('bubble2'), t2 = b2.querySelector('.tail');
+  b2.style.fontSize = (V ? 54 : 46) + 'px'; b2.style.padding = V ? '30px 48px' : '26px 42px';
+  t2.style.left = '70px'; t2.style.bottom = '-14px'; b2.style.transformOrigin = '20% 110%';
+  if (V) { b2.style.left = '640px'; b2.style.top = '484px'; } else { b2.style.left = '1500px'; b2.style.top = '96px'; }
+}
+function bubblesFrame(t) {
+  const b1 = $('bubble1');
+  const k1 = env(t, 0.8, 0.45, 2.75, 0.3, E.outBackSoft, E.inCubic);
+  show(b1, clamp(k1 * 1.4));
+  b1.style.transform = `scale(${0.4 + 0.6 * k1}) translateY(${(1 - k1) * 20}px)`;
+  const dots = b1.querySelector('.dots'), txt = b1.querySelector('.txt');
+  dots.style.opacity = t < 1.4 ? 1 : 0; dots.style.transform = 'translate(-50%,-50%)';
+  dots.querySelectorAll('i').forEach((d, i) => { d.style.transform = `translateY(${-8 * Math.max(0, Math.sin(t * 9 - i * 0.9))}px)`; });
+  const tk = ease(t, 1.4, 1.7); txt.style.opacity = tk; txt.style.transform = `translateY(${(1 - tk) * 10}px)`;
+  const b2 = $('bubble2');
+  const k2 = env(t, 16.6, 0.5, 17.7, 0.3, E.outBack, E.inCubic);
+  show(b2, clamp(k2 * 1.4));
+  b2.style.transform = `scale(${0.3 + 0.7 * k2}) rotate(${(1 - k2) * -8}deg)`;
+}
+
+/* ---------- "Loiro? Ruivo? Rosa? Vinho?" ---------- */
+const CHIPS = V ? [
+  { txt: 'Loiro?', x: 40, y: 900, rot: -6, t: 9.85 }, { txt: 'Ruivo?', x: 690, y: 1090, rot: 5, t: 10.5 },
+  { txt: 'Rosa?', x: 60, y: 1300, rot: -4, t: 11.25 }, { txt: 'Vinho?', x: 700, y: 1500, rot: 6, t: 12.0 },
+] : [
+  { txt: 'Loiro?', x: 1590, y: 230, rot: -6, t: 9.85 }, { txt: 'Ruivo?', x: 1620, y: 400, rot: 5, t: 10.5 },
+  { txt: 'Rosa?', x: 1590, y: 570, rot: -4, t: 11.25 }, { txt: 'Vinho?', x: 1620, y: 740, rot: 6, t: 12.0 },
+];
+const chipEls = [];
+function setupChips() {
+  CHIPS.forEach((q) => {
+    const el = document.createElement('div'); el.className = 'qchip'; el.textContent = q.txt;
+    el.style.fontSize = (V ? 56 : 46) + 'px'; el.style.padding = V ? '20px 40px' : '16px 32px';
+    el.style.left = q.x + 'px'; el.style.top = q.y + 'px';
+    $('chipLayer').appendChild(el); chipEls.push(el);
+  });
+}
+function chipsFrame(t) {
+  CHIPS.forEach((q, i) => {
+    const k = env(t, q.t, 0.4, 12.62, 0.3, E.outBack, E.inCubic);
+    show(chipEls[i], clamp(k * 1.5));
+    const wob = Math.sin((t - q.t) * 14) * Math.exp(-(t - q.t) * 4) * 6;
+    chipEls[i].style.transform = `scale(${0.2 + 0.8 * k}) rotate(${q.rot + wob}deg)`;
+  });
+}
+
+/* ---------- phone ---------- */
+const CUT_CARDS = [
+  { id: 'cut-chanel-classico', nm: 'Chanel Clássico', ds: 'O chanel de sempre: reto, na altura do queixo, elegante.' },
+  { id: 'cut-chanel-de-bico', nm: 'Chanel de Bico', ds: 'Mais curtinho atrás e mais comprido na frente.' },
+];
+const COLOR_CARDS = [
+  { id: 'color-loiro-mel', nm: 'Loiro Mel', ds: 'Loiro quentinho cor de mel, dourado e natural.', sw: ['#9A6B33', '#B98544', '#D1A35E'] },
+  { id: 'color-loiro-dourado', nm: 'Loiro Dourado', ds: 'Loiro solar e dourado, alegre e cheio de luz.', sw: ['#B88A45', '#D2A65C', '#E4C27B'] },
+];
+const GRID_TOP = 448;
+function setupPhone() {
+  $('screen').innerHTML = `${statusHTML()}${cameraScreenHTML()}
+  <div class="scr" id="scrChoose" style="background:var(--paper)">
+    <div class="ab" style="left:16px;top:127px;width:80px;height:107px;border-radius:16px;background:var(--plum-100)"></div>
+    <div class="ab" style="left:108px;top:136px;font-size:19.5px;font-weight:850;color:var(--plum-950)">O que vamos mudar?</div>
+    <div class="ab" style="left:106px;top:166px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:var(--plum-700)">${ic('camera', 20, '#5b21b6')}Trocar foto</div>
+    <div class="modes"><div class="mode" id="modeCut" style="left:6px">${ic('scissors', 22)}Corte</div><div class="mode" id="modeColor" style="left:124px">${ic('palette', 22)}Cor</div><div class="mode" id="modeBoth" style="left:242px">${ic('sparkles', 22)}Corte + Cor</div></div>
+    <div class="search" style="top:342px">${ic('search', 24, '#7c3aed')}<span id="chSearch"></span></div>
+    <div class="cathead" id="chHead" style="top:412px"></div>
+    <div id="gridA">${CUT_CARDS.map((c, i) => { const p = cardPos(i, GRID_TOP); return cardHTML(c, p.x, p.y); }).join('')}</div>
+    <div id="gridB">${COLOR_CARDS.map((c, i) => { const p = cardPos(i, GRID_TOP); return cardHTML(c, p.x, p.y); }).join('')}</div>
+    ${headerHTML()}
+    <div class="bar"><div id="chChosen" style="height:32px;padding-top:12px;text-align:center;font-size:15.5px;font-weight:800;color:var(--plum-700);white-space:nowrap;box-sizing:border-box"></div>
+      <div class="btn" id="chBtn" style="position:relative;left:16px;height:64px;margin:4px 0 12px;font-size:19px">${ic('sparkles', 26)}<span id="chBtnTxt" data-missing="Escolha uma cor"></span></div></div>
+  </div>
+  ${generatingScreenHTML()}${resultScreenHTML()}`;
+  setupGenerating();
+  const ph = $('phone'); ph.style.left = PH.x + 'px'; ph.style.top = PH.y + 'px';
+}
+const TAPS = [{ t: 6.75, x: 195, y: 711 }, { t: 7.5, x: 195, y: 292 }, { t: 8.25, x: 102.5, y: 532 }, { t: 9.0, x: 195, y: 800 }];
+const SCREENS = [['scrCam', 5.7, 7.1], ['scrChoose', 6.95, 9.02], ['scrGen', 8.98, 9.8], ['scrRes', 9.72, 99]];
+function phoneSceneFrame(t) {
+  const on = phoneFrame(t, 5.7, 14.5);
+  if (on <= 0.001) { show($('finger'), 0); show($('ripple'), 0); show($('bloom'), 0); return; }
+  screensFrame(t, SCREENS);
+  const dark = t < 7.05 || (t >= 8.98 && t < 9.75);
+  $('stTime').style.color = $('stIcons').style.color = dark ? '#fff' : '#1a0933';
+  $('camShutter').style.transform = `scale(${1 - 0.1 * env(t, 6.7, 0.05, 6.78, 0.1)})`;
+  $('camFlash').style.opacity = env(t, 6.75, 0.04, 6.8, 0.25) * 0.95;
+  const color = t >= 7.52;
+  setMode($('modeCut'), !color); setMode($('modeColor'), color); setMode($('modeBoth'), false);
+  $('chSearch').textContent = color ? 'Pesquisar cor… ex.: loiro mel' : 'Pesquisar corte… ex.: chanel';
+  $('chHead').innerHTML = color ? 'Loiros <small>(26)</small>' : 'Chanel e Bob <small>(40)</small>';
+  const gk = ease(t, 7.55, 7.75);
+  $('gridA').style.opacity = 1 - gk; $('gridB').style.opacity = gk;
+  $('gridA').style.display = gk >= 1 ? 'none' : 'block'; $('gridB').style.display = gk <= 0 ? 'none' : 'block';
+  const picked = t >= 8.27;
+  setCard($('gridB').querySelector('.card'), picked, t, 8.27);
+  $('chChosen').innerHTML = picked ? `${ic('check', 16, '#5b21b6', 3).replace('display:block', 'display:inline-block;vertical-align:-2px;margin-right:4px')}Loiro Mel` : '';
+  $('chChosen').style.display = picked ? 'block' : 'none';
+  setGenerateButton($('chBtn'), $('chBtnTxt'), picked, t, 9.0);
+  generatingFrame(t, 8.98, 9.8, ['Misturando a cor perfeita…', 'Aplicando a cor mecha por mecha…'], 9.4, on);
+  // result label follows the montage
+  let label = 'Loiro Mel';
+  for (const r of RESULTS) if (t >= r.t) label = r.label;
+  $('resLabel').textContent = label;
+  for (const [id, active] of [['tgAfter', true], ['tgBefore', false], ['tgCompare', false]]) {
+    const el = $(id);
+    el.style.background = active ? '#fff' : 'transparent'; el.style.color = active ? 'var(--plum-900)' : 'var(--plum-700)';
+    el.style.boxShadow = active ? '0 1px 3px rgb(0 0 0 / .12)' : 'none';
+  }
+  const vis = ease(t, 6.3, 6.6) * (1 - ease(t, 9.05, 9.25));
+  fingerFrame(t, TAPS, vis, (tt) => tt >= 9.04);
+}
+
+/* ---------- "Só as pontinhas" crossed out -> "Faz tudo!" ---------- */
+function setupStrike() {
+  const s = $('strike');
+  s.style.left = (V ? 30 : 120) + 'px'; s.style.width = (V ? W - 60 : 820) + 'px';
+  s.style.textAlign = V ? 'center' : 'left';
+  s.style.top = (V ? 268 : 360) + 'px';
+  s.querySelector('.l1').style.fontSize = (V ? 66 : 64) + 'px';
+  s.querySelector('.l2').style.fontSize = (V ? 120 : 112) + 'px';
+}
+function strikeFrame(t) {
+  const s = $('strike');
+  const k = env(t, 15.05, 0.4, 16.2, 0.3);
+  show(s, k);
+  const l1 = s.querySelector('.l1'), bar = s.querySelector('.bar'), l2 = s.querySelector('.l2');
+  const b = ease(t, 15.25, 15.55, E.inOutCubic);
+  bar.style.width = '104%'; bar.style.transform = `scaleX(${b})`;
+  l1.style.opacity = 1 - 0.55 * ease(t, 15.5, 15.7);
+  l1.style.transform = `translateY(${(1 - ease(t, 15.05, 15.45, E.outExpo)) * 30}px)`;
+  const k2 = ease(t, 15.6, 16.0, E.outBack);
+  l2.style.opacity = clamp(k2 * 1.4); l2.style.transform = `scale(${0.5 + 0.5 * k2})`;
+  l2.style.transformOrigin = V ? '50% 50%' : '0% 50%';
+}
+
+/* ---------- main ---------- */
+const BURSTS = [
+  ...RESULTS.slice(0, 4).map((r, i) => ({ t: r.t + 0.05, x: RS.x + RS.w * 0.12, y: RS.y + RS.h * 0.05, w: RS.w * 0.76, h: RS.h * 0.55, n: 6, seed: 10 + i })),
+  { t: 12.8, x: RS.x + RS.w * 0.05, y: RS.y, w: RS.w * 0.9, h: RS.h * 0.8, n: 16, seed: 15 },
+  { t: 15.6, x: LAY.ba.x - 30, y: LAY.ba.y - 30, w: LAY.ba.w + 60, h: LAY.ba.h + 60, n: 12, seed: 25, edge: true },
+  { t: 16.65, x: (V ? 600 : 1460), y: (V ? 440 : 60), w: 420, h: 220, n: 9, seed: 40 },
+  { t: 18.1, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 14, seed: 50, edge: true },
+  { t: 19.3, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 10, seed: 60, edge: true },
+  { t: 20.2, x: LAY.logo.cx - LAY.logo.s * 1.4, y: LAY.logo.cy - LAY.logo.s * 0.85, w: LAY.logo.s * 2.8, h: LAY.logo.s * 1.7, n: 8, seed: 70, edge: true },
+];
+const LEAKS = [{ t: 5.6, d: 1.0 }, { t: 14.45, d: 0.9 }, { t: 17.85, d: 1.0 }];
+const BA_DIV = (t) => (t < 15.25 ? 0 : t < 15.95 ? lerp(0, 80, ease(t, 15.25, 15.95, E.inOutCubic)) : t < 16.6 ? lerp(80, 30, ease(t, 15.95, 16.6, E.inOutCubic)) : lerp(30, 52, ease(t, 16.6, 17.2, E.inOutCubic)));
+function seekFrame(t) {
+  bgFrame(t, env(t, 4.3, 0.5, 5.65, 0.6, E.inOutSine, E.inOutSine), 1 - ease(t, 5.6, 6.2) * (1 - ease(t, 14.5, 15.2)));
+  headsFrame(t);
+  polaroidsFrame(t);
+  heroFrame(t);
+  bubblesFrame(t);
+  chipsFrame(t);
+  phoneSceneFrame(t);
+  strikeFrame(t);
+  baFrame(t, { t0: 15.08, rect: LAY.ba, logo: LAY.logo, tMorph: T_MORPH, divider: BA_DIV, uiWin: [15.15, 17.85] });
+  endFrame(t, T_MORPH + 0.5);
+  sparksFrame(t, BURSTS, T_MORPH);
+  leakFrame(t, LEAKS);
+}
+boot(DURATION, () => {
+  setupBg(); setupTexts(); setupPolaroids(); setupBubbles(); setupChips(); setupPhone(); setupStrike(); setupSparks();
+  heroLooks = makeLooks($('hero'), ['natural', 'mel', 'cobre', 'rosa', 'vinho', 'ondulado-cobre']);
+  setupBA('natural', 'ondulado-cobre');
+  setupEnd(LAY.logo, 'Veja antes. <span class="grad" style="font-family:var(--display);font-style:italic;font-weight:600">Mude sem medo.</span>');
+}, seekFrame, ['natural', 'mel', 'cobre', 'rosa', 'vinho', 'ondulado-cobre']);
+</script>
+</body>
+</html>
