@@ -13,11 +13,16 @@ salões), cada um sobre uma dor diferente, em 9:16 (Reels, Stories, TikTok, Shor
 H.264 + AAC, 30 fps, áudio em −14 LUFS com pico abaixo de −1 dBTP (padrão de Instagram/YouTube).
 As mensagens funcionam também **sem som**: toda a história está escrita na tela.
 
-## Música
+Os arquivos de `out/` têm música livre para anúncio pago (Mixkit) + efeitos sonoros. As versões com
+as músicas escolhidas pelo cliente ("Lose Control", "No Role Modelz" e "memories") são geradas só
+na máquina, em `out/com-musica-propria/`, e **não vão para o repositório**: o repositório é público e
+essas músicas não têm licença (ver [Músicas do cliente](#músicas-do-cliente)).
+
+## Música livre (arquivos de `out/`)
 
 Músicas eletrônicas prontas, de produtores profissionais, da biblioteca da
-[Mixkit](https://mixkit.co/free-stock-music/tag/fashion/). Só música, sem efeitos sonoros. Cada
-uma foi cortada no tempo do vídeo: o drop cai quando o app aparece e a música termina no logo.
+[Mixkit](https://mixkit.co/free-stock-music/tag/fashion/). Cada uma foi cortada no tempo do vídeo:
+o drop cai quando o app aparece e a música termina no logo.
 
 | Vídeo | Música | Estilo | Como foi editada |
 | --- | --- | --- | --- |
@@ -35,12 +40,35 @@ passar na TV do salão, use a versão `-sem-audio`.
 **Versões `-sem-audio`:** áudio mudo, para colocar outra música direto no editor do
 Instagram/TikTok ou na Biblioteca de áudio do YouTube Studio.
 
-> Músicas comerciais (por exemplo, "Lose Control", de Teddy Swims) não podem entrar no arquivo do
-> anúncio sem licença: a Meta recusa anúncios com música protegida e o YouTube bloqueia ou
-> silencia o vídeo. Em **post orgânico**, se a música aparecer na biblioteca do Instagram para a
-> sua conta, dá para adicioná-la por lá sobre a versão `-sem-audio` (Reels → Áudio → pesquise a
-> música → escolha o trecho). Contas comerciais costumam ter só a biblioteca livre de direitos, e
-> post impulsionado precisa de música livre de direitos.
+## Músicas do cliente
+
+Uma música por vídeo, no melhor trecho de cada uma, editada no tempo das cenas
+(`trilha_propria.py`):
+
+| Vídeo | Música | Trecho e edição |
+| --- | --- | --- |
+| 1. Indecisão | "Lose Control" (The Village Sessions), Teddy Swims | fim da estrofe na dúvida; a banda pausa durante "Criando seu novo visual" e o refrão entra em 11,2 s, junto com "Seu novo visual"; termina suave no logo |
+| 2. Expectativa x Realidade | "No Role Modelz", J. Cole | **só trechos instrumentais** (a letra é explícita): a introdução da batida até 6 s e a parte com o grave pesado quando o app abre; o resultado, o "=" e o logo caem no compasso |
+| 3. Só as pontinhas | "memories" | acelerada de 77,5 para 80 BPM (mesmo tom) para casar com os cortes; "looking through my memories" entra com as fotos de 2019, 2021 e 2023 e a música cresce no "Faz tudo! 🔥"; a frase com palavrão do começo da faixa fica de fora |
+
+> Essas músicas são comerciais. Dentro do arquivo do vídeo, servem para post orgânico por conta e
+> risco de quem publica: o Instagram/TikTok pode silenciar o vídeo e a gravadora pode pedir a
+> remoção. Em anúncio pago ou post impulsionado, só com licença da gravadora/editora. O caminho
+> seguro em post orgânico é usar a versão `-sem-audio` e colocar a música pela biblioteca do
+> próprio Instagram/TikTok.
+
+Para gerar: coloque `lose_control.mp3`, `norole.mp3` e `memories.mp3` em `out/musica/proprias/` (ou
+use `--pasta`) e rode `python3 marketing/video-anuncio/trilha_propria.py --mux`.
+
+## Efeitos sonoros
+
+Poucos e baixos, sempre numa ação da tela: balão de mensagem, foto do app, toques no celular,
+digitação do "wolf", brilho na revelação, troca de cena, risco no "Só as pontinhas" e o brilho do
+logo (`efeitos.py`). Cada efeito fica de 6 a 15 dB abaixo do volume da música naquele momento e
+nunca passa dos picos dela, então acompanha a música sem cansar. Os sons são da biblioteca de
+efeitos da Mixkit ([Sound Effects Free License](https://mixkit.co/license/#sfxFree), vale para
+anúncio, TV e redes sociais); como a licença não permite redistribuir os sons soltos, eles são
+baixados para `out/musica/efeitos/` (fora do git).
 
 ## Roteiros
 
@@ -81,17 +109,20 @@ WhatsApp." → mosaico "Ela se diverte… e se encanta com o trabalho do seu sal
   Playfair Display), ícones e textos do próprio código.
 - **As fotos do catálogo** (a modelo com cada corte e as cores vistas de costas) são as do app,
   copiadas para `assets/catalog/`.
-- **A cliente** é a mesma em todos os vídeos: rosto base `scripts/harness/images/chanel-longo.png`,
-  cortes vindos dos PNGs de cabelo do repositório e cores aplicadas só na máscara do cabelo
-  (`build_looks.py`). São simulações do tipo de resultado que o app entrega.
+- **A cliente** é a mesma em todos os vídeos (`scripts/harness/images/chanel-longo.png`) e os
+  resultados parecem foto (`build_looks.py`): cada corte novo vem de uma foto real com aquele corte
+  (`scripts/harness/images/`), alinhada pelo rosto (olhos, nariz, boca e queixo) e com o rosto da
+  cliente aplicado em cima, com o tom de pele ajustado; o cabelo é o da foto, sem colagem. As cores
+  mudam só os fios (máscara de `public/hair-assets/`), mantendo luz, sombra e textura, inclusive dos
+  fios soltos. São simulações do tipo de resultado que o app entrega.
 
 ## Como editar e renderizar de novo
 
-Requisitos: Node 18+ com Playwright (Chromium), Python 3 com numpy + Pillow, ffmpeg (com
-rubberband e soxr, como nas versões comuns).
+Requisitos: Node 18+ com Playwright (Chromium), Python 3 com numpy + Pillow (+
+opencv-python-headless para os looks), ffmpeg (com rubberband e soxr, como nas versões comuns).
 
 ```bash
-# looks da cliente (opcional)
+# looks da cliente (opcional; os pontos do rosto estão em assets/looks/landmarks.json)
 python3 marketing/video-anuncio/build_looks.py
 
 # vídeos (troque v por h para 16:9)
@@ -99,9 +130,12 @@ node marketing/video-anuncio/render.mjs --format v
 node marketing/video-anuncio/render.mjs --page video-expectativa.html --name beauty-and-self-expectativa --format v
 node marketing/video-anuncio/render.mjs --page video-coragem.html --name beauty-and-self-coragem --format v
 
-# trilhas: baixa as músicas da Mixkit (out/musica/), corta no tempo de cada vídeo, deixa em
-# −14 LUFS (out/trilha-<video>.wav) e troca o áudio dos MP4 de out/
+# trilhas: baixa as músicas e os efeitos da Mixkit (out/musica/), corta no tempo de cada vídeo,
+# mixa os efeitos, deixa em −14 LUFS (out/trilha-<video>.wav) e troca o áudio dos MP4 de out/
 python3 marketing/video-anuncio/trilha_eletronica.py --mux
+
+# versões com as músicas do cliente -> out/com-musica-propria/ (fora do git)
+python3 marketing/video-anuncio/trilha_propria.py --mux
 
 # versão sem áudio (troque o nome do arquivo)
 ffmpeg -i marketing/video-anuncio/out/beauty-and-self-coragem-9x16.mp4 -f lavfi -i anullsrc=r=48000:cl=stereo \

@@ -32,6 +32,8 @@ import urllib.request
 
 import numpy as np
 
+import efeitos
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'out')
 CACHE = os.path.join(OUT, 'musica')
@@ -116,16 +118,13 @@ def find_drop(x, guess, search=0.15):
     return (a + i) / SR
 
 
-def build(name):
-    v = VIDEOS[name]
-    x = decode(download(v['track']), v['tempo'])
-    drop = find_drop(x, v['drop_guess'])
-    print(f'{name}: {TRACKS[v["track"]]["title"]}, drop em {drop:.3f} s da música -> {v["drop_at"]:.2f} s do vídeo')
-    n = round(v['dur'] * SR)
+def assemble(x, drop, segments, n):
+    """Edit of track `x`: each segment (video time, source time relative to `drop`) plays until the
+    next one starts; cuts get a 12 ms crossfade that ends right before the downbeat."""
     t = np.arange(n) / SR
 
     def src(seg_i):
-        v0, rel = v['segments'][seg_i]
+        v0, rel = segments[seg_i]
         s = np.round((drop + rel + (t - v0)) * SR).astype(int)
         ok = (s >= 0) & (s < len(x))
         out = np.zeros((n, 2))
@@ -134,17 +133,24 @@ def build(name):
 
     mix = src(0)
     xf = 0.012
-    for k in range(1, len(v['segments'])):
-        cut = v['segments'][k][0] - 0.003           # just before the downbeat, so its attack stays whole
+    for k in range(1, len(segments)):
+        cut = segments[k][0] - 0.003
         nxt = src(k)
         g = np.clip((t - (cut - xf)) / xf, 0, 1)[:, None]
         mix = mix * np.cos(g * np.pi / 2) + nxt * np.sin(g * np.pi / 2)
-    mix *= np.clip(t / 0.01, 0, 1)[:, None]                           # 10 ms fade-in (no click)
-    f0, f1 = v['fade_out']
-    mix *= (0.5 + 0.5 * np.cos(np.pi * np.clip((t - f0) / (f1 - f0), 0, 1)))[:, None]
+    return mix
 
-    # loudness: gain to -14 LUFS, then a look-ahead true-peak limiter keeps the peaks under -1 dBTP
-    # (the original masters peak above 0 dBFS), measured again and corrected once
+
+def fades(mix, fade_in, fade_out):
+    t = np.arange(len(mix)) / SR
+    mix = mix * np.clip(t / fade_in, 0, 1)[:, None]
+    f0, f1 = fade_out
+    return mix * (0.5 + 0.5 * np.cos(np.pi * np.clip((t - f0) / (f1 - f0), 0, 1)))[:, None]
+
+
+def master(mix, path):
+    """-14 LUFS, then a look-ahead true-peak limiter keeps the peaks under the ceiling (the original
+    masters peak above 0 dBFS); measured again and corrected."""
     loud0, tp0 = measure(mix)
     gain, out = TARGET_LUFS - loud0, mix
     for _ in range(3):
@@ -153,11 +159,20 @@ def build(name):
         if abs(loud - TARGET_LUFS) < 0.1 and tp <= WAV_CEILING + 0.05:
             break
         gain += TARGET_LUFS - loud
-    path = os.path.join(OUT, f'trilha-{name}.wav')
     write_wav(path, out)
     print(f'  {loud0:.1f} LUFS / {tp0:+.1f} dBTP -> {loud:.1f} LUFS / {tp:.1f} dBTP '
           f'(limitador: até {gr:.1f} dB) -> {os.path.relpath(path)}')
     return path
+
+
+def build(name):
+    v = VIDEOS[name]
+    x = decode(download(v['track']), v['tempo'])
+    drop = find_drop(x, v['drop_guess'])
+    print(f'{name}: {TRACKS[v["track"]]["title"]}, drop em {drop:.3f} s da música -> {v["drop_at"]:.2f} s do vídeo')
+    n = round(v['dur'] * SR)
+    music = fades(assemble(x, drop, v['segments'], n), 0.01, v['fade_out'])
+    return master(music + efeitos.bus(name, music), os.path.join(OUT, f'trilha-{name}.wav'))
 
 
 def limit(mix, ceiling_db, lookahead=0.0015, release=0.1, oversample=4):
@@ -213,23 +228,29 @@ def write_wav(path, mix):
         f.write(head + data)
 
 
-def mux(name, wav):
-    """Replace the audio of the 9:16 and 16:9 MP4s (video stream is copied, not re-encoded)."""
+def mux(src_mp4, wav, dst_mp4, dur):
+    """Video stream of `src_mp4` (copied, not re-encoded) + `wav` as AAC -> `dst_mp4`."""
+    os.makedirs(os.path.dirname(dst_mp4), exist_ok=True)
+    tmp = os.path.join(os.path.dirname(dst_mp4), '.tmp-' + os.path.basename(dst_mp4))
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', src_mp4, '-i', wav, '-map', '0:v:0', '-map', '1:a:0',
+                    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k', '-ar', str(SR), '-shortest',
+                    '-movflags', '+faststart', tmp], check=True)
+    info = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
+                                      '-of', 'json', tmp], check=True, capture_output=True).stdout)
+    got = float(info['format']['duration'])
+    assert abs(got - dur) < 0.06, f'{tmp}: duração {got}'
+    os.replace(tmp, dst_mp4)
+    print(f'  áudio em {os.path.relpath(dst_mp4)}')
+
+
+def mux_all(name, wav, dst_dir=OUT):
+    """Audio of the 9:16 and 16:9 versions of `name` (video taken from out/)."""
     for fmt in ('9x16', '16x9'):
-        mp4 = os.path.join(OUT, f'{VIDEOS[name]["mp4"]}-{fmt}.mp4')
-        if not os.path.exists(mp4):
-            print(f'  (sem {os.path.relpath(mp4)}, renderize o vídeo primeiro)')
+        src = os.path.join(OUT, f'{VIDEOS[name]["mp4"]}-{fmt}.mp4')
+        if not os.path.exists(src):
+            print(f'  (sem {os.path.relpath(src)}, renderize o vídeo primeiro)')
             continue
-        tmp = os.path.join(OUT, f'.tmp-{name}-{fmt}.mp4')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', mp4, '-i', wav, '-map', '0:v:0', '-map', '1:a:0',
-                        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k', '-ar', str(SR), '-shortest',
-                        '-movflags', '+faststart', tmp], check=True)
-        info = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
-                                          '-of', 'json', tmp], check=True, capture_output=True).stdout)
-        dur = float(info['format']['duration'])
-        assert abs(dur - VIDEOS[name]['dur']) < 0.06, f'{tmp}: duração {dur}'
-        os.replace(tmp, mp4)
-        print(f'  áudio trocado em {os.path.relpath(mp4)}')
+        mux(src, wav, os.path.join(dst_dir, os.path.basename(src)), VIDEOS[name]['dur'])
 
 
 if __name__ == '__main__':
@@ -239,4 +260,4 @@ if __name__ == '__main__':
         assert nm in VIDEOS, f'use: {" | ".join(VIDEOS)}'
         wav = build(nm)
         if '--mux' in sys.argv:
-            mux(nm, wav)
+            mux_all(nm, wav)
