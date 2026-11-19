@@ -6,7 +6,7 @@ setTimeout(function () {
   if (r && !window.__bsStarted) {
     r.innerHTML =
       '<p style="padding:24px;font:17px sans-serif;text-align:center;color:#24123f">' +
-      'O Beauty and self está demorando para abrir. Verifique a internet e toque em atualizar. ' +
+      'O Mega Beauty está demorando para abrir. Verifique a internet e toque em atualizar. ' +
       'Se não abrir, use o Chrome, Safari, Samsung Internet ou Firefox atualizado.</p>';
   }
 }, 20000);

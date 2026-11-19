@@ -1,4 +1,4 @@
-# Beauty and self
+# Mega Beauty
 
 Provador virtual de **cortes e cores de cabelo** com IA, feito para salões de beleza.
 
@@ -46,7 +46,7 @@ Todas as variáveis estão explicadas em [`server/.env.example`](server/.env.exa
 
 O botão "Entrar com Google" exige um cadastro gratuito no console do Google. **Não liga nenhum serviço pago e não pede cartão.** É só o registro do botão de login.
 
-1. Acesse <https://console.cloud.google.com/> com sua conta Google e crie um projeto (ex.: "Beauty and self").
+1. Acesse <https://console.cloud.google.com/> com sua conta Google e crie um projeto (ex.: "Mega Beauty").
 2. Menu **APIs e serviços → Tela de permissão OAuth** (ou **Google Auth Platform**):
    - Preencha o nome do app, o e-mail de suporte e escolha o público **Externo**.
    - Enquanto o app estiver em "Teste", só entram os e-mails que você adicionar em **Usuários de teste**. Para liberar qualquer conta, clique em **Publicar app**. Como o app só pede nome, e-mail e foto, isso não exige análise do Google.

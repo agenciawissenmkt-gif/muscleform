@@ -68,7 +68,7 @@ app.get('/api/config', (_req, res) => {
 
 const MESSAGES = {
   not_allowed: (email) =>
-    `A conta ${email} não está liberada no Beauty and self. Fale com a nossa equipe para liberar o seu acesso.`,
+    `A conta ${email} não está liberada no Mega Beauty. Fale com a nossa equipe para liberar o seu acesso.`,
   blocked: 'O acesso deste salão está bloqueado. Fale com a nossa equipe.',
   overdue: 'O acesso deste salão está suspenso por pagamento pendente. Fale com a nossa equipe.',
 };
@@ -232,7 +232,7 @@ const RATE_MESSAGES = {
 };
 
 const demoUsedMessage = (limit) =>
-  `Você já usou as ${limit} imagens da demonstração deste mês. Para continuar, fale com a nossa equipe e tenha o Beauty and self no seu salão.`;
+  `Você já usou as ${limit} imagens da demonstração deste mês. Para continuar, fale com a nossa equipe e tenha o Mega Beauty no seu salão.`;
 
 async function finish(id, status, error, ms) {
   if (!id || !dbReady()) return;

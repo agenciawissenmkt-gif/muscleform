@@ -38,7 +38,7 @@ if (existsSync(DIST)) {
 }
 
 app.listen(PORT, () => {
-  console.log(`Beauty and self rodando em http://localhost:${PORT}`);
+  console.log(`Mega Beauty rodando em http://localhost:${PORT}`);
   console.log(
     `  IA: ${aiReady() ? `conectada (${modelName()})` : 'NÃO conectada (defina FAL_KEY)'} · ` +
       `catálogo: ${cutPrompts.size} cortes, ${colorPrompts.size} cores · ` +

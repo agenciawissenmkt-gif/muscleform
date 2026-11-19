@@ -239,7 +239,7 @@ export function fileName(label: string, ext: 'jpg' | 'png'): string {
     .replace(/^-|-$/g, '')
     .slice(0, 60);
   const stamp = new Date().toISOString().slice(0, 16).replace(/\D/g, '');
-  return `beauty-and-self-${slug || 'visual'}-${stamp}.${ext}`;
+  return `mega-beauty-${slug || 'visual'}-${stamp}.${ext}`;
 }
 
 export function downloadBlob(blob: Blob, name: string) {
@@ -285,7 +285,7 @@ export async function shareFile(blob: Blob, name: string): Promise<'shared' | 'c
   const nav = navigator as ShareNavigator;
   if (!nav.canShare?.({ files: [file] })) return 'unsupported';
   try {
-    await nav.share({ files: [file], title: 'Meu novo visual — Beauty and self' });
+    await nav.share({ files: [file], title: 'Meu novo visual — Mega Beauty' });
     return 'shared';
   } catch (err) {
     const n = (err as DOMException)?.name;

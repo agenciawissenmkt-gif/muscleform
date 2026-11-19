@@ -1,4 +1,4 @@
-// Painel empresarial do Beauty and self: clientes (salões), planos, uso de
+// Painel empresarial do Mega Beauty: clientes (salões), planos, uso de
 // imagens, faturamento, rankings e falhas. Só para os administradores.
 import { useCallback, useEffect, useState } from 'react';
 import { Flower } from '../components/Flowers';
@@ -58,7 +58,7 @@ export default function AdminApp() {
   }, []);
 
   useEffect(() => {
-    document.title = 'Painel — Beauty and self';
+    document.title = 'Painel — Mega Beauty';
     boot();
   }, [boot]);
 
