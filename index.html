@@ -13,17 +13,61 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Mega Beauty" />
-    <meta name="description" content="Mega Beauty — veja como fica um novo corte ou uma nova cor de cabelo antes de fazer, com IA, preservando o seu rosto." />
-    <title>Mega Beauty</title>
+    <title>Mega Beauty | Teste corte e cor de cabelo com IA</title>
+    <meta name="description" content="Mega Beauty: veja como fica um novo corte, uma nova cor de cabelo ou mega hair antes de fazer. Provador virtual de cabelo com IA que preserva o seu rosto. Para você e para salões de beleza." />
+    <link rel="canonical" href="https://megabeauty.com.br/" />
+    <!-- Como o link aparece quando é compartilhado (WhatsApp, Instagram, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mega Beauty" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://megabeauty.com.br/" />
+    <meta property="og:title" content="Mega Beauty | Teste corte e cor de cabelo com IA" />
+    <meta property="og:description" content="Veja como fica um novo corte, uma nova cor ou mega hair antes de fazer, com IA, preservando o seu rosto." />
+    <meta property="og:image" content="https://megabeauty.com.br/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <!-- Diz ao Google que "Mega Beauty" é a marca e o nome deste site -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://megabeauty.com.br/#website",
+            "name": "Mega Beauty",
+            "alternateName": ["MegaBeauty", "megabeauty.com.br"],
+            "url": "https://megabeauty.com.br/",
+            "inLanguage": "pt-BR",
+            "publisher": { "@id": "https://megabeauty.com.br/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://megabeauty.com.br/#organization",
+            "name": "Mega Beauty",
+            "url": "https://megabeauty.com.br/",
+            "logo": "https://megabeauty.com.br/icon-512.png",
+            "description": "Provador virtual de cabelo com IA: teste corte, cor e mega hair antes de fazer."
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root">
-      <noscript>
-        <p style="padding: 24px; font: 17px sans-serif; text-align: center">
-          Este navegador não consegue abrir o Mega Beauty. Abra o link no Chrome, Safari, Samsung Internet ou
-          Firefox atualizado.
+      <!-- Aparece por um instante enquanto o app carrega e é o que o Google lê da página -->
+      <main style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; box-sizing: border-box; text-align: center; font-family: sans-serif; color: #24123f">
+        <h1 style="margin: 0; font-size: 34px; font-style: italic; color: #4c1d95">Mega Beauty</h1>
+        <p style="margin: 0; font-size: 18px; font-weight: 600">Teste corte e cor de cabelo com IA antes de fazer</p>
+        <p style="margin: 0; max-width: 520px; font-size: 15px; line-height: 1.5">
+          Envie uma selfie e veja como fica um novo corte, uma nova cor ou mega hair, preservando o seu rosto.
+          Para clientes e para salões de beleza.
         </p>
-      </noscript>
+        <noscript>
+          <p style="margin: 12px 0 0; font-size: 15px">
+            Este navegador não consegue abrir o Mega Beauty. Abra o link no Chrome, Safari, Samsung Internet ou
+            Firefox atualizado.
+          </p>
+        </noscript>
+      </main>
     </div>
     <script src="/boot.js"></script>
     <script type="module" src="/src/main.tsx"></script>
