@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /painel
+Disallow: /api/
 
 Sitemap: https://megabeauty.com.br/sitemap.xml
